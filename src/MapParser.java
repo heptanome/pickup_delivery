@@ -14,7 +14,7 @@ public class MapParser extends Parser {
       System.out.println(inter.getAttribute("longitude"));
       System.out.println("");
     }
-    
+
     NodeList segList = doc.getElementsByTagName("segment");
     for (Node n : asList(segList)) {
       Element seg = (Element) n;
@@ -25,6 +25,8 @@ public class MapParser extends Parser {
     }
   }
 
+  // to run inside of the src directory
+  // javac *.java && java MapParser ../XML_data/smallMap.xml
   public static void main(String[] args) {
     if (args.length < 1) {
       System.err.println("nope");
