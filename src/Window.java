@@ -1,12 +1,14 @@
 
 import javax.swing.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.*;
 
 public class Window extends JFrame {
 	
-    protected final static int WIDTH = 800; //Largeur de la fenêtre
+    protected final static int WIDTH = 1200; //Largeur de la fenêtre
     protected final static int HEIGHT = 800; //Hauteur de la fenêtre
 
 
@@ -24,9 +26,29 @@ public class Window extends JFrame {
         
         //Logo
         ImageIcon logo = new ImageIcon(fond);
-        JLabel background = new JLabel((new ImageIcon(logo.getImage().getScaledInstance(WIDTH,HEIGHT,Image.SCALE_DEFAULT))));
-		background.setBounds(0,0,WIDTH,HEIGHT);
+        JLabel background = new JLabel((new ImageIcon(logo.getImage().getScaledInstance(HEIGHT,HEIGHT,Image.SCALE_DEFAULT))));
+		background.setBounds(0,0,HEIGHT,HEIGHT);
         container.add(background);
+        
+        //Description Text
+        JPanel rightContainer = new JPanel();
+        rightContainer.setBounds(HEIGHT+1,0,400,400);
+        JLabel description = new JLabel("Want to optimize your delivery tour?", JLabel.CENTER);
+        description.setBounds(0,30,340,20);
+        JLabel description2 = new JLabel("<html>Pickup & Delivery <br> is made for you ! <br> You simply have to <br> load a map first.</html>", JLabel.CENTER);
+        description2.setBounds(0,200,340,90);
+        rightContainer.add(description);
+        rightContainer.add(description2);
+        container.add(rightContainer);
+        
+        //Button
+        JButton load =new JButton("Load a map");
+        load.setForeground(Color.white);
+		load.setBackground(Color.blue);
+		load.setBounds(HEIGHT+100,500,200,40);
+		//load.addActionListener(this); //todo
+		container.add(load);
+		
         
         add(container);
         
