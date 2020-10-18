@@ -1,26 +1,28 @@
 
-import java.util.*;
+import java.util.List;
 
-/**
- * 
- */
 public class Map {
 
     /**
      * Default constructor
      */
-    public Map() {
+	private List<Intersection> intersections;
+	private List<Segment> segments;
+	public Map(List<Intersection> intersections, List<Segment> segments) {
+		this.intersections = intersections;
+		this.segments = segments;
     }
-
-
-
-
-    /**
-     * @param intersections 
-     * @param segments
-     */
-    public void createMap(list<Intersection> intersections, list<Segment> segments) {
-        // TODO implement here
-    }
-
+	
+	public String toString() {
+		String message ="";
+		message += "Intersections :\n";
+		for(Intersection i : intersections) {
+			message += i + "\n";
+		}
+		message += "\n\nSegments :\n";
+		for(Segment s : segments) {
+			message += s+"\n";
+		}
+		return message;
+	}
 }

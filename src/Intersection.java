@@ -1,46 +1,23 @@
-
 import java.util.*;
 
-/**
- * 
- */
 public class Intersection {
 
     /**
      * Default constructor
      */
-    public Intersection() {
+	
+    private String id;
+    private float latitude;
+    private float longitude;
+
+    public Intersection(String id, float latitude, float longitude) {
+    	this.id = id;
+    	this.latitude = latitude;
+    	this.longitude = longitude;
     }
-
-    /**
-     * 
-     */
-    public Integer id;
-
-    /**
-     * 
-     */
-    public float long;
-
-    /**
-     * 
-     */
-    public float lat;
-
-    /**
-     * @param id 
-     * @param long 
-     * @param lat
-     */
-    public void createIntersection(Integer id, float long, float lat) {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void Operation1() {
-        // TODO implement here
+    
+    public String toString() {
+    	return "id : "+id+" {"+latitude+", "+longitude+"}.";
     }
 
 }

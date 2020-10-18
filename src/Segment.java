@@ -1,56 +1,26 @@
 
 import java.util.*;
 
-/**
- * 
- */
-public class Segment {
+public class Segment extends Object {
 
     /**
      * Default constructor
      */
-    public Segment() {
+	
+    private String idOrigin;
+    private String idDestination;
+    private String name;
+    private float length;
+
+    public Segment(String idOrigin, String idDestination, String name, float length) {
+    	this.idOrigin = idOrigin;
+    	this.idDestination = idDestination;
+    	this.name = name;
+    	this.length = length;
     }
-
-    /**
-     * 
-     */
-    public Integer idOrigin;
-
-    /**
-     * 
-     */
-    public Integer idDestination;
-
-    /**
-     * 
-     */
-    public String name;
-
-    /**
-     * 
-     */
-    public float length;
-
-    /**
-     * 
-     */
-    public Intersection origin;
-
-    /**
-     * 
-     */
-    public Intersection destination;
-
-
-    /**
-     * @param idOrigin 
-     * @param idDestination 
-     * @param name 
-     * @param length
-     */
-    public void createSegment(Integer idOrigin, Integer idDestination, String name, float length) {
-        // TODO implement here
+    
+    public String toString() {
+    	return "Name : "+name+", origin : "+idOrigin+", destination : "+idDestination+" (length : "+length+").";
     }
 
 }
