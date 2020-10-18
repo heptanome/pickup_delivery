@@ -28,7 +28,7 @@ public abstract class Parser {
     }
   }
 
-  // iterable design pattern
+  // iterator design pattern
   // https://stackoverflow.com/a/19591302
   public static List<Node> asList(NodeList n) {
     return n.getLength() == 0 ? Collections.<Node>emptyList() : new NodeListWrapper(n);

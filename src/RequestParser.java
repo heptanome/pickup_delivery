@@ -8,7 +8,7 @@ public class RequestParser extends Parser {
 
     NodeList depotList = doc.getElementsByTagName("depot");
     for (Node n : asList(depotList)) {
-      Element depot = (Element)n;
+      Element depot = (Element) n;
       System.out.println(depot.getAttribute("address"));
       System.out.println(depot.getAttribute("departureTime"));
       System.out.println("");
@@ -24,9 +24,9 @@ public class RequestParser extends Parser {
       System.out.println("");
     }
   }
-  
+
   private Request createRequest(String delivAdd, String pickupAdd, int delivDur, int pickupDur) {
-	  return new Request(delivAdd,pickupAdd,delivDur,pickupDur);
+    return new Request(delivAdd, pickupAdd, delivDur, pickupDur);
   }
 
   // to run inside of the src directory
