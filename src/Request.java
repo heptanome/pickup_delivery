@@ -17,7 +17,7 @@ public class Request {
   }
 
   public String toString() {
-    return "From " + pickupAddress + "(" + pickupDuration + ") to " + deliveryAddress + "("
+    return "From " + pickupAddress + " (" + pickupDuration + ") to " + deliveryAddress + " ("
         + deliveryDuration + ").";
   }
 }
