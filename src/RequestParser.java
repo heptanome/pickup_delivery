@@ -24,6 +24,10 @@ public class RequestParser extends Parser {
       System.out.println("");
     }
   }
+  
+  private Request createRequest(String delivAdd, String pickupAdd, int delivDur, int pickupDur) {
+	  return new Request(delivAdd,pickupAdd,delivDur,pickupDur);
+  }
 
   // to run inside of the src directory
   // javac *.java && java RequestParser ../XML_data/requestsLarge7.xml

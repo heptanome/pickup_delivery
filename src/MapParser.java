@@ -8,24 +8,6 @@ import java.util.LinkedList;
 public class MapParser extends Parser {
 	  MapParser(String fp) {
 	    super(fp);
-
-	    /*NodeList interList = doc.getElementsByTagName("intersection");
-	    for (Node n : asList(interList)) {
-	      Element inter = (Element) n;
-	      System.out.println(inter.getAttribute("id"));
-	      System.out.println(inter.getAttribute("latitude"));
-	      System.out.println(inter.getAttribute("longitude"));
-	      System.out.println("");
-	    }
-	
-	    NodeList segList = doc.getElementsByTagName("segment");
-	    for (Node n : asList(segList)) {
-	      Element seg = (Element) n;
-	      System.out.println(seg.getAttribute("destination"));
-	      System.out.println(seg.getAttribute("length"));
-	      System.out.println(seg.getAttribute("name"));
-	      System.out.println("");
-	    }*/
 	  }
 	  
 	  public Map loadMap() {

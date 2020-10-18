@@ -6,20 +6,20 @@ import java.util.*;
  */
 public class Request {
 
-    /**
-     * Default constructor
-     */
-    public Request() {
+    private String deliveryAddress;
+    private String pickupAddress;
+    private int deliveryDuration
+    private int pickupDuration;
+    
+    public Request(String delivAdd, String pickupAdd, int delivDur, int pickupDur) {
+    	deliveryAddress = delivAdd;
+    	pickupAddress = pickupAddr;
+    	deliveryDuration = delivDur;
+    	pickupDuration = pickupDur;
     }
 
-    /**
-     * 
-     */
-    public Intersection deliveryAddress;
-
-    /**
-     * 
-     */
-    public Intersection pickupAddress;
+    public String toString() {
+    	return "From "+pickupAddress+"("+pickupDuration+") to "+deliveryAddress+"("+deliveryDuration+")."
+    }
 
 }
