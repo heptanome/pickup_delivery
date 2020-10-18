@@ -19,6 +19,7 @@ public class SetOfRequests {
   public String toString() {
 	SimpleDateFormat format = new SimpleDateFormat("HH:MM:ss");
 	String departureString = format.format(departureTime);
+	//pour une raison qui m'échappe, le date to string ne fonctionne pas
     String message = "Departure at " + departureString + " from " + idDepot + "\nRequests :\n";
     for(Request r : requests) {
     	message += r + "\n";
