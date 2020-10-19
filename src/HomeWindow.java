@@ -23,7 +23,6 @@ public class HomeWindow extends JFrame {
         JPanel container = new JPanel();
         container.setLayout(null);
         container.setBounds(0,0,WIDTH,HEIGHT);
-        container.setBackground(Color.GRAY);
     
         //Graphical view
         //JPanel graphicalView = new JPanel();
@@ -32,7 +31,7 @@ public class HomeWindow extends JFrame {
         //repaint();
 
 
-        GraphicalView gv = new GraphicalView();
+        GraphicalView gv = new GraphicalView(loadedMap);
         container.add(gv);
 
         //TextualView
