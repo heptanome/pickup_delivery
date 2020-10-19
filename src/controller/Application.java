@@ -1,5 +1,9 @@
 package controller;
 
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import model.Map;
 import model.MapParser;
 import model.RequestParser;
@@ -8,27 +12,28 @@ import model.Tour;
 import view.HomeWindow;
 import view.WelcomeWindow;
 
-public class Application {
+public class Application implements PropertyChangeListener {
+	private WelcomeWindow welcomeWindow;
+	private Tour tour;
+	
+	public Application(WelcomeWindow ww, Tour t) {
+		this.tour = t;
+		this.welcomeWindow = ww;
+		this.tour.addPropertyChangeListener(this.welcomeWindow);
+		this.welcomeWindow.addPropertyChangeListener(this);
+	}
+	
   public static void main(String[] args) {
-    
-	System.out.println("Lancement de la 'Welcome Window'");
+	System.out.println("Bienvenue sur Pickup and Delivery");
+	
+	Tour tour = new Tour();
     WelcomeWindow welcomeWindow = new WelcomeWindow("Welcome Window", "Image/Logo_PD.png");
-    System.out.println("Bienvenue sur Pickup and Delivery");
+    Application app = new Application(welcomeWindow, tour);
   }
   
-  public static void loadMap (String fp) {
+  public void loadMap (String fp) {
 	  System.out.println("Chargement de la Map localisée par le chemin : " + fp);
-	  
-
-	  MapParser mp = new MapParser(fp);
-	  Map loadedMap = mp.loadMap();
-	  
-	  System.out.println("Lancement de la 'Home Window'");
-	  HomeWindow homeWindow = new HomeWindow("Home Window", loadedMap);
-	  
-	  Tour tour = new Tour();
-	  tour.addPropertyChangeListener(homeWindow.gv);
-	  tour.setMap(fp);
+	  this.tour.setMap(fp);
   }
   
   public static SetOfRequests loadRequest(String chemin) {
@@ -55,5 +60,10 @@ public class Application {
 	  System.out.println("Calcul d'un chemin");
 
 	  //TODO : A implémenter
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+	  this.loadMap((String) evt.getNewValue());
   }
 }

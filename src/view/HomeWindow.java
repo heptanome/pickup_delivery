@@ -160,7 +160,7 @@ public class HomeWindow extends JFrame {
 			dialogue.showOpenDialog(null);
 			String mapPath = dialogue.getSelectedFile().getAbsolutePath();
 			System.out.println("Fichier choisi : " + mapPath);
-    		Application.loadMap(mapPath);
+    		//Application.loadMap(mapPath);
     	}
 
     }

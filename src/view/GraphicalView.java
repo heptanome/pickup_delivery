@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.lang.Math;
 
-public class GraphicalView  extends JPanel implements PropertyChangeListener{
+public class GraphicalView  extends JPanel {
     private List<Intersection> intersections;
     private List<Segment> segments;
     private float minLat;
@@ -154,18 +154,6 @@ public class GraphicalView  extends JPanel implements PropertyChangeListener{
         }
         return null;
     }
-
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
-		this.setMap((String) evt.getNewValue());
-	}
-	
-    public void setMap(String news) {
-        System.out.println(news);
-    }
-
-
     
 }
 

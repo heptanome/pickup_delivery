@@ -72,16 +72,4 @@ public class RequestParser extends Parser {
   private SetOfRequests createTour(String idDepot, Date departure, List<Request> req) {
 	  return new SetOfRequests(idDepot,departure,req);
   }
-
-  // to run inside of the src directory
-  // javac *.java && java RequestParser ../XML_data/requestsLarge7.xml
-  public static void main(String[] args) {
-    if (args.length < 1) {
-      System.err.println("nope");
-      System.exit(1);
-    }
-    RequestParser mp = new RequestParser(args[0]);
-    SetOfRequests sor = mp.loadRequests();
-    System.out.println(sor);
-  }
 }

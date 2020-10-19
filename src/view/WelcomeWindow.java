@@ -3,23 +3,29 @@ package view;
 import javax.swing.*;
 
 import controller.Application;
+import model.Map;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
 
-public class WelcomeWindow extends JFrame implements ActionListener {
+public class WelcomeWindow extends JFrame implements ActionListener, PropertyChangeListener {
   protected final static int WIDTH = 1200; // Largeur de la fenêtre
   protected final static int HEIGHT = 800; // Hauteur de la fenêtre
   
   private JButton load = new JButton("Load a map");
+  private PropertyChangeSupport support;
 
 	public WelcomeWindow(String nom, String fond) {
-		    super(nom);
+		super(nom);
+		support = new PropertyChangeSupport(this);
         setSize(WIDTH,HEIGHT);
         setLocation(0,0);
         setLayout(null);
@@ -80,10 +86,29 @@ public class WelcomeWindow extends JFrame implements ActionListener {
 			String cheminMap = dialogue.getSelectedFile().getAbsolutePath();
 			System.out.println("Fichier choisi : " + cheminMap);
 			
-			Application.loadMap(cheminMap);
+			//Application.loadMap(cheminMap);
+			support.firePropertyChange("loadMap", "", cheminMap);
 		} else {
 			System.out.println("Cet evenement n'a pas d'action associée");
 		}
+    }
+
+	public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+ 
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
+    }
+	
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		this.setMap((Map) evt.getNewValue());
+	}
+	
+	
+    public void setMap(Map map) {
+    	HomeWindow homeWindow = new HomeWindow("Home Window", map);
     }
     
 }

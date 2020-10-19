@@ -9,6 +9,7 @@ public class Tour {
 	private PropertyChangeSupport support;
 	
 	public Tour() {
+		// observable object
 		support = new PropertyChangeSupport(this);
 		this.map = null;
 	}
@@ -26,8 +27,7 @@ public class Tour {
 		Map oldMap = this.map;
 		MapParser mp = new MapParser(mapPath);
 		this.map = mp.loadMap();
-        //support.firePropertyChange("map", oldMap, this.map);
-		support.firePropertyChange("map", "e", "d");
-		System.out.println("INSIDE SETMAP TOUR");
+		// signal the observers the map has changed
+        support.firePropertyChange("map", oldMap, this.map);
     }
 }
