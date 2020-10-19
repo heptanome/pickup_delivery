@@ -12,6 +12,7 @@ public class Application {
 	  MapParser mp = new MapParser(chemin);
 	  Map loadedMap = mp.loadMap();
 	  
+	  System.out.println("Lancement de la 'Home Window'");
 	  HomeWindow homeWindow = new HomeWindow("Home Window", loadedMap);
   }
 }

@@ -18,23 +18,21 @@ public class HomeWindow extends JFrame {
         setLocation(0,0);
         setLayout(null);
         setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Creation of main container
         JPanel container = new JPanel();
         container.setLayout(null);
+        container.setBackground(Color.black);
         container.setBounds(0,0,WIDTH,HEIGHT);
-    
-        //Graphical view
-        //JPanel graphicalView = new JPanel();
-        //graphicalView.setBounds(0,0,HEIGHT,HEIGHT);
-        //graphicalView.setBackground(Color.gray);
-        //repaint();
-
-
+   
         GraphicalView gv = new GraphicalView(loadedMap);
         container.add(gv);
 
         //TextualView
+        TextualView tv = new TextualView(loadedMap);
+        tv.setBounds(800,0,400,800);
+        container.add(tv);
 
         //Buttons
         
