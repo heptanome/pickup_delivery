@@ -1,12 +1,9 @@
 public class Application {
   public static void main(String[] args) {
+    
+	System.out.println("Lancement de la 'Welcome Window'");
+    WelcomeWindow welcomeWindow = new WelcomeWindow("Welcome Window", "Image/Logo_PD.png");
     System.out.println("Bienvenue sur Pickup and Delivery");
-
-    MapParser mp = new MapParser("./XML_data/smallMap.xml");
-    Map loadedMap = mp.loadMap();
-
-    //Window window = new Window("Main", "Image/Logo_PD.png");
-    HomeWindow window = new HomeWindow("Main", loadedMap);
   }
   
   public static void loadMap (String chemin) {
@@ -14,5 +11,7 @@ public class Application {
 	  
 	  MapParser mp = new MapParser(chemin);
 	  Map loadedMap = mp.loadMap();
+	  
+	  HomeWindow homeWindow = new HomeWindow("Home Window", loadedMap);
   }
 }
