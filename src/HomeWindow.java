@@ -11,7 +11,6 @@ public class HomeWindow extends JFrame {
     protected final static int WIDTH = 1400; // Largeur de la fenêtre
     protected final static int HEIGHT = 800; // Hauteur de la fenêtre
     protected Map loadedMap;
-    protected LoadMapBtn loadMapBtnListener;
     
     private JButton btnLoadRequest = new JButton("Load a request");
   
@@ -59,7 +58,7 @@ public class HomeWindow extends JFrame {
         btnLoadRequest.setForeground(Color.white);
         btnLoadRequest.setBackground(Color.BLUE);
         btnLoadRequest.setBounds(25,50,150,40);
-        btnLoadRequest.addActionListener(loadMapBtnListener);
+        btnLoadRequest.addActionListener(new LoadMapListener());
         buttonsContainer.add(btnLoadRequest,BorderLayout.SOUTH);
         
         add(graphicalContainer);
@@ -68,6 +67,22 @@ public class HomeWindow extends JFrame {
         
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+    public class LoadMapListener implements ActionListener {
+
+    	/**
+    	 * 
+    	 */
+    	public LoadMapListener() {
+    		// TODO Auto-generated constructor stub
+    	}
+
+    	@Override
+    	public void actionPerformed(ActionEvent arg0) {
+    		Application.loadRequest("chemin"); //TODO: Implémenter la récupération du chemin
+    	}
+
     }
 
     
