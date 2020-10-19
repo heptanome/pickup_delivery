@@ -1,4 +1,6 @@
 import javax.swing.*;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -9,10 +11,14 @@ public class HomeWindow extends JFrame {
     protected final static int WIDTH = 1200; // Largeur de la fenêtre
     protected final static int HEIGHT = 800; // Hauteur de la fenêtre
     protected Map loadedMap;
+    protected LoadMapBtn loadMapBtnListener;
+    
+    private JButton btnLoadRequest=new JButton("Load a request");
   
     public HomeWindow(String nom, Map map) {
         super(nom);
         this.loadedMap = map;
+        this.loadMapBtnListener = new LoadMapBtn();
 
         setSize(WIDTH,HEIGHT);
         setLocation(0,0);
@@ -20,10 +26,22 @@ public class HomeWindow extends JFrame {
         setResizable(false);
 
         //Creation of main container
-        JPanel container = new JPanel();
-        container.setLayout(null);
-        container.setBounds(0,0,WIDTH,HEIGHT);
+        JPanel graphicalContainer = new JPanel();
+        graphicalContainer.setLayout(null);
+        graphicalContainer.setBounds(200,200,WIDTH/3,HEIGHT/3);
+        
+        JPanel textualContainer = new JPanel();
+        textualContainer.setLayout(null);
+        textualContainer.setBounds(10,10,WIDTH,HEIGHT);
+        
+        JPanel buttonsContainer = new JPanel();
+        buttonsContainer.setLayout(null);
+        buttonsContainer.setBounds(0,0,WIDTH,HEIGHT);
     
+        add(graphicalContainer);
+        add(textualContainer);
+        add(buttonsContainer);
+        
         //Graphical view
         //JPanel graphicalView = new JPanel();
         //graphicalView.setBounds(0,0,HEIGHT,HEIGHT);
@@ -32,15 +50,18 @@ public class HomeWindow extends JFrame {
 
 
         GraphicalView gv = new GraphicalView(loadedMap);
-        container.add(gv);
+        graphicalContainer.add(gv);
 
         //TextualView
 
         //Buttons
         
+        btnLoadRequest.addActionListener(loadMapBtnListener);
+        buttonsContainer.add(btnLoadRequest,BorderLayout.SOUTH);
 
-        add(container);
+        //Label
         
+  
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
