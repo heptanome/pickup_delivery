@@ -1,13 +1,15 @@
+package model;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.LinkedList;
 
 public class RequestParser extends Parser {
-  RequestParser(String fp) {
+  public RequestParser(String fp) {
     super(fp);
 
     /*NodeList depotList = doc.getElementsByTagName("depot");

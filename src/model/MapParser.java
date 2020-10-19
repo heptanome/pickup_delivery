@@ -1,3 +1,4 @@
+package model;
 import java.util.LinkedList;
 import java.util.List;
 import org.w3c.dom.Element;
@@ -5,7 +6,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class MapParser extends Parser {
-  MapParser(String fp) {
+  public MapParser(String fp) {
     super(fp);
   }
 

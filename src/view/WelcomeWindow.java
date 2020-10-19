@@ -1,5 +1,9 @@
+package view;
 
 import javax.swing.*;
+
+import controller.Application;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -47,7 +51,6 @@ public class WelcomeWindow extends JFrame implements ActionListener {
        
         load.setForeground(Color.white);
 		    load.setBackground(Color.BLUE);
-		    load.setForeground(Color.RED);
 		    load.setBounds(HEIGHT+100,500,200,40);
 		    load.addActionListener(this); //todo
 		    container.add(load);
