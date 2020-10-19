@@ -8,7 +8,7 @@ import java.awt.Image;
 import java.awt.event.*;
 
 public class HomeWindow extends JFrame {
-    protected final static int WIDTH = 1200; // Largeur de la fenêtre
+    protected final static int WIDTH = 1400; // Largeur de la fenêtre
     protected final static int HEIGHT = 800; // Hauteur de la fenêtre
     protected Map loadedMap;
     protected LoadMapBtn loadMapBtnListener;
@@ -28,15 +28,15 @@ public class HomeWindow extends JFrame {
         //Creation of main container
         JPanel graphicalContainer = new JPanel();
         graphicalContainer.setLayout(null);
-        graphicalContainer.setBounds(200,200,WIDTH/3,HEIGHT/3);
+        graphicalContainer.setBounds(0,0,HEIGHT,HEIGHT);
         
         JPanel textualContainer = new JPanel();
         textualContainer.setLayout(null);
-        textualContainer.setBounds(10,10,WIDTH,HEIGHT);
+        textualContainer.setBounds(801,0,400,HEIGHT);
         
         JPanel buttonsContainer = new JPanel();
         buttonsContainer.setLayout(null);
-        buttonsContainer.setBounds(0,0,WIDTH,HEIGHT);
+        buttonsContainer.setBounds(1001,0,200,HEIGHT);
     
         add(graphicalContainer);
         add(textualContainer);
