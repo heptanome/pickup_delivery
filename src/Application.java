@@ -7,7 +7,7 @@ public class Application {
   }
   
   public static void loadMap (String chemin) {
-	  System.out.println("Fichier choisi dans controlleur : " + chemin);
+	  System.out.println("Chargement de la Map localisée par le chemin : " + chemin);
 	  
 	  MapParser mp = new MapParser(chemin);
 	  Map loadedMap = mp.loadMap();
@@ -16,7 +16,7 @@ public class Application {
   }
   
   public static void loadRequest(String chemin) {
-	  System.out.println("Fichier choisi dans controlleur : " + chemin);
+	  System.out.println("Chargement de la requête localisée par le chemin : " + chemin);
 	  
 	  RequestParser rp = new RequestParser(chemin);
 	  SetOfRequests setOfRequest = rp.loadRequests();

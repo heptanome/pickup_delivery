@@ -13,7 +13,7 @@ public class HomeWindow extends JFrame {
     protected Map loadedMap;
     protected LoadMapBtn loadMapBtnListener;
     
-    private JButton btnLoadRequest=new JButton("Load a request");
+    private JButton btnLoadRequest = new JButton("Load a request");
   
     public HomeWindow(String nom, Map map) {
         super(nom);
@@ -33,11 +33,13 @@ public class HomeWindow extends JFrame {
         JPanel textualContainer = new JPanel();
         textualContainer.setLayout(null);
         textualContainer.setBounds(801,0,400,HEIGHT);
+        textualContainer.setBackground(Color.green);
         
         JPanel buttonsContainer = new JPanel();
         buttonsContainer.setLayout(null);
-        buttonsContainer.setBounds(1001,0,200,HEIGHT);
-    
+        buttonsContainer.setBounds(1201,0,200,HEIGHT);
+        buttonsContainer.setBackground(Color.red);
+        
         add(graphicalContainer);
         add(textualContainer);
         add(buttonsContainer);
@@ -55,7 +57,9 @@ public class HomeWindow extends JFrame {
         //TextualView
 
         //Buttons
-        
+        btnLoadRequest.setForeground(Color.white);
+        btnLoadRequest.setBackground(Color.BLUE);
+        btnLoadRequest.setBounds(25,50,150,40);
         btnLoadRequest.addActionListener(loadMapBtnListener);
         buttonsContainer.add(btnLoadRequest,BorderLayout.SOUTH);
 
