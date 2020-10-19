@@ -8,8 +8,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.*;
 
@@ -30,22 +28,14 @@ public class HomeWindow extends JFrame {
 
         setSize(WIDTH,HEIGHT);
         setLocation(0,0);
-        setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+        setLayout(null);
         setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Creation of main container
         JPanel graphicalContainer = new JPanel();
-        
-        	//Organisation dans la fenêtre
-        	graphicalContainer.setLayout(null);
-	        c.fill = GridBagConstraints.HORIZONTAL;
-	        c.gridx = 0;
-	        c.gridy = 0;
-	        
-	        //Ajout au container
-	        add(graphicalContainer, c);
+        graphicalContainer.setLayout(null);
+        graphicalContainer.setBounds(0,0,HEIGHT,HEIGHT);
         
         JPanel textualContainer = new JPanel();
         textualContainer.setLayout(null);
@@ -58,9 +48,9 @@ public class HomeWindow extends JFrame {
         buttonsContainer.setBackground(Color.red);
         
         //Ajout containers
-        
-        add(textualContainer, c);
-        add(buttonsContainer, c);
+        add(graphicalContainer);
+        add(textualContainer);
+        add(buttonsContainer);
         
         //Graphical view
         //JPanel graphicalView = new JPanel();
@@ -73,7 +63,7 @@ public class HomeWindow extends JFrame {
         //TextualView
         TextualView tv = new TextualView(loadedMap);
         tv.setBounds(800,0,400,800);
-        graphicalContainer.add(tv);
+        textualContainer.add(tv);
 
         //Buttons
         btnLoadRequest.setForeground(Color.white);
@@ -84,25 +74,25 @@ public class HomeWindow extends JFrame {
         
         btnLoadMap.setForeground(Color.white);
         btnLoadMap.setBackground(Color.BLUE);
-        btnLoadMap.setBounds(25,75,150,40);
+        btnLoadMap.setBounds(25,80,150,40);
         btnLoadMap.addActionListener(new LoadMapListener());
         buttonsContainer.add(btnLoadMap,BorderLayout.SOUTH);
 
         btnAddRequest.setForeground(Color.white);
         btnAddRequest.setBackground(Color.BLUE);
-        btnAddRequest.setBounds(25,50,150,40);
+        btnAddRequest.setBounds(25,110,150,40);
         btnAddRequest.addActionListener(new AddRequestListener());
         buttonsContainer.add(btnAddRequest,BorderLayout.SOUTH);
         
         btnDeleteRequest.setForeground(Color.white);
         btnDeleteRequest.setBackground(Color.BLUE);
-        btnDeleteRequest.setBounds(25,50,150,40);
+        btnDeleteRequest.setBounds(25,140,150,40);
         btnDeleteRequest.addActionListener(new DeleteRequestListener());
         buttonsContainer.add(btnDeleteRequest,BorderLayout.SOUTH);
         
         btnComputeTour.setForeground(Color.white);
         btnComputeTour.setBackground(Color.BLUE);
-        btnComputeTour.setBounds(25,50,150,40);
+        btnComputeTour.setBounds(25,170,150,40);
         btnComputeTour.addActionListener(new ComputeTourListener());
         buttonsContainer.add(btnComputeTour,BorderLayout.SOUTH);
         
