@@ -36,7 +36,7 @@ public class HomeWindow extends JFrame {
         setLocation(0,0);
         setLayout(null);
         setResizable(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         //Creation of main container
         JPanel graphicalContainer = new JPanel();
@@ -128,10 +128,10 @@ public class HomeWindow extends JFrame {
                 } catch(IOException err) {}
                 JFileChooser dialogue = new JFileChooser(repertoireCourant);
                 dialogue.showOpenDialog(null);
-                String setPath = dialogue.getSelectedFile().getAbsolutePath();
-                System.out.println("Fichier choisi : " + setPath);
+                String requestPath = dialogue.getSelectedFile().getAbsolutePath();
+                System.out.println("Fichier choisi : " + requestPath);
                 
-                SetOfRequests sr = Application.loadRequest(setPath); 
+                SetOfRequests sr = Application.loadRequest(requestPath); 
                 gv.displayRequests(sr);
             } else {
                 System.out.println("Cet evenement n'a pas d'action associée");
@@ -151,7 +151,16 @@ public class HomeWindow extends JFrame {
 
     	@Override
     	public void actionPerformed(ActionEvent arg0) {
-    		Application.loadMap("chemin"); //TODO: Implémenter la récupération du chemin
+    		File repertoireCourant = null;
+			try {
+	            repertoireCourant = new File(".").getCanonicalFile();
+	            System.out.println("Répertoire courant : " + repertoireCourant);
+	        } catch(IOException err) {}
+			JFileChooser dialogue = new JFileChooser(repertoireCourant);
+			dialogue.showOpenDialog(null);
+			String mapPath = dialogue.getSelectedFile().getAbsolutePath();
+			System.out.println("Fichier choisi : " + mapPath);
+    		Application.loadMap(mapPath);
     	}
 
     }
