@@ -1,4 +1,4 @@
-//Is this class useful?
+package view;
 
 public class GraphicalSegment {
     private int xOriginPixel;

@@ -1,5 +1,7 @@
 package view;
+
 import java.lang.Math;
+import model.Intersection;
 
 public class GraphicalPoint {
 
