@@ -1,4 +1,6 @@
 import javax.swing.*;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -24,13 +26,6 @@ public class HomeWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Creation of main container
-<<<<<<< HEAD
-        JPanel container = new JPanel();
-        container.setLayout(null);
-        container.setBackground(Color.black);
-        container.setBounds(0,0,WIDTH,HEIGHT);
-   
-=======
         JPanel graphicalContainer = new JPanel();
         graphicalContainer.setLayout(null);
         graphicalContainer.setBounds(0,0,HEIGHT,HEIGHT);
@@ -45,38 +40,31 @@ public class HomeWindow extends JFrame {
         buttonsContainer.setBounds(1201,0,200,HEIGHT);
         buttonsContainer.setBackground(Color.red);
         
-        add(graphicalContainer);
-        add(textualContainer);
-        add(buttonsContainer);
+
         
         //Graphical view
         //JPanel graphicalView = new JPanel();
         //graphicalView.setBounds(0,0,HEIGHT,HEIGHT);
         //graphicalView.setBackground(Color.gray);
         //repaint();
-
-
->>>>>>> branch 'develop_ihm' of https://github.com/heptanome/pickup_delivery.git
         GraphicalView gv = new GraphicalView(loadedMap);
-        container.add(gv);
+		graphicalContainer.add(gv);
 
         //TextualView
         TextualView tv = new TextualView(loadedMap);
         tv.setBounds(800,0,400,800);
-        container.add(tv);
+        graphicalContainer.add(tv);
 
         //Buttons
-<<<<<<< HEAD
-        
-=======
         btnLoadRequest.setForeground(Color.white);
         btnLoadRequest.setBackground(Color.BLUE);
         btnLoadRequest.setBounds(25,50,150,40);
         btnLoadRequest.addActionListener(loadMapBtnListener);
         buttonsContainer.add(btnLoadRequest,BorderLayout.SOUTH);
->>>>>>> branch 'develop_ihm' of https://github.com/heptanome/pickup_delivery.git
-
-        add(container);
+        
+        add(graphicalContainer);
+        add(textualContainer);
+        add(buttonsContainer);
         
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
