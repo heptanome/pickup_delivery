@@ -8,13 +8,13 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Window extends JFrame implements ActionListener {
+public class WelcomeWindow extends JFrame implements ActionListener {
   protected final static int WIDTH = 1200; // Largeur de la fenêtre
   protected final static int HEIGHT = 800; // Hauteur de la fenêtre
   
   private JButton load = new JButton("Load a map");
 
-	public Window(String nom, String fond) {
+	public WelcomeWindow(String nom, String fond) {
 		    super(nom);
         setSize(WIDTH,HEIGHT);
         setLocation(0,0);
