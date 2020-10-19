@@ -1,4 +1,9 @@
-package model;
+package controller;
+
+import model.Map;
+import model.MapParser;
+import model.RequestParser;
+import model.SetOfRequests;
 import view.HomeWindow;
 import view.WelcomeWindow;
 
@@ -27,5 +32,23 @@ public class Application {
 	  SetOfRequests setOfRequest = rp.loadRequests();
 	  
 	  //TODO : Afficher les requêtes
+  }
+  
+  public static void addRequest() {
+	  System.out.println("ajout d'une requête : ");
+	  
+	  //TODO : A implémenter
+  }
+  
+  public static void deleteRequest() {
+	  System.out.println("Suppression d'une requête");
+
+	  //TODO : A implémenter
+  }
+  
+  public static void computeTour() {
+	  System.out.println("Calcul d'un chemin");
+
+	  //TODO : A implémenter
   }
 }

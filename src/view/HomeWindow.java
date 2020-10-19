@@ -1,13 +1,15 @@
 package view;
 import javax.swing.*;
 
-import model.Application;
+import controller.Application;
 import model.Map;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.*;
 
@@ -17,6 +19,10 @@ public class HomeWindow extends JFrame {
     protected Map loadedMap;
     
     private JButton btnLoadRequest = new JButton("Load a request");
+    private JButton btnLoadMap= new JButton("Load a map");
+    private JButton btnAddRequest= new JButton("Add a request");
+    private JButton btnDeleteRequest= new JButton("Delete a request");
+    private JButton btnComputeTour = new JButton("Compute a Tour");
   
     public HomeWindow(String nom, Map map) {
         super(nom);
@@ -24,14 +30,22 @@ public class HomeWindow extends JFrame {
 
         setSize(WIDTH,HEIGHT);
         setLocation(0,0);
-        setLayout(null);
-        setResizable(false);
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Creation of main container
         JPanel graphicalContainer = new JPanel();
-        graphicalContainer.setLayout(null);
-        graphicalContainer.setBounds(0,0,HEIGHT,HEIGHT);
+        
+        	//Organisation dans la fenêtre
+        	graphicalContainer.setLayout(null);
+	        c.fill = GridBagConstraints.HORIZONTAL;
+	        c.gridx = 0;
+	        c.gridy = 0;
+	        
+	        //Ajout au container
+	        add(graphicalContainer, c);
         
         JPanel textualContainer = new JPanel();
         textualContainer.setLayout(null);
@@ -43,7 +57,10 @@ public class HomeWindow extends JFrame {
         buttonsContainer.setBounds(1201,0,200,HEIGHT);
         buttonsContainer.setBackground(Color.red);
         
-
+        //Ajout containers
+        
+        add(textualContainer, c);
+        add(buttonsContainer, c);
         
         //Graphical view
         //JPanel graphicalView = new JPanel();
@@ -62,15 +79,51 @@ public class HomeWindow extends JFrame {
         btnLoadRequest.setForeground(Color.white);
         btnLoadRequest.setBackground(Color.BLUE);
         btnLoadRequest.setBounds(25,50,150,40);
-        btnLoadRequest.addActionListener(new LoadMapListener());
+        btnLoadRequest.addActionListener(new LoadRequestListener());
         buttonsContainer.add(btnLoadRequest,BorderLayout.SOUTH);
         
-        add(graphicalContainer);
-        add(textualContainer);
-        add(buttonsContainer);
+        btnLoadMap.setForeground(Color.white);
+        btnLoadMap.setBackground(Color.BLUE);
+        btnLoadMap.setBounds(25,75,150,40);
+        btnLoadMap.addActionListener(new LoadMapListener());
+        buttonsContainer.add(btnLoadMap,BorderLayout.SOUTH);
+
+        btnAddRequest.setForeground(Color.white);
+        btnAddRequest.setBackground(Color.BLUE);
+        btnAddRequest.setBounds(25,50,150,40);
+        btnAddRequest.addActionListener(new AddRequestListener());
+        buttonsContainer.add(btnAddRequest,BorderLayout.SOUTH);
+        
+        btnDeleteRequest.setForeground(Color.white);
+        btnDeleteRequest.setBackground(Color.BLUE);
+        btnDeleteRequest.setBounds(25,50,150,40);
+        btnDeleteRequest.addActionListener(new DeleteRequestListener());
+        buttonsContainer.add(btnDeleteRequest,BorderLayout.SOUTH);
+        
+        btnComputeTour.setForeground(Color.white);
+        btnComputeTour.setBackground(Color.BLUE);
+        btnComputeTour.setBounds(25,50,150,40);
+        btnComputeTour.addActionListener(new ComputeTourListener());
+        buttonsContainer.add(btnComputeTour,BorderLayout.SOUTH);
         
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+    public class LoadRequestListener implements ActionListener {
+
+    	/**
+    	 * 
+    	 */
+    	public LoadRequestListener() {
+    		// TODO Auto-generated constructor stub
+    	}
+
+    	@Override
+    	public void actionPerformed(ActionEvent arg0) {
+    		Application.loadRequest("chemin"); //TODO: Implémenter la récupération du chemin
+    	}
+
     }
     
     public class LoadMapListener implements ActionListener {
@@ -84,10 +137,59 @@ public class HomeWindow extends JFrame {
 
     	@Override
     	public void actionPerformed(ActionEvent arg0) {
-    		Application.loadRequest("chemin"); //TODO: Implémenter la récupération du chemin
+    		Application.loadMap("chemin"); //TODO: Implémenter la récupération du chemin
     	}
 
     }
+    
+    public class AddRequestListener implements ActionListener {
+
+    	/**
+    	 * 
+    	 */
+    	public AddRequestListener() {
+    		// TODO Auto-generated constructor stub
+    	}
+
+    	@Override
+    	public void actionPerformed(ActionEvent arg0) {
+    		Application.addRequest(); 
+    	}
+
+    }
+    
+    public class DeleteRequestListener implements ActionListener {
+
+    	/**
+    	 * 
+    	 */
+    	public DeleteRequestListener() {
+    		// TODO Auto-generated constructor stub
+    	}
+
+    	@Override
+    	public void actionPerformed(ActionEvent arg0) {
+    		Application.deleteRequest();
+    	}
+
+    }
+    
+    public class ComputeTourListener implements ActionListener {
+
+    	/**
+    	 * 
+    	 */
+    	public ComputeTourListener() {
+    		// TODO Auto-generated constructor stub
+    	}
+
+    	@Override
+    	public void actionPerformed(ActionEvent arg0) {
+    		Application.computeTour();
+    	}
+
+    }
+    
 
     
       

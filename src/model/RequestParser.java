@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 public class RequestParser extends Parser {
-  RequestParser(String fp) {
+  public RequestParser(String fp) {
     super(fp);
 
     /*NodeList depotList = doc.getElementsByTagName("depot");

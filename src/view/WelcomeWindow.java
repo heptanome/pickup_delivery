@@ -2,7 +2,7 @@ package view;
 
 import javax.swing.*;
 
-import model.Application;
+import controller.Application;
 
 import java.awt.Color;
 import java.awt.Font;
