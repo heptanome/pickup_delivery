@@ -51,16 +51,4 @@ public class MapParser extends Parser {
   private Map createMap(List<Intersection> intersec, List<Segment> seg) {
     return new Map(intersec, seg);
   }
-
-  // to run inside of the src directory
-  // javac *.java && java MapParser ../XML_data/smallMap.xml
-  public static void main(String[] args) {
-    if (args.length < 1) {
-      System.err.println("nope");
-      System.exit(1);
-    }
-    MapParser mp = new MapParser(args[0]);
-    Map map = mp.loadMap();
-    System.out.println(map);
-  }
 }

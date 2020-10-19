@@ -26,7 +26,7 @@ public class HomeWindow extends JFrame {
     private JButton btnDeleteRequest= new JButton("Delete a request");
     private JButton btnComputeTour = new JButton("Compute a Tour");
 
-    private GraphicalView gv;
+    public GraphicalView gv;
   
     public HomeWindow(String nom, Map map) {
         super(nom);

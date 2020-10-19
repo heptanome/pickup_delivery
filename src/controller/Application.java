@@ -4,6 +4,7 @@ import model.Map;
 import model.MapParser;
 import model.RequestParser;
 import model.SetOfRequests;
+import model.Tour;
 import view.HomeWindow;
 import view.WelcomeWindow;
 
@@ -15,14 +16,19 @@ public class Application {
     System.out.println("Bienvenue sur Pickup and Delivery");
   }
   
-  public static void loadMap (String chemin) {
-	  System.out.println("Chargement de la Map localisée par le chemin : " + chemin);
+  public static void loadMap (String fp) {
+	  System.out.println("Chargement de la Map localisée par le chemin : " + fp);
 	  
-	  MapParser mp = new MapParser(chemin);
+
+	  MapParser mp = new MapParser(fp);
 	  Map loadedMap = mp.loadMap();
 	  
 	  System.out.println("Lancement de la 'Home Window'");
 	  HomeWindow homeWindow = new HomeWindow("Home Window", loadedMap);
+	  
+	  Tour tour = new Tour();
+	  tour.addPropertyChangeListener(homeWindow.gv);
+	  tour.setMap(fp);
   }
   
   public static SetOfRequests loadRequest(String chemin) {

@@ -8,11 +8,13 @@ import model.Segment;
 import model.SetOfRequests;
 
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.lang.Math;
 
-public class GraphicalView  extends JPanel{
+public class GraphicalView  extends JPanel implements PropertyChangeListener{
     private List<Intersection> intersections;
     private List<Segment> segments;
     private float minLat;
@@ -151,6 +153,16 @@ public class GraphicalView  extends JPanel{
             return gs;
         }
         return null;
+    }
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		this.setMap((String) evt.getNewValue());
+	}
+	
+    public void setMap(String news) {
+        System.out.println(news);
     }
 
 
