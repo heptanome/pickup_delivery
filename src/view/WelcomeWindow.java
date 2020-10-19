@@ -22,10 +22,13 @@ public class WelcomeWindow extends JFrame implements ActionListener, PropertyCha
   
   private JButton load = new JButton("Load a map");
   private PropertyChangeSupport support;
+  private HomeWindow homeWindow;
 
 	public WelcomeWindow(String nom, String fond) {
 		super(nom);
 		support = new PropertyChangeSupport(this);
+    	this.homeWindow = new HomeWindow("Home Window");
+		
         setSize(WIDTH,HEIGHT);
         setLocation(0,0);
         setLayout(null);
@@ -87,6 +90,7 @@ public class WelcomeWindow extends JFrame implements ActionListener, PropertyCha
 			System.out.println("Fichier choisi : " + cheminMap);
 			
 			//Application.loadMap(cheminMap);
+			// signal the Application (controller we would like to change the currently loaded map)
 			support.firePropertyChange("loadMap", "", cheminMap);
 		} else {
 			System.out.println("Cet evenement n'a pas d'action associée");
@@ -108,7 +112,7 @@ public class WelcomeWindow extends JFrame implements ActionListener, PropertyCha
 	
 	
     public void setMap(Map map) {
-    	HomeWindow homeWindow = new HomeWindow("Home Window", map);
+    	this.homeWindow.setMap(map);
     }
     
 }

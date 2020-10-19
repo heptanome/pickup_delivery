@@ -19,7 +19,9 @@ public class Application implements PropertyChangeListener {
 	public Application(WelcomeWindow ww, Tour t) {
 		this.tour = t;
 		this.welcomeWindow = ww;
+		// Window listens to Tour events
 		this.tour.addPropertyChangeListener(this.welcomeWindow);
+		// Application listens to Window events
 		this.welcomeWindow.addPropertyChangeListener(this);
 	}
 	
@@ -64,6 +66,14 @@ public class Application implements PropertyChangeListener {
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-	  this.loadMap((String) evt.getNewValue());
+	  String propName = evt.getPropertyName();
+	  
+	  switch(propName) {
+	  	case "loadMap":
+	  		this.loadMap((String) evt.getNewValue());
+	  		break;
+	  	default:
+	  		break;
+	  }
   }
 }

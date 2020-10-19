@@ -28,16 +28,19 @@ public class HomeWindow extends JFrame {
 
     public GraphicalView gv;
   
-    public HomeWindow(String nom, Map map) {
+    public HomeWindow(String nom) {
         super(nom);
-        this.loadedMap = map;
 
         setSize(WIDTH,HEIGHT);
         setLocation(0,0);
         setLayout(null);
         setResizable(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+    }
+    
+    public void setMap(Map map) {
+    	this.loadedMap = map;
+    	
         //Creation of main container
         JPanel graphicalContainer = new JPanel();
         graphicalContainer.setLayout(null);
@@ -57,7 +60,6 @@ public class HomeWindow extends JFrame {
         add(graphicalContainer);
         add(textualContainer);
         add(buttonsContainer);
-        
         //Graphical view
         //JPanel graphicalView = new JPanel();
         //graphicalView.setBounds(0,0,HEIGHT,HEIGHT);
