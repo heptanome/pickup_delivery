@@ -7,13 +7,11 @@ import java.awt.Image;
 import java.awt.event.*;
 
 public class Window extends JFrame {
-	
-    protected final static int WIDTH = 1200; //Largeur de la fenêtre
-    protected final static int HEIGHT = 800; //Hauteur de la fenêtre
-
+  protected final static int WIDTH = 800; // Largeur de la fenêtre
+  protected final static int HEIGHT = 800; // Hauteur de la fenêtre
 
 	public Window(String nom, String fond) {
-		super(nom);
+		    super(nom);
         setSize(WIDTH,HEIGHT);
         setLocation(0,0);
         setLayout(null);
@@ -27,7 +25,7 @@ public class Window extends JFrame {
         //Logo
         ImageIcon logo = new ImageIcon(fond);
         JLabel background = new JLabel((new ImageIcon(logo.getImage().getScaledInstance(HEIGHT,HEIGHT,Image.SCALE_DEFAULT))));
-		background.setBounds(0,0,HEIGHT,HEIGHT);
+		    background.setBounds(0,0,HEIGHT,HEIGHT);
         container.add(background);
         
         //Description Text
@@ -44,10 +42,10 @@ public class Window extends JFrame {
         //Button
         JButton load =new JButton("Load a map");
         load.setForeground(Color.white);
-		load.setBackground(Color.blue);
-		load.setBounds(HEIGHT+100,500,200,40);
-		//load.addActionListener(this); //todo
-		container.add(load);
+		    load.setBackground(Color.blue);
+		    load.setBounds(HEIGHT+100,500,200,40);
+		    //load.addActionListener(this); //todo
+		    container.add(load);
 		
         
         add(container);
@@ -55,5 +53,5 @@ public class Window extends JFrame {
         setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
+    
 }
