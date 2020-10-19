@@ -30,4 +30,12 @@ public class Tour {
 		// signal the observers the map has changed
         support.firePropertyChange("updateMap", oldMap, this.map);
     }
+	
+	public void setRequests(String reqPath) {
+		SetOfRequests oldReq = this.setOfRequests;
+		RequestParser rp = new RequestParser(reqPath);
+		this.setOfRequests = rp.loadRequests();
+		// signal the observers the set of requests has changed
+        support.firePropertyChange("updateRequests", oldReq, this.setOfRequests);
+    }
 }

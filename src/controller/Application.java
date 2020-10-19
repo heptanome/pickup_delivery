@@ -35,12 +35,13 @@ public class Application implements PropertyChangeListener {
 	  this.tour.setMap(fp);
   }
   
-  public static SetOfRequests loadRequest(String chemin) {
-	  System.out.println("Chargement de la requête localisée par le chemin : " + chemin);
+  public void loadRequests(String fp) {
+	  System.out.println("Chargement de la requête localisée par le chemin : " + fp);
+	  this.tour.setRequests(fp);
 	  
-	  RequestParser rp = new RequestParser(chemin);
-	  SetOfRequests setOfRequest = rp.loadRequests();
-	  return setOfRequest;
+	  //RequestParser rp = new RequestParser(fp);
+	  //SetOfRequests setOfRequest = rp.loadRequests();
+	  //return setOfRequest;
   }
   
   public static void addRequest() {
@@ -68,6 +69,9 @@ public class Application implements PropertyChangeListener {
 	  switch(propName) {
 	  	case "loadMap":
 	  		this.loadMap((String) evt.getNewValue());
+	  		break;
+	  	case "loadRequests":
+	  		this.loadRequests((String) evt.getNewValue());
 	  		break;
 	  	default:
 	  		break;

@@ -117,6 +117,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
+    public void setRequests(SetOfRequests sor) {
+        gv.displayRequests(sor);
+    }
+    
     public class LoadRequestListener implements ActionListener {
 
     	/**
@@ -142,8 +146,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
                 String requestPath = dialogue.getSelectedFile().getAbsolutePath();
                 System.out.println("Fichier choisi : " + requestPath);
                 
-                SetOfRequests sr = Application.loadRequest(requestPath); 
-                gv.displayRequests(sr);
+                support.firePropertyChange("loadRequests", "", requestPath);
+                //SetOfRequests sr = Application.loadRequest(requestPath);
             } else {
                 System.out.println("Cet evenement n'a pas d'action associée");
             }
@@ -241,6 +245,9 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		  switch(propName) {
 		  	case "updateMap":
 		  		this.setMap((Map) evt.getNewValue());
+		  		break;
+		  	case "updateRequests":
+		  		this.setRequests((SetOfRequests) evt.getNewValue());
 		  		break;
 		  	default:
 		  		break;
