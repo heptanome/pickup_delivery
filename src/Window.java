@@ -77,7 +77,7 @@ public class Window extends JFrame implements ActionListener {
 			String cheminMap = dialogue.getSelectedFile().getAbsolutePath();
 			System.out.println("Fichier choisi : " + cheminMap);
 			
-			Application.lancerAffichageMap(cheminMap);
+			Application.loadMap(cheminMap);
 		} else {
 			System.out.println("Cet evenement n'a pas d'action associée");
 		}

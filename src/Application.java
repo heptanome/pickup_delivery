@@ -5,7 +5,7 @@ public class Application {
     Window window = new Window("Main", "Image/Logo_PD.png");
   }
   
-  public static void lancerAffichageMap (String chemin) {
+  public static void loadMap (String chemin) {
 	  System.out.println("Fichier choisi dans controlleur : " + chemin);
 	  
 	  MapParser mp = new MapParser(chemin);
