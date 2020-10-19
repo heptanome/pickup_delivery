@@ -15,4 +15,13 @@ public class Application {
 	  System.out.println("Lancement de la 'Home Window'");
 	  HomeWindow homeWindow = new HomeWindow("Home Window", loadedMap);
   }
+  
+  public static void loadRequest(String chemin) {
+	  System.out.println("Fichier choisi dans controlleur : " + chemin);
+	  
+	  RequestParser rp = new RequestParser(chemin);
+	  SetOfRequests setOfRequest = rp.loadRequests();
+	  
+	  //TODO : Afficher les requêtes
+  }
 }

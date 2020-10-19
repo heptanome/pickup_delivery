@@ -9,6 +9,9 @@ public class HomeWindow extends JFrame {
     protected final static int WIDTH = 1200; // Largeur de la fenêtre
     protected final static int HEIGHT = 800; // Hauteur de la fenêtre
     protected Map loadedMap;
+    protected LoadMapBtn loadMapBtnListener;
+    
+    private JButton btnLoadRequest=new JButton("Load a request");
   
     public HomeWindow(String nom, Map map) {
         super(nom);
