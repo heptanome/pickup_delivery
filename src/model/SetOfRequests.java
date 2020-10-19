@@ -27,4 +27,12 @@ public class SetOfRequests {
     }
     return message;
   }
+
+  public String getDepot(){
+    return idDepot;
+  }
+
+  public List<Request> getRequests(){
+    return requests;
+  }
 }

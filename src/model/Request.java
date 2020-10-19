@@ -21,4 +21,12 @@ public class Request {
     return "From " + pickupAddress + " (" + pickupDuration + ") to " + deliveryAddress + " ("
         + deliveryDuration + ").";
   }
+
+  public String getPickupAddress(){
+    return pickupAddress;
+  }
+
+  public String getDeliveryAddress(){
+    return deliveryAddress;
+  }
 }

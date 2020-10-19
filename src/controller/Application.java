@@ -25,13 +25,12 @@ public class Application {
 	  HomeWindow homeWindow = new HomeWindow("Home Window", loadedMap);
   }
   
-  public static void loadRequest(String chemin) {
+  public static SetOfRequests loadRequest(String chemin) {
 	  System.out.println("Chargement de la requête localisée par le chemin : " + chemin);
 	  
 	  RequestParser rp = new RequestParser(chemin);
 	  SetOfRequests setOfRequest = rp.loadRequests();
-	  
-	  //TODO : Afficher les requêtes
+	  return setOfRequest;
   }
   
   public static void addRequest() {

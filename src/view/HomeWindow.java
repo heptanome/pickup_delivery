@@ -1,8 +1,10 @@
 package view;
+
 import javax.swing.*;
 
 import controller.Application;
 import model.Map;
+import model.SetOfRequests;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,6 +12,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
 public class HomeWindow extends JFrame {
     protected final static int WIDTH = 1400; // Largeur de la fenêtre
@@ -21,6 +25,8 @@ public class HomeWindow extends JFrame {
     private JButton btnAddRequest= new JButton("Add a request");
     private JButton btnDeleteRequest= new JButton("Delete a request");
     private JButton btnComputeTour = new JButton("Compute a Tour");
+
+    private GraphicalView gv;
   
     public HomeWindow(String nom, Map map) {
         super(nom);
@@ -57,7 +63,7 @@ public class HomeWindow extends JFrame {
         //graphicalView.setBounds(0,0,HEIGHT,HEIGHT);
         //graphicalView.setBackground(Color.gray);
         //repaint();
-        GraphicalView gv = new GraphicalView(loadedMap);
+        gv = new GraphicalView(loadedMap);
 		graphicalContainer.add(gv);
 
         //TextualView
@@ -110,8 +116,26 @@ public class HomeWindow extends JFrame {
     	}
 
     	@Override
-    	public void actionPerformed(ActionEvent arg0) {
-    		Application.loadRequest("chemin"); //TODO: Implémenter la récupération du chemin
+    	public void actionPerformed(ActionEvent e) {
+            System.out.println("Un evenement a été detecté");
+            Object source =e.getSource();
+            
+            if (source==btnLoadRequest) {
+                File repertoireCourant = null;
+                try {
+                    repertoireCourant = new File(".").getCanonicalFile();
+                    System.out.println("Répertoire courant : " + repertoireCourant);
+                } catch(IOException err) {}
+                JFileChooser dialogue = new JFileChooser(repertoireCourant);
+                dialogue.showOpenDialog(null);
+                String setPath = dialogue.getSelectedFile().getAbsolutePath();
+                System.out.println("Fichier choisi : " + setPath);
+                
+                SetOfRequests sr = Application.loadRequest(setPath); 
+                gv.displayRequests(sr);
+            } else {
+                System.out.println("Cet evenement n'a pas d'action associée");
+            }
     	}
 
     }
