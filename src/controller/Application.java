@@ -1,37 +1,34 @@
 package controller;
 
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import model.Map;
-import model.MapParser;
 import model.RequestParser;
 import model.SetOfRequests;
 import model.Tour;
 import view.HomeWindow;
-import view.WelcomeWindow;
 
 public class Application implements PropertyChangeListener {
-	private WelcomeWindow welcomeWindow;
+	private HomeWindow homeWindow;
 	private Tour tour;
 	
-	public Application(WelcomeWindow ww, Tour t) {
-		this.tour = t;
-		this.welcomeWindow = ww;
-		// Window listens to Tour events
-		this.tour.addPropertyChangeListener(this.welcomeWindow);
-		// Application listens to Window events
-		this.welcomeWindow.addPropertyChangeListener(this);
+	public static void main(String[] args) {
+			System.out.println("Bienvenue sur Pickup and Delivery");
+			
+			Tour tour = new Tour();
+		    //WelcomeWindow welcomeWindow = new WelcomeWindow("Welcome Window", "Image/Logo_PD.png");
+			HomeWindow homeWindow = new HomeWindow("home window");
+		    Application app = new Application(homeWindow, tour);
 	}
 	
-  public static void main(String[] args) {
-	System.out.println("Bienvenue sur Pickup and Delivery");
-	
-	Tour tour = new Tour();
-    WelcomeWindow welcomeWindow = new WelcomeWindow("Welcome Window", "Image/Logo_PD.png");
-    Application app = new Application(welcomeWindow, tour);
-  }
+	public Application(HomeWindow hw, Tour t) {
+		this.tour = t;
+		this.homeWindow = hw;
+		// Window listens to Tour events
+		this.tour.addPropertyChangeListener(this.homeWindow);
+		// Application listens to Window events
+		this.homeWindow.addPropertyChangeListener(this);
+	}
   
   public void loadMap (String fp) {
 	  System.out.println("Chargement de la Map localisée par le chemin : " + fp);

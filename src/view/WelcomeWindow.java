@@ -32,7 +32,7 @@ public class WelcomeWindow extends JFrame implements ActionListener, PropertyCha
         setSize(WIDTH,HEIGHT);
         setLocation(0,0);
         setLayout(null);
-        setResizable(false);
+        setResizable(true);
       
         //Creation of main container
         JPanel container = new JPanel();

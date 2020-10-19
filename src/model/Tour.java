@@ -28,6 +28,6 @@ public class Tour {
 		MapParser mp = new MapParser(mapPath);
 		this.map = mp.loadMap();
 		// signal the observers the map has changed
-        support.firePropertyChange("map", oldMap, this.map);
+        support.firePropertyChange("updateMap", oldMap, this.map);
     }
 }

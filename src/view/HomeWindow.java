@@ -12,10 +12,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
 
-public class HomeWindow extends JFrame {
+public class HomeWindow extends JFrame implements PropertyChangeListener {
     protected final static int WIDTH = 1400; // Largeur de la fenêtre
     protected final static int HEIGHT = 800; // Hauteur de la fenêtre
     protected Map loadedMap;
@@ -25,55 +28,29 @@ public class HomeWindow extends JFrame {
     private JButton btnAddRequest= new JButton("Add a request");
     private JButton btnDeleteRequest= new JButton("Delete a request");
     private JButton btnComputeTour = new JButton("Compute a Tour");
+    private JPanel textualContainer;
+    private JPanel graphicalContainer;
+    private PropertyChangeSupport support;
 
     public GraphicalView gv;
   
     public HomeWindow(String nom) {
         super(nom);
+        support = new PropertyChangeSupport(this);
 
         setSize(WIDTH,HEIGHT);
         setLocation(0,0);
         setLayout(null);
         setResizable(true);
+        setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    }
-    
-    public void setMap(Map map) {
-    	this.loadedMap = map;
-    	
-        //Creation of main container
-        JPanel graphicalContainer = new JPanel();
-        graphicalContainer.setLayout(null);
-        graphicalContainer.setBounds(0,0,HEIGHT,HEIGHT);
-        
-        JPanel textualContainer = new JPanel();
-        textualContainer.setLayout(null);
-        textualContainer.setBounds(801,0,400,HEIGHT);
-        textualContainer.setBackground(Color.green);
         
         JPanel buttonsContainer = new JPanel();
         buttonsContainer.setLayout(null);
         buttonsContainer.setBounds(1201,0,200,HEIGHT);
         buttonsContainer.setBackground(Color.red);
         
-        //Ajout containers
-        add(graphicalContainer);
-        add(textualContainer);
-        add(buttonsContainer);
-        //Graphical view
-        //JPanel graphicalView = new JPanel();
-        //graphicalView.setBounds(0,0,HEIGHT,HEIGHT);
-        //graphicalView.setBackground(Color.gray);
-        //repaint();
-        gv = new GraphicalView(loadedMap);
-		graphicalContainer.add(gv);
-
-        //TextualView
-        TextualView tv = new TextualView(loadedMap);
-        tv.setBounds(800,0,400,800);
-        textualContainer.add(tv);
-
-        //Buttons
+      //Buttons
         btnLoadRequest.setForeground(Color.white);
         btnLoadRequest.setBackground(Color.BLUE);
         btnLoadRequest.setBounds(25,50,150,40);
@@ -103,6 +80,38 @@ public class HomeWindow extends JFrame {
         btnComputeTour.setBounds(25,170,150,40);
         btnComputeTour.addActionListener(new ComputeTourListener());
         buttonsContainer.add(btnComputeTour,BorderLayout.SOUTH);
+        //Creation of main container
+        graphicalContainer = new JPanel();
+        graphicalContainer.setLayout(null);
+        graphicalContainer.setBounds(0,0,HEIGHT,HEIGHT);
+        
+        textualContainer = new JPanel();
+        textualContainer.setLayout(null);
+        textualContainer.setBounds(801,0,400,HEIGHT);
+        textualContainer.setBackground(Color.green);
+        
+        //Ajout containers
+        add(graphicalContainer);
+        add(textualContainer);
+        add(buttonsContainer);
+    }
+    
+    public void setMap(Map map) {
+    	this.loadedMap = map;
+
+        //Graphical view
+        //JPanel graphicalView = new JPanel();
+        //graphicalView.setBounds(0,0,HEIGHT,HEIGHT);
+        //graphicalView.setBackground(Color.gray);
+    	graphicalContainer.removeAll();
+    	graphicalContainer.repaint();
+        gv = new GraphicalView(loadedMap);
+		graphicalContainer.add(gv);
+
+        //TextualView
+        TextualView tv = new TextualView(loadedMap);
+        tv.setBounds(800,0,400,800);
+        textualContainer.add(tv);
         
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -163,6 +172,8 @@ public class HomeWindow extends JFrame {
 			String mapPath = dialogue.getSelectedFile().getAbsolutePath();
 			System.out.println("Fichier choisi : " + mapPath);
     		//Application.loadMap(mapPath);
+			support.firePropertyChange("loadMap", "", mapPath);
+			System.out.println("fired loadmap");
     	}
 
     }
@@ -214,6 +225,28 @@ public class HomeWindow extends JFrame {
     	}
 
     }
+    
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+ 
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
+    }
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		String propName = evt.getPropertyName();
+		  
+		  switch(propName) {
+		  	case "updateMap":
+		  		this.setMap((Map) evt.getNewValue());
+		  		break;
+		  	default:
+		  		break;
+		  }
+	}
+
     
 
     

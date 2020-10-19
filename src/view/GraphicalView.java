@@ -37,7 +37,7 @@ public class GraphicalView  extends JPanel {
         minLongi = Float.POSITIVE_INFINITY;
         maxLat = 0;
         maxLongi = 0;
-        setExtemeCoordonates();
+        setExtemeCoordinates();
 
         displayMap();
         //System.out.println("Extremes : " + minLat + " " + maxLat + " " + minLongi + " " + maxLongi);
@@ -118,7 +118,7 @@ public class GraphicalView  extends JPanel {
         repaint();
     }
 
-    public void setExtemeCoordonates(){
+    public void setExtemeCoordinates(){
         for (Intersection i : intersections) {
             if(i.getLatitude() < minLat){
                 minLat = i.getLatitude();
