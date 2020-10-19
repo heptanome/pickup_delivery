@@ -8,4 +8,11 @@ public class Application {
     //Window window = new Window("Main", "Image/Logo_PD.png");
     HomeWindow window = new HomeWindow("Main", loadedMap);
   }
+  
+  public static void loadMap (String chemin) {
+	  System.out.println("Fichier choisi dans controlleur : " + chemin);
+	  
+	  MapParser mp = new MapParser(chemin);
+	  Map loadedMap = mp.loadMap();
+  }
 }
