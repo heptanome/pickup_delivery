@@ -7,7 +7,7 @@ import java.awt.Image;
 import java.awt.event.*;
 
 public class Window extends JFrame {
-  protected final static int WIDTH = 800; // Largeur de la fenêtre
+  protected final static int WIDTH = 1200; // Largeur de la fenêtre
   protected final static int HEIGHT = 800; // Hauteur de la fenêtre
 
 	public Window(String nom, String fond) {
