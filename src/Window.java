@@ -5,10 +5,14 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
-public class Window extends JFrame {
+public class Window extends JFrame implements ActionListener {
   protected final static int WIDTH = 1200; // Largeur de la fenêtre
   protected final static int HEIGHT = 800; // Hauteur de la fenêtre
+  
+  private JButton load = new JButton("Load a map");
 
 	public Window(String nom, String fond) {
 		    super(nom);
@@ -40,12 +44,14 @@ public class Window extends JFrame {
         container.add(rightContainer);
         
         //Button
-        JButton load =new JButton("Load a map");
+       
         load.setForeground(Color.white);
-		    load.setBackground(Color.blue);
+		    load.setBackground(Color.BLUE);
+		    load.setForeground(Color.RED);
 		    load.setBounds(HEIGHT+100,500,200,40);
-		    //load.addActionListener(this); //todo
+		    load.addActionListener(this); //todo
 		    container.add(load);
+		    
 		
         
         add(container);
@@ -53,5 +59,28 @@ public class Window extends JFrame {
         setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
+	public void actionPerformed(ActionEvent e)
+    {
+		System.out.println("Un evenement a été detecté");
+		
+		Object source =e.getSource();
+		
+		if (source==load) {
+			File repertoireCourant = null;
+			try {
+	            repertoireCourant = new File(".").getCanonicalFile();
+	            System.out.println("Répertoire courant : " + repertoireCourant);
+	        } catch(IOException err) {}
+			JFileChooser dialogue = new JFileChooser(repertoireCourant);
+			dialogue.showOpenDialog(null);
+			String cheminMap = dialogue.getSelectedFile().getAbsolutePath();
+			System.out.println("Fichier choisi : " + cheminMap);
+			
+			Application.lancerAffichageMap(cheminMap);
+		} else {
+			System.out.println("Cet evenement n'a pas d'action associée");
+		}
+    }
     
 }
