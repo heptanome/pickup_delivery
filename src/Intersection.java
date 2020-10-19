@@ -26,4 +26,8 @@ public class Intersection {
   public float getLongitude(){
     return longitude;
   }
+
+  public String getId(){
+    return id;
+  }
 }

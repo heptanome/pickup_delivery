@@ -6,10 +6,6 @@ public class Map {
    */
   private List<Intersection> intersections;
   private List<Segment> segments;
-  private float minLong;
-  private float minLat;
-  private float maxLong;
-  private float maxLat;
 
   public Map(List<Intersection> intersections, List<Segment> segments) {
     this.intersections = intersections;
@@ -37,19 +33,5 @@ public class Map {
     return segments;
   }
 
-  public float getMinLong(){
-    return minLong;
-  }
 
-  public float getMinLat(){
-    return minLat;
-  }
-
-  public float getMaxLong(){
-    return maxLong;
-  }
-
-  public float getMaxLat(){
-    return maxLat;
-  }
 }

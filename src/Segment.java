@@ -22,4 +22,12 @@ public class Segment extends Object {
     return "Name : " + name + ", origin : " + idOrigin + ", destination : " + idDestination
         + " (length : " + length + ").";
   }
+
+  public String getIdOrigin(){
+    return idOrigin;
+  }
+
+  public String getIdDestination(){
+    return idDestination;
+  }
 }
