@@ -1,4 +1,8 @@
+package view;
 import javax.swing.*;
+
+import model.Application;
+import model.Map;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -1,3 +1,4 @@
+package view;
 import java.lang.Math;
 
 public class GraphicalPoint {

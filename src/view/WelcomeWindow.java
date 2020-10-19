@@ -1,5 +1,9 @@
+package view;
 
 import javax.swing.*;
+
+import model.Application;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;

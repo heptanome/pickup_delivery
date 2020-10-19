@@ -1,4 +1,10 @@
+package view;
 import javax.swing.*;
+
+import model.Intersection;
+import model.Map;
+import model.Segment;
+
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;

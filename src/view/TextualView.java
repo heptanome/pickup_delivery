@@ -1,7 +1,12 @@
+package view;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.List;
 import javax.swing.*;
+
+import model.Intersection;
+import model.Map;
+import model.Segment;
 
 public class TextualView extends JPanel {
 	List<Intersection> instersections;
