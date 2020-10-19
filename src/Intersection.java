@@ -18,4 +18,12 @@ public class Intersection {
   public String toString() {
     return "id : " + id + " {" + latitude + ", " + longitude + "}.";
   }
+
+  public float getLatitude(){
+    return latitude;
+  }
+
+  public float getLongitude(){
+    return longitude;
+  }
 }
