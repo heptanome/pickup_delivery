@@ -5,12 +5,12 @@ import java.text.SimpleDateFormat;
 /**
  *
  */
-public class SetOfRequests {
+public class Tour {
   private String idDepot;
   private Date departureTime;
   private List<Request> requests;
 
-  public SetOfRequests(String idDepot, Date departure, List<Request> req) {
+  public Tour(String idDepot, Date departure, List<Request> req) {
     this.idDepot = idDepot;
     this.departureTime = departure;
     this.requests = req;

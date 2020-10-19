@@ -29,7 +29,7 @@ public class RequestParser extends Parser {
     }*/
     
   }
-  public SetOfRequests loadRequests() {
+  public Tour loadRequests() {
 	SimpleDateFormat format = new SimpleDateFormat("H:M:s");
 	
 	NodeList depotList = doc.getElementsByTagName("depot");
@@ -40,7 +40,7 @@ public class RequestParser extends Parser {
     Date departure = new Date();
     String idDepot = "non initializated";
 
-    SetOfRequests sor;
+    Tour sor;
 
     for (Node n : asList(depotList)) {
     	Element depot = (Element) n;
@@ -61,14 +61,14 @@ public class RequestParser extends Parser {
         requestsList.add(createRequest(delAddress,puAddress,delDuration,puDuration));
       }
 
-    sor = createSetOfRequests(idDepot,departure, requestsList);
+    sor = createTour(idDepot,departure, requestsList);
     return sor;
   }
   private Request createRequest(String delivAdd, String pickupAdd, int delivDur, int pickupDur) {
     return new Request(delivAdd, pickupAdd, delivDur, pickupDur);
   }
-  private SetOfRequests createSetOfRequests(String idDepot, Date departure, List<Request> req) {
-	  return new SetOfRequests(idDepot,departure,req);
+  private Tour createTour(String idDepot, Date departure, List<Request> req) {
+	  return new Tour(idDepot,departure,req);
   }
 
   // to run inside of the src directory
@@ -79,7 +79,7 @@ public class RequestParser extends Parser {
       System.exit(1);
     }
     RequestParser mp = new RequestParser(args[0]);
-    SetOfRequests sor = mp.loadRequests();
+    Tour sor = mp.loadRequests();
     System.out.println(sor);
   }
 }
