@@ -23,7 +23,7 @@ public class HomeWindow extends JFrame {
         JPanel container = new JPanel();
         container.setLayout(null);
         container.setBounds(0,0,WIDTH,HEIGHT);
-        //container.setBackground(Color.GRAY);
+        container.setBackground(Color.GRAY);
     
         //Graphical view
         //JPanel graphicalView = new JPanel();

@@ -5,8 +5,8 @@ public class Application {
     MapParser mp = new MapParser("./XML_data/smallMap.xml");
     Map loadedMap = mp.loadMap();
 
-    //Window window = new Window("Main", "Image/Logo_PD.png");
-    HomeWindow window = new HomeWindow("Main", loadedMap);
+    Window window = new Window("Main", "Image/Logo_PD.png");
+    //HomeWindow window = new HomeWindow("Main", loadedMap);
   }
   
   public static void loadMap (String chemin) {
