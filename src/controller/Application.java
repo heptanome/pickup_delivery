@@ -3,8 +3,6 @@ package controller;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import model.RequestParser;
-import model.SetOfRequests;
 import model.Tour;
 import view.HomeWindow;
 
