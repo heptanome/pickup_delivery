@@ -33,6 +33,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	private PropertyChangeSupport support;
 
 	public GraphicalView gv;
+	public TextualView tv;
 
 	public HomeWindow(String nom) {
 		super(nom);
@@ -111,19 +112,19 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		graphicalContainer.add(gv);
 
 		// TextualView
-		TextualView tv = new TextualView(loadedMap);
-		tv.setBounds(800, 0, 400, 800);
-		textualContainer.add(tv);
-
-		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 	}
 
 	public void setRequests(SetOfRequests sor) {
 		// graphical view of a set of requests
 		gv.displayRequests(sor);
 		// textusal view TODO Paul
-		//tv.displayRequests(sor);
+		
+		tv = new TextualView(loadedMap);
+		tv.setBounds(0, 0, 400, 800);
+		textualContainer.add(tv);
+		
+		tv.displayRequests(sor);
 	}
 
 	public class LoadRequestListener implements ActionListener {
