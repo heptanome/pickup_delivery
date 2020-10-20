@@ -120,7 +120,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	}
 
 	public void setRequests(SetOfRequests sor) {
+		// graphical view of a set of requests
 		gv.displayRequests(sor);
+		// textusal view TODO Paul
+		//tv.displayRequests(sor);
 	}
 
 	public class LoadRequestListener implements ActionListener {
@@ -150,17 +153,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 				System.out.println("Fichier choisi : " + requestPath);
 
 				support.firePropertyChange("loadRequests", "", requestPath);
-				generateVisualText();
 				// SetOfRequests sr = Application.loadRequest(requestPath);
 			} else {
 				System.out.println("Cet evenement n'a pas d'action associée");
 			}
 		}
 
-	}
-	
-	public void generateVisualText () {
-		System.out.println("Écriture du texte");
 	}
 
 	public class LoadMapListener implements ActionListener {
