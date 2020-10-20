@@ -51,31 +51,31 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		buttonsContainer.setBackground(Color.red);
 
 		// Buttons
-		btnLoadRequest.setForeground(Color.white);
+		btnLoadRequest.setForeground(Color.red);
 		btnLoadRequest.setBackground(Color.BLUE);
 		btnLoadRequest.setBounds(25, 50, 150, 40);
 		btnLoadRequest.addActionListener(new LoadRequestListener());
 		buttonsContainer.add(btnLoadRequest, BorderLayout.SOUTH);
 
-		btnLoadMap.setForeground(Color.white);
+		btnLoadMap.setForeground(Color.red);
 		btnLoadMap.setBackground(Color.BLUE);
 		btnLoadMap.setBounds(25, 80, 150, 40);
 		btnLoadMap.addActionListener(new LoadMapListener());
 		buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
 
-		btnAddRequest.setForeground(Color.white);
+		btnAddRequest.setForeground(Color.red);
 		btnAddRequest.setBackground(Color.BLUE);
 		btnAddRequest.setBounds(25, 110, 150, 40);
 		btnAddRequest.addActionListener(new AddRequestListener());
 		buttonsContainer.add(btnAddRequest, BorderLayout.SOUTH);
 
-		btnDeleteRequest.setForeground(Color.white);
+		btnDeleteRequest.setForeground(Color.red);
 		btnDeleteRequest.setBackground(Color.BLUE);
 		btnDeleteRequest.setBounds(25, 140, 150, 40);
 		btnDeleteRequest.addActionListener(new DeleteRequestListener());
 		buttonsContainer.add(btnDeleteRequest, BorderLayout.SOUTH);
 
-		btnComputeTour.setForeground(Color.white);
+		btnComputeTour.setForeground(Color.red);
 		btnComputeTour.setBackground(Color.BLUE);
 		btnComputeTour.setBounds(25, 170, 150, 40);
 		btnComputeTour.addActionListener(new ComputeTourListener());
