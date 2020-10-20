@@ -16,5 +16,5 @@ jobs:
         run: javac -d bin src/controller/*.java src/model/*.java src/view/*.java
       - name: Build and run tests
         run: |
-          javac -cp src/tests/dependencies/apiguardian-api-1.1.0.jar:src/tests/dependencies/junit-jupiter-api-5.7.0.jar:. -d bin src/controller/*.java src/model/*.java src/view/*.java
+          javac -cp .deps/apiguardian-api-1.1.0.jar:.deps/junit-jupiter-api-5.7.0.jar:. -d bin src/controller/*.java src/model/*.java src/view/*.java src/tests/*.java
           java -jar .deps/junit-platform-console-standalone-1.7.0.jar --classpath bin --scan-classpath
