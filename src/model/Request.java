@@ -29,4 +29,12 @@ public class Request {
   public String getDeliveryAddress(){
     return deliveryAddress;
   }
+  
+  public int getDeliveryDuration(){
+	    return deliveryDuration;
+  }
+  
+  public int getPickupDuration(){
+	    return pickupDuration;
+}
 }

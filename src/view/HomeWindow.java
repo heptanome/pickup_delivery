@@ -23,7 +23,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	protected final static int HEIGHT = 800; // Hauteur de la fenêtre
 	protected Map loadedMap;
 
-	private JButton btnLoadRequest = new JButton("Load a request");
+	private JButton btnLoadRequest = new JButton("Load a set of requests");
 	private JButton btnLoadMap = new JButton("Load a map");
 	private JButton btnAddRequest = new JButton("Add a request");
 	private JButton btnDeleteRequest = new JButton("Delete a request");
