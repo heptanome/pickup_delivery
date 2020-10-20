@@ -50,18 +50,18 @@ public class GraphicalView extends JPanel {
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, 800, 800);
 
-		// Draw intersections
-		for (GraphicalPoint gp : graphicalPoints) {
-			g.setColor(gp.getColor());
-			g.fillOval(gp.getXPixel(), gp.getYPixel(), gp.getSize(), gp.getSize());
-		}
-
 		// Draw segments
 		for (GraphicalSegment gs : graphicalSegments) {
 			if (gs != null) {
 				g.setColor(gs.getColor());
 				g.drawLine(gs.getXOriginPixel(), gs.getYOriginPixel(), gs.getXDestPixel(), gs.geYDestPixel());
 			}
+		}
+
+		// Draw intersections
+		for (GraphicalPoint gp : graphicalPoints) {
+			g.setColor(gp.getColor());
+			g.fillOval(gp.getXPixel(), gp.getYPixel(), gp.getSize(), gp.getSize());
 		}
 
 	}
@@ -83,8 +83,16 @@ public class GraphicalView extends JPanel {
 	}
 
 	public void displayRequests(SetOfRequests sr) {
-		// Look for the departure point
+		// Reset map, i. e. change the color of all points to white
 		int i = 0;
+		while (i < graphicalPoints.size()) {
+			graphicalPoints.get(i).setColor(Color.white);
+			graphicalPoints.get(i).setSize(8);
+			i++;
+		}
+		
+		// Look for the departure point
+		i = 0;
 		boolean found = false;
 		while (i < graphicalPoints.size() && !found) {
 			if (sr.getDepot().equals(graphicalPoints.get(i).getIntersectionId())) {
