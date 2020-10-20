@@ -10,7 +10,6 @@ import model.RequestParser;
 import model.SetOfRequests;
 
 class RequestParserTest {
-	
 	public RequestParser requestParser;
 	public static final String FILE_PATH = "./XML_data/requestsLarge9.xml";
 	public static final int NB_REQUEST = 9;
@@ -23,6 +22,8 @@ class RequestParserTest {
 
 	@AfterEach
 	void tearDown() throws Exception {
+		requestParser = null;
+		assertNull(requestParser);
 	}
 
 	@Test
