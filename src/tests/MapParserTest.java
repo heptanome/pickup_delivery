@@ -10,27 +10,34 @@ import model.MapParser;
 import model.Map;
 
 class MapParserTest {
+	public static final String MAP_FILE = "./XML_data/smallMap.xml";
+	public static final int NB_SEGMENTS = 616;
+	public static final int NB_INTER = 308;
 	public MapParser mp;
 	public Map map;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		mp = new MapParser("./XML_data/smallMap.xml");
+		mp = new MapParser(MAP_FILE);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
+		mp = null;
+		assertNull(mp);
 	}
 
 	@Test
 	void testMapParser() {
-		fail("Not yet implemented");
+		mp = new MapParser(MAP_FILE);
 	}
 
 	@Test
 	void testLoadMap() {
+		// the loaded map (smallMap) has exactly 308 intersections and 616 segments
 		map = mp.loadMap();
-		assertTrue(1 == 1);
+		assertEquals(map.getSegments().size(), NB_SEGMENTS);
+		assertEquals(map.getInstersections().size(), NB_INTER);
 	}
 
 }
