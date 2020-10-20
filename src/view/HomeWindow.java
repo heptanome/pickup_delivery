@@ -89,6 +89,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		textualContainer.setLayout(null);
 		textualContainer.setBounds(801, 0, 400, HEIGHT);
 		textualContainer.setBackground(Color.green);
+		
+		//JLa
 
 		// Ajout containers
 		add(graphicalContainer);
@@ -148,12 +150,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 				System.out.println("Fichier choisi : " + requestPath);
 
 				support.firePropertyChange("loadRequests", "", requestPath);
+				generateVisualText();
 				// SetOfRequests sr = Application.loadRequest(requestPath);
 			} else {
 				System.out.println("Cet evenement n'a pas d'action associée");
 			}
 		}
 
+	}
+	
+	public void generateVisualText () {
+		System.out.println("Écriture du texte");
 	}
 
 	public class LoadMapListener implements ActionListener {
