@@ -14,19 +14,6 @@ public class Map {
 		this.segments = segments;
 	}
 
-	public String toString() {
-		String message = "";
-		message += "Intersections :\n";
-		for (Intersection i : intersections) {
-			message += i + "\n";
-		}
-		message += "\n\nSegments :\n";
-		for (Segment s : segments) {
-			message += s + "\n";
-		}
-		return message;
-	}
-
 	public List<Intersection> getInstersections() {
 		return intersections;
 	}
