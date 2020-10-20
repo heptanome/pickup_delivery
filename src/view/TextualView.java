@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.List;
@@ -33,7 +34,7 @@ public class TextualView extends JPanel {
 	}
 	
 	public void displayRequests(SetOfRequests sor) {
-		//JTable est possible aussi
+		//En textuel simple
 		int yStart = 30;
 		System.out.println("displayRequest en textuel");
 		for (Request r : sor.getRequests()) {
@@ -47,5 +48,22 @@ public class TextualView extends JPanel {
 			add(j);
 			yStart = yStart +20;
 		}
+		
+		//En JTable
+		String [][] donnees = new String [sor.getRequests().size()][5];
+		String[] entetes = {"Numero", "Pickup Adress", "Pickup duration", "Delivery Adress", "Delivery Duration"};
+		
+		int i = 0;
+		for (Request r : sor.getRequests()) {
+			String[] obj = {Integer.toString(i+1), r.getPickupAddress(), "get", r.getDeliveryAddress(), "get"};
+			donnees[0]= obj;
+			i++;
+		}
+		JTable tableau = new JTable(donnees, entetes);
+		
+		tableau.setBounds(0, 0, 400, 400);
+		add(tableau.getTableHeader(), BorderLayout.NORTH);
+		add(tableau, BorderLayout.CENTER);
+		
 	}
 }
