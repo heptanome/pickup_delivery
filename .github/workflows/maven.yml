@@ -1,4 +1,4 @@
-me: Pickup&Delivery CI
+name: Pickup&Delivery CI
 
 on: [push]
 
