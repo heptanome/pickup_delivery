@@ -14,6 +14,7 @@ public class Tour {
 	public CityMap map;
 	public SetOfRequests setOfRequests;
 	private PropertyChangeSupport support;
+	private List<Segment> path;
 
 	public Tour() {
 		// observable object
@@ -57,11 +58,11 @@ public class Tour {
 	public List<Segment> computeTour(){
 		TSP tsp = new TSP1();
 		CompleteGraph g = mapToCompleteGraph();
-		List<Segment> path = new LinkedList<Segment>();
 		long startTime = System.currentTimeMillis();
+		this.path = new LinkedList<Segment>();
 		
 		tsp.searchSolution(20000, g);
-		System.out.print("Solution of cost "+tsp.getSolutionCost()+" found in "
+		System.out.println("Solution of cost "+tsp.getSolutionCost()+" found in "
 				+(System.currentTimeMillis() - startTime)+"ms : ");
 		
 		
@@ -77,8 +78,6 @@ public class Tour {
 			solutionString[i] = nodeNames.get(solutionInt[i]);
 		}
 
-		System.out.println("Depot : "+solutionString[0]);
-		System.out.print("Next intersection id to visit : ");
 		List<Integer> intermediateNodes = new LinkedList<Integer>();
 		for(int indexSol = 0; indexSol < solutionString.length-1; indexSol++) {
 			int idOrigine = map.getIntFromNumberMap(solutionString[indexSol]);
@@ -89,20 +88,17 @@ public class Tour {
 			}
 
 			ListIterator<Integer> iterator = intermediateNodes.listIterator(intermediateNodes.size()); 
-			String currentNodeNumber = solutionString[0];
-			String previousNodeNumber = solutionString[0];
+			String currentNodeNumber = solutionString[indexSol];
+			String previousNodeNumber = solutionString[indexSol];
 			while(iterator.hasPrevious()){
 				int previousNodeId = iterator.previous();
 				previousNodeNumber = map.getStringFromIdMap(previousNodeId);
-				path.add(map.getSegmentFromPoints(currentNodeNumber, previousNodeNumber));
+				this.path.add(map.getSegmentFromPoints(currentNodeNumber, previousNodeNumber));
 				currentNodeNumber = previousNodeNumber;
-				System.out.print(previousNodeNumber+" | ");
 			}
 			intermediateNodes.clear();
 		}
-		System.out.println();
-		System.out.println(path);
-		return path;
-		
+		support.firePropertyChange("tourComputed", null, this.path);
+		return this.path;
 	}
 }

@@ -16,6 +16,7 @@ public class Application implements PropertyChangeListener {
 		Tour tour = new Tour();
 		HomeWindow homeWindow = new HomeWindow("home window");
 		Application app = new Application(homeWindow, tour);
+		
 	}
 
 	public Application(HomeWindow hw, Tour t) {
@@ -49,10 +50,9 @@ public class Application implements PropertyChangeListener {
 		// TODO : A implémenter
 	}
 
-	public static void computeTour() {
+	public void computeTour() {
 		System.out.println("Calcul d'un chemin");
-
-		// TODO : A implémenter
+		this.tour.computeTour(); // <-- renvoie une liste de segment
 	}
 
 	@Override
@@ -66,6 +66,8 @@ public class Application implements PropertyChangeListener {
 		case "loadRequests":
 			this.loadRequests((String) evt.getNewValue());
 			break;
+		case "computeTour" :
+			this.computeTour();
 		default:
 			break;
 		}

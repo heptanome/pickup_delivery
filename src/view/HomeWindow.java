@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import controller.Application;
 import model.CityMap;
+import model.Segment;
 import model.SetOfRequests;
 
 import java.awt.BorderLayout;
@@ -14,6 +15,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class HomeWindow extends JFrame implements PropertyChangeListener {
 	protected final static int WIDTH = 1400; // Largeur de la fenêtre
@@ -117,11 +120,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		gv.displayRequests(sor);
 		// textusal view TODO Paul
 		
+		textualContainer.removeAll();
+		textualContainer.repaint();
 		tv = new TextualView(loadedMap);
 		tv.setBounds(0, 0, 400, 800);
 		textualContainer.add(tv);
 		
 		tv.displayRequests(sor);
+	}
+	
+	public void tourComputed(LinkedList<Segment> segments) {
+		gv.displayTour(segments);
+		segments.forEach(s -> System.out.println(s));
 	}
 
 	public class LoadRequestListener implements ActionListener {
@@ -230,7 +240,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			Application.computeTour();
+			// Application.computeTour();
+			support.firePropertyChange("computeTour", null, null);
 		}
 
 	}
@@ -253,6 +264,9 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			break;
 		case "updateRequests":
 			this.setRequests((SetOfRequests) evt.getNewValue());
+			break;
+		case "tourComputed":
+			this.tourComputed((LinkedList<Segment>)evt.getNewValue());
 			break;
 		default:
 			break;
