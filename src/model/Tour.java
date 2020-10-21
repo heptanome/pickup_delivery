@@ -14,6 +14,7 @@ public class Tour {
 	public CityMap map;
 	public SetOfRequests setOfRequests;
 	private PropertyChangeSupport support;
+	private List<Segment> path;
 
 	public Tour() {
 		// observable object
@@ -57,11 +58,11 @@ public class Tour {
 	public List<Segment> computeTour(){
 		TSP tsp = new TSP1();
 		CompleteGraph g = mapToCompleteGraph();
-		List<Segment> path = new LinkedList<Segment>();
 		long startTime = System.currentTimeMillis();
+		this.path = new LinkedList<Segment>();
 		
 		tsp.searchSolution(20000, g);
-		System.out.print("Solution of cost "+tsp.getSolutionCost()+" found in "
+		System.out.println("Solution of cost "+tsp.getSolutionCost()+" found in "
 				+(System.currentTimeMillis() - startTime)+"ms : ");
 		
 		
@@ -92,11 +93,12 @@ public class Tour {
 			while(iterator.hasPrevious()){
 				int previousNodeId = iterator.previous();
 				previousNodeNumber = map.getStringFromIdMap(previousNodeId);
-				path.add(map.getSegmentFromPoints(currentNodeNumber, previousNodeNumber));
+				this.path.add(map.getSegmentFromPoints(currentNodeNumber, previousNodeNumber));
+				currentNodeNumber = previousNodeNumber;
 			}
 			intermediateNodes.clear();
 		}
-		return path;
-		
+		support.firePropertyChange("tourComputed", null, this.path);
+		return this.path;
 	}
 }
