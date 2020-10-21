@@ -60,6 +60,14 @@ public class CityMap {
 		return segments;
 	}
 	
+	public Segment getSegmentFromPoints(String origin, String destination) {
+		for(Segment s: segments) {
+			if(s.getNumberOrigin().equals(origin) && s.getNumberDestination().equals(destination))
+				return s;
+		}
+		return null;
+	}
+	
 	private void convertNumberToId() {
 		  int index = 0;
 		  for(Intersection intersection : this.intersections) {
