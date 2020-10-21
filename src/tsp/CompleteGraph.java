@@ -171,7 +171,7 @@ public class CompleteGraph implements Graph {
 			colorNodes[currentNode]=-1;
 			indexBegin++;
 		}
-		this.precedence.put(new Integer(firstNode), pi);
+		this.precedence.put(Integer.valueOf(firstNode), pi);
 		
 		return d;
 	}
