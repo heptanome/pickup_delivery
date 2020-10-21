@@ -7,14 +7,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import model.MapParser;
-import model.Map;
+import model.CityMap;
 
 class MapParserTest {
 	public static final String MAP_FILE = "./XML_data/smallMap.xml";
 	public static final int NB_SEGMENTS = 616;
 	public static final int NB_INTER = 308;
 	public MapParser mp;
-	public Map map;
+	public CityMap map;
 	
 	@BeforeEach
 	void setUp() throws Exception {

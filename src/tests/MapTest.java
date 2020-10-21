@@ -6,7 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import model.Map;
+import model.CityMap;
 import model.MapParser;
 
 class MapTest {
@@ -14,7 +14,7 @@ class MapTest {
 	public static final int NB_SEGMENTS = 616;
 	public static final int NB_INTER = 308;
 	public MapParser mp;
-	public Map map;
+	public CityMap map;
 
 	@BeforeEach
 	void setUp() throws Exception {

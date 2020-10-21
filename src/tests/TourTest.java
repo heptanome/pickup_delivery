@@ -9,7 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import model.Map;
+import model.CityMap;
 import model.Tour;
 import model.SetOfRequests;
 
@@ -53,7 +53,7 @@ class TourTest implements PropertyChangeListener {
 
 		switch (propName) {
 		case "updateMap":
-			Map map = (Map)evt.getNewValue();
+			CityMap map = (CityMap)evt.getNewValue();
 			assertEquals(map.getInstersections().size(), NB_INTER);
 			break;
 		case "updateRequests":

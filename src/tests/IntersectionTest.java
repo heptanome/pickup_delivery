@@ -45,7 +45,7 @@ class IntersectionTest {
 
 	@Test
 	void testGetId() {
-		assertEquals(intersection.getId(), "abc");
+		assertEquals(intersection.getNumber(), "abc");
 	}
 
 }
