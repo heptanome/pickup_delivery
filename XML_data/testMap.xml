@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<map>
+<intersection id="A" latitude="45.758083" longitude="4.8675914"/>
+<intersection id="B" latitude="45.758255" longitude="4.865917"/>
+<intersection id="C" latitude="45.7595" longitude="4.8722763"/>
+<intersection id="D" latitude="45.758717" longitude="4.8737717"/>
+<segment destination="C" length="60.239296" name="Rue du Général Mouton-Duvernet" origin="A"/>
+<segment destination="A" length="16.706312" name="bonjour" origin="C"/>
+<segment destination="B" length="96.30125" name="Cours Gambetta" origin="A"/>
+<segment destination="D" length="33.079563" name="Rue du Général Mouton-Duvernet" origin="B"/>
+<segment destination="B" length="63.680832" name="Rue du Général Mouton-Duvernet" origin="C"/>
+<segment destination="A" length="10.711094" name="Rue de la Villette" origin="D"/>
+</map>
