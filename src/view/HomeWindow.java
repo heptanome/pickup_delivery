@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 
 import controller.Application;
-import model.Map;
+import model.CityMap;
 import model.SetOfRequests;
 
 import java.awt.BorderLayout;
@@ -18,7 +18,7 @@ import java.io.IOException;
 public class HomeWindow extends JFrame implements PropertyChangeListener {
 	protected final static int WIDTH = 1400; // Largeur de la fenêtre
 	protected final static int HEIGHT = 800; // Hauteur de la fenêtre
-	protected Map loadedMap;
+	protected CityMap loadedMap;
 
 	private JButton btnLoadRequest = new JButton("Load a set of requests");
 	private JButton btnLoadMap = new JButton("Load a map");
@@ -96,7 +96,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		add(buttonsContainer);
 	}
 
-	public void setMap(Map map) {
+	public void setMap(CityMap map) {
 		this.loadedMap = map;
 
 		// Graphical view
@@ -249,7 +249,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		switch (propName) {
 		case "updateMap":
-			this.setMap((Map) evt.getNewValue());
+			this.setMap((CityMap) evt.getNewValue());
 			break;
 		case "updateRequests":
 			this.setRequests((SetOfRequests) evt.getNewValue());

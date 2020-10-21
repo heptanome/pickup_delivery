@@ -25,7 +25,7 @@ public class GraphicalPoint {
 
 		xPixel = Math.round(x);
 		yPixel = Math.round(y);
-		intersectionId = i.getId();
+		intersectionId = i.getNumber();
 		color = Color.white;
 		size = 8;
 	}

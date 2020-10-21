@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 
 import controller.Application;
-import model.Map;
+import model.CityMap;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -109,10 +109,10 @@ public class WelcomeWindow extends JFrame implements ActionListener, PropertyCha
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		this.setMap((Map) evt.getNewValue());
+		this.setMap((CityMap) evt.getNewValue());
 	}
 
-	public void setMap(Map map) {
+	public void setMap(CityMap map) {
 		this.homeWindow.setMap(map);
 	}
 

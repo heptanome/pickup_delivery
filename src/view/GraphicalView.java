@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 
 import model.Intersection;
-import model.Map;
+import model.CityMap;
 import model.Request;
 import model.Segment;
 import model.SetOfRequests;
@@ -26,7 +26,7 @@ public class GraphicalView extends JPanel {
 	private List<GraphicalPoint> graphicalPoints;
 	private List<GraphicalSegment> graphicalSegments;
 
-	public GraphicalView(Map loadedMap) {
+	public GraphicalView(CityMap loadedMap) {
 		setLayout(null);
 		setBounds(0, 0, 800, 800);
 		intersections = loadedMap.getInstersections();

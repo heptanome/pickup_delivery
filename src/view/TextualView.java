@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import model.Intersection;
-import model.Map;
+import model.CityMap;
 import model.Request;
 import model.Segment;
 import model.SetOfRequests;
@@ -21,7 +21,7 @@ public class TextualView extends JPanel {
 	Font fontRequest;
 	Font fontTitle;
 	
-	public TextualView(Map loadedMap) {
+	public TextualView(CityMap loadedMap) {
 		setLayout(null);
 		setBackground(Color.green);
 
