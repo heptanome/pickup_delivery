@@ -11,14 +11,14 @@ public class MapParser extends Parser {
 		super(fp);
 	}
 
-	public Map loadMap() {
+	public CityMap loadMap() {
 		NodeList interList = doc.getElementsByTagName("intersection");
 		NodeList segList = doc.getElementsByTagName("segment");
 
 		LinkedList<Intersection> intersectionsList = new LinkedList<Intersection>();
 		LinkedList<Segment> segmentsList = new LinkedList<Segment>();
 
-		Map map;
+		CityMap map;
 
 		for (Node n : asList(interList)) {
 			Element inter = (Element) n;
@@ -49,7 +49,7 @@ public class MapParser extends Parser {
 		return new Segment(idOrigin, idDestination, name, length);
 	}
 
-	private Map createMap(List<Intersection> intersec, List<Segment> seg) {
-		return new Map(intersec, seg);
+	private CityMap createMap(List<Intersection> intersec, List<Segment> seg) {
+		return new CityMap(intersec, seg);
 	}
 }

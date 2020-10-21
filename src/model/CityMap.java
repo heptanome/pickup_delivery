@@ -2,14 +2,14 @@ package model;
 
 import java.util.List;
 
-public class Map {
+public class CityMap {
 	/**
 	 * Default constructor
 	 */
 	private List<Intersection> intersections;
 	private List<Segment> segments;
 
-	public Map(List<Intersection> intersections, List<Segment> segments) {
+	public CityMap(List<Intersection> intersections, List<Segment> segments) {
 		this.intersections = intersections;
 		this.segments = segments;
 	}

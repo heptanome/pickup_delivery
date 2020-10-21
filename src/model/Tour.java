@@ -4,7 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class Tour {
-	public Map map;
+	public CityMap map;
 	public SetOfRequests setOfRequests;
 	private PropertyChangeSupport support;
 
@@ -23,7 +23,7 @@ public class Tour {
 	}
 
 	public void setMap(String mapPath) {
-		Map oldMap = this.map;
+		CityMap oldMap = this.map;
 		MapParser mp = new MapParser(mapPath);
 		this.map = mp.loadMap();
 		// signal the observers the map has changed
