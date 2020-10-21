@@ -75,7 +75,7 @@ public class GraphicalView extends JPanel {
 
 		// Graphical segments
 		for (Segment s : segments) {
-			GraphicalSegment gs = createSegment(s.getIdOrigin(), s.getIdDestination());
+			GraphicalSegment gs = createSegment(s.getNumberOrigin(), s.getNumberDestination());
 			if (gs != null) {
 				graphicalSegments.add(gs);
 			}

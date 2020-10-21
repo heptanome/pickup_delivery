@@ -38,12 +38,12 @@ class SegmentTest {
 
 	@Test
 	void testGetIdOrigin() {
-		assertEquals(segment.getIdOrigin(), idOrigin);
+		assertEquals(segment.getNumberOrigin(), idOrigin);
 	}
 
 	@Test
 	void testGetIdDestination() {
-		assertEquals(segment.getIdDestination(), idDestination);
+		assertEquals(segment.getNumberDestination(), idDestination);
 	}
 
 }

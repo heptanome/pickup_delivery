@@ -24,11 +24,15 @@ public class Segment extends Object {
 				+ ").";
 	}
 
-	public String getIdOrigin() {
+	public String getNumberOrigin() {
 		return idOrigin;
 	}
 
-	public String getIdDestination() {
+	public String getNumberDestination() {
 		return idDestination;
+	}
+	
+	public float getLength() {
+		  return this.length;
 	}
 }
