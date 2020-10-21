@@ -24,3 +24,6 @@ hs_err_pid*
 /bin/
 /.apt_generated/
 /.DS_Store
+
+# eclipse
+.settings/*
