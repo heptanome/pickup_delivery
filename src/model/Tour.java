@@ -77,8 +77,6 @@ public class Tour {
 			solutionString[i] = nodeNames.get(solutionInt[i]);
 		}
 
-		System.out.println("Depot : "+solutionString[0]);
-		System.out.print("Next intersection id to visit : ");
 		List<Integer> intermediateNodes = new LinkedList<Integer>();
 		for(int indexSol = 0; indexSol < solutionString.length-1; indexSol++) {
 			int idOrigine = map.getIntFromNumberMap(solutionString[indexSol]);
@@ -89,19 +87,15 @@ public class Tour {
 			}
 
 			ListIterator<Integer> iterator = intermediateNodes.listIterator(intermediateNodes.size()); 
-			String currentNodeNumber = solutionString[0];
-			String previousNodeNumber = solutionString[0];
+			String currentNodeNumber = solutionString[indexSol];
+			String previousNodeNumber = solutionString[indexSol];
 			while(iterator.hasPrevious()){
 				int previousNodeId = iterator.previous();
 				previousNodeNumber = map.getStringFromIdMap(previousNodeId);
 				path.add(map.getSegmentFromPoints(currentNodeNumber, previousNodeNumber));
-				currentNodeNumber = previousNodeNumber;
-				System.out.print(previousNodeNumber+" | ");
 			}
 			intermediateNodes.clear();
 		}
-		System.out.println();
-		System.out.println(path);
 		return path;
 		
 	}

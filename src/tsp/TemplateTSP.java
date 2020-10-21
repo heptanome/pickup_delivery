@@ -64,7 +64,6 @@ public abstract class TemplateTSP implements TSP {
 	private void branchAndBound(int currentVertex, Collection<Integer> unvisited, 
 			Collection<Integer> visited, float currentCost){
 		if (System.currentTimeMillis() - startTime > timeLimit) return;
-		System.out.println();
 	    if (unvisited.size() == 0){ //si tous les sommets ont été visités
 	    	if (g.isArc(currentVertex,0)){ //si il existe un arc entre 0 et le noeud actuel
 	    		if (currentCost+g.getCost(currentVertex,0) < bestSolCost){ //on a trouvé une solution
