@@ -52,7 +52,7 @@ public class Application implements PropertyChangeListener {
 
 	public void computeTour() {
 		System.out.println("Calcul d'un chemin");
-		this.tour.computeTour();
+		this.tour.computeTour(); // <-- renvoie une liste de segment
 	}
 
 	@Override
