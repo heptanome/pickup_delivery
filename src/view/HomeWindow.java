@@ -120,6 +120,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		gv.displayRequests(sor);
 		// textusal view TODO Paul
 		
+		textualContainer.removeAll();
+		textualContainer.repaint();
 		tv = new TextualView(loadedMap);
 		tv.setBounds(0, 0, 400, 800);
 		textualContainer.add(tv);
