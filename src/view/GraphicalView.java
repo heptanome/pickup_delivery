@@ -51,10 +51,20 @@ public class GraphicalView extends JPanel {
 		g.fillRect(0, 0, 800, 800);
 
 		// Draw segments
+		Graphics2D g2d = (Graphics2D)g;
+		Stroke normalRoad = new BasicStroke(1f);
+		Stroke importantRoad = new BasicStroke(5f);
+		g2d.setStroke(normalRoad);
 		for (GraphicalSegment gs : graphicalSegments) {
 			if (gs != null) {
-				g.setColor(gs.getColor());
-				g.drawLine(gs.getXOriginPixel(), gs.getYOriginPixel(), gs.getXDestPixel(), gs.geYDestPixel());
+				if(gs.getOnPath() == 1) {
+					g2d.setStroke(importantRoad);
+				}
+				g2d.setColor(gs.getColor());
+				g2d.drawLine(gs.getXOriginPixel(), gs.getYOriginPixel(), gs.getXDestPixel(), gs.geYDestPixel());
+				if(gs.getOnPath() == 1) {
+					g2d.setStroke(normalRoad);
+				}
 			}
 		}
 
@@ -88,14 +98,13 @@ public class GraphicalView extends JPanel {
 		int i = 0;
 		// reset all segments to white
 		while (i < segSize) {
-			graphicalSegments.get(i).setColor(Color.white);
+			graphicalSegments.get(i).setOnPath(0);
 			i++;
 		}
 		
 		// change color of corresponding segments
 		segments.forEach(s -> {
 			int j = 0;
-			GraphicalSegment gs = createSegment(s.getNumberOrigin(), s.getNumberDestination());
 			while(j < segSize) {
 				GraphicalSegment seg = graphicalSegments.get(j);
 				if(s.getNumberOrigin().equals(seg.getOrigin()) &&

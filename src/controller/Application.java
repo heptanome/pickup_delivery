@@ -16,7 +16,6 @@ public class Application implements PropertyChangeListener {
 		Tour tour = new Tour();
 		HomeWindow homeWindow = new HomeWindow("home window");
 		Application app = new Application(homeWindow, tour);
-		
 	}
 
 	public Application(HomeWindow hw, Tour t) {
