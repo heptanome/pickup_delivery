@@ -66,6 +66,8 @@ public class Application implements PropertyChangeListener {
 		case "loadRequests":
 			this.loadRequests((String) evt.getNewValue());
 			break;
+		case "computeTour" :
+			this.computeTour();
 		default:
 			break;
 		}

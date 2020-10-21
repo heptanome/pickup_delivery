@@ -230,7 +230,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			Application.computeTour();
+			// Application.computeTour();
+			support.firePropertyChange("computeTour", null, null);
 		}
 
 	}
