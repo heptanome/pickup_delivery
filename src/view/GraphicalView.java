@@ -81,6 +81,37 @@ public class GraphicalView extends JPanel {
 			}
 		}
 	}
+	
+	public void displayTour(List<Segment> segments) {
+		int segSize = graphicalSegments.size();
+		
+		int i = 0;
+		// reset all segments to white
+		while (i < segSize) {
+			graphicalSegments.get(i).setColor(Color.white);
+			i++;
+		}
+		
+		// change color of corresponding segments
+		segments.forEach(s -> {
+			int j = 0;
+			GraphicalSegment gs = createSegment(s.getNumberOrigin(), s.getNumberDestination());
+			while(j < segSize) {
+				GraphicalSegment seg = graphicalSegments.get(j);
+				if(s.getNumberOrigin().equals(seg.getOrigin()) &&
+				s.getNumberDestination().equals(seg.getDestination())
+						) {
+					seg.setOnPath(1);
+					seg.setColor(Color.red);
+					break;
+				}
+				j++;
+			}
+		});
+		
+		repaint();
+		
+	}
 
 	public void displayRequests(SetOfRequests sr) {
 		// Reset map, i. e. change the color of all points to white
@@ -156,7 +187,7 @@ public class GraphicalView extends JPanel {
 			i++;
 		}
 		if (origin != null && destination != null) {
-			GraphicalSegment gs = new GraphicalSegment(origin.getXPixel(), origin.getYPixel(), destination.getXPixel(),
+			GraphicalSegment gs = new GraphicalSegment(idOrigin, idDestination, origin.getXPixel(), origin.getYPixel(), destination.getXPixel(),
 					destination.getYPixel());
 			return gs;
 		}

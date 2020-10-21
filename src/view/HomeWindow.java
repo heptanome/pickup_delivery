@@ -130,9 +130,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	}
 	
 	public void tourComputed(LinkedList<Segment> segments) {
-		segments.forEach(segment -> {
-			System.out.println(segment);
-		});
+		gv.displayTour(segments);
+		segments.forEach(s -> System.out.println(s));
 	}
 
 	public class LoadRequestListener implements ActionListener {
