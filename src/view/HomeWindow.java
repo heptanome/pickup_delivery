@@ -57,22 +57,27 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		// Buttons
 		btnLoadMap.addActionListener(new LoadMapListener());
 		btnLoadMap.setUI(new StyledButtonUI());
+		btnLoadMap.setEnabled(true);
 		buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
 		
 		btnLoadRequest.addActionListener(new LoadRequestListener());
 		btnLoadRequest.setUI(new StyledButtonUI());
+		btnLoadRequest.setEnabled(false);
 		buttonsContainer.add(btnLoadRequest, BorderLayout.SOUTH);
 
 		btnAddRequest.addActionListener(new AddRequestListener());
 		btnAddRequest.setUI(new StyledButtonUI());
+		btnAddRequest.setEnabled(false);
 		buttonsContainer.add(btnAddRequest, BorderLayout.SOUTH);
 
 		btnDeleteRequest.addActionListener(new DeleteRequestListener());
 		btnDeleteRequest.setUI(new StyledButtonUI());
+		btnDeleteRequest.setEnabled(false);
 		buttonsContainer.add(btnDeleteRequest, BorderLayout.SOUTH);
 
 		btnComputeTour.addActionListener(new ComputeTourListener());
 		btnComputeTour.setUI(new StyledButtonUI());
+		btnComputeTour.setEnabled(false);
 		buttonsContainer.add(btnComputeTour, BorderLayout.SOUTH);
 		// Creation of main container
 		graphicalContainer = new JPanel();
@@ -83,8 +88,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		textualContainer.setLayout(null);
 		textualContainer.setBounds(801, 0, 400, HEIGHT);
 		textualContainer.setBackground(Color.green);
-		
-		//JLa
 
 		// Ajout containers
 		add(graphicalContainer);
@@ -96,15 +99,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		this.loadedMap = map;
 
 		// Graphical view
-		// JPanel graphicalView = new JPanel();
-		// graphicalView.setBounds(0,0,HEIGHT,HEIGHT);
-		// graphicalView.setBackground(Color.gray);
 		graphicalContainer.removeAll();
 		graphicalContainer.repaint();
 		gv = new GraphicalView(loadedMap);
 		graphicalContainer.add(gv);
 
 		// TextualView
+		
+		// Buttons enabling
+		btnLoadRequest.setEnabled(true);
+		btnAddRequest.setEnabled(false);
+		btnDeleteRequest.setEnabled(false);
+		btnComputeTour.setEnabled(false);
 		
 	}
 
@@ -120,6 +126,11 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		textualContainer.add(tv);
 		
 		tv.displayRequests(sor);
+		
+		// Buttons enabling
+		btnAddRequest.setEnabled(true);
+		btnDeleteRequest.setEnabled(true);
+		btnComputeTour.setEnabled(true);
 	}
 	
 	public void tourComputed(LinkedList<Segment> segments) {
