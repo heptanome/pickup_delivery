@@ -9,6 +9,8 @@ import model.SetOfRequests;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -47,39 +49,30 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JPanel buttonsContainer = new JPanel();
-		buttonsContainer.setLayout(null);
+		//buttonsContainer.setLayout(null);
 		buttonsContainer.setBounds(1201, 0, 200, HEIGHT);
 		buttonsContainer.setBackground(Color.red);
+		buttonsContainer.setLayout(new FlowLayout(5));
 
 		// Buttons
-		btnLoadRequest.setForeground(Color.red);
-		btnLoadRequest.setBackground(Color.BLUE);
-		btnLoadRequest.setBounds(25, 50, 150, 40);
+		btnLoadMap.addActionListener(new LoadMapListener());
+		btnLoadMap.setUI(new StyledButtonUI());
+		buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
+		
 		btnLoadRequest.addActionListener(new LoadRequestListener());
+		btnLoadRequest.setUI(new StyledButtonUI());
 		buttonsContainer.add(btnLoadRequest, BorderLayout.SOUTH);
 
-		btnLoadMap.setForeground(Color.red);
-		btnLoadMap.setBackground(Color.BLUE);
-		btnLoadMap.setBounds(25, 80, 150, 40);
-		btnLoadMap.addActionListener(new LoadMapListener());
-		buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
-
-		btnAddRequest.setForeground(Color.red);
-		btnAddRequest.setBackground(Color.BLUE);
-		btnAddRequest.setBounds(25, 110, 150, 40);
 		btnAddRequest.addActionListener(new AddRequestListener());
+		btnAddRequest.setUI(new StyledButtonUI());
 		buttonsContainer.add(btnAddRequest, BorderLayout.SOUTH);
 
-		btnDeleteRequest.setForeground(Color.red);
-		btnDeleteRequest.setBackground(Color.BLUE);
-		btnDeleteRequest.setBounds(25, 140, 150, 40);
 		btnDeleteRequest.addActionListener(new DeleteRequestListener());
+		btnDeleteRequest.setUI(new StyledButtonUI());
 		buttonsContainer.add(btnDeleteRequest, BorderLayout.SOUTH);
 
-		btnComputeTour.setForeground(Color.red);
-		btnComputeTour.setBackground(Color.BLUE);
-		btnComputeTour.setBounds(25, 170, 150, 40);
 		btnComputeTour.addActionListener(new ComputeTourListener());
+		btnComputeTour.setUI(new StyledButtonUI());
 		buttonsContainer.add(btnComputeTour, BorderLayout.SOUTH);
 		// Creation of main container
 		graphicalContainer = new JPanel();
