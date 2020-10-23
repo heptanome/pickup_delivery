@@ -9,16 +9,25 @@ import view.HomeWindow;
 public class Application implements PropertyChangeListener {
 	private HomeWindow homeWindow;
 	private Tour tour;
+	private State currentState;
+	private HomeState homeState;
+	private WorkingState workingState;
+	private MapWithoutRequestsState mapWoRequestsState;
 
 	public static void main(String[] args) {
 		System.out.println("Bienvenue sur Pickup and Delivery");
 
 		Tour tour = new Tour();
 		HomeWindow homeWindow = new HomeWindow("home window");
-		Application app = new Application(homeWindow, tour);
+		Application app = new Application(homeWindow, tour, new HomeState());
 	}
 
-	public Application(HomeWindow hw, Tour t) {
+	public Application(HomeWindow hw, Tour t, State state) {
+		this.currentState = state;
+		this.homeState = new HomeState();
+		this.workingState = new WorkingState();
+		this.mapWoRequestsState = new MapWithoutRequestsState();
+		
 		this.tour = t;
 		this.homeWindow = hw;
 		// Window listens to Tour events
@@ -28,30 +37,35 @@ public class Application implements PropertyChangeListener {
 	}
 
 	public void loadMap(String fp) {
-		System.out.println("Chargement de la Map localisée par le chemin : " + fp);
-		this.tour.setMap(fp);
+		currentState.loadMap(fp, this.tour);
+		if (currentState instanceof HomeState) {
+			currentState = mapWoRequestsState;
+		}
 	}
 
 	public void loadRequests(String fp) {
-		System.out.println("Chargement de la requête localisée par le chemin : " + fp);
-		this.tour.setRequests(fp);
+		currentState.loadRequests(fp, this.tour);
+		if (currentState instanceof MapWithoutRequestsState) {
+			currentState = workingState;
+		}
 	}
 
 	public static void addRequest() {
+		// currentState.addRequest();
 		System.out.println("ajout d'une requête : ");
 
 		// TODO : A implémenter
 	}
 
 	public static void deleteRequest() {
+		// currentState.deleteRequest();
 		System.out.println("Suppression d'une requête");
 
 		// TODO : A implémenter
 	}
 
 	public void computeTour() {
-		System.out.println("Calcul d'un chemin");
-		this.tour.computeTour(); // <-- renvoie une liste de segment
+		currentState.computeTour(tour);
 	}
 
 	@Override
