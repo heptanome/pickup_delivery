@@ -10,9 +10,9 @@ public class Application implements PropertyChangeListener {
 	private HomeWindow homeWindow;
 	private Tour tour;
 	private State currentState;
-	private HomeState homeState;
-	private WorkingState workingState;
-	private MapWithoutRequestsState mapWoRequestsState;
+	private HomeState homeState = new HomeState();
+	private WorkingState workingState = new WorkingState();
+	private MapWithoutRequestsState mapWoRequestsState = new MapWithoutRequestsState();
 
 	public static void main(String[] args) {
 		System.out.println("Bienvenue sur Pickup and Delivery");
@@ -24,9 +24,6 @@ public class Application implements PropertyChangeListener {
 
 	public Application(HomeWindow hw, Tour t, State state) {
 		this.currentState = state;
-		this.homeState = new HomeState();
-		this.workingState = new WorkingState();
-		this.mapWoRequestsState = new MapWithoutRequestsState();
 		
 		this.tour = t;
 		this.homeWindow = hw;
@@ -38,19 +35,16 @@ public class Application implements PropertyChangeListener {
 
 	public void loadMap(String fp) {
 		currentState.loadMap(fp, this.tour);
-		if (currentState instanceof HomeState) {
-			currentState = mapWoRequestsState;
-		}
+		currentState = mapWoRequestsState;
 	}
 
 	public void loadRequests(String fp) {
 		currentState.loadRequests(fp, this.tour);
-		if (currentState instanceof MapWithoutRequestsState) {
-			currentState = workingState;
-		}
+		currentState = workingState;
 	}
 
 	public static void addRequest() {
+		// TODO : problem with static method
 		// currentState.addRequest();
 		System.out.println("ajout d'une requête : ");
 
@@ -58,6 +52,7 @@ public class Application implements PropertyChangeListener {
 	}
 
 	public static void deleteRequest() {
+		// TODO : problem with static method
 		// currentState.deleteRequest();
 		System.out.println("Suppression d'une requête");
 

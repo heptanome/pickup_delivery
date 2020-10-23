@@ -4,29 +4,35 @@ import model.Tour;
 
 public class WorkingState implements State {
 	
-	public WorkingState() {
-		
-	}
-	
 	@Override
 	public void loadMap(String fp, Tour tour) {
 		// specific behavior of the working state when loading a map
+		
+		System.out.println("Chargement de la Map localisée par le chemin : " + fp);
+		tour.setMap(fp);
 	}
 	
 	@Override
 	public void loadRequests(String fp, Tour tour) {
 		// specific behavior of the working state when loading requests
+		
+		System.out.println("Chargement de la requête localisée par le chemin : " + fp);
+		tour.setRequests(fp);
 	}
 	
 	@Override
 	public void addRequest() {
 		// specific behavior of the working state when adding a request
 		
+		// TODO
+		
 	}
 
 	@Override
 	public void deleteRequests() {
 		// specific behavior of the working state when deleting a request
+		
+		// TODO
 	}
 	
 	@Override
