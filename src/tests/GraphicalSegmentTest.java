@@ -22,8 +22,8 @@ class GraphicalSegmentTest {
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		idOrigin = "idOrigin";
-		idDest = "idDest";
+		idOrigin = "25319255";
+		idDest = "1370403192";
 		xOriginPixel = 20;
 		yOriginPixel = 25;
 		xDestPixel = 56;
