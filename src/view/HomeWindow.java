@@ -8,8 +8,12 @@ import model.Segment;
 import model.SetOfRequests;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -41,58 +45,90 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		super(nom);
 		support = new PropertyChangeSupport(this);
 
-		setSize(WIDTH, HEIGHT);
-		setLocation(0, 0);
-		setLayout(null);
-		setResizable(true);
-		setVisible(true);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		//Layout
+		setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.weighty = 1;
+		c.gridy = 0;
 
+		// Graphical container
+		graphicalContainer = new JPanel();
+		graphicalContainer.setBackground(Color.gray);
+		c.weightx = 0.6;
+		c.gridwidth = 2;
+		c.gridx = 0;
+        getContentPane().add(graphicalContainer,c);
+
+		//Textual container
+		textualContainer = new JPanel();
+		textualContainer.setBackground(Color.green);
+		c.weightx = 0.275;
+		c.gridx = 3;
+		c.gridwidth = 1;
+        getContentPane().add(textualContainer,c);
+
+		//Buttons container
 		JPanel buttonsContainer = new JPanel();
-		//buttonsContainer.setLayout(null);
-		buttonsContainer.setBounds(1201, 0, 200, HEIGHT);
 		buttonsContainer.setBackground(Color.red);
-		buttonsContainer.setLayout(new FlowLayout(5));
+		BoxLayout boxLayout1 = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);
+		buttonsContainer.setLayout(boxLayout1);
+		buttonsContainer.add(Box.createVerticalStrut(30));
+
 
 		// Buttons
 		btnLoadMap.addActionListener(new LoadMapListener());
 		btnLoadMap.setUI(new StyledButtonUI());
 		btnLoadMap.setEnabled(true);
-		buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
+		btnLoadMap.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnLoadMap.setAlignmentY(5);
+		buttonsContainer.add(btnLoadMap);
+		buttonsContainer.add(Box.createVerticalStrut(10));
 		
 		btnLoadRequest.addActionListener(new LoadRequestListener());
 		btnLoadRequest.setUI(new StyledButtonUI());
 		btnLoadRequest.setEnabled(false);
-		buttonsContainer.add(btnLoadRequest, BorderLayout.SOUTH);
+		btnLoadRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnLoadRequest);
+		buttonsContainer.add(Box.createVerticalStrut(10));
 
 		btnAddRequest.addActionListener(new AddRequestListener());
 		btnAddRequest.setUI(new StyledButtonUI());
 		btnAddRequest.setEnabled(false);
-		buttonsContainer.add(btnAddRequest, BorderLayout.SOUTH);
+		btnAddRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnAddRequest);
+		buttonsContainer.add(Box.createVerticalStrut(10));
 
 		btnDeleteRequest.addActionListener(new DeleteRequestListener());
 		btnDeleteRequest.setUI(new StyledButtonUI());
 		btnDeleteRequest.setEnabled(false);
-		buttonsContainer.add(btnDeleteRequest, BorderLayout.SOUTH);
+		btnDeleteRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnDeleteRequest);
+		buttonsContainer.add(Box.createVerticalStrut(10));
 
 		btnComputeTour.addActionListener(new ComputeTourListener());
 		btnComputeTour.setUI(new StyledButtonUI());
 		btnComputeTour.setEnabled(false);
-		buttonsContainer.add(btnComputeTour, BorderLayout.SOUTH);
-		// Creation of main container
-		graphicalContainer = new JPanel();
-		graphicalContainer.setLayout(null);
-		graphicalContainer.setBounds(0, 0, HEIGHT, HEIGHT);
+		btnComputeTour.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnComputeTour);
 
-		textualContainer = new JPanel();
-		textualContainer.setLayout(null);
-		textualContainer.setBounds(801, 0, 400, HEIGHT);
-		textualContainer.setBackground(Color.green);
+		c.weightx = 0.05;
+		c.gridwidth = 1;
+		c.gridx = 4;
+        getContentPane().add(buttonsContainer,c);
 
-		// Ajout containers
-		add(graphicalContainer);
-		add(textualContainer);
-		add(buttonsContainer);
+
+		pack();
+		validate();
+
+
+        setMinimumSize(new Dimension(WIDTH,HEIGHT));
+		setSize(WIDTH, HEIGHT);
+		setLocationRelativeTo(null);
+
+		setResizable(true);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	public void setMap(CityMap map) {
