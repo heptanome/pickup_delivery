@@ -20,14 +20,17 @@ public class GraphicalPoint {
 		float xRange = maxLat - minLat;
 		float yRange = maxLongi - minLongi;
 
-		float x = (float) ((i.getLatitude() - minLat) * 800 / xRange);
-		float y = (float) ((i.getLongitude() - minLongi) * 800 / yRange);
+		float x = (float) ((i.getLatitude() - minLat) * 800 / xRange );
+		float y = (float) ((i.getLongitude() - minLongi) * 800 / yRange );
 
-		xPixel = Math.round(x);
-		yPixel = Math.round(y);
+
+		size = 8;
+
+		xPixel = Math.round(x) +10 - size/2;
+		yPixel = Math.round(y) +10 - size/2;
 		intersectionId = i.getNumber();
 		color = Color.white;
-		size = 8;
+		
 	}
 
 	public int getXPixel() {

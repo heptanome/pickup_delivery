@@ -25,8 +25,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class HomeWindow extends JFrame implements PropertyChangeListener {
-	protected final static int WIDTH = 1400; // Largeur de la fenêtre
-	protected final static int HEIGHT = 800; // Hauteur de la fenêtre
+	protected final static int WIDTH = 1420; // Largeur de la fenêtre
+	protected final static int HEIGHT = 850; // Hauteur de la fenêtre
 	protected CityMap loadedMap;
 
 	private JButton btnLoadMap = new JButton("Load a map");
@@ -51,17 +51,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		// Graphical container
 		graphicalContainer = new JPanel();
 		graphicalContainer.setLayout(null);
-		graphicalContainer.setBounds(0, 0, HEIGHT, HEIGHT);
+		graphicalContainer.setBounds(0, 0, 820, HEIGHT-30);
 
 		//Textual container
 		textualContainer = new JPanel();
 		textualContainer.setLayout(null);
-		textualContainer.setBounds(801, 0, 400, HEIGHT);
+		textualContainer.setBounds(820, 0, 400, HEIGHT-30);
 		textualContainer.setBackground(Color.green);
 
 		//Buttons container
 		JPanel buttonsContainer = new JPanel();
-		buttonsContainer.setBounds(1201, 0, 200, HEIGHT);
+		buttonsContainer.setBounds(1220, 0, 200, HEIGHT-30);
 		buttonsContainer.setBackground(Color.red);
 		//buttonsContainer.setLayout(new FlowLayout(5));
 
