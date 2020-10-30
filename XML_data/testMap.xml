@@ -14,7 +14,7 @@
 <segment destination="B" length="2" name="Rue du Général Mouton-Duvernet" origin="C"/>
 <segment destination="G" length="2" name="Rue de la Villette" origin="C"/>
 <segment destination="E" length="4" name="Rue de la Villette" origin="D"/>
-<segment destination="c" length="5" name="Rue de la Villette" origin="D"/>
+<segment destination="C" length="5" name="Rue de la Villette" origin="D"/>
 <segment destination="D" length="4" name="Rue de la Villette" origin="E"/>
 <segment destination="F" length="6" name="Rue de la Villette" origin="E"/>
 <segment destination="G" length="4" name="Rue de la Villette" origin="F"/>
