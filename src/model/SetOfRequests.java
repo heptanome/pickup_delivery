@@ -40,10 +40,11 @@ public class SetOfRequests {
 	public String[] getRequestNodes() {
 	  String [] requestNodes = new String[requests.size()*2 + 1]; //2*request (destination and departure) +1 depot
 	  requestNodes[0] = idDepot;
-	  for(int i = 1; i < requestNodes.length; i+=2)
+	  int index = 1;
 	  for(Request r : requests) {
-		  requestNodes[i] = r.getDeliveryAddress();
-		  requestNodes[i+1] = r.getPickupAddress();
+		  requestNodes[index] = r.getDeliveryAddress();
+		  requestNodes[index+1] = r.getPickupAddress();
+		  index +=2;
 	  }
 	  return requestNodes;
     }

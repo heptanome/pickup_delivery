@@ -71,7 +71,6 @@ public class CompleteGraph implements Graph {
 			int idDestination = numberToIdMap.get(s.getNumberDestination());
 			this.map[idOrigin][idDestination] = s.getLength();
 		}
-
 	}
 	
 	private void initCostGraph(int nbNodes){
