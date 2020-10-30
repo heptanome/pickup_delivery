@@ -2,12 +2,22 @@
 <map>
 <intersection id="A" latitude="45.758083" longitude="4.8675914"/>
 <intersection id="B" latitude="45.758255" longitude="4.865917"/>
-<intersection id="C" latitude="45.7595" longitude="4.8722763"/>
+<intersection id="C" latitude="45.759500" longitude="4.8722763"/>
 <intersection id="D" latitude="45.758717" longitude="4.8737717"/>
-<segment destination="C" length="60.239296" name="Rue du Général Mouton-Duvernet" origin="A"/>
-<segment destination="A" length="16.706312" name="bonjour" origin="C"/>
-<segment destination="B" length="96.30125" name="Cours Gambetta" origin="A"/>
-<segment destination="D" length="33.079563" name="Rue du Général Mouton-Duvernet" origin="B"/>
-<segment destination="B" length="63.680832" name="Rue du Général Mouton-Duvernet" origin="C"/>
-<segment destination="A" length="10.711094" name="Rue de la Villette" origin="D"/>
+<intersection id="E" latitude="45.758800" longitude="4.869"/>
+<intersection id="F" latitude="45.758900" longitude="4.875"/>
+<intersection id="G" latitude="45.758400" longitude="4.870000"/>
+<segment destination="F" length="2" name="Rue du Général Mouton-Duvernet" origin="A"/>
+<segment destination="E" length="2" name="bonjour" origin="A"/>
+<segment destination="B" length="3" name="Cours Gambetta" origin="A"/>
+<segment destination="A" length="3" name="Rue du Général Mouton-Duvernet" origin="B"/>
+<segment destination="B" length="2" name="Rue du Général Mouton-Duvernet" origin="C"/>
+<segment destination="G" length="2" name="Rue de la Villette" origin="C"/>
+<segment destination="E" length="4" name="Rue de la Villette" origin="D"/>
+<segment destination="c" length="5" name="Rue de la Villette" origin="D"/>
+<segment destination="D" length="4" name="Rue de la Villette" origin="E"/>
+<segment destination="F" length="6" name="Rue de la Villette" origin="E"/>
+<segment destination="G" length="4" name="Rue de la Villette" origin="F"/>
+<segment destination="B" length="1" name="Rue de la Villette" origin="G"/>
+<segment destination="D" length="3" name="Rue de la Villette" origin="G"/>
 </map>
