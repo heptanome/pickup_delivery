@@ -48,4 +48,27 @@ public class SetOfRequests {
 	  }
 	  return requestNodes;
     }
+	
+	// we assume that all delivery and pickup points are unique. One intersection = one and
+	// only one pickup (or delivery) point.
+	public boolean isDeliveryPoint(String idNode) {
+		
+		for(Request r : requests) {
+			if(idNode.equals(r.getDeliveryAddress())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public String getPickUpFromDelivery(String idDelivery) {
+		String idPickUp = null;
+		for(Request r : requests) {
+			if(idDelivery.equals(r.getDeliveryAddress())) {
+				idPickUp = r.getPickupAddress();
+				break;
+			}
+		}
+		return idPickUp;
+	}
 }

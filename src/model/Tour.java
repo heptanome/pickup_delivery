@@ -47,11 +47,7 @@ public class Tour {
 	}
 	
 	private CompleteGraph mapToCompleteGraph() {
-		int vertices = map.getNbVertices();
-	    Map<String,Integer> numberToIdMap =  map.getNumberIdMap();
-	    List<Segment> segments= map.getSegments();
-	    String[] requestNodes = setOfRequests.getRequestNodes();
-	    CompleteGraph g = new CompleteGraph(vertices,numberToIdMap,segments,requestNodes);
+	    CompleteGraph g = new CompleteGraph(map,setOfRequests);
 	    return g;
 	}
 	

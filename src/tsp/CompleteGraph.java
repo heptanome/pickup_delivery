@@ -13,23 +13,28 @@ public class CompleteGraph implements Graph {
 	float[][] cost;
 	private Map<Integer,int[]> precedence;
 	private Map<Integer,String> nameNodeCost;
+	private SetOfRequests sor;
+	private CityMap cityMap;
 
 	
 	/**
 	 * 
 	 * 
 	 */
-	public CompleteGraph(int nbVertices, Map<String, Integer> numberToIdMap, List<Segment> segments, String[] requestNodes){
-		this.nbVertices = nbVertices;
-		this.createMapGraph(numberToIdMap, segments);
+	public CompleteGraph(CityMap cityMap, SetOfRequests sor){
+		this.nbVertices = cityMap.getNbVertices();
+		this.sor = sor;
+		this.cityMap = cityMap;
+		this.createMapGraph(cityMap.getNumberIdMap(), cityMap.getSegments());
+		String[] requestNodes = sor.getRequestNodes();
 		this.initCostGraph(requestNodes.length);
 		int[] requestNodesInt = new int[requestNodes.length];
 		this.precedence = new HashMap<Integer,int[]>();;
 		for(int index = 0; index < requestNodesInt.length; index++) {
-			requestNodesInt[index] = numberToIdMap.get(requestNodes[index]);
+			requestNodesInt[index] = cityMap.getNumberIdMap().get(requestNodes[index]);
 		}
 		
-		this.createCompleteShortestGraph(requestNodesInt,numberToIdMap);
+		this.createCompleteShortestGraph(requestNodesInt,cityMap.getNumberIdMap());
 	}
 
 	@Override
@@ -49,6 +54,21 @@ public class CompleteGraph implements Graph {
 		if (i<0 || i>=nbVertices || j<0 || j>=nbVertices)
 			return false;
 		return i != j;
+	}
+	
+	@Override
+	public boolean isDeliveryAddress(int i) {
+		String deliveryAddressString = cityMap.getStringFromIdMap(i);
+		System.out.println("Test de g.isDeAdd i="+i+" devAddS="+deliveryAddressString+" result="+sor.isDeliveryPoint(deliveryAddressString));
+		return sor.isDeliveryPoint(deliveryAddressString);
+	}
+	
+	@Override
+	public int getPickUpFromDelivery(int i) {
+		String deliveryAddressString = cityMap.getStringFromIdMap(i);
+		String pickUpAdressString = sor.getPickUpFromDelivery(deliveryAddressString);
+		int pickUpAddressInt = cityMap.getIntFromNumberMap(pickUpAdressString);
+		return pickUpAddressInt;
 	}
 
 	/**
@@ -211,6 +231,7 @@ public class CompleteGraph implements Graph {
 	public int[] getPrecedenceOfANode(int idNode){
 		return precedence.get(idNode);
 	}
+	
 	private void printPrecedence() {
 		for (Map.Entry<Integer, int[]> me : precedence.entrySet()) { 
             System.out.print(me.getKey() + ":"); 
