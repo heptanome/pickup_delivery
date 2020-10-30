@@ -44,59 +44,83 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public HomeWindow(String nom) {
 		super(nom);
 		support = new PropertyChangeSupport(this);
-
-		setSize(WIDTH, HEIGHT);
-		setLocation(0, 0);
-		setLayout(null);
-		setResizable(true);
-		setVisible(true);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		JPanel buttonsContainer = new JPanel();
-		//buttonsContainer.setLayout(null);
-		buttonsContainer.setBounds(1201, 0, 200, HEIGHT);
-		buttonsContainer.setBackground(Color.red);
-		buttonsContainer.setLayout(new FlowLayout(5));
-
-		// Buttons
-		btnLoadMap.addActionListener(new LoadMapListener());
-		btnLoadMap.setUI(new StyledButtonUI());
-		btnLoadMap.setEnabled(true);
-		buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
 		
-		btnLoadRequest.addActionListener(new LoadRequestListener());
-		btnLoadRequest.setUI(new StyledButtonUI());
-		btnLoadRequest.setEnabled(false);
-		buttonsContainer.add(btnLoadRequest, BorderLayout.SOUTH);
+		//Layout
+		setLayout(null);
 
-		btnAddRequest.addActionListener(new AddRequestListener());
-		btnAddRequest.setUI(new StyledButtonUI());
-		btnAddRequest.setEnabled(false);
-		buttonsContainer.add(btnAddRequest, BorderLayout.SOUTH);
-
-		btnDeleteRequest.addActionListener(new DeleteRequestListener());
-		btnDeleteRequest.setUI(new StyledButtonUI());
-		btnDeleteRequest.setEnabled(false);
-		buttonsContainer.add(btnDeleteRequest, BorderLayout.SOUTH);
-
-		btnComputeTour.addActionListener(new ComputeTourListener());
-		btnComputeTour.setUI(new StyledButtonUI());
-		btnComputeTour.setEnabled(false);
-		buttonsContainer.add(btnComputeTour, BorderLayout.SOUTH);
-		// Creation of main container
+		// Graphical container
 		graphicalContainer = new JPanel();
 		graphicalContainer.setLayout(null);
 		graphicalContainer.setBounds(0, 0, HEIGHT, HEIGHT);
 
+		//Textual container
 		textualContainer = new JPanel();
 		textualContainer.setLayout(null);
 		textualContainer.setBounds(801, 0, 400, HEIGHT);
 		textualContainer.setBackground(Color.green);
 
-		// Ajout containers
+		//Buttons container
+		JPanel buttonsContainer = new JPanel();
+		buttonsContainer.setBounds(1201, 0, 200, HEIGHT);
+		buttonsContainer.setBackground(Color.red);
+		//buttonsContainer.setLayout(new FlowLayout(5));
+
+		BoxLayout boxLayout1 = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);
+		buttonsContainer.setLayout(boxLayout1);
+		buttonsContainer.add(Box.createVerticalStrut(30));
+
+		// Buttons
+		btnLoadMap.addActionListener(new LoadMapListener());
+		btnLoadMap.setUI(new StyledButtonUI());
+		btnLoadMap.setEnabled(true);
+		//buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
+		btnLoadMap.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnLoadMap.setAlignmentY(5);
+		buttonsContainer.add(btnLoadMap);
+		buttonsContainer.add(Box.createVerticalStrut(10));
+		
+		btnLoadRequest.addActionListener(new LoadRequestListener());
+		btnLoadRequest.setUI(new StyledButtonUI());
+		btnLoadRequest.setEnabled(false);
+		//buttonsContainer.add(btnLoadRequest, BorderLayout.SOUTH);
+		btnLoadRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnLoadRequest);
+		buttonsContainer.add(Box.createVerticalStrut(10));
+
+		btnAddRequest.addActionListener(new AddRequestListener());
+		btnAddRequest.setUI(new StyledButtonUI());
+		btnAddRequest.setEnabled(false);
+		//buttonsContainer.add(btnAddRequest, BorderLayout.SOUTH);
+		btnAddRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnAddRequest);
+		buttonsContainer.add(Box.createVerticalStrut(10));
+
+		btnDeleteRequest.addActionListener(new DeleteRequestListener());
+		btnDeleteRequest.setUI(new StyledButtonUI());
+		btnDeleteRequest.setEnabled(false);
+		//buttonsContainer.add(btnDeleteRequest, BorderLayout.SOUTH);
+		btnDeleteRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnDeleteRequest);
+		buttonsContainer.add(Box.createVerticalStrut(10));
+
+		btnComputeTour.addActionListener(new ComputeTourListener());
+		btnComputeTour.setUI(new StyledButtonUI());
+		btnComputeTour.setEnabled(false);
+		//buttonsContainer.add(btnComputeTour, BorderLayout.SOUTH);
+		btnComputeTour.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnComputeTour);
+		
+
+		// Add containers
 		add(graphicalContainer);
 		add(textualContainer);
 		add(buttonsContainer);
+
+		setSize(WIDTH, HEIGHT);
+		setLocation(0, 0);
+		setResizable(true);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	public void setMap(CityMap map) {
