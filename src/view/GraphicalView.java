@@ -69,7 +69,17 @@ public class GraphicalView extends JPanel {
 		}
 
 		// Draw intersections
+		List<GraphicalPoint> coloredIntersections = new LinkedList<GraphicalPoint>(); //To store the colored intersections and draw them at the end
 		for (GraphicalPoint gp : graphicalPoints) {
+			if(gp.getColor()==Color.white){
+				g.setColor(Color.white);
+				g.fillOval(gp.getXPixel(), gp.getYPixel(), gp.getSize(), gp.getSize());
+			} else {
+				coloredIntersections.add(gp);
+			}
+		}
+			
+		for (GraphicalPoint gp : coloredIntersections) {
 			g.setColor(gp.getColor());
 			g.fillOval(gp.getXPixel(), gp.getYPixel(), gp.getSize(), gp.getSize());
 		}

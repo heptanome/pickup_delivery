@@ -58,6 +58,10 @@ public class GraphicalPoint {
 	}
 
 	public void setSize(int i) {
+		//Recenter the point
+		xPixel += (size/2 - i/2);
+		yPixel += (size/2 - i/2);
+		
 		size = i;
 	}
 
