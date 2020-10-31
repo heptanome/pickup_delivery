@@ -42,12 +42,12 @@ class GraphicalPointTest {
 
 	@Test
 	void testGetXPixel() {
-		assertEquals(graphicalPoint.getXPixel(), 84);
+		assertEquals(graphicalPoint.getXPixel(), 90);
 	}
 
 	@Test
 	void testGetYPixel() {
-		assertEquals(graphicalPoint.getYPixel(), 427);
+		assertEquals(graphicalPoint.getYPixel(), 433);
 	}
 
 	@Test
