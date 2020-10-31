@@ -89,9 +89,9 @@ class CompleteGraphTest {
 	
 	@Test
 	void testGetPickUpFromDelivery() {
-		for (int i=0; i<= completeGraph.getNbVertices(); i++) {
+		for (int i=0; i< completeGraph.getNbVertices(); i++) {
 			if (completeGraph.isDeliveryAddress(i)) {
-				assertTrue(completeGraph.getPickUpFromDelivery(i) == 3 || completeGraph.getPickUpFromDelivery(i) == 5);
+				assertTrue(completeGraph.getPickUpFromDelivery(i) == 2 || completeGraph.getPickUpFromDelivery(i) == 4);
 			}
 		}
 	}
