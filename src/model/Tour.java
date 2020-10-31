@@ -52,7 +52,8 @@ public class Tour {
 	}
 	
 	public List<Segment> computeTour(){
-		TSP tsp = new TSP1();
+		//TSP tsp = new TSP1();
+		TSP tsp = new TSP2();
 		CompleteGraph g = this.mapToCompleteGraph();
 		long startTime = System.currentTimeMillis();
 		this.path = new LinkedList<Segment>();
@@ -72,7 +73,6 @@ public class Tour {
 		Map<Integer,String> nodeNames = g.getNodeNames();
 		for(int i=0; i < solutionInt.length; i++) {
 			solutionString[i] = nodeNames.get(solutionInt[i]);
-			System.out.print(solutionString[i]);
 		}
 		System.out.println();
 

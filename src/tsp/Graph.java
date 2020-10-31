@@ -20,6 +20,8 @@ public interface Graph {
 	 */
 	public abstract boolean isArc(int i, int j);
 	
+	public abstract float minArcCost();
+	
 	public abstract boolean isDeliveryAddress(int i);
 	
 	public abstract int getPickUpFromDelivery(int i);
