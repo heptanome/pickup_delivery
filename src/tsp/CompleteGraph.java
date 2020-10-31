@@ -58,16 +58,23 @@ public class CompleteGraph implements Graph {
 	
 	@Override
 	public boolean isDeliveryAddress(int i) {
-		String deliveryAddressString = cityMap.getStringFromIdMap(i);
-		System.out.println("Test de g.isDeAdd i="+i+" devAddS="+deliveryAddressString+" result="+sor.isDeliveryPoint(deliveryAddressString));
+		String deliveryAddressString = sor.getRequestNodes()[i];
 		return sor.isDeliveryPoint(deliveryAddressString);
 	}
 	
 	@Override
 	public int getPickUpFromDelivery(int i) {
-		String deliveryAddressString = cityMap.getStringFromIdMap(i);
+		String deliveryAddressString = sor.getRequestNodes()[i];
 		String pickUpAdressString = sor.getPickUpFromDelivery(deliveryAddressString);
-		int pickUpAddressInt = cityMap.getIntFromNumberMap(pickUpAdressString);
+		int pickUpAddressInt = -1;
+		int index = 0;
+		for(String s : sor.getRequestNodes()) {
+			if(pickUpAdressString.equals(s)) {
+				pickUpAddressInt = index;
+				break;
+			}
+			index ++;
+		}
 		return pickUpAddressInt;
 	}
 

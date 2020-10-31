@@ -72,7 +72,9 @@ public class Tour {
 		Map<Integer,String> nodeNames = g.getNodeNames();
 		for(int i=0; i < solutionInt.length; i++) {
 			solutionString[i] = nodeNames.get(solutionInt[i]);
+			System.out.print(solutionString[i]);
 		}
+		System.out.println();
 
 		List<Integer> intermediateNodes = new LinkedList<Integer>();
 		for(int indexSol = 0; indexSol < solutionString.length-1; indexSol++) {
