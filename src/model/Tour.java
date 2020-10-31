@@ -54,6 +54,7 @@ public class Tour {
 	public List<Segment> computeTour(){
 		//TSP tsp = new TSP1();
 		TSP tsp = new TSP2();
+		//TSP tsp = new TSP3();
 		CompleteGraph g = this.mapToCompleteGraph();
 		long startTime = System.currentTimeMillis();
 		this.path = new LinkedList<Segment>();
