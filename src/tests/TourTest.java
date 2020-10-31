@@ -1,13 +1,17 @@
 package tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
 
 import model.CityMap;
 import model.Tour;
@@ -40,10 +44,32 @@ class TourTest implements PropertyChangeListener {
 	@Test
 	void testSetMap() {
 		tour.setMap(MAP_FILE);
+		
+		try {
+		verify(tourMock).setMap(MAP_FILE_PATH);
+		} catch (Exception e) {}
+		
+		try {
+		verify(tourMock).setMap("");
+		} catch (Exception e) {
+			assertEquals(e,new IllegalArgumentException());
+		}
+		
+		try {
+		verify(tourMock).setMap(INCORRECT_PATH);
+		} catch (Exception e) {
+			assertEquals(e,new IOException());
+		}
+		
+		try {
+		verify(tourMock).setMap(CORRUPTED_MAP_FILE_PATH);
+		} catch (Exception e) {
+			assertEquals(e,new SAXException());
+		}
 	}
 
 	@Test
-	void testSetRequests() {
+	void testSetRequests() throws Exception {
 		tour.setRequests(REQ_FILE);
 	}
 

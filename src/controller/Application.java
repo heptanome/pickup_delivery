@@ -3,6 +3,9 @@ package controller;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import java.io.IOException;
+import org.xml.sax.SAXException;
+
 import model.Tour;
 import view.HomeWindow;
 
@@ -29,12 +32,40 @@ public class Application implements PropertyChangeListener {
 
 	public void loadMap(String fp) {
 		System.out.println("Chargement de la Map localisée par le chemin : " + fp);
-		this.tour.setMap(fp);
+		try {
+			this.tour.setMap(fp);
+		} catch (IOException e) {
+			e.printStackTrace();
+			//TODO implement a PopUp window indicating that the file couldn't be read
+		} catch (SAXException e) {
+			e.printStackTrace();
+			//TODO implement a PopUp window indicating that the file couldn't be parse
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			//TODO implement a PopUp window indicating that the filepath is empty
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void loadRequests(String fp) {
 		System.out.println("Chargement de la requête localisée par le chemin : " + fp);
-		this.tour.setRequests(fp);
+		try {
+			this.tour.setRequests(fp);
+		} catch (IOException e) {
+			e.printStackTrace();
+			//TODO implement a PopUp window indicating that the file couldn't be read
+		} catch (SAXException e) {
+			e.printStackTrace();
+			//TODO implement a PopUp window indicating that the file couldn't be parse
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			//TODO implement a PopUp window indicating that the filepath is empty
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void addRequest() {
@@ -65,7 +96,7 @@ public class Application implements PropertyChangeListener {
 		case "loadRequests":
 			this.loadRequests((String) evt.getNewValue());
 			break;
-		case "computeTour" :
+		case "computeTour":
 			this.computeTour();
 		default:
 			break;

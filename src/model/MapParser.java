@@ -7,11 +7,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class MapParser extends Parser {
-	public MapParser(String fp) {
+	public MapParser(String fp) throws Exception {
 		super(fp);
 	}
 
 	public CityMap loadMap() {
+		
 		NodeList interList = doc.getElementsByTagName("intersection");
 		NodeList segList = doc.getElementsByTagName("segment");
 

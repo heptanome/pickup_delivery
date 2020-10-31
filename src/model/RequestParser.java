@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 public class RequestParser extends Parser {
-	public RequestParser(String fp) {
+	public RequestParser(String fp) throws Exception {
 		super(fp);
 	}
 

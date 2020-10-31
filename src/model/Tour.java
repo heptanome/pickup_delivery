@@ -30,7 +30,7 @@ public class Tour {
 		support.removePropertyChangeListener(pcl);
 	}
 
-	public void setMap(String mapPath) {
+	public void setMap(String mapPath) throws Exception {
 		CityMap oldMap = this.map;
 		MapParser mp = new MapParser(mapPath);
 		this.map = mp.loadMap();
@@ -38,7 +38,7 @@ public class Tour {
 		support.firePropertyChange("updateMap", oldMap, this.map);
 	}
 
-	public void setRequests(String reqPath) {
+	public void setRequests(String reqPath) throws Exception {
 		SetOfRequests oldReq = this.setOfRequests;
 		RequestParser rp = new RequestParser(reqPath);
 		this.setOfRequests = rp.loadRequests();

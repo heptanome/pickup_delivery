@@ -10,6 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+
 /* Parser: read and parse a given XML file
    inspired from:
       https://www.tutorialspoint.com/java_xml/java_dom_parse_document.htm
@@ -17,16 +18,11 @@ import org.w3c.dom.NodeList;
 public abstract class Parser {
 	protected Document doc;
 
-	public Parser(String fp) {
-		try {
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			this.doc = dBuilder.parse(fp);
-			this.doc.getDocumentElement().normalize();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public Parser(String fp) throws Exception{
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		this.doc = dBuilder.parse(fp);
+		this.doc.getDocumentElement().normalize();
 	}
 
 	// iterator design pattern
