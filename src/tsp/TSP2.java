@@ -12,7 +12,7 @@ public class TSP2 extends TemplateTSP {
 		 * On détermine le plus petit arc du graphe
 		 * on renvoie cette plus petite longueur multipliée par le nombre de sommets restant 
 		 * à visiter*/
-		return (unvisited.size() * g.minArcCost());
+		return (unvisited.size()+1 * g.minArcCost());
 	}
 
 	@Override
