@@ -17,10 +17,8 @@ public class SeqIter implements Iterator<Integer> {
 	 */
 	public SeqIter(Collection<Integer> unvisited, int currentVertex, Graph g){
 		this.candidates = new Integer[unvisited.size()];
-		System.out.println("Candidats de "+currentVertex+" pour unvisited: "+unvisited);
 		for (Integer s : unvisited){
 			if(g.isDeliveryAddress(s)) {
-				System.out.println(s+" est un delivery point.");
 				int pickup = g.getPickUpFromDelivery(s);
 				if (g.isArc(currentVertex, s) && !(unvisited.contains(pickup)) )
 					candidates[nbCandidates++] = s;
@@ -30,11 +28,6 @@ public class SeqIter implements Iterator<Integer> {
 					candidates[nbCandidates++] = s;
 			}
 		}
-		
-		for(int i = 0; i < nbCandidates; i++) {
-			System.out.print(candidates[i]+"  ");
-		}
-		System.out.println();
 	}
 	
 	@Override
