@@ -40,11 +40,35 @@ public class SetOfRequests {
 	public String[] getRequestNodes() {
 	  String [] requestNodes = new String[requests.size()*2 + 1]; //2*request (destination and departure) +1 depot
 	  requestNodes[0] = idDepot;
-	  for(int i = 1; i < requestNodes.length; i+=2)
+	  int index = 1;
 	  for(Request r : requests) {
-		  requestNodes[i] = r.getDeliveryAddress();
-		  requestNodes[i+1] = r.getPickupAddress();
+		  requestNodes[index] = r.getDeliveryAddress();
+		  requestNodes[index+1] = r.getPickupAddress();
+		  index +=2;
 	  }
 	  return requestNodes;
     }
+	
+	// we assume that all delivery and pickup points are unique. One intersection = one and
+	// only one pickup (or delivery) point.
+	public boolean isDeliveryPoint(String idNode) {
+		
+		for(Request r : requests) {
+			if(idNode.equals(r.getDeliveryAddress())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public String getPickUpFromDelivery(String idDelivery) {
+		String idPickUp = null;
+		for(Request r : requests) {
+			if(idDelivery.equals(r.getDeliveryAddress())) {
+				idPickUp = r.getPickupAddress();
+				break;
+			}
+		}
+		return idPickUp;
+	}
 }

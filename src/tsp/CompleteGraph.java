@@ -13,23 +13,28 @@ public class CompleteGraph implements Graph {
 	float[][] cost;
 	private Map<Integer,int[]> precedence;
 	private Map<Integer,String> nameNodeCost;
+	private SetOfRequests sor;
+	private CityMap cityMap;
 
 	
 	/**
 	 * 
 	 * 
 	 */
-	public CompleteGraph(int nbVertices, Map<String, Integer> numberToIdMap, List<Segment> segments, String[] requestNodes){
-		this.nbVertices = nbVertices;
-		this.createMapGraph(numberToIdMap, segments);
+	public CompleteGraph(CityMap cm, SetOfRequests sor){
+		this.nbVertices = cm.getNbVertices();
+		this.sor = sor;
+		this.cityMap = cm;
+		this.createMapGraph(cityMap.getNumberIdMap(), cityMap.getSegments());
+		String[] requestNodes = sor.getRequestNodes();
 		this.initCostGraph(requestNodes.length);
 		int[] requestNodesInt = new int[requestNodes.length];
 		this.precedence = new HashMap<Integer,int[]>();;
 		for(int index = 0; index < requestNodesInt.length; index++) {
-			requestNodesInt[index] = numberToIdMap.get(requestNodes[index]);
+			requestNodesInt[index] = cityMap.getNumberIdMap().get(requestNodes[index]);
 		}
 		
-		this.createCompleteShortestGraph(requestNodesInt,numberToIdMap);
+		this.createCompleteShortestGraph(requestNodesInt,cityMap.getNumberIdMap());
 	}
 
 	@Override
@@ -49,6 +54,40 @@ public class CompleteGraph implements Graph {
 		if (i<0 || i>=nbVertices || j<0 || j>=nbVertices)
 			return false;
 		return i != j;
+	}
+	
+	@Override
+	public float minArcCost() {
+		float min = INFINITE;
+		for(int i=0; i < cost.length; i++) {
+			for(int j=0; j < cost.length; j++) {
+				if(cost[i][j] < min)
+					min = cost[i][j];
+			}
+		}
+		return min;
+	}
+	
+	@Override
+	public boolean isDeliveryAddress(int i) {
+		String deliveryAddressString = sor.getRequestNodes()[i];
+		return sor.isDeliveryPoint(deliveryAddressString);
+	}
+	
+	@Override
+	public int getPickUpFromDelivery(int i) {
+		String deliveryAddressString = sor.getRequestNodes()[i];
+		String pickUpAdressString = sor.getPickUpFromDelivery(deliveryAddressString);
+		int pickUpAddressInt = -1;
+		int index = 0;
+		for(String s : sor.getRequestNodes()) {
+			if(pickUpAdressString.equals(s)) {
+				pickUpAddressInt = index;
+				break;
+			}
+			index ++;
+		}
+		return pickUpAddressInt;
 	}
 
 	/**
@@ -71,7 +110,6 @@ public class CompleteGraph implements Graph {
 			int idDestination = numberToIdMap.get(s.getNumberDestination());
 			this.map[idOrigin][idDestination] = s.getLength();
 		}
-
 	}
 	
 	private void initCostGraph(int nbNodes){
@@ -211,15 +249,5 @@ public class CompleteGraph implements Graph {
 	
 	public int[] getPrecedenceOfANode(int idNode){
 		return precedence.get(idNode);
-	}
-	private void printPrecedence() {
-		for (Map.Entry<Integer, int[]> me : precedence.entrySet()) { 
-            System.out.print(me.getKey() + ":"); 
-            int[] tab = me.getValue();
-            for(int i=0; i< tab.length; i++) {
-            	System.out.print(tab[i]+" | ");
-            }
-            System.out.println();
-        } 
 	}
 }

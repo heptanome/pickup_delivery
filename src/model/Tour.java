@@ -47,17 +47,15 @@ public class Tour {
 	}
 	
 	private CompleteGraph mapToCompleteGraph() {
-		int vertices = map.getNbVertices();
-	    Map<String,Integer> numberToIdMap =  map.getNumberIdMap();
-	    List<Segment> segments= map.getSegments();
-	    String[] requestNodes = setOfRequests.getRequestNodes();
-	    CompleteGraph g = new CompleteGraph(vertices,numberToIdMap,segments,requestNodes);
+	    CompleteGraph g = new CompleteGraph(map,setOfRequests);
 	    return g;
 	}
 	
 	public List<Segment> computeTour(){
-		TSP tsp = new TSP1();
-		CompleteGraph g = mapToCompleteGraph();
+		//TSP tsp = new TSP1();
+		TSP tsp = new TSP2();
+		//TSP tsp = new TSP3();
+		CompleteGraph g = this.mapToCompleteGraph();
 		long startTime = System.currentTimeMillis();
 		this.path = new LinkedList<Segment>();
 		
@@ -77,6 +75,7 @@ public class Tour {
 		for(int i=0; i < solutionInt.length; i++) {
 			solutionString[i] = nodeNames.get(solutionInt[i]);
 		}
+		System.out.println();
 
 		List<Integer> intermediateNodes = new LinkedList<Integer>();
 		for(int indexSol = 0; indexSol < solutionString.length-1; indexSol++) {

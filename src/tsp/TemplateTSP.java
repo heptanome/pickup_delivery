@@ -12,17 +12,18 @@ public abstract class TemplateTSP implements TSP {
 	private long startTime;
 	
 	public void searchSolution(int timeLimit, Graph g){
-		if (timeLimit <= 0) return;
-		startTime = System.currentTimeMillis();	
-		this.timeLimit = timeLimit;
-		this.g = g;
-		bestSol = new Integer[g.getNbVertices()];
-		Collection<Integer> unvisited = new ArrayList<Integer>(g.getNbVertices()-1);
-		for (int i=1; i<g.getNbVertices(); i++) unvisited.add(i);
-		Collection<Integer> visited = new ArrayList<Integer>(g.getNbVertices());
-		visited.add(0); // The first visited vertex is 0
-		bestSolCost = Integer.MAX_VALUE;
-		branchAndBound(0, unvisited, visited, 0);}
+		if (timeLimit <= 0) return; //si tu dépasses la limite de temps, cesse
+		startTime = System.currentTimeMillis();	//gestion de la limite de temps
+		this.timeLimit = timeLimit; //gestion de la limite de temps
+		this.g = g; //recupération du graphe complet
+		bestSol = new Integer[g.getNbVertices()]; //tableau des sommets de la meilleure solution
+		Collection<Integer> unvisited = new ArrayList<Integer>(g.getNbVertices()-1); //tous les sommets pas encore visité
+		for (int i=1; i<g.getNbVertices(); i++) unvisited.add(i); //ajouter tous les sommets, sauf le sommet 0
+		Collection<Integer> visited = new ArrayList<Integer>(g.getNbVertices()); //tous les sommets déjà vus
+		visited.add(0); // Ajouter le premier sommet visité aka 0
+		bestSolCost = Float.MAX_VALUE; // le cout de la meilleure solution so far
+		branchAndBound(0, unvisited, visited, 0); //branch&bound récursif
+		}
 	
 	public Integer getSolution(int i){
 		if (g != null && i>=0 && i<g.getNbVertices())
@@ -43,7 +44,7 @@ public abstract class TemplateTSP implements TSP {
 	 * @return a lower bound of the cost of paths in <code>g</code> starting from <code>currentVertex</code>, visiting 
 	 * every vertex in <code>unvisited</code> exactly once, and returning back to vertex <code>0</code>.
 	 */
-	protected abstract int bound(Integer currentVertex, Collection<Integer> unvisited);
+	protected abstract float bound(Integer currentVertex, Collection<Integer> unvisited);
 	
 	/**
 	 * Method that must be defined in TemplateTSP subclasses

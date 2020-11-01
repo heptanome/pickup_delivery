@@ -9,13 +9,14 @@ import model.Segment;
 import model.SetOfRequests;
 
 import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
-import java.lang.Math;
 
 public class GraphicalView extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<Intersection> intersections;
 	private List<Segment> segments;
 	private float minLat;
@@ -28,7 +29,7 @@ public class GraphicalView extends JPanel {
 
 	public GraphicalView(CityMap loadedMap) {
 		setLayout(null);
-		setBounds(0, 0, 800, 800);
+		setBounds(0, 0, 820, 840); //Larger than 800x800 to have margins
 		intersections = loadedMap.getInstersections();
 		segments = loadedMap.getSegments();
 
@@ -48,18 +49,38 @@ public class GraphicalView extends JPanel {
 	public void paint(Graphics g) {
 		// Background
 		g.setColor(Color.gray);
-		g.fillRect(0, 0, 800, 800);
+		g.fillRect(0, 0, 820, 820);
 
 		// Draw segments
+		Graphics2D g2d = (Graphics2D)g;
+		Stroke normalRoad = new BasicStroke(1f);
+		Stroke importantRoad = new BasicStroke(5f);
+		g2d.setStroke(normalRoad);
 		for (GraphicalSegment gs : graphicalSegments) {
 			if (gs != null) {
-				g.setColor(gs.getColor());
-				g.drawLine(gs.getXOriginPixel(), gs.getYOriginPixel(), gs.getXDestPixel(), gs.geYDestPixel());
+				if(gs.getOnPath() == 1) {
+					g2d.setStroke(importantRoad);
+				}
+				g2d.setColor(gs.getColor());
+				g2d.drawLine(gs.getXOriginPixel(), gs.getYOriginPixel(), gs.getXDestPixel(), gs.geYDestPixel());
+				if(gs.getOnPath() == 1) {
+					g2d.setStroke(normalRoad);
+				}
 			}
 		}
 
 		// Draw intersections
+		List<GraphicalPoint> coloredIntersections = new LinkedList<GraphicalPoint>(); //To store the colored intersections and draw them at the end
 		for (GraphicalPoint gp : graphicalPoints) {
+			if(gp.getColor()==Color.white){
+				g.setColor(Color.white);
+				g.fillOval(gp.getXPixel(), gp.getYPixel(), gp.getSize(), gp.getSize());
+			} else {
+				coloredIntersections.add(gp);
+			}
+		}
+			
+		for (GraphicalPoint gp : coloredIntersections) {
 			g.setColor(gp.getColor());
 			g.fillOval(gp.getXPixel(), gp.getYPixel(), gp.getSize(), gp.getSize());
 		}
@@ -88,14 +109,13 @@ public class GraphicalView extends JPanel {
 		int i = 0;
 		// reset all segments to white
 		while (i < segSize) {
-			graphicalSegments.get(i).setColor(Color.white);
+			graphicalSegments.get(i).setOnPath(0);
 			i++;
 		}
 		
 		// change color of corresponding segments
 		segments.forEach(s -> {
 			int j = 0;
-			GraphicalSegment gs = createSegment(s.getNumberOrigin(), s.getNumberDestination());
 			while(j < segSize) {
 				GraphicalSegment seg = graphicalSegments.get(j);
 				if(s.getNumberOrigin().equals(seg.getOrigin()) &&

@@ -19,5 +19,11 @@ public interface Graph {
 	 * @return true if <code>(i,j)</code> is an arc of <code>this</code>
 	 */
 	public abstract boolean isArc(int i, int j);
+	
+	public abstract float minArcCost();
+	
+	public abstract boolean isDeliveryAddress(int i);
+	
+	public abstract int getPickUpFromDelivery(int i);
 
 }

@@ -7,7 +7,7 @@ import model.CityMap;
 import model.Segment;
 import model.SetOfRequests;
 
-import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Color;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -15,16 +15,19 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 public class HomeWindow extends JFrame implements PropertyChangeListener {
-	protected final static int WIDTH = 1400; // Largeur de la fenêtre
-	protected final static int HEIGHT = 800; // Hauteur de la fenêtre
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3L;
+	protected final static int WIDTH = 1420; // Largeur de la fenêtre
+	protected final static int HEIGHT = 850; // Hauteur de la fenêtre
 	protected CityMap loadedMap;
 
-	private JButton btnLoadRequest = new JButton("Load a set of requests");
 	private JButton btnLoadMap = new JButton("Load a map");
+	private JButton btnLoadRequest = new JButton("Load a set of requests");
 	private JButton btnAddRequest = new JButton("Add a request");
 	private JButton btnDeleteRequest = new JButton("Delete a request");
 	private JButton btnComputeTour = new JButton("Compute a Tour");
@@ -38,80 +41,101 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public HomeWindow(String nom) {
 		super(nom);
 		support = new PropertyChangeSupport(this);
-
-		setSize(WIDTH, HEIGHT);
-		setLocation(0, 0);
+		
+		//Layout
 		setLayout(null);
-		setResizable(true);
-		setVisible(true);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		JPanel buttonsContainer = new JPanel();
-		buttonsContainer.setLayout(null);
-		buttonsContainer.setBounds(1201, 0, 200, HEIGHT);
-		buttonsContainer.setBackground(Color.red);
-
-		// Buttons
-		btnLoadRequest.setForeground(Color.red);
-		btnLoadRequest.setBackground(Color.BLUE);
-		btnLoadRequest.setBounds(25, 50, 150, 40);
-		btnLoadRequest.addActionListener(new LoadRequestListener());
-		buttonsContainer.add(btnLoadRequest, BorderLayout.SOUTH);
-
-		btnLoadMap.setForeground(Color.red);
-		btnLoadMap.setBackground(Color.BLUE);
-		btnLoadMap.setBounds(25, 80, 150, 40);
-		btnLoadMap.addActionListener(new LoadMapListener());
-		buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
-
-		btnAddRequest.setForeground(Color.red);
-		btnAddRequest.setBackground(Color.BLUE);
-		btnAddRequest.setBounds(25, 110, 150, 40);
-		btnAddRequest.addActionListener(new AddRequestListener());
-		buttonsContainer.add(btnAddRequest, BorderLayout.SOUTH);
-
-		btnDeleteRequest.setForeground(Color.red);
-		btnDeleteRequest.setBackground(Color.BLUE);
-		btnDeleteRequest.setBounds(25, 140, 150, 40);
-		btnDeleteRequest.addActionListener(new DeleteRequestListener());
-		buttonsContainer.add(btnDeleteRequest, BorderLayout.SOUTH);
-
-		btnComputeTour.setForeground(Color.red);
-		btnComputeTour.setBackground(Color.BLUE);
-		btnComputeTour.setBounds(25, 170, 150, 40);
-		btnComputeTour.addActionListener(new ComputeTourListener());
-		buttonsContainer.add(btnComputeTour, BorderLayout.SOUTH);
-		// Creation of main container
+		// Graphical container
 		graphicalContainer = new JPanel();
 		graphicalContainer.setLayout(null);
-		graphicalContainer.setBounds(0, 0, HEIGHT, HEIGHT);
+		graphicalContainer.setBounds(0, 0, 820, HEIGHT-30);
 
+		//Textual container
 		textualContainer = new JPanel();
 		textualContainer.setLayout(null);
-		textualContainer.setBounds(801, 0, 400, HEIGHT);
+		textualContainer.setBounds(820, 0, 400, HEIGHT-30);
 		textualContainer.setBackground(Color.green);
-		
-		//JLa
 
-		// Ajout containers
+		//Buttons container
+		JPanel buttonsContainer = new JPanel();
+		buttonsContainer.setBounds(1220, 0, 200, HEIGHT-30);
+		buttonsContainer.setBackground(Color.red);
+		//buttonsContainer.setLayout(new FlowLayout(5));
+
+		BoxLayout boxLayout1 = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);
+		buttonsContainer.setLayout(boxLayout1);
+		buttonsContainer.add(Box.createVerticalStrut(30));
+
+		// Buttons
+		btnLoadMap.addActionListener(new LoadMapListener());
+		btnLoadMap.setUI(new StyledButtonUI());
+		btnLoadMap.setEnabled(true);
+		//buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
+		btnLoadMap.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnLoadMap.setAlignmentY(5);
+		buttonsContainer.add(btnLoadMap);
+		buttonsContainer.add(Box.createVerticalStrut(10));
+		
+		btnLoadRequest.addActionListener(new LoadRequestListener());
+		btnLoadRequest.setUI(new StyledButtonUI());
+		btnLoadRequest.setEnabled(false);
+		//buttonsContainer.add(btnLoadRequest, BorderLayout.SOUTH);
+		btnLoadRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnLoadRequest);
+		buttonsContainer.add(Box.createVerticalStrut(10));
+
+		btnAddRequest.addActionListener(new AddRequestListener());
+		btnAddRequest.setUI(new StyledButtonUI());
+		btnAddRequest.setEnabled(false);
+		//buttonsContainer.add(btnAddRequest, BorderLayout.SOUTH);
+		btnAddRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnAddRequest);
+		buttonsContainer.add(Box.createVerticalStrut(10));
+
+		btnDeleteRequest.addActionListener(new DeleteRequestListener());
+		btnDeleteRequest.setUI(new StyledButtonUI());
+		btnDeleteRequest.setEnabled(false);
+		//buttonsContainer.add(btnDeleteRequest, BorderLayout.SOUTH);
+		btnDeleteRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnDeleteRequest);
+		buttonsContainer.add(Box.createVerticalStrut(10));
+
+		btnComputeTour.addActionListener(new ComputeTourListener());
+		btnComputeTour.setUI(new StyledButtonUI());
+		btnComputeTour.setEnabled(false);
+		//buttonsContainer.add(btnComputeTour, BorderLayout.SOUTH);
+		btnComputeTour.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnComputeTour);
+		
+
+		// Add containers
 		add(graphicalContainer);
 		add(textualContainer);
 		add(buttonsContainer);
+
+		setSize(WIDTH, HEIGHT);
+		setLocation(0, 0);
+		setResizable(true);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	public void setMap(CityMap map) {
 		this.loadedMap = map;
 
 		// Graphical view
-		// JPanel graphicalView = new JPanel();
-		// graphicalView.setBounds(0,0,HEIGHT,HEIGHT);
-		// graphicalView.setBackground(Color.gray);
 		graphicalContainer.removeAll();
 		graphicalContainer.repaint();
 		gv = new GraphicalView(loadedMap);
 		graphicalContainer.add(gv);
 
 		// TextualView
+		
+		// Buttons enabling
+		btnLoadRequest.setEnabled(true);
+		btnAddRequest.setEnabled(false);
+		btnDeleteRequest.setEnabled(false);
+		btnComputeTour.setEnabled(false);
 		
 	}
 
@@ -127,9 +151,14 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		textualContainer.add(tv);
 		
 		tv.displayRequests(sor);
+		
+		// Buttons enabling
+		btnAddRequest.setEnabled(true);
+		btnDeleteRequest.setEnabled(true);
+		btnComputeTour.setEnabled(true);
 	}
 	
-	public void tourComputed(LinkedList<Segment> segments) {
+	public void tourComputed(List<Segment> segments) {
 		gv.displayTour(segments);
 		segments.forEach(s -> System.out.println(s));
 	}
@@ -254,6 +283,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		support.removePropertyChangeListener(pcl);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		String propName = evt.getPropertyName();
@@ -266,7 +296,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			this.setRequests((SetOfRequests) evt.getNewValue());
 			break;
 		case "tourComputed":
-			this.tourComputed((LinkedList<Segment>)evt.getNewValue());
+			this.tourComputed((List<Segment>)evt.getNewValue());
 			break;
 		default:
 			break;
