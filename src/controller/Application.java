@@ -18,7 +18,7 @@ public class Application implements PropertyChangeListener {
 		System.out.println("Bienvenue sur Pickup and Delivery");
 
 		Tour tour = new Tour();
-		HomeWindow homeWindow = new HomeWindow("home window");
+		HomeWindow homeWindow = new HomeWindow("Home Window");
 		Application app = new Application(homeWindow, tour, new HomeState());
 	}
 
