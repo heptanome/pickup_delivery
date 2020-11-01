@@ -36,6 +36,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * Used to store the currently loaded map, or null
 	 */
 	protected CityMap loadedMap;
+	protected SetOfRequests loadedSOR;
 	
 	private JButton btnLoadMap = new JButton("Load a map");
 	private JButton btnLoadRequest = new JButton("Load a set of requests");
@@ -161,17 +162,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * @param sor Set of requests parsed from the Model
 	 */
 	public void setRequests(SetOfRequests sor) {
-		// graphical view of a set of requests
-		gv.displayRequests(sor);
-		// textusal view TODO Paul
+		this.loadedSOR = sor;
 		
+		// graphical view of a set of requests
+		gv.displayRequests(this.loadedSOR);
+		
+		// textual view TODO Paul
 		textualContainer.removeAll();
 		textualContainer.repaint();
-		tv = new TextualView(loadedMap);
+		tv = new TextualView(this.loadedMap);
 		tv.setBounds(0, 0, 400, 800);
 		textualContainer.add(tv);
-		
-		tv.displayRequests(sor);
+		tv.displayRequests(this.loadedSOR);
 		
 		// Buttons enabling
 		btnAddRequest.setEnabled(true);
@@ -186,7 +188,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 */
 	public void tourComputed(List<Segment> segments) {
 		gv.displayTour(segments);
-		segments.forEach(s -> System.out.println(s));
+		tv.displayTour(this.loadedSOR, segments);
 		//TODO textual container & road map (file)
 	}
 
