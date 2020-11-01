@@ -33,6 +33,14 @@ public class GraphicalPoint {
 		
 	}
 
+	public boolean isClicked(int x, int y){
+		if(Math.sqrt( (x-(xPixel+size/2))*(x-(xPixel+size/2)) + (y-(yPixel+size/2))*(y-(yPixel+size/2)) )<= size/2){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public int getXPixel() {
 		return xPixel;
 	}

@@ -65,6 +65,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		graphicalContainer = new JPanel();
 		graphicalContainer.setLayout(null);
 		graphicalContainer.setBounds(0, 0, 820, HEIGHT-30);
+		graphicalContainer.addMouseListener(new MouseOnMapListener());
 
 		//Textual container
 		textualContainer = new JPanel();
@@ -268,6 +269,33 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 
 	}
+
+	public class MouseOnMapListener implements MouseListener {
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			//Only works if there is a map loaded
+			if(loadedMap!=null){
+				String selectedPointId = gv.mapClickedResponse(e.getX(), e.getY());
+				System.out.println(selectedPointId);
+				//TODO : implement a metohd in textual view that highlights the request that has this id 
+			}
+		}
+	}
+
+
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
 		support.addPropertyChangeListener(pcl);
