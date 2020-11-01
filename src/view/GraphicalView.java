@@ -9,13 +9,14 @@ import model.Segment;
 import model.SetOfRequests;
 
 import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
-import java.lang.Math;
 
 public class GraphicalView extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<Intersection> intersections;
 	private List<Segment> segments;
 	private float minLat;

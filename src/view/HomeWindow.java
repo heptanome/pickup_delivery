@@ -7,24 +7,21 @@ import model.CityMap;
 import model.Segment;
 import model.SetOfRequests;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
 import java.awt.Component;
-import java.awt.GridBagConstraints;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 public class HomeWindow extends JFrame implements PropertyChangeListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3L;
 	protected final static int WIDTH = 1420; // Largeur de la fenêtre
 	protected final static int HEIGHT = 850; // Hauteur de la fenêtre
 	protected CityMap loadedMap;
@@ -161,7 +158,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnComputeTour.setEnabled(true);
 	}
 	
-	public void tourComputed(LinkedList<Segment> segments) {
+	public void tourComputed(List<Segment> segments) {
 		gv.displayTour(segments);
 		segments.forEach(s -> System.out.println(s));
 	}
@@ -286,6 +283,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		support.removePropertyChangeListener(pcl);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		String propName = evt.getPropertyName();
@@ -298,7 +296,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			this.setRequests((SetOfRequests) evt.getNewValue());
 			break;
 		case "tourComputed":
-			this.tourComputed((LinkedList<Segment>)evt.getNewValue());
+			this.tourComputed((List<Segment>)evt.getNewValue());
 			break;
 		default:
 			break;

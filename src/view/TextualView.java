@@ -3,20 +3,18 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.util.List;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
-import model.Intersection;
 import model.CityMap;
 import model.Request;
-import model.Segment;
 import model.SetOfRequests;
 
 public class TextualView extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2L;
 	JLabel label2;
 	Font fontRequest;
 	Font fontTitle;
@@ -27,7 +25,6 @@ public class TextualView extends JPanel {
 
 		fontTitle = new Font("Arial", Font.BOLD, 20);
 		fontRequest = new Font("Arial", Font.BOLD, 7);
-		Border  blackline = BorderFactory.createLineBorder(Color.black);
 
 		JLabel label1 = new JLabel("Requests : ", JLabel.CENTER);
 		
