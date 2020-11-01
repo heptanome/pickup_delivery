@@ -250,15 +250,4 @@ public class CompleteGraph implements Graph {
 	public int[] getPrecedenceOfANode(int idNode){
 		return precedence.get(idNode);
 	}
-	
-	private void printPrecedence() {
-		for (Map.Entry<Integer, int[]> me : precedence.entrySet()) { 
-            System.out.print(me.getKey() + ":"); 
-            int[] tab = me.getValue();
-            for(int i=0; i< tab.length; i++) {
-            	System.out.print(tab[i]+" | ");
-            }
-            System.out.println();
-        } 
-	}
 }
