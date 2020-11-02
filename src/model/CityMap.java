@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,6 +67,16 @@ public class CityMap {
 				return s;
 		}
 		return null;
+	}
+	
+	public List<String> getNeighbours(String point){
+		List<String> neighbours = new LinkedList<String>();
+		//parcourir tous les segments
+		for (Segment s : segments) {
+			if(point.equals(s.getNumberOrigin()))
+				neighbours.add(s.getNumberDestination());
+		}
+		return neighbours;
 	}
 	
 	private void convertNumberToId() {
