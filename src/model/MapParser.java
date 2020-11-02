@@ -64,7 +64,7 @@ public class MapParser extends Parser {
 	
 	private Intersection findIntersection(String id) {
 		for(Intersection i : intersectionsList) {
-			if(i.getNumber().equals(i))
+			if(i.getNumber().equals(id))
 				return i;
 		}
 		return null;
