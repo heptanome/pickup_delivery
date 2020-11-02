@@ -8,6 +8,7 @@ import model.Segment;
 import model.SetOfRequests;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -16,6 +17,8 @@ import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The main class used in the View (MVC model), will showcase a window
@@ -37,14 +40,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 */
 	protected CityMap loadedMap;
 	protected SetOfRequests loadedSOR;
+	protected String helpText;
 	
 	private JButton btnLoadMap = new JButton("Load a map");
 	private JButton btnLoadRequest = new JButton("Load a set of requests");
 	private JButton btnAddRequest = new JButton("Add a request");
 	private JButton btnDeleteRequest = new JButton("Delete a request");
 	private JButton btnComputeTour = new JButton("Compute a Tour");
+	private JButton btnHelp = new JButton("🆘");
+	private JLabel lblHelp = new JLabel();
 	private JPanel textualContainer;
 	private JPanel graphicalContainer;
+	private JPanel buttonsContainer;
 	private PropertyChangeSupport support;
 
 	public GraphicalView gv;
@@ -56,7 +63,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 */
 	public HomeWindow(String name) {
 		super(name);
-		support = new PropertyChangeSupport(this);
+		this.support = new PropertyChangeSupport(this);
+		this.helpText = "Please load a map";
 		
 		//Layout
 		setLayout(null);
@@ -74,7 +82,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		textualContainer.setBackground(new Color(188, 188, 188));
 
 		//Buttons container
-		JPanel buttonsContainer = new JPanel();
+		buttonsContainer = new JPanel();
 		buttonsContainer.setBounds(1220, 0, 200, HEIGHT-30);
 		buttonsContainer.setBackground(new Color(5, 132, 243));
 		//buttonsContainer.setLayout(new FlowLayout(5));
@@ -124,7 +132,13 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnComputeTour.setAlignmentX(Component.CENTER_ALIGNMENT);
 		buttonsContainer.add(btnComputeTour);
 		
-
+		btnHelp.addActionListener(new HelpListener());
+		btnHelp.setUI(new StyledButtonUI());
+		btnHelp.setEnabled(true);
+		btnHelp.setFont(new Font("Arial", Font.BOLD, 30));
+		btnComputeTour.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(btnHelp);
+		
 		// Add containers
 		add(graphicalContainer);
 		add(textualContainer);
@@ -143,6 +157,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 */
 	public void setMap(CityMap map) {
 		this.loadedMap = map;
+		this.helpText = "The map has been loaded. Please load a requests file now.";
 
 		// Graphical view
 		graphicalContainer.removeAll();
@@ -164,11 +179,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 */
 	public void setRequests(SetOfRequests sor) {
 		this.loadedSOR = sor;
+		this.helpText = "The map and the set of requests have been loaded. Now is the time to compute!";
 		
 		// graphical view of a set of requests
 		gv.displayRequests(this.loadedSOR);
 		
-		// textual view TODO Paul
+		// textual view
 		textualContainer.removeAll();
 		textualContainer.repaint();
 		tv = new TextualView(this.loadedMap);
@@ -188,6 +204,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * to follow
 	 */
 	public void tourComputed(List<Segment> segments) {
+		this.helpText = "Your tour has been computed. Feel free to add or delete a point.";
 		gv.displayTour(segments);
 		tv.displayTour(this.loadedSOR, segments);
 		//TODO textual container & road map (file)
@@ -266,6 +283,28 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		public void actionPerformed(ActionEvent arg0) {
 			// Application.computeTour();
 			support.firePropertyChange("computeTour", null, null);
+		}
+
+	}
+	
+	public class HelpListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			lblHelp.setText(helpText);
+			buttonsContainer.add(lblHelp);
+			buttonsContainer.updateUI();
+			
+			TimerTask task = new TimerTask() {
+		        public void run() {
+		        	System.out.println("retour de clique");
+					buttonsContainer.remove(lblHelp);
+					buttonsContainer.updateUI();
+		        }
+		    };
+		    Timer timer = new Timer("Timer");
+		    long delay = 5000L;
+		    timer.schedule(task, delay);
 		}
 
 	}
