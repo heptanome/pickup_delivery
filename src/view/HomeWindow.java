@@ -59,7 +59,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public GraphicalView gv;
 	public TextualView tv;
 
-	//Variables used to add a new request
+	//Variables used to add a new request?
 	private Request newRequest = null;
 	private String precedingPickup = null;
 	private String preceedingDelivery = null;
@@ -91,7 +91,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		buttonsContainer = new JPanel();
 		buttonsContainer.setBounds(1220, 0, 200, HEIGHT-30);
 		buttonsContainer.setBackground(new Color(5, 132, 243));
-		//buttonsContainer.setLayout(new FlowLayout(5));
 
 		BoxLayout boxLayout1 = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);
 		buttonsContainer.setLayout(boxLayout1);
@@ -101,7 +100,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnLoadMap.addActionListener(new LoadMapListener());
 		btnLoadMap.setUI(new StyledButtonUI());
 		btnLoadMap.setEnabled(true);
-		//buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
 		btnLoadMap.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnLoadMap.setAlignmentY(5);
 		buttonsContainer.add(btnLoadMap);
@@ -110,7 +108,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnLoadRequest.addActionListener(new LoadRequestListener());
 		btnLoadRequest.setUI(new StyledButtonUI());
 		btnLoadRequest.setEnabled(false);
-		//buttonsContainer.add(btnLoadRequest, BorderLayout.SOUTH);
 		btnLoadRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
 		buttonsContainer.add(btnLoadRequest);
 		buttonsContainer.add(Box.createVerticalStrut(10));
@@ -118,7 +115,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnAddRequest.addActionListener(new AddRequestListener());
 		btnAddRequest.setUI(new StyledButtonUI());
 		btnAddRequest.setEnabled(false);
-		//buttonsContainer.add(btnAddRequest, BorderLayout.SOUTH);
 		btnAddRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
 		buttonsContainer.add(btnAddRequest);
 		buttonsContainer.add(Box.createVerticalStrut(10));
@@ -126,7 +122,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnDeleteRequest.addActionListener(new DeleteRequestListener());
 		btnDeleteRequest.setUI(new StyledButtonUI());
 		btnDeleteRequest.setEnabled(false);
-		//buttonsContainer.add(btnDeleteRequest, BorderLayout.SOUTH);
 		btnDeleteRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
 		buttonsContainer.add(btnDeleteRequest);
 		buttonsContainer.add(Box.createVerticalStrut(10));
@@ -134,9 +129,9 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnComputeTour.addActionListener(new ComputeTourListener());
 		btnComputeTour.setUI(new StyledButtonUI());
 		btnComputeTour.setEnabled(false);
-		//buttonsContainer.add(btnComputeTour, BorderLayout.SOUTH);
 		btnComputeTour.setAlignmentX(Component.CENTER_ALIGNMENT);
 		buttonsContainer.add(btnComputeTour);
+		buttonsContainer.add(Box.createVerticalStrut(10));
 		
 		btnHelp.addActionListener(new HelpListener());
 		btnHelp.setUI(new StyledButtonUI());
@@ -230,7 +225,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		this.helpText = "Your tour has been computed. Feel free to add or delete a point.";
 		gv.displayTour(segments);
 		tv.displayTour(this.loadedSOR, segments);
-		//TODO textual container & road map (file)
+		//road map (file)
 	}
 
 	
@@ -299,53 +294,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			/*
-			System.out.println("Select a new pickup point on the map (a white point)");
-			gv.unselect();
-
-			String pickupId = null;
-			SingleMouseClickOnMapListener m = new SingleMouseClickOnMapListener();
-			
-			String pickupId = null;
-			MouseOnMapListener m = new MouseOnMapListener();
-			gv.addMouseListener(m);
-			while(pickupId==null){
-				pickupId = gv.getSelectedPointId();
-
-			}
-			gv.removeMouseListener(m);
-
-			System.out.println("Select a preceeding point on the map (a colored point)");
-			gv.unselect();
-			String preceedingPickupId = null;
-			while(preceedingPickupId==null){
-				preceedingPickupId = gv.getSelectedPointId();
-			}
-
-			String value = JOptionPane.showInputDialog("Enter the pickup duration (in minutes)","");
-			int pickupDuration = Integer.parseInt(value);
-
-			System.out.println("Select a new deliverypoint on the map (a white point)");
-			gv.unselect();
-			String deliveryId = null;
-			while(deliveryId==null){
-				deliveryId = gv.getSelectedPointId();
-			}
-
-			System.out.println("Select a preceeding point on the map (a colored point)");
-			gv.unselect();
-			String preceedingDeliveryId = null;
-			while(preceedingDeliveryId==null){
-				preceedingDeliveryId = gv.getSelectedPointId();
-			}
-
-			value = JOptionPane.showInputDialog("Enter the delivery duration (in minutes)","");
-			int deliveryDuration = Integer.parseInt(value);
-			System.out.println(pickupId + "   " + preceedingPickupId  +"   "  + pickupDuration);
-			System.out.println(deliveryId + "   " + preceedingDeliveryId  +"   "  + deliveryDuration);
-			*/
-
-			// Application.addRequest();
 			support.firePropertyChange("addRequest", null, null);
 		}
 
@@ -355,7 +303,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// Application.deleteRequest();
 			support.firePropertyChange("deleteRequest", null, null);
 		}
 
@@ -365,7 +312,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// Application.computeTour();
 			support.firePropertyChange("computeTour", null, null);
 		}
 
@@ -412,7 +358,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			//Only works if there is a map loaded
 			if(loadedMap!=null){
 				Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
-				System.out.println(selectedPoint);
+				System.out.println(selectedPoint.getNumber());
 				tv.selectCell(selectedPoint);
 				//TODO : implement a metohd in textual view that highlights the request that has this id 
 			}
@@ -423,6 +369,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		graphicalContainer.addMouseListener(new MouseOnMapListener());
 	}
 
+	/*
+	 * Mouse listener that fires an property change after one click (for the addRequest + maybe delete?)
+	 *
+	 */
 	public class SingleMouseClickOnMapListener implements MouseListener {
 
 		@Override
@@ -439,14 +389,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			int i = 0;
 			//Only works if there is a map loaded
-			if(loadedMap!=null){
-				Intersection selectedPointId = gv.mapClickedResponse(e.getX(), e.getY());
-				support.firePropertyChange("pointClicked", null, selectedPointId);
-				
-				
-			}
+			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
+			System.out.println(selectedPoint.getNumber());
+			support.firePropertyChange("pointClicked", null, selectedPoint);
 		}
 
 	}

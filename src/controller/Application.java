@@ -6,6 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import org.xml.sax.SAXException;
 
+import model.Intersection;
 import model.Tour;
 import view.HomeWindow;
 
@@ -64,42 +65,17 @@ public class Application implements PropertyChangeListener {
 	}
 
 	public void addRequest() throws Exception {
-		System.out.println("ajout d'une requête : ");
+		System.out.println("Ajout d'une requête : ");
 		currentState = apa;
+		currentState.describeState();
 		homeWindow.addSingleMouseClickOnMapListener();
-		/*
-		try {
-			currentState.pointClicked("apa", homeWindow);
-		} catch (IllegalArgumentException e) {
-			System.out.println("error");
-		}
 		
-		currentState = appp;
-		try {
-			currentState.pointClicked("appp", homeWindow);
-		} catch (IllegalArgumentException e) {
-			System.out.println("error");
-		}
-		
-		currentState = ada;
-		try {
-		currentState.pointClicked("apd", homeWindow);
-		} catch (IllegalArgumentException e) {
-			System.out.println("error");
-		}
-		currentState = appd;
-		try {
-			currentState.pointClicked("appd", homeWindow);
-		} catch (IllegalArgumentException e) {
-			System.out.println("error");
-		}
-		currentState = workingState;*/
-
 	}
 
-	public void pointClicked(String pointId) throws Exception {
-		currentState.pointClicked(pointId, homeWindow);
+	public void pointClicked(Object selectedPoint) throws Exception {
+		currentState.pointClicked((Intersection)selectedPoint, homeWindow);
 		currentState = currentState.nextState();
+		currentState.describeState();
 	}
 
 	public void deleteRequest() {
@@ -117,13 +93,13 @@ public class Application implements PropertyChangeListener {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		String propName = evt.getPropertyName();
-
+		
+		
 		switch (propName) {
 		case "loadMap":
 			try {
 				this.loadMap((String) evt.getNewValue());
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -134,26 +110,30 @@ public class Application implements PropertyChangeListener {
 				e.printStackTrace();
 			}
 			break;
-		case "computeTour":
-			try {
-				this.computeTour();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
 		case "addRequest":
 			try {
 				this.addRequest();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
+			break;
 		case "pointClicked":
 			try {
-				this.pointClicked((String) evt.getNewValue());
+				this.pointClicked(evt.getNewValue());
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
+			break;
+		case "computeTour":
+			try {
+				this.computeTour();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			break;
 		default:
 			break;
 		}
+		
 	}
 }

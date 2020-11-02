@@ -1,6 +1,7 @@
 package controller;
 
 import model.Tour;
+import view.HomeWindow;
 
 public class WorkingState implements State {
 	
@@ -15,26 +16,17 @@ public class WorkingState implements State {
 		// specific behavior of the working state when loading requests
 		tour.setRequests(fp);
 	}
-	
-	@Override
-	public void addRequest() {
-		// specific behavior of the working state when adding a request
-		
-		// TODO
-		
-	}
 
-	@Override
-	public void deleteRequests() {
-		// specific behavior of the working state when deleting a request
-		
-		// TODO
-	}
-	
 	@Override
 	public void computeTour(Tour tour) throws Exception {
 		// specific behavior of the working state when computing a tour		
 		tour.computeTour(); // <-- renvoie une liste de segment
+	}
+
+	@Override
+	public void setMouseListener(HomeWindow hw) throws Exception {
+		// specific behavior of the working state when computing a tour		
+		
 	}
 
 }

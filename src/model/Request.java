@@ -45,12 +45,12 @@ public class Request {
 	    return pickupDuration;
   }
 
-  public void setPickupAddress(String s){
-    pickupAddress = s;
+  public void setPickupAddress(Intersection s){
+    pickup = s;
   }
 
-  public void setDeliveryAddress(String s){
-    deliveryAddress = s;
+  public void setDeliveryAddress(Intersection s){
+    delivery = s;
   }
 
   public void setPickupDuration(int i){
