@@ -5,19 +5,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
 import controller.Application;
 import controller.HomeState;
 import controller.State;
 import model.Tour;
 import view.HomeWindow;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
 /**

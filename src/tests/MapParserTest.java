@@ -30,6 +30,17 @@ class MapParserTest {
 			e.printStackTrace();
 		}
 		
+		
+	}
+
+	@AfterEach
+	void tearDown() throws Exception {
+		mp = null;
+		assertNull(mp);
+	}
+	
+	@Test
+	void testMapParser() {
 		try {
 			mp = new MapParser(new String());
 			fail("Should throw exception IllegalArgumentException");
@@ -51,19 +62,13 @@ class MapParserTest {
 			assertTrue(e instanceof SAXParseException);
 		}
 	}
-
-	@AfterEach
-	void tearDown() throws Exception {
-		mp = null;
-		assertNull(mp);
-	}
-
+	
 	@Test
 	void testLoadMap() {
 		// the loaded map (smallMap) has exactly 308 intersections and 616 segments
 		map = mp.loadMap();
-		assertEquals(map.getSegments().size(), NB_SEGMENTS);
-		assertEquals(map.getInstersections().size(), NB_INTER);
+		assertEquals(NB_SEGMENTS, map.getSegments().size());
+		assertEquals(NB_INTER, map.getInstersections().size());
 	}
 
 }
