@@ -40,7 +40,7 @@ public class Tour {
 
 	public void setRequests(String reqPath) throws Exception {
 		SetOfRequests oldReq = this.setOfRequests;
-		RequestParser rp = new RequestParser(reqPath);
+		RequestParser rp = new RequestParser(reqPath, this.map);
 		this.setOfRequests = rp.loadRequests();
 		// signal the observers the set of requests has changed
 		support.firePropertyChange("updateRequests", oldReq, this.setOfRequests);
