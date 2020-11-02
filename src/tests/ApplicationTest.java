@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import controller.Application;
+import controller.HomeState;
+import controller.State;
 import model.Tour;
 import view.HomeWindow;
 import static org.mockito.Mockito.*;
@@ -26,6 +28,7 @@ class ApplicationTest{
 	private Application app;
 	private HomeWindow homeWindow;
 	private Tour tourMock;
+	private State stateMock;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -43,10 +46,13 @@ class ApplicationTest{
 		doThrow(new SAXException()).when(tourMock).setMap(CORRUPTED_MAP_FILE_PATH);
 		doThrow(new IllegalArgumentException()).when(tourMock).setRequests("");
 		doThrow(new IOException()).when(tourMock).setRequests(INCORRECT_PATH);
-		doThrow(new SAXException()).when(tourMock).setRequests(CORRUPTED_MAP_FILE_PATH);
+		doThrow(new SAXException()).when(tourMock).setRequests(CORRUPTED_REQUEST_FILE_PATH);
+		
+		//homeState is replaced by a mock
+		stateMock = mock(HomeState.class);
 
 		homeWindow = new HomeWindow("home window");
-		app = new Application(homeWindow, tourMock);
+		app = new Application(homeWindow, tourMock, stateMock);
 	}
 
 	@AfterEach
@@ -54,7 +60,7 @@ class ApplicationTest{
 	}
 
 	@Test
-	void testLoadMap() {
+	void testLoadMap() throws Exception {
 		app.loadMap(MAP_FILE_PATH);
 		app.loadMap("");
 		app.loadMap(INCORRECT_PATH);
@@ -66,11 +72,12 @@ class ApplicationTest{
 		verify(tourMock).setMap(INCORRECT_PATH);
 		verify(tourMock).setMap(CORRUPTED_MAP_FILE_PATH);
 		} catch (Exception e) {}
+		verify(stateMock, times(4)).loadMap(anyString(), this.tourMock);
 		
 	}
 
 	@Test
-	void testLoadRequests() {
+	void testLoadRequests() throws Exception {
 		app.loadRequests(REQUEST_FILE_PATH);
 		app.loadRequests("");
 		app.loadRequests(INCORRECT_PATH);
@@ -82,6 +89,7 @@ class ApplicationTest{
 		verify(tourMock).setRequests(INCORRECT_PATH);
 		verify(tourMock).setRequests(CORRUPTED_REQUEST_FILE_PATH);
 		} catch (Exception e) {}
+		verify(stateMock, times(4)).loadRequests(anyString(), this.tourMock);
 	}
 
 	@Test
@@ -95,9 +103,9 @@ class ApplicationTest{
 	}
 
 	@Test
-	void testComputeTour() {
+	void testComputeTour() throws Exception {
 		app.computeTour();
-		verify(tourMock).computeTour();
+		verify(stateMock).computeTour(this.tourMock);
 	}
 
 	@Test

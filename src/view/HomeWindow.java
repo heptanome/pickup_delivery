@@ -246,7 +246,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			Application.addRequest();
+			// Application.addRequest();
+			support.firePropertyChange("addRequest", null, null);
 		}
 
 	}
@@ -255,7 +256,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			Application.deleteRequest();
+			// Application.deleteRequest();
+			support.firePropertyChange("deleteRequest", null, null);
 		}
 
 	}
