@@ -24,9 +24,17 @@ public class Request {
   public Intersection getPickup(){
     return pickup;
   }
+  
+  public String getPickupAddress() {
+	  return pickup.getNumber();
+  }
 
   public Intersection getDelivery(){
     return delivery;
+  }
+  
+  public String getDeliveryAddress() {
+	  return delivery.getNumber();
   }
   
   public int getDeliveryDuration(){

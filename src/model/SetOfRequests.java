@@ -29,6 +29,10 @@ public class SetOfRequests {
 		return message;
 	}
 
+	public String getDepotAddress() {
+		return depot.getNumber();
+	}
+	
 	public Intersection getDepot() {
 		return depot;
 	}
