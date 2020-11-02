@@ -57,12 +57,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		textualContainer = new JPanel();
 		textualContainer.setLayout(null);
 		textualContainer.setBounds(820, 0, 400, HEIGHT-30);
-		textualContainer.setBackground(Color.green);
+		textualContainer.setBackground(new Color(188, 188, 188));
 
 		//Buttons container
 		JPanel buttonsContainer = new JPanel();
 		buttonsContainer.setBounds(1220, 0, 200, HEIGHT-30);
-		buttonsContainer.setBackground(Color.red);
+		buttonsContainer.setBackground(new Color(5, 132, 243));
 		//buttonsContainer.setLayout(new FlowLayout(5));
 
 		BoxLayout boxLayout1 = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);

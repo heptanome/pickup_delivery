@@ -23,7 +23,7 @@ public class TextualView extends JPanel {
 	
 	public TextualView(CityMap loadedMap) {
 		setLayout(null);
-		setBackground(Color.green);
+		setBackground(new Color(188, 188, 188));
 
 		fontTitle = new Font("Arial", Font.BOLD, 20);
 		fontRequest = new Font("Arial", Font.BOLD, 7);

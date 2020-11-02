@@ -18,8 +18,15 @@ public class CompleteGraph implements Graph {
 
 	
 	/**
-	 * 
-	 * 
+	 * Constructor
+	 * @param nbVertices : number of nodes in a map
+	 * @type  int
+	 * @param numberToIdMap 		: Map between the number of an intersection and its id
+	 * @type  Map<String, Integer>
+	 * @param segments 				: Loaded map's segments 
+	 * @type  List<Segment>
+	 * @param requestNodes 			: Numbers of the pickup and delivery intersections of every requests
+	 * @type  String[]
 	 */
 	public CompleteGraph(CityMap cityMap, SetOfRequests sor){
 		this.nbVertices = cityMap.getNbVertices();
@@ -74,10 +81,11 @@ public class CompleteGraph implements Graph {
 	/**
 	 * Convert the map into a table 2D of intersections containing distances
 	 * between the origin and the destination of the segment
-	 * @param numberToIdMap
-	 * @param segments
+	 * @param numberToIdMap 		: Map between the number of an intersection and its id
+	 * @type  Map<String, Integer>
+	 * @param segments 				: Loaded map's segments 
+	 * @type  List<Segment>
 	 */
-	
 	private void createMapGraph(Map<String, Integer> numberToIdMap, List<Segment> segments){
 		this.map = new float[this.nbVertices][this.nbVertices];
 		for (int i= 0; i< this.nbVertices; i++) {
@@ -110,6 +118,14 @@ public class CompleteGraph implements Graph {
 		}
 	}
 	
+	/**
+	 * Convert the request nodes's numbers into request nodes's ids
+	 * @param  requestNodes		   : Request nodes's numbers
+	 * @type   String[]
+	 * @param  numberToIdMap	   : Map between the number of an intersection and its id
+	 * @type   Map<String,Integer>
+	 * @return int[]			   : Request nodes's ids
+	 */
 	private void createCompleteShortestGraph(int[] requestsNodes, Map<String,Integer> numberToIdMap) {
 		Set<Map.Entry<String,Integer>> set = numberToIdMap.entrySet();
 		nameNodeCost = new HashMap<Integer,String>();
