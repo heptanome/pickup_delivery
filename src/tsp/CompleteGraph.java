@@ -33,12 +33,12 @@ public class CompleteGraph implements Graph {
 		this.sor = sor;
 		this.cityMap = cm;
 		this.createMapGraph(cityMap.getNumberIdMap(), cityMap.getSegments());
-		String[] requestNodes = sor.getRequestNodes();
+		Intersection[] requestNodes = sor.getRequestNodes();
 		this.initCostGraph(requestNodes.length);
 		int[] requestNodesInt = new int[requestNodes.length];
 		this.precedence = new HashMap<Integer,int[]>();;
 		for(int index = 0; index < requestNodesInt.length; index++) {
-			requestNodesInt[index] = cityMap.getNumberIdMap().get(requestNodes[index]);
+			requestNodesInt[index] = cityMap.getNumberIdMap().get(requestNodes[index].getNumber());
 		}
 		
 		this.createCompleteShortestGraph(requestNodesInt,cityMap.getNumberIdMap());
@@ -77,18 +77,18 @@ public class CompleteGraph implements Graph {
 	
 	@Override
 	public boolean isDeliveryAddress(int i) {
-		String deliveryAddressString = sor.getRequestNodes()[i];
-		return sor.isDeliveryPoint(deliveryAddressString);
+		Intersection deliveryAddress = sor.getRequestNodes()[i];
+		return sor.isDeliveryPoint(deliveryAddress);
 	}
 	
 	@Override
 	public int getPickUpFromDelivery(int i) {
-		String deliveryAddressString = sor.getRequestNodes()[i];
-		String pickUpAdressString = sor.getPickUpFromDelivery(deliveryAddressString);
+		Intersection deliveryAddress = sor.getRequestNodes()[i];
+		Intersection pickUpAddress = sor.getPickUpFromDelivery(deliveryAddress);
 		int pickUpAddressInt = -1;
 		int index = 0;
-		for(String s : sor.getRequestNodes()) {
-			if(pickUpAdressString.equals(s)) {
+		for(Intersection inter : sor.getRequestNodes()) {
+			if(pickUpAddress == inter) {
 				pickUpAddressInt = index;
 				break;
 			}
