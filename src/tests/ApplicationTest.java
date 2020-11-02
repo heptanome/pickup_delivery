@@ -26,7 +26,7 @@ class ApplicationTest {
 	public static final String CORRUPTED_REQUEST_FILE_PATH = "./XML_data/requestsSmallCorrupted.xml";
 	public static final String INCORRECT_PATH = "./XML_data/xxxx";
 	private Application app;
-	private HomeWindow homeWindow;
+	private HomeWindow homeWindowMock;
 	private Tour tourMock;
 	private State stateMock;
 	
@@ -48,13 +48,11 @@ class ApplicationTest {
 		doThrow(new IOException()).when(tourMock).setRequests(INCORRECT_PATH);
 		doThrow(new SAXException()).when(tourMock).setRequests(CORRUPTED_REQUEST_FILE_PATH);
 		
-		//homeState is replaced by a mock
+		//homeState and homeWindow are replaced by a mock
 		stateMock = mock(HomeState.class);
-
-		homeWindow = new HomeWindow("home window");
-		app = new Application(homeWindow, tourMock, stateMock);
+		homeWindowMock = mock(HomeWindow.class);
 		
-		
+		app = new Application(homeWindowMock, tourMock, stateMock);
 	}
 
 	@AfterEach
