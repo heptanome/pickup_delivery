@@ -5,19 +5,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
 import controller.Application;
 import controller.HomeState;
 import controller.State;
 import model.Tour;
 import view.HomeWindow;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
 /**
@@ -31,7 +26,7 @@ class ApplicationTest {
 	public static final String CORRUPTED_REQUEST_FILE_PATH = "./XML_data/requestsSmallCorrupted.xml";
 	public static final String INCORRECT_PATH = "./XML_data/xxxx";
 	private Application app;
-	private HomeWindow homeWindow;
+	private HomeWindow homeWindowMock;
 	private Tour tourMock;
 	private State stateMock;
 	
@@ -53,13 +48,11 @@ class ApplicationTest {
 		doThrow(new IOException()).when(tourMock).setRequests(INCORRECT_PATH);
 		doThrow(new SAXException()).when(tourMock).setRequests(CORRUPTED_REQUEST_FILE_PATH);
 		
-		//homeState is replaced by a mock
+		//homeState and homeWindow are replaced by a mock
 		stateMock = mock(HomeState.class);
-
-		homeWindow = new HomeWindow("home window");
-		app = new Application(homeWindow, tourMock, stateMock);
+		homeWindowMock = mock(HomeWindow.class);
 		
-		
+		app = new Application(homeWindowMock, tourMock, stateMock);
 	}
 
 	@AfterEach
