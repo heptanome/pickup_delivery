@@ -22,10 +22,19 @@ public class Segment extends Object {
 				+ ").";
 	}
 
+	
+	public Intersection getOrigin() {
+		return origin;
+	}
+	
 	public String getNumberOrigin() {
 		return origin.getNumber();
 	}
 
+	public Intersection getDestination() {
+		return destination;
+	}
+	
 	public String getNumberDestination() {
 		return destination.getNumber();
 	}

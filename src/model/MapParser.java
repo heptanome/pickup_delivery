@@ -42,7 +42,7 @@ public class MapParser extends Parser {
 			Intersection origin = findIntersection(idOrigin);
 			Intersection destination = findIntersection(idDestination);
 			Segment segment = createSegment(origin, destination, name, length);
-			origin.addSegment(segment);
+			origin.addNeighbour(destination);
 			segmentsList.add(segment);
 		}
 

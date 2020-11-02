@@ -146,7 +146,7 @@ public class GraphicalView extends JPanel {
 		i = 0;
 		boolean found = false;
 		while (i < graphicalPoints.size() && !found) {
-			if (sr.getDepot().equals(graphicalPoints.get(i).getIntersectionId())) {
+			if (sr.getDepotAddress().equals(graphicalPoints.get(i).getIntersectionId())) {
 				graphicalPoints.get(i).setColor(Color.yellow);
 				graphicalPoints.get(i).setSize(12);
 				found = true;
