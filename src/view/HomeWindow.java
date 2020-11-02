@@ -92,7 +92,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		this.addButton(btnAddRequest, buttonsContainer, new AddRequestListener());
 		this.addButton(btnDeleteRequest, buttonsContainer, new DeleteRequestListener());
 		this.addButton(btnComputeTour, buttonsContainer, new ComputeTourListener());
-		this.addButton(btnRoadMap, buttonsContainer, new ComputeTourListener());	
+		this.addButton(btnRoadMap, buttonsContainer, new RoadMapListener());	
 
 		// Add containers
 		add(graphicalContainer);
@@ -157,8 +157,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		tv.displayRequests(this.loadedSOR);
 		
 		// Buttons enabling
-		btnAddRequest.setEnabled(true);
-		btnDeleteRequest.setEnabled(true);
 		btnComputeTour.setEnabled(true);
 	}
 	
@@ -177,26 +175,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Un evenement a été detecté");
-			Object source = e.getSource();
-
-			if (source == btnLoadRequest) {
-				File repertoireCourant = null;
-				try {
-					repertoireCourant = new File(".").getCanonicalFile();
-					System.out.println("Répertoire courant : " + repertoireCourant);
-				} catch (IOException err) {
-				}
-				JFileChooser dialogue = new JFileChooser(repertoireCourant);
-				dialogue.showOpenDialog(null);
-				String requestPath = dialogue.getSelectedFile().getAbsolutePath();
-				System.out.println("Fichier choisi : " + requestPath);
-
-				support.firePropertyChange("loadRequests", "", requestPath);
-				// SetOfRequests sr = Application.loadRequest(requestPath);
-			} else {
-				System.out.println("Cet evenement n'a pas d'action associée");
+			File currentDirectory = null;
+			try {
+				currentDirectory = new File(".").getCanonicalFile();
+				System.out.println("Current directory : " + currentDirectory);
+			} catch (IOException err) {
 			}
+			JFileChooser dialogue = new JFileChooser(currentDirectory);
+			dialogue.showOpenDialog(null);
+			String requestPath = dialogue.getSelectedFile().getAbsolutePath();
+			System.out.println("Selected File : " + requestPath);
+
+			support.firePropertyChange("loadRequests", "", requestPath);
 		}
 
 	}
@@ -205,17 +195,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			File repertoireCourant = null;
+			File currentDirectory= null;
 			try {
-				repertoireCourant = new File(".").getCanonicalFile();
-				System.out.println("Répertoire courant : " + repertoireCourant);
+				currentDirectory = new File(".").getCanonicalFile();
+				System.out.println("Current directory : " + currentDirectory);
 			} catch (IOException err) {
+				
 			}
-			JFileChooser dialogue = new JFileChooser(repertoireCourant);
+			JFileChooser dialogue = new JFileChooser(currentDirectory);
 			dialogue.showOpenDialog(null);
 			String mapPath = dialogue.getSelectedFile().getAbsolutePath();
-			System.out.println("Fichier choisi : " + mapPath);
-			// Application.loadMap(mapPath);
+			System.out.println("Selected File : " + mapPath);
 			support.firePropertyChange("loadMap", "", mapPath);
 			System.out.println("fired loadmap");
 		}
@@ -244,9 +234,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// Application.computeTour();
 			support.firePropertyChange("computeTour", null, null);
 			btnRoadMap.setEnabled(true);
+			btnAddRequest.setEnabled(true);
+			btnDeleteRequest.setEnabled(true);
 		}
 
 	}
@@ -255,7 +246,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// Application.computeTour();
 			support.firePropertyChange("computeTour", null, null);
 			btnRoadMap.setEnabled(false);
 		}
