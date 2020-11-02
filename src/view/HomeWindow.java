@@ -42,7 +42,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	private JButton btnLoadRequest = new JButton("Load a set of requests");
 	private JButton btnAddRequest = new JButton("Add a request");
 	private JButton btnDeleteRequest = new JButton("Delete a request");
-	private JButton btnComputeTour = new JButton("Compute a Tour");
+	private JButton btnComputeTour = new JButton("Compute a tour");
+	private JButton btnRoadMap = new JButton("Display the road map");
 	private JPanel textualContainer;
 	private JPanel graphicalContainer;
 	private PropertyChangeSupport support;
@@ -84,46 +85,14 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		buttonsContainer.add(Box.createVerticalStrut(30));
 
 		// Buttons
-		btnLoadMap.addActionListener(new LoadMapListener());
-		btnLoadMap.setUI(new StyledButtonUI());
+		this.addButton(btnLoadMap, buttonsContainer, new LoadMapListener());
 		btnLoadMap.setEnabled(true);
-		//buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
-		btnLoadMap.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnLoadMap.setAlignmentY(5);
-		buttonsContainer.add(btnLoadMap);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-		
-		btnLoadRequest.addActionListener(new LoadRequestListener());
-		btnLoadRequest.setUI(new StyledButtonUI());
-		btnLoadRequest.setEnabled(false);
-		//buttonsContainer.add(btnLoadRequest, BorderLayout.SOUTH);
-		btnLoadRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnLoadRequest);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-
-		btnAddRequest.addActionListener(new AddRequestListener());
-		btnAddRequest.setUI(new StyledButtonUI());
-		btnAddRequest.setEnabled(false);
-		//buttonsContainer.add(btnAddRequest, BorderLayout.SOUTH);
-		btnAddRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnAddRequest);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-
-		btnDeleteRequest.addActionListener(new DeleteRequestListener());
-		btnDeleteRequest.setUI(new StyledButtonUI());
-		btnDeleteRequest.setEnabled(false);
-		//buttonsContainer.add(btnDeleteRequest, BorderLayout.SOUTH);
-		btnDeleteRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnDeleteRequest);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-
-		btnComputeTour.addActionListener(new ComputeTourListener());
-		btnComputeTour.setUI(new StyledButtonUI());
-		btnComputeTour.setEnabled(false);
-		//buttonsContainer.add(btnComputeTour, BorderLayout.SOUTH);
-		btnComputeTour.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnComputeTour);
-		
+		this.addButton(btnLoadRequest, buttonsContainer, new LoadRequestListener());
+		this.addButton(btnAddRequest, buttonsContainer, new AddRequestListener());
+		this.addButton(btnDeleteRequest, buttonsContainer, new DeleteRequestListener());
+		this.addButton(btnComputeTour, buttonsContainer, new ComputeTourListener());
+		this.addButton(btnRoadMap, buttonsContainer, new ComputeTourListener());	
 
 		// Add containers
 		add(graphicalContainer);
@@ -137,6 +106,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
+	
+	private void addButton(JButton newButton, JPanel buttonsContainer, ActionListener listener) {
+		newButton.addActionListener(listener);
+		newButton.setUI(new StyledButtonUI());
+		newButton.setEnabled(false);
+		newButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(newButton);
+		buttonsContainer.add(Box.createVerticalStrut(10));
+	}
+	
+	
 	/**
 	 * Refreshing the View (graphical) with a newly loaded map
 	 * @param map The map that was received from the Model after parsing it
@@ -266,6 +246,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		public void actionPerformed(ActionEvent arg0) {
 			// Application.computeTour();
 			support.firePropertyChange("computeTour", null, null);
+			btnRoadMap.setEnabled(true);
+		}
+
+	}
+	
+	public class RoadMapListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// Application.computeTour();
+			support.firePropertyChange("computeTour", null, null);
+			btnRoadMap.setEnabled(false);
 		}
 
 	}
@@ -294,8 +286,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			}
 		}
 	}
-
-
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
 		support.addPropertyChangeListener(pcl);
