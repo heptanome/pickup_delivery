@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import controller.Application;
 import model.CityMap;
+import model.Request;
 import model.Segment;
 import model.SetOfRequests;
 
@@ -49,6 +50,11 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	public GraphicalView gv;
 	public TextualView tv;
+
+	//Variables used to add a new request
+	private Request newRequest = new Request(" ", " ", 0, 0);
+	private String precedingPickup = null;
+	private String preceedingDelivery = null;
 
 	/**
 	 * Will build the window following a specific layout together with specific buttons
@@ -184,7 +190,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnComputeTour.setEnabled(true);
 
 		//Add mouse listner
-		graphicalContainer.addMouseListener(new MouseOnMapListener());
+		//addMouseOnMapListener();
 	}
 	
 	/**
@@ -196,6 +202,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		gv.displayTour(segments);
 		tv.displayTour(this.loadedSOR, segments);
 		//TODO textual container & road map (file)
+	}
+
+	public Request getNewRequest(){
+		return newRequest;
+	}
+
+	public void setPreceedingPickup (String s){
+		precedingPickup = s;
+	}
+
+	public void setPreceedingDelivery (String s){
+		preceedingDelivery = s;
 	}
 
 	public class LoadRequestListener implements ActionListener {
@@ -251,9 +269,13 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			/*
 			System.out.println("Select a new pickup point on the map (a white point)");
 			gv.unselect();
-			/*
+
+			String pickupId = null;
+			SingleMouseClickOnMapListener m = new SingleMouseClickOnMapListener();
+			
 			String pickupId = null;
 			MouseOnMapListener m = new MouseOnMapListener();
 			gv.addMouseListener(m);
@@ -344,6 +366,48 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 	}
 
+	public void addMouseOnMapListener(){
+		graphicalContainer.addMouseListener(new MouseOnMapListener());
+	}
+
+	public class SingleMouseClickOnMapListener implements MouseListener {
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			int i = 0;
+			//Only works if there is a map loaded
+			if(loadedMap!=null){
+				String selectedPointId = gv.mapClickedResponse(e.getX(), e.getY());
+				support.firePropertyChange("pointClicked", null, selectedPointId);
+				
+				
+			}
+		}
+
+	}
+
+	public void addSingleMouseClickOnMapListener(){
+		graphicalContainer.addMouseListener(new SingleMouseClickOnMapListener());
+	}
+
+	public void removeAllMouseListeners(){
+		for(int i = 0; i<graphicalContainer.getMouseListeners().length; i++){
+			graphicalContainer.removeMouseListener(graphicalContainer.getMouseListeners()[0]);
+		}
+		System.out.println(graphicalContainer.getMouseListeners().length);
+	}
 
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -378,5 +442,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			break;
 		}
 	}
+
+	
 
 }

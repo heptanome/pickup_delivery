@@ -35,5 +35,21 @@ public class Request {
   
   public int getPickupDuration(){
 	    return pickupDuration;
-}
+  }
+
+  public void setPickupAddress(String s){
+    pickupAddress = s;
+  }
+
+  public void setDeliveryAddress(String s){
+    deliveryAddress = s;
+  }
+
+  public void setPickupDuration(int i){
+    pickupDuration = i;
+  }
+
+  public void setDeliveryDuration(int i){
+   deliveryDuration = i;
+  }
 }

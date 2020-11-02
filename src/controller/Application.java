@@ -16,6 +16,7 @@ public class Application implements PropertyChangeListener {
 	private HomeState homeState = new HomeState();
 	private WorkingState workingState = new WorkingState();
 	private MapWithoutRequestsState mapWoRequestsState = new MapWithoutRequestsState();
+	private AddingPickupAddress apa = new AddingPickupAddress();
 
 	public static void main(String[] args) {
 		System.out.println("Bienvenue sur Pickup and Delivery");
@@ -62,12 +63,43 @@ public class Application implements PropertyChangeListener {
 		} catch (Exception e) {}
 	}
 
-	public void addRequest() {
-		// TODO : problem with static method
-		// currentState.addRequest();
+	public void addRequest() throws Exception {
 		System.out.println("ajout d'une requête : ");
+		currentState = apa;
+		homeWindow.addSingleMouseClickOnMapListener();
+		/*
+		try {
+			currentState.pointClicked("apa", homeWindow);
+		} catch (IllegalArgumentException e) {
+			System.out.println("error");
+		}
+		
+		currentState = appp;
+		try {
+			currentState.pointClicked("appp", homeWindow);
+		} catch (IllegalArgumentException e) {
+			System.out.println("error");
+		}
+		
+		currentState = ada;
+		try {
+		currentState.pointClicked("apd", homeWindow);
+		} catch (IllegalArgumentException e) {
+			System.out.println("error");
+		}
+		currentState = appd;
+		try {
+			currentState.pointClicked("appd", homeWindow);
+		} catch (IllegalArgumentException e) {
+			System.out.println("error");
+		}
+		currentState = workingState;*/
 
-		// TODO : A implémenter
+	}
+
+	public void pointClicked(String pointId) throws Exception {
+		currentState.pointClicked(pointId, homeWindow);
+		currentState = currentState.nextState();
 	}
 
 	public void deleteRequest() {
@@ -105,6 +137,18 @@ public class Application implements PropertyChangeListener {
 		case "computeTour":
 			try {
 				this.computeTour();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		case "addRequest":
+			try {
+				this.addRequest();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		case "pointClicked":
+			try {
+				this.pointClicked((String) evt.getNewValue());
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
