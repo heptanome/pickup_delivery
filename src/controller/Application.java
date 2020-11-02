@@ -46,7 +46,7 @@ public class Application implements PropertyChangeListener {
 		currentState = workingState;
 	}
 
-	public static void addRequest() {
+	public void addRequest() {
 		// TODO : problem with static method
 		// currentState.addRequest();
 		System.out.println("ajout d'une requête : ");
@@ -54,7 +54,7 @@ public class Application implements PropertyChangeListener {
 		// TODO : A implémenter
 	}
 
-	public static void deleteRequest() {
+	public void deleteRequest() {
 		// TODO : problem with static method
 		// currentState.deleteRequest();
 		System.out.println("Suppression d'une requête");
