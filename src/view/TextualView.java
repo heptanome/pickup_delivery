@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.util.List;
 
 import model.CityMap;
+import model.Intersection;
 import model.Request;
 import model.Segment;
 import model.SetOfRequests;
@@ -25,6 +26,7 @@ public class TextualView extends JPanel {
 	private static final long serialVersionUID = 2L;
 	private Font fontRequest;
 	private Font fontTitle;
+	private JTable uiTable;
 	private PropertyChangeSupport support;
 	
 	
@@ -85,7 +87,7 @@ public class TextualView extends JPanel {
 			i++;
 		}
 		
-		JTable uiTable = new JTable(donnees, entetes);
+		uiTable = new JTable(donnees, entetes);
 		
 		uiTable.setBounds(10, 150, 380, 150);
 		add(uiTable.getTableHeader(), BorderLayout.NORTH);
@@ -154,6 +156,19 @@ public class TextualView extends JPanel {
 		caption3.setOpaque(true);
 		
 
+	}
+	
+	// this is only a POC, not finished
+	public void selectCell(Intersection inter) {
+		int rows = uiTable.getRowCount();
+		for(int i = 0; i < rows; i++) {
+			String id1 = (String)uiTable.getValueAt(i, 1);
+			String id2 = (String)uiTable.getValueAt(i, 3);
+			
+			if(id1.equals(inter.getNumber()) || id2.equals(inter.getNumber())) {
+				uiTable.setRowSelectionInterval(i, i);
+			}
+		}
 	}
 	
 	public boolean isCellEditable(int x, int y) {

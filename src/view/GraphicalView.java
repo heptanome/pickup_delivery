@@ -25,7 +25,7 @@ public class GraphicalView extends JPanel {
 	private float maxLongi;
 
 	private List<GraphicalPoint> graphicalPoints;
-	private String selectedPointId;
+	private Intersection selectedPoint;
 	private List<GraphicalSegment> graphicalSegments;
 
 	public GraphicalView(CityMap loadedMap) {
@@ -35,7 +35,7 @@ public class GraphicalView extends JPanel {
 		segments = loadedMap.getSegments();
 
 		graphicalPoints = new LinkedList<GraphicalPoint>();
-		selectedPointId = null;
+		selectedPoint = null;
 		graphicalSegments = new LinkedList<GraphicalSegment>();
 		minLat = Float.POSITIVE_INFINITY;
 		minLongi = Float.POSITIVE_INFINITY;
@@ -216,19 +216,19 @@ public class GraphicalView extends JPanel {
 
 	public void clearSelectedPoint() {
 		//if a point is already selected, unselect it
-		if(selectedPointId!=null){
+		if(selectedPoint != null){
 			int i = 0;
-			while ((i < graphicalPoints.size()) && selectedPointId!=null ) {
-				if (selectedPointId.equals(graphicalPoints.get(i).getPoint().getNumber())) {
+			while ((i < graphicalPoints.size()) && selectedPoint != null) {
+				if (selectedPoint.getNumber().equals(graphicalPoints.get(i).getPoint().getNumber())) {
 					graphicalPoints.get(i).setSize(graphicalPoints.get(i).getSize()/2);;
-					selectedPointId = null;
+					selectedPoint = null;
 				}
 				i++;
 			}
 		}
 	}
 	
-	public String mapClickedResponse(int x, int y){
+	public Intersection mapClickedResponse(int x, int y){
 		// clear if necessary
 		this.clearSelectedPoint();
 
@@ -236,13 +236,13 @@ public class GraphicalView extends JPanel {
 		graphicalPoints.forEach(gp -> {
 			if(gp.isClicked(x, y)) {
 				gp.setSize(gp.getSize()*2);
-				selectedPointId = gp.getPoint().getNumber();
+				selectedPoint = gp.getPoint();
 				return;
 			}
 		});
 		
 		repaint();
-		return selectedPointId;
+		return selectedPoint;
 
 	}
 	
@@ -254,7 +254,7 @@ public class GraphicalView extends JPanel {
 		graphicalPoints.forEach(gp -> {
 			if(gp.getPoint().getNumber().equals(interNum)) {
 				gp.setSize(gp.getSize()*2);;
-				selectedPointId = gp.getPoint().getNumber();
+				selectedPoint = gp.getPoint();
 				return;
 			}
 		});
@@ -262,8 +262,8 @@ public class GraphicalView extends JPanel {
 		repaint();
 	}
 
-	public String getSelectedPointId(){
-		return selectedPointId;
+	public Intersection getSelectedPoint(){
+		return selectedPoint;
 	}
 
 }

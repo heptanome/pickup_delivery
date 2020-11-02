@@ -344,8 +344,9 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		public void mouseClicked(MouseEvent e) {
 			//Only works if there is a map loaded
 			if(loadedMap!=null){
-				String selectedPointId = gv.mapClickedResponse(e.getX(), e.getY());
-				System.out.println(selectedPointId);
+				Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
+				System.out.println(selectedPoint);
+				tv.selectCell(selectedPoint);
 				//TODO : implement a metohd in textual view that highlights the request that has this id 
 			}
 		}

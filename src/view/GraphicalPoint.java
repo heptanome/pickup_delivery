@@ -6,6 +6,7 @@ import model.Intersection;
 
 public class GraphicalPoint {
 
+	private int size = 8;
 	private int xPixel;
 	private int yPixel;
 	private Intersection point;
@@ -14,17 +15,12 @@ public class GraphicalPoint {
 	 * Color code: white: random intersection blue : pickup point magenta : delivery
 	 * point yellow : departure
 	 */
-	private int size;
-
 	public GraphicalPoint(Intersection i, float minLat, float minLongi, float maxLat, float maxLongi) {
 		float xRange = maxLat - minLat;
 		float yRange = maxLongi - minLongi;
 
 		float x = (float) ((i.getLatitude() - minLat) * 800 / xRange );
 		float y = (float) ((i.getLongitude() - minLongi) * 800 / yRange );
-
-
-		size = 8;
 
 		xPixel = Math.round(x) +10 - size/2;
 		yPixel = Math.round(y) +10 - size/2;
