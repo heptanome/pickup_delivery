@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 import javax.swing.*;
 import java.util.List;
 
@@ -11,6 +15,7 @@ import model.CityMap;
 import model.Request;
 import model.Segment;
 import model.SetOfRequests;
+import view.HomeWindow.HelpListener;
 
 public class TextualView extends JPanel {
 
@@ -20,9 +25,12 @@ public class TextualView extends JPanel {
 	private static final long serialVersionUID = 2L;
 	private Font fontRequest;
 	private Font fontTitle;
+	private PropertyChangeSupport support;
 	
 	
 	public TextualView(CityMap loadedMap) {
+		this.support = new PropertyChangeSupport(this);
+		
 		setLayout(null);
 		setBackground(new Color(188, 188, 188));
 
@@ -75,23 +83,35 @@ public class TextualView extends JPanel {
 			String[] obj = {Integer.toString(i+1), r.getPickupAddress(), Integer.toString(r.getPickupDuration()), r.getDeliveryAddress(), Integer.toString(r.getDeliveryDuration())};
 			donnees[i]= obj;
 			i++;
-		
-		JTable tableau = new JTable(donnees, entetes); 
-		
-		
-		tableau.setBounds(10, 150, 380, 300);
-		add(tableau.getTableHeader(), BorderLayout.NORTH);
-		add(tableau, BorderLayout.CENTER);
-		
-		tableau.getColumnModel().getColumn(0).setPreferredWidth(10);
-		tableau.getColumnModel().getColumn(1).setPreferredWidth(60);
-		tableau.getColumnModel().getColumn(2).setPreferredWidth(40);
-		tableau.getColumnModel().getColumn(3).setPreferredWidth(60);
 		}
+		
+		JTable uiTable = new JTable(donnees, entetes);
+		
+		uiTable.setBounds(10, 150, 380, 150);
+		add(uiTable.getTableHeader(), BorderLayout.NORTH);
+		add(uiTable, BorderLayout.CENTER);
+		
+		uiTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+		uiTable.getColumnModel().getColumn(1).setPreferredWidth(60);
+		uiTable.getColumnModel().getColumn(2).setPreferredWidth(40);
+		uiTable.getColumnModel().getColumn(3).setPreferredWidth(60);
+		
+		// https://stackoverflow.com/a/7351053
+		uiTable.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		        int row = uiTable.rowAtPoint(evt.getPoint());
+		        int col = uiTable.columnAtPoint(evt.getPoint());
+		        if (row >= 0 && col >= 0) {
+		        	// selected a row
+		        	support.firePropertyChange("selectCell", 0, 123423);
+		        }
+		    }
+		});
+
 	}
 	
 	public void displayTour(SetOfRequests sor, List<Segment> segments) {
-		
 	}
 	
 	public void displayCaption () {
@@ -139,4 +159,12 @@ public class TextualView extends JPanel {
 	public boolean isCellEditable(int x, int y) {
 		return false;
 	}
+	
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+ 
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
+    }
 }

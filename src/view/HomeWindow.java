@@ -170,7 +170,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnAddRequest.setEnabled(false);
 		btnDeleteRequest.setEnabled(false);
 		btnComputeTour.setEnabled(false);
-		
 	}
 
 	/**
@@ -196,6 +195,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnAddRequest.setEnabled(true);
 		btnDeleteRequest.setEnabled(true);
 		btnComputeTour.setEnabled(true);
+		
+		// event listening (Home listens to TextualView)
+		tv.addPropertyChangeListener(this);
+	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener pcl) {
+		support.addPropertyChangeListener(pcl);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener pcl) {
+		support.removePropertyChangeListener(pcl);
 	}
 	
 	/**
@@ -336,16 +346,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 	}
 
-
-
-	public void addPropertyChangeListener(PropertyChangeListener pcl) {
-		support.addPropertyChangeListener(pcl);
-	}
-
-	public void removePropertyChangeListener(PropertyChangeListener pcl) {
-		support.removePropertyChangeListener(pcl);
-	}
-
 	/**
 	 * Following good practice, the Model communicates with the View using
 	 * listeners
@@ -365,6 +365,9 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			break;
 		case "tourComputed":
 			this.tourComputed((List<Segment>)evt.getNewValue());
+			break;
+		case "selectCell":
+			System.out.println((Integer)evt.getNewValue());
 			break;
 		default:
 			break;
