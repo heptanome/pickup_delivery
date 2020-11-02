@@ -7,6 +7,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class MapParser extends Parser {
+	
+	private List<Intersection> intersectionsList;
+	private List<Segment> segmentsList;
+	
 	public MapParser(String fp) throws Exception {
 		super(fp);
 	}
@@ -16,8 +20,8 @@ public class MapParser extends Parser {
 		NodeList interList = doc.getElementsByTagName("intersection");
 		NodeList segList = doc.getElementsByTagName("segment");
 
-		LinkedList<Intersection> intersectionsList = new LinkedList<Intersection>();
-		LinkedList<Segment> segmentsList = new LinkedList<Segment>();
+		intersectionsList = new LinkedList<Intersection>();
+		segmentsList = new LinkedList<Segment>();
 
 		CityMap map;
 
@@ -35,7 +39,11 @@ public class MapParser extends Parser {
 			String idDestination = seg.getAttribute("destination");
 			float length = Float.parseFloat(seg.getAttribute("length"));
 			String name = seg.getAttribute("name");
-			segmentsList.add(createSegment(idOrigin, idDestination, name, length));
+			Intersection origin = findIntersection(idOrigin);
+			Intersection destination = findIntersection(idDestination);
+			Segment segment = createSegment(origin, destination, name, length);
+			origin.addSegment(segment);
+			segmentsList.add(segment);
 		}
 
 		map = createMap(intersectionsList, segmentsList);
@@ -46,11 +54,19 @@ public class MapParser extends Parser {
 		return new Intersection(id, longitude, latitude);
 	}
 
-	private Segment createSegment(String idOrigin, String idDestination, String name, float length) {
-		return new Segment(idOrigin, idDestination, name, length);
+	private Segment createSegment(Intersection origin, Intersection destination, String name, float length) {
+		return new Segment(origin, destination, name, length);
 	}
 
 	private CityMap createMap(List<Intersection> intersec, List<Segment> seg) {
 		return new CityMap(intersec, seg);
+	}
+	
+	private Intersection findIntersection(String id) {
+		for(Intersection i : intersectionsList) {
+			if(i.getNumber().equals(i))
+				return i;
+		}
+		return null;
 	}
 }
