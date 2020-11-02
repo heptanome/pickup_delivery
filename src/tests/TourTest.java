@@ -53,6 +53,7 @@ class TourTest implements PropertyChangeListener {
 			tour.setMap(MAP_FILE_PATH);
 		} catch (Exception e) {
 			fail("Should not throw exception");
+			e.printStackTrace();
 		}
 		
 		try {
