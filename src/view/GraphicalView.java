@@ -9,13 +9,14 @@ import model.Segment;
 import model.SetOfRequests;
 
 import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
-import java.lang.Math;
 
 public class GraphicalView extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<Intersection> intersections;
 	private List<Segment> segments;
 	private float minLat;
@@ -24,6 +25,7 @@ public class GraphicalView extends JPanel {
 	private float maxLongi;
 
 	private List<GraphicalPoint> graphicalPoints;
+	private String selectedPointId;
 	private List<GraphicalSegment> graphicalSegments;
 
 	public GraphicalView(CityMap loadedMap) {
@@ -33,6 +35,7 @@ public class GraphicalView extends JPanel {
 		segments = loadedMap.getSegments();
 
 		graphicalPoints = new LinkedList<GraphicalPoint>();
+		selectedPointId = null;
 		graphicalSegments = new LinkedList<GraphicalSegment>();
 		minLat = Float.POSITIVE_INFINITY;
 		minLongi = Float.POSITIVE_INFINITY;
@@ -41,8 +44,6 @@ public class GraphicalView extends JPanel {
 		setExtemeCoordinates();
 
 		displayMap();
-		// System.out.println("Extremes : " + minLat + " " + maxLat + " " + minLongi + "
-		// " + maxLongi);
 	}
 
 	public void paint(Graphics g) {
@@ -211,6 +212,46 @@ public class GraphicalView extends JPanel {
 			return gs;
 		}
 		return null;
+	}
+
+	public String mapClickedResponse(int x, int y){
+		//if a point is already selected, unselect it
+		if(selectedPointId!=null){
+			System.out.println("already a selection" + selectedPointId);
+			System.out.println(graphicalPoints.size());
+			int i = 0;
+			while ((i < graphicalPoints.size()) && selectedPointId!=null ) {
+				System.out.println(graphicalPoints.get(i).getIntersectionId());
+				if (selectedPointId.equals(graphicalPoints.get(i).getIntersectionId())) {
+					graphicalPoints.get(i).setSize(graphicalPoints.get(i).getSize()/2);;
+					selectedPointId = null;
+					System.out.println("found");
+					
+				}
+				i++;
+			}
+		}
+
+		//Look for a new selected point
+		boolean found = false;
+		int i = 0;
+		while ((i < graphicalPoints.size()) && !found) {
+			found = graphicalPoints.get(i).isClicked(x,y);
+			if (found) {
+				graphicalPoints.get(i).setSize(graphicalPoints.get(i).getSize()*2);;
+				selectedPointId = graphicalPoints.get(i).getIntersectionId();
+			}
+			i++;
+		}
+
+		repaint();
+
+		return selectedPointId;
+
+	}
+
+	public String getSelectedPointId(){
+		return selectedPointId;
 	}
 
 }

@@ -12,16 +12,22 @@ import view.HomeWindow;
 public class Application implements PropertyChangeListener {
 	private HomeWindow homeWindow;
 	private Tour tour;
+	private State currentState;
+	private HomeState homeState = new HomeState();
+	private WorkingState workingState = new WorkingState();
+	private MapWithoutRequestsState mapWoRequestsState = new MapWithoutRequestsState();
 
 	public static void main(String[] args) {
 		System.out.println("Bienvenue sur Pickup and Delivery");
 
 		Tour tour = new Tour();
-		HomeWindow homeWindow = new HomeWindow("home window");
-		Application app = new Application(homeWindow, tour);
+		HomeWindow homeWindow = new HomeWindow("Home Window");
+		Application app = new Application(homeWindow, tour, new HomeState());
 	}
 
-	public Application(HomeWindow hw, Tour t) {
+	public Application(HomeWindow hw, Tour t, State state) {
+		this.currentState = state;
+		
 		this.tour = t;
 		this.homeWindow = hw;
 		// Window listens to Tour events
@@ -30,59 +36,34 @@ public class Application implements PropertyChangeListener {
 		this.homeWindow.addPropertyChangeListener(this);
 	}
 
-	public void loadMap(String fp) {
-		System.out.println("Chargement de la Map localisée par le chemin : " + fp);
-		try {
-			this.tour.setMap(fp);
-		} catch (IOException e) {
-			e.printStackTrace();
-			//TODO implement a PopUp window indicating that the file couldn't be read
-		} catch (SAXException e) {
-			e.printStackTrace();
-			//TODO implement a PopUp window indicating that the file couldn't be parse
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			//TODO implement a PopUp window indicating that the filepath is empty
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void loadMap(String fp) throws Exception {
+		currentState.loadMap(fp, this.tour);
+		currentState = mapWoRequestsState;
 	}
 
-	public void loadRequests(String fp) {
-		System.out.println("Chargement de la requête localisée par le chemin : " + fp);
-		try {
-			this.tour.setRequests(fp);
-		} catch (IOException e) {
-			e.printStackTrace();
-			//TODO implement a PopUp window indicating that the file couldn't be read
-		} catch (SAXException e) {
-			e.printStackTrace();
-			//TODO implement a PopUp window indicating that the file couldn't be parse
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			//TODO implement a PopUp window indicating that the filepath is empty
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void loadRequests(String fp) throws Exception {
+		currentState.loadRequests(fp, this.tour);
+		currentState = workingState;
 	}
 
 	public static void addRequest() {
+		// TODO : problem with static method
+		// currentState.addRequest();
 		System.out.println("ajout d'une requête : ");
 
 		// TODO : A implémenter
 	}
 
 	public static void deleteRequest() {
+		// TODO : problem with static method
+		// currentState.deleteRequest();
 		System.out.println("Suppression d'une requête");
 
 		// TODO : A implémenter
 	}
 
-	public void computeTour() {
-		System.out.println("Calcul d'un chemin");
-		this.tour.computeTour(); // <-- renvoie une liste de segment
+	public void computeTour() throws Exception {
+		currentState.computeTour(tour);
 	}
 
 	@Override
@@ -91,13 +72,26 @@ public class Application implements PropertyChangeListener {
 
 		switch (propName) {
 		case "loadMap":
-			this.loadMap((String) evt.getNewValue());
+			try {
+				this.loadMap((String) evt.getNewValue());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 		case "loadRequests":
-			this.loadRequests((String) evt.getNewValue());
+			try {
+				this.loadRequests((String) evt.getNewValue());
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 			break;
 		case "computeTour":
-			this.computeTour();
+			try {
+				this.computeTour();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		default:
 			break;
 		}

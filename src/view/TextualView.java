@@ -1,15 +1,12 @@
 package view;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Font;
-import java.util.List;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+import java.util.List;
 
-import model.Intersection;
 import model.CityMap;
 import model.Request;
 import model.Segment;
@@ -17,9 +14,13 @@ import model.SetOfRequests;
 
 public class TextualView extends JPanel {
 
-	JLabel label2;
-	Font fontRequest;
-	Font fontTitle;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2L;
+	private Font fontRequest;
+	private Font fontTitle;
+	
 	
 	public TextualView(CityMap loadedMap) {
 		setLayout(null);
@@ -27,7 +28,6 @@ public class TextualView extends JPanel {
 
 		fontTitle = new Font("Arial", Font.BOLD, 20);
 		fontRequest = new Font("Arial", Font.BOLD, 7);
-		Border  blackline = BorderFactory.createLineBorder(Color.black);
 
 		JLabel label1 = new JLabel("Requests : ", JLabel.CENTER);
 		
@@ -87,11 +87,15 @@ public class TextualView extends JPanel {
 		tableau.getColumnModel().getColumn(1).setPreferredWidth(60);
 		tableau.getColumnModel().getColumn(2).setPreferredWidth(40);
 		tableau.getColumnModel().getColumn(3).setPreferredWidth(60);
-
-		
-		
-		
 		}
+	}
+	
+	public void displayTour(SetOfRequests sor, List<Segment> segments) {
+		List<Request> req = sor.getRequests();
+		segments.forEach(s -> {
+			System.out.println(s);
+			System.out.println(s.getLength());
+		});
 	}
 	
 	public void displayCaption () {
