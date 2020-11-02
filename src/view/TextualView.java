@@ -91,11 +91,7 @@ public class TextualView extends JPanel {
 	}
 	
 	public void displayTour(SetOfRequests sor, List<Segment> segments) {
-		List<Request> req = sor.getRequests();
-		segments.forEach(s -> {
-			System.out.println(s);
-			System.out.println(s.getLength());
-		});
+		
 	}
 	
 	public void displayCaption () {
