@@ -201,23 +201,23 @@ public class CompleteGraph implements Graph {
 		while (!this.isDijkstraFinished(indexBegin, indexEnd)) {
 			//Choisir le noeud parmi les sommets gris dont la distance est la plus courte
 			int currentNode = findIndexOfMinCostOfVisitedNodes(colorNodes, d);
+			String currentNodeString = cityMap.getStringFromIdMap(currentNode);
 			
-			for (int neighbour = 0; neighbour<this.nbVertices; neighbour++) {
+			List<String> neighbours = this.cityMap.getNeighbours(currentNodeString);
+			for (String n : neighbours) {
 				// On cherche les successeurs (intersection destination) du sommet actuel (intersection origine)
-				
-				if (this.map[currentNode][neighbour] != INFINITE) {
-					//Relachement
-					if(!(colorNodes[neighbour] == -1)) {
-						float newCost =  map[currentNode][neighbour] + d[currentNode];
-						if ( newCost < d[neighbour]) {
-							 d[neighbour] = newCost;
-							 pi[neighbour] = currentNode;
-						}
-						//On colorise en gris ce nouveau noeud si besoin
-						if (!(colorNodes[neighbour] == 1)){
-							colorNodes[neighbour] = 1;
-							indexEnd++;
-						}
+				int neighbour = cityMap.getIntFromNumberMap(n);
+				//Relachement
+				if(!(colorNodes[neighbour] == -1)) {
+					float newCost =  map[currentNode][neighbour] + d[currentNode];
+					if ( newCost < d[neighbour]) {
+						 d[neighbour] = newCost;
+						 pi[neighbour] = currentNode;
+					}
+					//On colorise en gris ce nouveau noeud si besoin
+					if (!(colorNodes[neighbour] == 1)){
+						colorNodes[neighbour] = 1;
+						indexEnd++;
 					}
 				}
 			}

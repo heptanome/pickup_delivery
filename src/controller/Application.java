@@ -36,14 +36,30 @@ public class Application implements PropertyChangeListener {
 		this.homeWindow.addPropertyChangeListener(this);
 	}
 
-	public void loadMap(String fp) throws Exception {
-		currentState.loadMap(fp, this.tour);
-		currentState = mapWoRequestsState;
+	public void loadMap(String fp) {
+		try {
+			currentState.loadMap(fp, this.tour);
+			currentState = mapWoRequestsState;
+		} catch (IllegalArgumentException e) {
+			System.out.println("map file path argument is null");
+		} catch (IOException e) {
+			System.out.println("An IO error occured");
+		} catch (SAXException e) {
+			System.out.println("Unable to parse the document");
+		} catch (Exception e) {}
 	}
 
-	public void loadRequests(String fp) throws Exception {
-		currentState.loadRequests(fp, this.tour);
-		currentState = workingState;
+	public void loadRequests(String fp) {
+		try {
+			currentState.loadRequests(fp, this.tour);
+			currentState = workingState;
+		} catch (IllegalArgumentException e) {
+			System.out.println("requests file path argument is null");
+		} catch (IOException e) {
+			System.out.println("An IO error occured");
+		} catch (SAXException e) {
+			System.out.println("Unable to parse the document");
+		} catch (Exception e) {}
 	}
 
 	public void addRequest() {

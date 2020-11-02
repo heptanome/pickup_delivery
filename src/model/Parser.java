@@ -19,6 +19,9 @@ public abstract class Parser {
 	protected Document doc;
 
 	public Parser(String fp) throws Exception{
+		if(fp.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		this.doc = dBuilder.parse(fp);
