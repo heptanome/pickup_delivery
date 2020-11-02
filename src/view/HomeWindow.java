@@ -65,7 +65,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		graphicalContainer = new JPanel();
 		graphicalContainer.setLayout(null);
 		graphicalContainer.setBounds(0, 0, 820, HEIGHT-30);
-		graphicalContainer.addMouseListener(new MouseOnMapListener());
 
 		//Textual container
 		textualContainer = new JPanel();
@@ -146,6 +145,9 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		// Graphical view
 		graphicalContainer.removeAll();
+		if(graphicalContainer.getMouseListeners().length>0){
+			graphicalContainer.removeMouseListener(graphicalContainer.getMouseListeners()[0]);
+		}
 		graphicalContainer.repaint();
 		gv = new GraphicalView(this.loadedMap);
 		graphicalContainer.add(gv);
@@ -180,6 +182,9 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnAddRequest.setEnabled(true);
 		btnDeleteRequest.setEnabled(true);
 		btnComputeTour.setEnabled(true);
+
+		//Add mouse listner
+		graphicalContainer.addMouseListener(new MouseOnMapListener());
 	}
 	
 	/**
@@ -246,6 +251,48 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			System.out.println("Select a new pickup point on the map (a white point)");
+			gv.unselect();
+			/*
+			String pickupId = null;
+			MouseOnMapListener m = new MouseOnMapListener();
+			gv.addMouseListener(m);
+			while(pickupId==null){
+				pickupId = gv.getSelectedPointId();
+
+			}
+			gv.removeMouseListener(m);
+
+			System.out.println("Select a preceeding point on the map (a colored point)");
+			gv.unselect();
+			String preceedingPickupId = null;
+			while(preceedingPickupId==null){
+				preceedingPickupId = gv.getSelectedPointId();
+			}
+
+			String value = JOptionPane.showInputDialog("Enter the pickup duration (in minutes)","");
+			int pickupDuration = Integer.parseInt(value);
+
+			System.out.println("Select a new deliverypoint on the map (a white point)");
+			gv.unselect();
+			String deliveryId = null;
+			while(deliveryId==null){
+				deliveryId = gv.getSelectedPointId();
+			}
+
+			System.out.println("Select a preceeding point on the map (a colored point)");
+			gv.unselect();
+			String preceedingDeliveryId = null;
+			while(preceedingDeliveryId==null){
+				preceedingDeliveryId = gv.getSelectedPointId();
+			}
+
+			value = JOptionPane.showInputDialog("Enter the delivery duration (in minutes)","");
+			int deliveryDuration = Integer.parseInt(value);
+			System.out.println(pickupId + "   " + preceedingPickupId  +"   "  + pickupDuration);
+			System.out.println(deliveryId + "   " + preceedingDeliveryId  +"   "  + deliveryDuration);
+			*/
+
 			// Application.addRequest();
 			support.firePropertyChange("addRequest", null, null);
 		}

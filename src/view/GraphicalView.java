@@ -216,21 +216,8 @@ public class GraphicalView extends JPanel {
 
 	public String mapClickedResponse(int x, int y){
 		//if a point is already selected, unselect it
-		if(selectedPointId!=null){
-			System.out.println("already a selection" + selectedPointId);
-			System.out.println(graphicalPoints.size());
-			int i = 0;
-			while ((i < graphicalPoints.size()) && selectedPointId!=null ) {
-				System.out.println(graphicalPoints.get(i).getIntersectionId());
-				if (selectedPointId.equals(graphicalPoints.get(i).getIntersectionId())) {
-					graphicalPoints.get(i).setSize(graphicalPoints.get(i).getSize()/2);;
-					selectedPointId = null;
-					System.out.println("found");
-					
-				}
-				i++;
-			}
-		}
+		System.out.println("click");
+;		unselect();
 
 		//Look for a new selected point
 		boolean found = false;
@@ -248,6 +235,20 @@ public class GraphicalView extends JPanel {
 
 		return selectedPointId;
 
+	}
+
+	public void unselect(){
+		if(selectedPointId!=null){
+			int i = 0;
+			while ((i < graphicalPoints.size()) && selectedPointId!=null ) {
+				if (selectedPointId.equals(graphicalPoints.get(i).getIntersectionId())) {
+					graphicalPoints.get(i).setSize(graphicalPoints.get(i).getSize()/2);;
+					selectedPointId = null;
+				}
+				i++;
+			}
+			repaint();
+		}
 	}
 
 	public String getSelectedPointId(){
