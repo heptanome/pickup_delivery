@@ -12,15 +12,15 @@ public class CityMap {
   private List<Intersection> intersections;
   private List<Segment> segments;
   private int nbVertices;
-  private Map<String, Integer> numberToIdMap;
-  private Map<Integer, String> idToNumberMap;	
+  private Map<Intersection, Integer> numberToIdMap;
+  private Map<Integer, Intersection> idToNumberMap;	
 	
 	public CityMap(List<Intersection> intersections, List<Segment> segments) {
 		this.intersections = intersections;
 	    this.segments = segments;
 	    this.nbVertices = intersections.size();
-	    this.numberToIdMap = new HashMap<String,Integer>();
-	    this.idToNumberMap = new HashMap<Integer,String>();
+	    this.numberToIdMap = new HashMap<Intersection,Integer>();
+	    this.idToNumberMap = new HashMap<Integer,Intersection>();
 	    this.convertNumberToId();
 	}
 	
@@ -41,15 +41,15 @@ public class CityMap {
 		  return this.nbVertices;
 	  }
 	  
-	  public Map<String,Integer> getNumberIdMap(){
+	  public Map<Intersection,Integer> getNumberIdMap(){
 		  return numberToIdMap;
 	  }
 	  
-	  public int getIntFromNumberMap(String number){
+	  public int getIntFromIntersectionMap(Intersection number){
 		  return numberToIdMap.get(number);
 	  }
 	  
-	  public String getStringFromIdMap(int id){
+	  public Intersection getIntersectionFromIdMap(int id){
 		  return idToNumberMap.get(id);
 	  }
 
@@ -61,9 +61,9 @@ public class CityMap {
 		return segments;
 	}
 	
-	public Segment getSegmentFromPoints(String origin, String destination) {
+	public Segment getSegmentFromInter(Intersection origin, Intersection destination) {
 		for(Segment s: segments) {
-			if(s.getNumberOrigin().equals(origin) && s.getNumberDestination().equals(destination))
+			if(s.getOrigin() == origin && s.getDestination() == destination)
 				return s;
 		}
 		return null;
@@ -82,8 +82,8 @@ public class CityMap {
 	private void convertNumberToId() {
 		  int index = 0;
 		  for(Intersection intersection : this.intersections) {
-			  this.numberToIdMap.put(intersection.getNumber(),index);
-			  this.idToNumberMap.put(index,intersection.getNumber());
+			  this.numberToIdMap.put(intersection,index);
+			  this.idToNumberMap.put(index,intersection);
 			  index ++;
 		  }
 	}

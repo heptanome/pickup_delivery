@@ -4,29 +4,37 @@ package model;
  *
  */
 public class Request {
-  private String deliveryAddress;
-  private String pickupAddress;
+  private Intersection delivery;
+  private Intersection pickup;
   private int deliveryDuration;
   private int pickupDuration;
 
-  public Request(String delivAdd, String pickupAddr, int delivDur, int pickupDur) {
-    deliveryAddress = delivAdd;
-    pickupAddress = pickupAddr;
+  public Request(Intersection delivAdd, Intersection pickupAddr, int delivDur, int pickupDur) {
+    delivery = delivAdd;
+    pickup = pickupAddr;
     deliveryDuration = delivDur;
     pickupDuration = pickupDur;
   }
 
   public String toString() {
-    return "From " + pickupAddress + " (" + pickupDuration + ") to " + deliveryAddress + " ("
+    return "From " + pickup.getNumber() + " (" + pickupDuration + ") to " + delivery.getNumber() + " ("
         + deliveryDuration + ").";
   }
 
-  public String getPickupAddress(){
-    return pickupAddress;
+  public Intersection getPickup(){
+    return pickup;
+  }
+  
+  public String getPickupAddress() {
+	  return pickup.getNumber();
   }
 
-  public String getDeliveryAddress(){
-    return deliveryAddress;
+  public Intersection getDelivery(){
+    return delivery;
+  }
+  
+  public String getDeliveryAddress() {
+	  return delivery.getNumber();
   }
   
   public int getDeliveryDuration(){

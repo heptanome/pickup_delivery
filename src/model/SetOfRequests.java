@@ -8,12 +8,12 @@ import java.text.SimpleDateFormat;
  *
  */
 public class SetOfRequests {
-	private String idDepot;
+	private Intersection depot;
 	private Date departureTime;
 	private List<Request> requests;
 
-	public SetOfRequests(String idDepot, Date departure, List<Request> req) {
-		this.idDepot = idDepot;
+	public SetOfRequests(Intersection idDepot, Date departure, List<Request> req) {
+		this.depot = idDepot;
 		this.departureTime = departure;
 		this.requests = req;
 	}
@@ -22,28 +22,32 @@ public class SetOfRequests {
 		SimpleDateFormat format = new SimpleDateFormat("HH:MM:ss");
 		String departureString = format.format(departureTime);
 		// pour une raison qui m'échappe, le date to string ne fonctionne pas
-		String message = "Departure at " + departureString + " from " + idDepot + "\nRequests :\n";
+		String message = "Departure at " + departureString + " from " + depot.getNumber() + "\nRequests :\n";
 		for (Request r : requests) {
 			message += r + "\n";
 		}
 		return message;
 	}
 
-	public String getDepot() {
-		return idDepot;
+	public String getDepotAddress() {
+		return depot.getNumber();
+	}
+	
+	public Intersection getDepot() {
+		return depot;
 	}
 
 	public List<Request> getRequests() {
 		return requests;
 	}
 	
-	public String[] getRequestNodes() {
-	  String [] requestNodes = new String[requests.size()*2 + 1]; //2*request (destination and departure) +1 depot
-	  requestNodes[0] = idDepot;
+	public Intersection[] getRequestNodes() {
+	  Intersection [] requestNodes = new Intersection[requests.size()*2 + 1]; //2*request (destination and departure) +1 depot
+	  requestNodes[0] = depot;
 	  int index = 1;
 	  for(Request r : requests) {
-		  requestNodes[index] = r.getDeliveryAddress();
-		  requestNodes[index+1] = r.getPickupAddress();
+		  requestNodes[index] = r.getDelivery();
+		  requestNodes[index+1] = r.getPickup();
 		  index +=2;
 	  }
 	  return requestNodes;
@@ -51,24 +55,22 @@ public class SetOfRequests {
 	
 	// we assume that all delivery and pickup points are unique. One intersection = one and
 	// only one pickup (or delivery) point.
-	public boolean isDeliveryPoint(String idNode) {
+	public boolean isDeliveryPoint(Intersection i) {
 		
 		for(Request r : requests) {
-			if(idNode.equals(r.getDeliveryAddress())) {
+			if(i == r.getDelivery()) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public String getPickUpFromDelivery(String idDelivery) {
-		String idPickUp = null;
+	public Intersection getPickUpFromDelivery(Intersection delivery) {
 		for(Request r : requests) {
-			if(idDelivery.equals(r.getDeliveryAddress())) {
-				idPickUp = r.getPickupAddress();
-				break;
+			if(delivery ==  r.getPickup()) {
+				return r.getPickup();
 			}
 		}
-		return idPickUp;
+		return null;
 	}
 }
