@@ -6,22 +6,28 @@ import static org.mockito.Mockito.verify;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import model.CityMap;
 import model.Tour;
 import model.SetOfRequests;
 
 class TourTest implements PropertyChangeListener {
-	public static final String MAP_FILE = "./XML_data/smallMap.xml";
+	public static final String MAP_FILE_PATH = "./XML_data/smallMap.xml";
 	public static final int NB_INTER = 308;
-	public static final String REQ_FILE = "./XML_data/requestsLarge9.xml";
+	public static final String CORRUPTED_MAP_FILE_PATH = "./XML_data/smallCorruptedMap.xml";
+	public static final String REQUEST_FILE_PATH = "./XML_data/requestsLarge9.xml";
 	public static final int NB_REQUEST = 9;
+	public static final String CORRUPTED_REQUEST_FILE_PATH = "./XML_data/requestsSmallCorrupted.xml";
+	public static final String INCORRECT_PATH = "./XML_data/xxxx";
+	
 	public Tour tour;
 
 	@BeforeEach
@@ -43,34 +49,63 @@ class TourTest implements PropertyChangeListener {
 
 	@Test
 	void testSetMap() {
-		tour.setMap(MAP_FILE);
-		
 		try {
-		verify(tourMock).setMap(MAP_FILE_PATH);
-		} catch (Exception e) {}
-		
-		try {
-		verify(tourMock).setMap("");
+			tour.setMap(MAP_FILE_PATH);
 		} catch (Exception e) {
-			assertEquals(e,new IllegalArgumentException());
+			fail("Should not throw exception");
 		}
 		
 		try {
-		verify(tourMock).setMap(INCORRECT_PATH);
+			tour.setMap(new String());
+			fail("Should throw exception IllegalArgumentException");
 		} catch (Exception e) {
-			assertEquals(e,new IOException());
+			assertTrue(e instanceof IllegalArgumentException);
 		}
 		
 		try {
-		verify(tourMock).setMap(CORRUPTED_MAP_FILE_PATH);
+			tour.setMap(INCORRECT_PATH);
+			fail("Should throw exception FileNotFoundException");
 		} catch (Exception e) {
-			assertEquals(e,new SAXException());
+			assertTrue(e instanceof FileNotFoundException);
+		}
+		
+		try {
+			tour.setMap(CORRUPTED_MAP_FILE_PATH);
+			fail("Should throw exception SAXParseException");
+		} catch (Exception e) {
+			assertTrue(e instanceof SAXParseException);
 		}
 	}
 
 	@Test
 	void testSetRequests() throws Exception {
-		tour.setRequests(REQ_FILE);
+		try {
+			tour.setRequests(REQUEST_FILE_PATH);
+		} catch (Exception e) {
+			fail("Should not throw exception");
+		}
+		
+		try {
+			tour.setRequests(new String());
+			fail("Should throw exception IllegalArgumentException");
+		} catch (Exception e) {
+			System.out.println(e);
+			assertTrue(e instanceof IllegalArgumentException);
+		}
+		
+		try {
+			tour.setRequests(INCORRECT_PATH);
+			fail("Should throw exception FileNotFoundException");
+		} catch (Exception e) {
+			assertTrue(e instanceof FileNotFoundException);
+		}
+		
+		try {
+			tour.setRequests(CORRUPTED_REQUEST_FILE_PATH);
+			fail("Should throw exception SAXParseException");
+		} catch (Exception e) {
+			assertTrue(e instanceof SAXParseException);
+		}
 	}
 
 	@Override
