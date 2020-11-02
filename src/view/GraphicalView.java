@@ -146,7 +146,7 @@ public class GraphicalView extends JPanel {
 		i = 0;
 		boolean found = false;
 		while (i < graphicalPoints.size() && !found) {
-			if (sr.getDepotAddress().equals(graphicalPoints.get(i).getIntersectionId())) {
+			if (sr.getDepotAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
 				graphicalPoints.get(i).setColor(Color.yellow);
 				graphicalPoints.get(i).setSize(12);
 				found = true;
@@ -160,11 +160,11 @@ public class GraphicalView extends JPanel {
 			boolean dFound = false;
 			boolean pFound = false;
 			while (i < graphicalPoints.size() && (!pFound || !dFound)) {
-				if (r.getPickupAddress().equals(graphicalPoints.get(i).getIntersectionId())) {
+				if (r.getPickupAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
 					graphicalPoints.get(i).setColor(Color.BLUE);
 					graphicalPoints.get(i).setSize(12);
 					pFound = true;
-				} else if (r.getDeliveryAddress().equals(graphicalPoints.get(i).getIntersectionId())) {
+				} else if (r.getDeliveryAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
 					graphicalPoints.get(i).setColor(Color.MAGENTA);
 					graphicalPoints.get(i).setSize(12);
 					dFound = true;
@@ -198,10 +198,10 @@ public class GraphicalView extends JPanel {
 		GraphicalPoint origin = null;
 		GraphicalPoint destination = null;
 		while ((i < graphicalPoints.size()) && (origin == null || destination == null)) {
-			if (idOrigin.equals(graphicalPoints.get(i).getIntersectionId())) {
+			if (idOrigin.equals(graphicalPoints.get(i).getPoint().getNumber())) {
 				origin = graphicalPoints.get(i);
 			}
-			if (idDestination.equals(graphicalPoints.get(i).getIntersectionId())) {
+			if (idDestination.equals(graphicalPoints.get(i).getPoint().getNumber())) {
 				destination = graphicalPoints.get(i);
 			}
 			i++;
@@ -214,40 +214,52 @@ public class GraphicalView extends JPanel {
 		return null;
 	}
 
-	public String mapClickedResponse(int x, int y){
+	public void clearSelectedPoint() {
 		//if a point is already selected, unselect it
 		if(selectedPointId!=null){
-			System.out.println("already a selection" + selectedPointId);
-			System.out.println(graphicalPoints.size());
 			int i = 0;
 			while ((i < graphicalPoints.size()) && selectedPointId!=null ) {
-				System.out.println(graphicalPoints.get(i).getIntersectionId());
-				if (selectedPointId.equals(graphicalPoints.get(i).getIntersectionId())) {
+				if (selectedPointId.equals(graphicalPoints.get(i).getPoint().getNumber())) {
 					graphicalPoints.get(i).setSize(graphicalPoints.get(i).getSize()/2);;
 					selectedPointId = null;
-					System.out.println("found");
-					
 				}
 				i++;
 			}
 		}
+	}
+	
+	public String mapClickedResponse(int x, int y){
+		// clear if necessary
+		this.clearSelectedPoint();
 
 		//Look for a new selected point
-		boolean found = false;
-		int i = 0;
-		while ((i < graphicalPoints.size()) && !found) {
-			found = graphicalPoints.get(i).isClicked(x,y);
-			if (found) {
-				graphicalPoints.get(i).setSize(graphicalPoints.get(i).getSize()*2);;
-				selectedPointId = graphicalPoints.get(i).getIntersectionId();
+		graphicalPoints.forEach(gp -> {
+			if(gp.isClicked(x, y)) {
+				gp.setSize(gp.getSize()*2);
+				selectedPointId = gp.getPoint().getNumber();
+				return;
 			}
-			i++;
-		}
-
+		});
+		
 		repaint();
-
 		return selectedPointId;
 
+	}
+	
+	public void selectPoint(Intersection inter) {
+		// clear if necessary
+		this.clearSelectedPoint();
+		String interNum = inter.getNumber();
+		
+		graphicalPoints.forEach(gp -> {
+			if(gp.getPoint().getNumber().equals(interNum)) {
+				gp.setSize(gp.getSize()*2);;
+				selectedPointId = gp.getPoint().getNumber();
+				return;
+			}
+		});
+		
+		repaint();
 	}
 
 	public String getSelectedPointId(){

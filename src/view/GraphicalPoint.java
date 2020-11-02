@@ -8,7 +8,7 @@ public class GraphicalPoint {
 
 	private int xPixel;
 	private int yPixel;
-	private String intersectionId;
+	private Intersection point;
 	private Color color;
 	/*
 	 * Color code: white: random intersection blue : pickup point magenta : delivery
@@ -28,7 +28,7 @@ public class GraphicalPoint {
 
 		xPixel = Math.round(x) +10 - size/2;
 		yPixel = Math.round(y) +10 - size/2;
-		intersectionId = i.getNumber();
+		point = i;
 		color = Color.white;
 		
 	}
@@ -49,8 +49,8 @@ public class GraphicalPoint {
 		return yPixel;
 	}
 
-	public String getIntersectionId() {
-		return intersectionId;
+	public Intersection getPoint() {
+		return point;
 	}
 
 	public Color getColor() {

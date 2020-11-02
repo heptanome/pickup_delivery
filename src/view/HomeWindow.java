@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import controller.Application;
 import model.CityMap;
+import model.Intersection;
 import model.Segment;
 import model.SetOfRequests;
 
@@ -200,6 +201,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		tv.addPropertyChangeListener(this);
 	}
 	
+	public void selectCell(Intersection inter) {
+		gv.selectPoint(inter);
+	}
+	
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
 		support.addPropertyChangeListener(pcl);
 	}
@@ -367,7 +372,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			this.tourComputed((List<Segment>)evt.getNewValue());
 			break;
 		case "selectCell":
-			System.out.println((Integer)evt.getNewValue());
+			this.selectCell((Intersection)evt.getNewValue());
 			break;
 		default:
 			break;

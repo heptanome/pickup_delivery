@@ -104,7 +104,7 @@ public class TextualView extends JPanel {
 		        int col = uiTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
 		        	// selected a row
-		        	support.firePropertyChange("selectCell", 0, 123423);
+		        	support.firePropertyChange("selectCell", null, sor.getRequests().get(row).getDelivery());
 		        }
 		    }
 		});
