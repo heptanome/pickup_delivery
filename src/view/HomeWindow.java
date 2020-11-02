@@ -17,15 +17,27 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The main class used in the View (MVC model), will showcase a window
+ * with different buttons to interact with (load a map, load requests, ...)
+ */
 public class HomeWindow extends JFrame implements PropertyChangeListener {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3L;
-	protected final static int WIDTH = 1420; // Largeur de la fenêtre
-	protected final static int HEIGHT = 850; // Hauteur de la fenêtre
+	/**
+	 * The width of the window
+	 */
+	protected final static int WIDTH = 1420;
+	/**
+	 * The height of the window
+	 */
+	protected final static int HEIGHT = 850;
+	
+	/**
+	 * Used to store the currently loaded map, or null
+	 */
 	protected CityMap loadedMap;
-
+	protected SetOfRequests loadedSOR;
+	
 	private JButton btnLoadMap = new JButton("Load a map");
 	private JButton btnLoadRequest = new JButton("Load a set of requests");
 	private JButton btnAddRequest = new JButton("Add a request");
@@ -38,8 +50,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public GraphicalView gv;
 	public TextualView tv;
 
-	public HomeWindow(String nom) {
-		super(nom);
+	/**
+	 * Will build the window following a specific layout together with specific buttons
+	 * @param name the name required for a window to be created
+	 */
+	public HomeWindow(String name) {
+		super(name);
 		support = new PropertyChangeSupport(this);
 		
 		//Layout
@@ -49,6 +65,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		graphicalContainer = new JPanel();
 		graphicalContainer.setLayout(null);
 		graphicalContainer.setBounds(0, 0, 820, HEIGHT-30);
+		graphicalContainer.addMouseListener(new MouseOnMapListener());
 
 		//Textual container
 		textualContainer = new JPanel();
@@ -120,16 +137,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
+	/**
+	 * Refreshing the View (graphical) with a newly loaded map
+	 * @param map The map that was received from the Model after parsing it
+	 */
 	public void setMap(CityMap map) {
 		this.loadedMap = map;
 
 		// Graphical view
 		graphicalContainer.removeAll();
 		graphicalContainer.repaint();
-		gv = new GraphicalView(loadedMap);
+		gv = new GraphicalView(this.loadedMap);
 		graphicalContainer.add(gv);
-
-		// TextualView
 		
 		// Buttons enabling
 		btnLoadRequest.setEnabled(true);
@@ -139,18 +158,23 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		
 	}
 
+	/**
+	 * Passing the set of requests down to the graphical and textual containers
+	 * @param sor Set of requests parsed from the Model
+	 */
 	public void setRequests(SetOfRequests sor) {
-		// graphical view of a set of requests
-		gv.displayRequests(sor);
-		// textusal view TODO Paul
+		this.loadedSOR = sor;
 		
+		// graphical view of a set of requests
+		gv.displayRequests(this.loadedSOR);
+		
+		// textual view TODO Paul
 		textualContainer.removeAll();
 		textualContainer.repaint();
-		tv = new TextualView(loadedMap);
+		tv = new TextualView(this.loadedMap);
 		tv.setBounds(0, 0, 400, 800);
 		textualContainer.add(tv);
-		
-		tv.displayRequests(sor);
+		tv.displayRequests(this.loadedSOR);
 		
 		// Buttons enabling
 		btnAddRequest.setEnabled(true);
@@ -158,20 +182,19 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnComputeTour.setEnabled(true);
 	}
 	
+	/**
+	 * Passing the segments to the graphical container
+	 * @param segments An ordered (linked) list of segments the cyclist will have
+	 * to follow
+	 */
 	public void tourComputed(List<Segment> segments) {
 		gv.displayTour(segments);
-		segments.forEach(s -> System.out.println(s));
+		tv.displayTour(this.loadedSOR, segments);
+		//TODO textual container & road map (file)
 	}
 
 	public class LoadRequestListener implements ActionListener {
-
-		/**
-		 * 
-		 */
-		public LoadRequestListener() {
-			// TODO Auto-generated constructor stub
-		}
-
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Un evenement a été detecté");
@@ -200,13 +223,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	public class LoadMapListener implements ActionListener {
 
-		/**
-		 * 
-		 */
-		public LoadMapListener() {
-			// TODO Auto-generated constructor stub
-		}
-
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			File repertoireCourant = null;
@@ -228,13 +244,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	public class AddRequestListener implements ActionListener {
 
-		/**
-		 * 
-		 */
-		public AddRequestListener() {
-			// TODO Auto-generated constructor stub
-		}
-
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			Application.addRequest();
@@ -243,13 +252,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	}
 
 	public class DeleteRequestListener implements ActionListener {
-
-		/**
-		 * 
-		 */
-		public DeleteRequestListener() {
-			// TODO Auto-generated constructor stub
-		}
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -260,13 +262,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	public class ComputeTourListener implements ActionListener {
 
-		/**
-		 * 
-		 */
-		public ComputeTourListener() {
-			// TODO Auto-generated constructor stub
-		}
-
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// Application.computeTour();
@@ -274,6 +269,33 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 
 	}
+
+	public class MouseOnMapListener implements MouseListener {
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			//Only works if there is a map loaded
+			if(loadedMap!=null){
+				String selectedPointId = gv.mapClickedResponse(e.getX(), e.getY());
+				System.out.println(selectedPointId);
+				//TODO : implement a metohd in textual view that highlights the request that has this id 
+			}
+		}
+	}
+
+
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
 		support.addPropertyChangeListener(pcl);
@@ -283,6 +305,11 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		support.removePropertyChangeListener(pcl);
 	}
 
+	/**
+	 * Following good practice, the Model communicates with the View using
+	 * listeners
+	 * @param evt the event the View is listening for, from the Model
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {

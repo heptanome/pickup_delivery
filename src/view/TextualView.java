@@ -1,12 +1,15 @@
 package view;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.*;
+import java.util.List;
 
 import model.CityMap;
 import model.Request;
+import model.Segment;
 import model.SetOfRequests;
 
 public class TextualView extends JPanel {
@@ -15,9 +18,9 @@ public class TextualView extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 2L;
-	JLabel label2;
-	Font fontRequest;
-	Font fontTitle;
+	private Font fontRequest;
+	private Font fontTitle;
+	
 	
 	public TextualView(CityMap loadedMap) {
 		setLayout(null);
@@ -84,11 +87,15 @@ public class TextualView extends JPanel {
 		tableau.getColumnModel().getColumn(1).setPreferredWidth(60);
 		tableau.getColumnModel().getColumn(2).setPreferredWidth(40);
 		tableau.getColumnModel().getColumn(3).setPreferredWidth(60);
-
-		
-		
-		
 		}
+	}
+	
+	public void displayTour(SetOfRequests sor, List<Segment> segments) {
+		List<Request> req = sor.getRequests();
+		segments.forEach(s -> {
+			System.out.println(s);
+			System.out.println(s.getLength());
+		});
 	}
 	
 	public void displayCaption () {
