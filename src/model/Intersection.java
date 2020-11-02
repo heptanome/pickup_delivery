@@ -11,13 +11,13 @@ public class Intersection {
 	private String number;
 	private float latitude;
 	private float longitude;
-	private List<Segment> segments;
+	private List<Intersection> neighbours;
 
 	public Intersection(String number, float latitude, float longitude) {
 		this.number = number;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.segments = new LinkedList<Segment>();
+		this.neighbours = new LinkedList<Intersection>();
 	}
 
 	public String toString() {
@@ -36,7 +36,11 @@ public class Intersection {
 		return this.number;
 	}
 	
-	public void addSegment(Segment s) {
-		segments.add(s);
+	public void addNeighbour(Intersection i) {
+		neighbours.add(i);
+	}
+	
+	public List<Intersection> getNeighbours(){
+		return neighbours;
 	}
 }

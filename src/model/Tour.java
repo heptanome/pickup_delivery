@@ -65,35 +65,35 @@ public class Tour {
 		
 		
 		int[] solutionInt = new int[setOfRequests.getRequestNodes().length+1];
-		String[] solutionString = new String[setOfRequests.getRequestNodes().length+1];
+		Intersection[] solutionIntersection = new Intersection[setOfRequests.getRequestNodes().length+1];
 		
 		for (int i=0; i<setOfRequests.getRequestNodes().length; i++)
 			solutionInt[i]=tsp.getSolution(i);
+		
 		solutionInt[solutionInt.length-1] = 0;
 		
-		Map<Integer,String> nodeNames = g.getNodeNames();
+		Map<Integer,Intersection> nodeIntersection = g.getNodeNames();
 		for(int i=0; i < solutionInt.length; i++) {
-			solutionString[i] = nodeNames.get(solutionInt[i]);
+			solutionIntersection[i] = nodeIntersection.get(solutionInt[i]);
 		}
-		System.out.println();
 
 		List<Integer> intermediateNodes = new LinkedList<Integer>();
-		for(int indexSol = 0; indexSol < solutionString.length-1; indexSol++) {
-			int idOrigine = map.getIntFromNumberMap(solutionString[indexSol]);
-			int idDepart = map.getIntFromNumberMap(solutionString[indexSol+1]);
+		for(int indexSol = 0; indexSol < solutionIntersection.length-1; indexSol++) {
+			int idOrigine = map.getIntFromIntersectionMap(solutionIntersection[indexSol]);
+			int idDepart = map.getIntFromIntersectionMap(solutionIntersection[indexSol+1]);
 			int[] precedence = g.getPrecedenceOfANode(idOrigine);
 			for (int i=idDepart; i!= idOrigine; i=precedence[i]) {
 				intermediateNodes.add(i);
 			}
 
 			ListIterator<Integer> iterator = intermediateNodes.listIterator(intermediateNodes.size()); 
-			String currentNodeNumber = solutionString[indexSol];
-			String previousNodeNumber = solutionString[indexSol];
+			Intersection currentNodeInter = solutionIntersection[indexSol];
+			Intersection previousNodeInter = solutionIntersection[indexSol];
 			while(iterator.hasPrevious()){
 				int previousNodeId = iterator.previous();
-				previousNodeNumber = map.getStringFromIdMap(previousNodeId);
-				this.path.add(map.getSegmentFromPoints(currentNodeNumber, previousNodeNumber));
-				currentNodeNumber = previousNodeNumber;
+				previousNodeInter = map.getIntersectionFromIdMap(previousNodeId);
+				this.path.add(map.getSegmentFromInter(currentNodeInter, previousNodeInter));
+				currentNodeInter = previousNodeInter;
 			}
 			intermediateNodes.clear();
 		}

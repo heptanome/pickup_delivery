@@ -77,7 +77,7 @@ class CityMapTest {
 
 	@Test
 	void testGetIntFromNumberMap() {
-		assertEquals(numberToIdMap.get("1"), cityMap.getIntFromNumberMap("1"));
+		assertEquals(numberToIdMap.get("1"), cityMap.getIntFromIntersectionMap("1"));
 	}
 
 	@Test

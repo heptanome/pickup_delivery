@@ -12,7 +12,7 @@ public class CompleteGraph implements Graph {
 	float[][] costTmp;
 	float[][] cost;
 	private Map<Integer,int[]> precedence;
-	private Map<Integer,String> nameNodeCost;
+	private Map<Integer,Intersection> nameNodeCost;
 	private SetOfRequests sor;
 	private CityMap cityMap;
 
@@ -22,11 +22,11 @@ public class CompleteGraph implements Graph {
 	 * @param nbVertices : number of nodes in a map
 	 * @type  int
 	 * @param numberToIdMap 		: Map between the number of an intersection and its id
-	 * @type  Map<String, Integer>
+	 * @type  Map<Intersection, Integer>
 	 * @param segments 				: Loaded map's segments 
 	 * @type  List<Segment>
 	 * @param requestNodes 			: Numbers of the pickup and delivery intersections of every requests
-	 * @type  String[]
+	 * @type  Intersection[]
 	 */
 	public CompleteGraph(CityMap cm, SetOfRequests sor){
 		this.nbVertices = cm.getNbVertices();
@@ -38,7 +38,7 @@ public class CompleteGraph implements Graph {
 		int[] requestNodesInt = new int[requestNodes.length];
 		this.precedence = new HashMap<Integer,int[]>();;
 		for(int index = 0; index < requestNodesInt.length; index++) {
-			requestNodesInt[index] = cityMap.getNumberIdMap().get(requestNodes[index].getNumber());
+			requestNodesInt[index] = cityMap.getNumberIdMap().get(requestNodes[index]);
 		}
 		
 		this.createCompleteShortestGraph(requestNodesInt,cityMap.getNumberIdMap());
@@ -101,11 +101,11 @@ public class CompleteGraph implements Graph {
 	 * Convert the map into a table 2D of intersections containing distances
 	 * between the origin and the destination of the segment
 	 * @param numberToIdMap 		: Map between the number of an intersection and its id
-	 * @type  Map<String, Integer>
+	 * @type  Map<Intersection, Integer>
 	 * @param segments 				: Loaded map's segments 
 	 * @type  List<Segment>
 	 */
-	private void createMapGraph(Map<String, Integer> numberToIdMap, List<Segment> segments){
+	private void createMapGraph(Map<Intersection, Integer> numberToIdMap, List<Segment> segments){
 		this.map = new float[this.nbVertices][this.nbVertices];
 		for (int i= 0; i< this.nbVertices; i++) {
 			for (int j = 0; j< this.nbVertices; j++)
@@ -114,8 +114,8 @@ public class CompleteGraph implements Graph {
 			}
 		}
 		for (Segment s : segments){
-			int idOrigin = numberToIdMap.get(s.getNumberOrigin());
-			int idDestination = numberToIdMap.get(s.getNumberDestination());
+			int idOrigin = numberToIdMap.get(s.getOrigin());
+			int idDestination = numberToIdMap.get(s.getDestination());
 			this.map[idOrigin][idDestination] = s.getLength();
 		}
 	}
@@ -140,14 +140,14 @@ public class CompleteGraph implements Graph {
 	/**
 	 * Convert the request nodes's numbers into request nodes's ids
 	 * @param  requestNodes		   : Request nodes's numbers
-	 * @type   String[]
+	 * @type   Intersection[]
 	 * @param  numberToIdMap	   : Map between the number of an intersection and its id
-	 * @type   Map<String,Integer>
+	 * @type   Map<Intersection,Integer>
 	 * @return int[]			   : Request nodes's ids
 	 */
-	private void createCompleteShortestGraph(int[] requestsNodes, Map<String,Integer> numberToIdMap) {
-		Set<Map.Entry<String,Integer>> set = numberToIdMap.entrySet();
-		nameNodeCost = new HashMap<Integer,String>();
+	private void createCompleteShortestGraph(int[] requestsNodes, Map<Intersection,Integer> numberToIdMap) {
+		Set<Map.Entry<Intersection,Integer>> set = numberToIdMap.entrySet();
+		nameNodeCost = new HashMap<Integer,Intersection>();
 		for(int nodeOrigin : requestsNodes) {
 			float[] coutDijkstra = DijkstraFromANode(nodeOrigin);
 			for(int nodeDestination : requestsNodes) {
@@ -157,9 +157,9 @@ public class CompleteGraph implements Graph {
 		//printPrecedence();
 		int indexI = 0;
 		for(int i : requestsNodes) {
-			//get String corresponding to I value:
-			String nameNode = "";
-			for(Map.Entry<String,Integer> paire : set) {
+			//get Intersection corresponding to I value:
+			Intersection nameNode = null;
+			for(Map.Entry<Intersection,Integer> paire : set) {
 				if(paire.getValue() == i) {
 					nameNode = paire.getKey();
 					break;
@@ -201,12 +201,12 @@ public class CompleteGraph implements Graph {
 		while (!this.isDijkstraFinished(indexBegin, indexEnd)) {
 			//Choisir le noeud parmi les sommets gris dont la distance est la plus courte
 			int currentNode = findIndexOfMinCostOfVisitedNodes(colorNodes, d);
-			String currentNodeString = cityMap.getStringFromIdMap(currentNode);
+			Intersection currentNodeIntersection = cityMap.getIntersectionFromIdMap(currentNode);
 			
-			List<String> neighbours = this.cityMap.getNeighbours(currentNodeString);
-			for (String n : neighbours) {
+			List<Intersection> neighbours = currentNodeIntersection.getNeighbours();
+			for (Intersection n : neighbours) {
 				// On cherche les successeurs (intersection destination) du sommet actuel (intersection origine)
-				int neighbour = cityMap.getIntFromNumberMap(n);
+				int neighbour = cityMap.getIntFromIntersectionMap(n);
 				//Relachement
 				if(!(colorNodes[neighbour] == -1)) {
 					float newCost =  map[currentNode][neighbour] + d[currentNode];
@@ -259,7 +259,7 @@ public class CompleteGraph implements Graph {
 		return message;
 	}
 	
-	public Map<Integer,String> getNodeNames() {
+	public Map<Integer,Intersection> getNodeNames() {
 		return nameNodeCost;
 	}
 	
