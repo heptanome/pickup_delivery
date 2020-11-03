@@ -7,6 +7,7 @@ public class AddingPointPreceedingDelivery implements State {
     @Override
 	public void pointClicked(Intersection i, HomeWindow hw) throws Exception{
         System.out.println("preceeding delivery address " + i.getNumber() );
+        hw.setPreceedingDelivery(i);
     }
 
     @Override

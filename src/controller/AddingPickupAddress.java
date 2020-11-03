@@ -2,13 +2,18 @@ package controller;
 
 import view.HomeWindow;
 import model.Intersection;
+import model.Request;
 
 public class AddingPickupAddress implements State {
 
     @Override
 	public void pointClicked(Intersection i, HomeWindow hw) throws Exception{
         System.out.println("pickup address " + i.getNumber() );
-        //hw.getNewRequest().setPickupAddress(s);
+
+
+		//TODO :  AddJOptionPane to ask for pickup duration and add it below
+		Request newR = new Request(i, new Intersection("",0,0), 0,0);
+		hw.setNewRequest(newR);
     }
     
     @Override

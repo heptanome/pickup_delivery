@@ -76,6 +76,13 @@ public class Application implements PropertyChangeListener {
 		currentState.pointClicked((Intersection)selectedPoint, homeWindow);
 		currentState = currentState.nextState();
 		currentState.describeState();
+
+		//TODO : replace this with a method setMouseListeners in the States
+		if(currentState instanceof WorkingState){
+			homeWindow.removeAllMouseListeners();
+			homeWindow.addMouseOnMapListener();
+		}
+
 	}
 
 	public void deleteRequest() {

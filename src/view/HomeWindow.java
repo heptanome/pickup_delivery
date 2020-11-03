@@ -61,8 +61,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	//Variables used to add a new request?
 	private Request newRequest = null;
-	private String precedingPickup = null;
-	private String preceedingDelivery = null;
+	private Intersection precedingPickup = null;
+	private Intersection preceedingDelivery = null;
 
 	/**
 	 * Will build the window following a specific layout together with specific buttons
@@ -233,12 +233,16 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		return newRequest;
 	}
 
-	public void setPreceedingPickup (String s){
-		precedingPickup = s;
+	public void setNewRequest(Request r){
+		newRequest = r;
 	}
 
-	public void setPreceedingDelivery (String s){
-		preceedingDelivery = s;
+	public void setPreceedingPickup (Intersection i){
+		precedingPickup = i;
+	}
+
+	public void setPreceedingDelivery (Intersection i){
+		preceedingDelivery = i;
 	}
 
 	public class LoadRequestListener implements ActionListener {
@@ -339,6 +343,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	}
 
+	/*
+	 * Mouse listener to use in the states where the map is displayed (click on map or table)
+	 *
+	 */
 	public class MouseOnMapListener implements MouseListener {
 
 		@Override
@@ -403,7 +411,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	public void removeAllMouseListeners(){
 		for(int i = 0; i<graphicalContainer.getMouseListeners().length; i++){
-			graphicalContainer.removeMouseListener(graphicalContainer.getMouseListeners()[0]);
+			graphicalContainer.removeMouseListener(graphicalContainer.getMouseListeners()[i]);
 		}
 		System.out.println(graphicalContainer.getMouseListeners().length);
 	}
