@@ -48,7 +48,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	private JButton btnAddRequest = new JButton("Add a request");
 	private JButton btnDeleteRequest = new JButton("Delete a request");
 	private JButton btnComputeTour = new JButton("Compute a Tour");
-	private JButton btnHelp = new JButton("🆘");
+	private JButton btnHelp = new JButton("SOS");
 	private JLabel lblHelp = new JLabel();
 	private JPanel textualContainer;
 	private JPanel graphicalContainer;
@@ -98,7 +98,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnLoadMap.setEnabled(true);
 		//buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
 		btnLoadMap.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnLoadMap.setAlignmentY(5);
+		//btnLoadMap.setAlignmentY(5);
 		buttonsContainer.add(btnLoadMap);
 		buttonsContainer.add(Box.createVerticalStrut(10));
 		
@@ -132,13 +132,19 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		//buttonsContainer.add(btnComputeTour, BorderLayout.SOUTH);
 		btnComputeTour.setAlignmentX(Component.CENTER_ALIGNMENT);
 		buttonsContainer.add(btnComputeTour);
+		buttonsContainer.add(Box.createVerticalStrut(10));
 		
 		btnHelp.addActionListener(new HelpListener());
 		btnHelp.setUI(new StyledButtonUI());
 		btnHelp.setEnabled(true);
-		btnHelp.setFont(new Font("Arial", Font.BOLD, 30));
-		btnComputeTour.setAlignmentX(Component.CENTER_ALIGNMENT);
+		//btnHelp.setFont(new Font("Arial", Font.BOLD, 30));
+		btnHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
 		buttonsContainer.add(btnHelp);
+		buttonsContainer.add(Box.createVerticalStrut(10));
+		
+		//JLabel
+		lblHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		
 		// Add containers
 		add(graphicalContainer);
@@ -158,7 +164,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 */
 	public void setMap(CityMap map) {
 		this.loadedMap = map;
-		this.helpText = "The map has been loaded. Please load a requests file now.";
+		this.helpText = "<html>The map has been loaded. <br> Please load a requests file now.</html>";
 
 		// Graphical view
 		graphicalContainer.removeAll();
@@ -179,7 +185,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 */
 	public void setRequests(SetOfRequests sor) {
 		this.loadedSOR = sor;
-		this.helpText = "The map and the set of requests have been loaded. Now is the time to compute!";
+		this.helpText = "<html>The map and the set of <br>requests have been loaded. <br> Now is the time to compute!</html>";
 		
 		// graphical view of a set of requests
 		gv.displayRequests(this.loadedSOR);
@@ -219,7 +225,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * to follow
 	 */
 	public void tourComputed(List<Segment> segments) {
-		this.helpText = "Your tour has been computed. Feel free to add or delete a point.";
+		this.helpText = "<html>Your tour has been computed. <br>Feel free to add or delete a point.</html>";
 		gv.displayTour(segments);
 		tv.displayTour(this.loadedSOR, segments);
 		//TODO textual container & road map (file)
