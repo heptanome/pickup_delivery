@@ -63,6 +63,17 @@ public class Tour {
 		support.firePropertyChange("updateRequests", oldReq, this.setOfRequests);
 	}
 
+	public List<Segment> addRequest(Request newRequest, Intersection beforeDelivery, Intersection beforePickup) {
+		// find afterDelivery and afterPickup
+
+		return this.path;
+	}
+
+	private CompleteGraph mapToCompleteGraph() {
+		CompleteGraph g = new CompleteGraph(map, setOfRequests);
+		return g;
+	}
+
 	public List<Segment> computeTour() {
 		// TSP tsp = new TSP1();
 		TSP tsp = new TSP2();
@@ -73,13 +84,14 @@ public class Tour {
 		this.path = new LinkedList<Segment>();
 
 		tsp.searchSolution(20000, g);
+
 		System.out.println("Solution of cost " + tsp.getSolutionCost() + " found in "
 				+ (System.currentTimeMillis() - startTime) + "ms : ");
 
-		int[] solutionInt = new int[setOfRequests.getRequestNodes().length + 1];
-		Intersection[] solutionIntersection = new Intersection[setOfRequests.getRequestNodes().length + 1];
+		int[] solutionInt = new int[setOfRequests.getRequestNodes().size() + 1];
+		Intersection[] solutionIntersection = new Intersection[setOfRequests.getRequestNodes().size() + 1];
 
-		for (int i = 0; i < setOfRequests.getRequestNodes().length; i++)
+		for (int i = 0; i < setOfRequests.getRequestNodes().size(); i++)
 			solutionInt[i] = tsp.getSolution(i);
 
 		solutionInt[solutionInt.length - 1] = 0;

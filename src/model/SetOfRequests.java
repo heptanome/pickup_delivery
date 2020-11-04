@@ -1,6 +1,7 @@
 package model;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,22 +37,23 @@ public class SetOfRequests {
 	 * 
 	 * @return
 	 */
-	public Intersection[] getRequestNodes() {
-		// 2 * request (destination and departure) + 1 depot
-		Intersection[] requestNodes = new Intersection[requests.size() * 2 + 1];
-
-		requestNodes[0] = depot;
+	public List<Intersection> getRequestNodes() {
+		// 2*request (destination and departure) +1 depot
+		List<Intersection> requestNodes = new ArrayList<Intersection>(requests.size() * 2 + 1);
+		requestNodes.add(0, depot);
 		int index = 1;
+
 		for (Request r : requests) {
-			requestNodes[index] = r.getDelivery();
-			requestNodes[index + 1] = r.getPickup();
+			requestNodes.add(index, r.getDelivery());
+			requestNodes.add(index + 1, r.getPickup());
 			index += 2;
 		}
 		return requestNodes;
 	}
 
 	// we assume that all delivery and pickup points are unique. One intersection =
-	// one and only one pickup (or delivery) point.
+	// one and
+	// only one pickup (or delivery) point.
 	public boolean isDeliveryPoint(Intersection i) {
 
 		for (Request r : requests) {
