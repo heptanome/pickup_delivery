@@ -11,6 +11,8 @@ public class GraphicalPoint {
 	private int yPixel;
 	private Intersection point;
 	private Color color;
+	private final int mapSize = 800;
+	private final int mapMargin = 10;
 	/*
 	 * Color code: white: random intersection blue : pickup point magenta : delivery
 	 * point yellow : departure
@@ -19,11 +21,11 @@ public class GraphicalPoint {
 		float xRange = maxLat - minLat;
 		float yRange = maxLongi - minLongi;
 
-		float x = (float) ((i.getLatitude() - minLat) * 800 / xRange );
-		float y = (float) ((i.getLongitude() - minLongi) * 800 / yRange );
+		float x = (float) ((i.getLatitude() - minLat) * mapSize / xRange );
+		float y = (float) ((i.getLongitude() - minLongi) * mapSize / yRange );
 
-		xPixel = Math.round(x) +10 - size/2;
-		yPixel = Math.round(y) +10 - size/2;
+		xPixel = Math.round(x) +mapMargin - size/2;
+		yPixel = Math.round(y) +mapMargin - size/2;
 		point = i;
 		color = Color.white;
 		
