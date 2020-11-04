@@ -104,7 +104,6 @@ public class Application implements PropertyChangeListener {
 	public void deleteRequest() throws Exception {
 		System.out.println("Suppression d'une requête");
 		
-		currentState.deleteRequest();
 		currentState = deleteRequestState;
 		currentState.describeState(homeWindow);
 		homeWindow.addSingleMouseClickOnMapListener();

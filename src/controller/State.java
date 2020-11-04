@@ -13,14 +13,17 @@ public interface State {
 		// default behavior of the states when loading requests
 	}
 	
+	/*
+	 * TODO: are these two methods necessary?
 	public default void addRequest() {
 		// default behavior of the states when adding a request
 		
 	}
-
+	
 	public default void deleteRequest() throws Exception {
 		// default behavior of the states when deleting a request
 	}
+	*/
 	
 	public default void computeTour(Tour tour) throws Exception {
 		// default behavior of the states when computing a tour		
