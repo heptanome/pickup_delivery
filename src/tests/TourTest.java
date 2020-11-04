@@ -39,19 +39,14 @@ class TourTest implements PropertyChangeListener {
 		tour = null;
 		assertNull(tour);
 	}
-
-	@Test
-	void testTour() {
-		tour = new Tour();
-	}
-
+	
 	@Test
 	void testSetMap() {
 		try {
 			tour.setMap(MAP_FILE_PATH);
 		} catch (Exception e) {
-			fail("Should not throw exception");
 			e.printStackTrace();
+			fail("Should not throw exception");
 		}
 		
 		try {
@@ -79,8 +74,10 @@ class TourTest implements PropertyChangeListener {
 	@Test
 	void testSetRequests() throws Exception {
 		try {
+			tour.setMap(MAP_FILE_PATH);
 			tour.setRequests(REQUEST_FILE_PATH);
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail("Should not throw exception");
 		}
 		
@@ -114,11 +111,11 @@ class TourTest implements PropertyChangeListener {
 		switch (propName) {
 		case "updateMap":
 			CityMap map = (CityMap)evt.getNewValue();
-			assertEquals(map.getInstersections().size(), NB_INTER);
+			assertEquals(NB_INTER, map.getInstersections().size());
 			break;
 		case "updateRequests":
 			SetOfRequests set = (SetOfRequests)evt.getNewValue();
-			assertEquals(set.getRequests().size(), NB_REQUEST);
+			assertEquals(NB_REQUEST, set.getRequests().size());
 			break;
 		default:
 			break;
