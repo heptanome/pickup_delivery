@@ -180,10 +180,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		tv.addPropertyChangeListener(this);
 	}
 	
-	public void openPopUpWindow(String text) {
-		PopupWindow popup = new PopupWindow(text);
+	public void selectCell(Intersection inter) {
+		gv.selectPoint(inter);
 	}
 	
+	public void addPropertyChangeListener(PropertyChangeListener pcl) {
+		support.addPropertyChangeListener(pcl);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener pcl) {
+		support.removePropertyChangeListener(pcl);
+	}
 	
 	/**
 	 * Passing the segments to the graphical container
@@ -226,17 +233,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		return preceedingDelivery;
 	}
 	
-	public void selectCell(Intersection inter) {
-		gv.selectPoint(inter);
-	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener pcl) {
-		support.addPropertyChangeListener(pcl);
-	}
-
-	public void removePropertyChangeListener(PropertyChangeListener pcl) {
-		support.removePropertyChangeListener(pcl);
-	}
 
 	public class LoadRequestListener implements ActionListener {
 		
