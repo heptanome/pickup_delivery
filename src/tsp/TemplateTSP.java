@@ -23,7 +23,7 @@ public abstract class TemplateTSP implements TSP {
 		visited.add(0); // Ajouter le premier sommet visité aka 0
 		bestSolCost = Float.MAX_VALUE; // le cout de la meilleure solution so far
 		branchAndBound(0, unvisited, visited, 0); //branch&bound récursif
-		}
+	}
 	
 	public Integer getSolution(int i){
 		if (g != null && i>=0 && i<g.getNbVertices())

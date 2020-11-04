@@ -67,7 +67,7 @@ public class SetOfRequests {
 	
 	public Intersection getPickUpFromDelivery(Intersection delivery) {
 		for(Request r : requests) {
-			if(delivery ==  r.getPickup()) {
+			if(delivery ==  r.getDelivery()) {
 				return r.getPickup();
 			}
 		}
