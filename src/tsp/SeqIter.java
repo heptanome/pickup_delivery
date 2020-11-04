@@ -19,12 +19,10 @@ public class SeqIter implements Iterator<Integer> {
 	 */
 	public SeqIter(Collection<Integer> unvisited, int currentVertex, Graph g){
 		this.candidates = new Integer[unvisited.size()];
-		System.out.println("taille: "+unvisited.size()+"  "+unvisited);
 		for (Integer s : unvisited){
 			
 			if(g.isDeliveryAddress(s)) {
 				List<Integer> pickupList = g.getPickUpFromDelivery(s);
-				System.out.println(s+": "+pickupList);
 				ListIterator<Integer> pickUpIt = pickupList.listIterator(0);
 				while( pickUpIt.hasNext() && !(unvisited.contains(pickUpIt.next()) ));
 				if(! pickUpIt.hasNext()) {
