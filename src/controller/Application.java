@@ -15,7 +15,7 @@ public class Application implements PropertyChangeListener {
 	private Tour tour;
 	private State currentState;
 	private HomeState homeState = new HomeState();
-	private WorkingState workingState = new WorkingState();
+	private DisplayingTourOnMapState workingState = new DisplayingTourOnMapState();
 	private MapWithoutRequestsState mapWoRequestsState = new MapWithoutRequestsState();
 	private AddingPickupAddress apa = new AddingPickupAddress();
 	private DeleteRequestState deleteRequestState = new DeleteRequestState();
@@ -79,7 +79,7 @@ public class Application implements PropertyChangeListener {
 		currentState.describeState(homeWindow);
 
 		//TODO : replace this with a method setMouseListeners in the States
-		if(currentState instanceof WorkingState){
+		if(currentState instanceof DisplayingTourOnMapState){
 			homeWindow.removeAllMouseListeners();
 			homeWindow.addMouseOnMapListener();
 		}

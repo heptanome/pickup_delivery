@@ -16,7 +16,7 @@ public class AddingPointPreceedingDelivery implements State {
 
     @Override
 	public State nextState() throws Exception{
-        return new WorkingState();
+        return new DisplayingTourOnMapState();
     }
     
     @Override

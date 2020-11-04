@@ -40,6 +40,6 @@ public class DeleteRequestState implements State {
 	@Override
 	public State nextState() throws Exception{
 		// TODO: better not instanciate a new instance
-        return new WorkingState();
+        return new DisplayingTourOnMapState();
     }
 }

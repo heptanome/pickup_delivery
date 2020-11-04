@@ -3,7 +3,7 @@ package controller;
 import model.Tour;
 import view.HomeWindow;
 
-public class WorkingState implements State {
+public class DisplayingTourOnMapState implements State {
 	
 	@Override
 	public void loadMap(String fp, Tour tour) throws Exception {
