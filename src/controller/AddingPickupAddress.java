@@ -19,12 +19,12 @@ public class AddingPickupAddress implements State {
     }
     
     @Override
-	public State nextState() throws Exception{
+	public State nextState() {
         return new AddingPointPreceedingPickup();
     }
     
     @Override
-	public void describeState(HomeWindow hw) throws Exception{
+	public void describeState(HomeWindow hw){
         JOptionPane.showMessageDialog(hw, "Select a pickup point on the map (white point) for the new request"); 
 	}
 }

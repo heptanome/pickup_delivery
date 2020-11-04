@@ -32,13 +32,13 @@ public class DeleteRequestState implements State {
     }
 	
 	@Override
-	public void describeState(HomeWindow hw) throws Exception{
+	public void describeState(HomeWindow hw) {
         System.out.println("Select a colored point on the map so that the corresponding request will "
         		+ "be deleted (pickup and delivery point)");
 	}
 	
 	@Override
-	public State nextState() throws Exception{
+	public State nextState() {
 		// TODO: better not instanciate a new instance
         return new DisplayingTourOnMapState();
     }

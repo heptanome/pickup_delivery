@@ -15,12 +15,12 @@ public class AddingPointPreceedingDelivery implements State {
     }
 
     @Override
-	public State nextState() throws Exception{
+	public State nextState(){
         return new DisplayingTourOnMapState();
     }
     
     @Override
-	public void describeState(HomeWindow hw) throws Exception{
+	public void describeState(HomeWindow hw) {
         JOptionPane.showMessageDialog(hw, "Select a point on the map (colored point) that will preceed the delivery point"); 
 	}
 }

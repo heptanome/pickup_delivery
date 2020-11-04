@@ -386,9 +386,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	}
 
 	/*
-	 * Mouse listener that fires an property change after one click (for the addRequest + maybe delete?)
-	 *
+	 * Mouse listener that fires an property change after one click (for the addRequest + delete) when 
+	 * we need the point clicked to be a special point (pickup, delivery, departure)
+	 * 
 	 */
+
+	 //TODO : rename to be more explicite, like below
 	public class SingleMouseClickOnMapListener implements MouseListener {
 
 		@Override
@@ -406,8 +409,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			//Only works if there is a map loaded
-			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
-			System.out.println(selectedPoint.getNumber());
+			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY(), true);
+			System.out.println("special : " + selectedPoint.getNumber());
 			support.firePropertyChange("pointClicked", null, selectedPoint);
 		}
 
@@ -415,6 +418,39 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	public void addSingleMouseClickOnMapListener(){
 		graphicalContainer.addMouseListener(new SingleMouseClickOnMapListener());
+	}
+
+	/*
+	 * Mouse listener that fires an property change after one click (for the addRequest + delete) when 
+	 * we need the point clicked to be a random point (white point on the map)
+	 * 
+	 */
+	 public class MouseClickOnRandomPointListener implements MouseListener {
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			//Only works if there is a map loaded
+			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY(), false);
+			System.out.println("random : " + selectedPoint.getNumber());
+			support.firePropertyChange("pointClicked", null, selectedPoint);
+		}
+
+	}
+
+	public void addMouseClickOnRandomPointListener(){
+		graphicalContainer.addMouseListener(new MouseClickOnRandomPointListener());
 	}
 
 	public void removeAllMouseListeners(){

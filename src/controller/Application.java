@@ -14,11 +14,15 @@ public class Application implements PropertyChangeListener {
 	private HomeWindow homeWindow;
 	private Tour tour;
 	private State currentState;
-	private HomeState homeState = new HomeState();
-	private DisplayingTourOnMapState workingState = new DisplayingTourOnMapState();
-	private MapWithoutRequestsState mapWoRequestsState = new MapWithoutRequestsState();
-	private AddingPickupAddress apa = new AddingPickupAddress();
-	private DeleteRequestState deleteRequestState = new DeleteRequestState();
+	protected final HomeState homeState = new HomeState();
+	protected final MapWithoutRequestsState mapWoRequestsState = new MapWithoutRequestsState();
+	protected final MapWithRequestsState mapWithRequestsState = new MapWithRequestsState();
+	protected final DisplayingTourOnMapState workingState = new DisplayingTourOnMapState();
+	protected final AddingPickupAddress apa = new AddingPickupAddress();
+	protected final AddingPointPreceedingPickup appp = new AddingPointPreceedingPickup();
+	protected final AddingDeliveryAddress ada = new AddingDeliveryAddress();
+	protected final AddingPointPreceedingDelivery appd = new AddingPointPreceedingDelivery();
+	protected final DeleteRequestState deleteRequestState = new DeleteRequestState();
 
 	public static void main(String[] args) {
 		System.out.println("Bienvenue sur Pickup and Delivery");
@@ -38,6 +42,15 @@ public class Application implements PropertyChangeListener {
 		// Application listens to Window events
 		this.homeWindow.addPropertyChangeListener(this);
 	}
+
+	/**
+	 * Change the current state of the controller
+	 * @param state the new current state
+	 */
+	protected void setCurrentState(State state){
+		currentState = state;
+	}
+
 
 	public void loadMap(String fp) {
 		try {

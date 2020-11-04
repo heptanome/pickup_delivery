@@ -10,6 +10,7 @@ public class GraphicalPoint {
 	private int xPixel;
 	private int yPixel;
 	private Intersection point;
+	private boolean isSpecial;
 	private Color color;
 	/*
 	 * Color code: white: random intersection blue : pickup point magenta : delivery
@@ -26,6 +27,7 @@ public class GraphicalPoint {
 		yPixel = Math.round(y) +10 - size/2;
 		point = i;
 		color = Color.white;
+		isSpecial  = false;
 		
 	}
 
@@ -55,6 +57,20 @@ public class GraphicalPoint {
 
 	public void setColor(Color c) {
 		color = c;
+		if(c == Color.white){
+			isSpecial = false;
+		} else {
+			isSpecial = true;
+		}
+		
+	}
+
+	public void setIsSpecial(boolean b){
+		isSpecial = b;
+	}
+
+	public boolean getIsSpecial(){
+		return isSpecial;
 	}
 
 	public int getSize() {

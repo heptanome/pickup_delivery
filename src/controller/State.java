@@ -34,15 +34,15 @@ public interface State {
 
 	}
 
-	public default State nextState()throws Exception{
+	public default State nextState(){
 		return this;
 	}
 
-	public default void setMouseListener(HomeWindow hw) throws Exception{
+	public default void setMouseListener(HomeWindow hw) {
 
 	}
 
-	public default void describeState(HomeWindow hw) throws Exception{
+	public default void describeState(HomeWindow hw) {
 
 	}
 }

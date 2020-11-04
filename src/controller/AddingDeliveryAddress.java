@@ -22,12 +22,12 @@ public class AddingDeliveryAddress implements State {
 	}
 
 	@Override
-	public State nextState() throws Exception{
+	public State nextState() {
         return new AddingPointPreceedingDelivery();
 	}
 
 	@Override
-	public void describeState(HomeWindow hw) throws Exception{
+	public void describeState(HomeWindow hw) {
 		JOptionPane.showMessageDialog(hw, "Select a delivery point on the map (white point) for the new request");  
 	}
 
