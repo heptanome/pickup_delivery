@@ -2,21 +2,27 @@ package model;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * The class responsible for parsing an XML file passed in as a file path
+ * (string) retrieving all intersections and segments. If any error were to
+ * occur, the parser should fail silently (without crashing the application).
+ */
 public class MapParser extends Parser {
-	
+
 	private List<Intersection> intersectionsList;
 	private List<Segment> segmentsList;
-	
+
 	public MapParser(String fp) throws Exception {
 		super(fp);
 	}
 
 	public CityMap loadMap() {
-		
+
 		NodeList interList = doc.getElementsByTagName("intersection");
 		NodeList segList = doc.getElementsByTagName("segment");
 
@@ -61,10 +67,10 @@ public class MapParser extends Parser {
 	private CityMap createMap(List<Intersection> intersec, List<Segment> seg) {
 		return new CityMap(intersec, seg);
 	}
-	
+
 	private Intersection findIntersection(String id) {
-		for(Intersection i : intersectionsList) {
-			if(i.getNumber().equals(id))
+		for (Intersection i : intersectionsList) {
+			if (i.getNumber().equals(id))
 				return i;
 		}
 		return null;
