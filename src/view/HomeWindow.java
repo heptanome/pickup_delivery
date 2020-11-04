@@ -180,6 +180,11 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		tv.addPropertyChangeListener(this);
 	}
 	
+	public void openPopUpWindow(String text) {
+		PopupWindow popup = new PopupWindow(text);
+	}
+	
+	
 	/**
 	 * Passing the segments to the graphical container
 	 * @param segments An ordered (linked) list of segments the cyclist will have
@@ -208,6 +213,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public void setPreceedingDelivery (final Intersection i){
 		preceedingDelivery = i;
 	}
+	
+	public Request getRequestFromIntersection (Intersection i) {
+		return loadedSOR.getRequestFromIntersection(i);
+	}
 
 	public Intersection getPreceedingPickup (){
 		return precedingPickup;
@@ -215,10 +224,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	public Intersection getPreceedingDelivery (){
 		return preceedingDelivery;
-	}
-	
-	public Request getRequestFromIntersection (final Intersection i) {
-		return loadedSOR.getRequestFromIntersection(i);
 	}
 	
 	public void selectCell(Intersection inter) {
