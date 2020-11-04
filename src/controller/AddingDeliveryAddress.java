@@ -29,7 +29,7 @@ public class AddingDeliveryAddress implements State {
 
 	@Override
 	public void describeState(HomeWindow hw) {
-		JOptionPane.showMessageDialog(hw, "Select a delivery point on the map (white point) for the new request");  
+		JOptionPane.showMessageDialog(hw, "Select a delivery point on the map  for the new request");  
 	}
 
 }
