@@ -18,7 +18,7 @@ public interface State {
 		
 	}
 
-	public default void deleteRequests() {
+	public default void deleteRequest() throws Exception {
 		// default behavior of the states when deleting a request
 	}
 	
@@ -30,7 +30,7 @@ public interface State {
 		// default behavior of the states when canceling a running process
 	}
 
-	public default void pointClicked(Intersection i, HomeWindow hw)throws Exception{
+	public default void pointClicked(Intersection i, HomeWindow hw, Tour tour)throws Exception{
 
 	}
 
