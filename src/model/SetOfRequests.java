@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
@@ -41,13 +42,13 @@ public class SetOfRequests {
 		return requests;
 	}
 	
-	public Intersection[] getRequestNodes() {
-	  Intersection [] requestNodes = new Intersection[requests.size()*2 + 1]; //2*request (destination and departure) +1 depot
-	  requestNodes[0] = depot;
+	public List<Intersection> getRequestNodes() {
+	  List<Intersection> requestNodes = new ArrayList<Intersection>(requests.size()*2 + 1); //2*request (destination and departure) +1 depot
+	  requestNodes.add(0, depot);
 	  int index = 1;
 	  for(Request r : requests) {
-		  requestNodes[index] = r.getDelivery();
-		  requestNodes[index+1] = r.getPickup();
+		  requestNodes.add(index,r.getDelivery());
+		  requestNodes.add(index+1,r.getPickup());
 		  index +=2;
 	  }
 	  return requestNodes;
