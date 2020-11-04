@@ -1,5 +1,7 @@
 package controller;
 
+import javax.swing.JOptionPane;
+
 import model.Intersection;
 import model.Request;
 import model.Tour;
@@ -7,33 +9,29 @@ import view.HomeWindow;
 
 public class DeleteRequestState implements State {
 	
-	
-	public void deleteRequest() throws Exception {
-		// specific behavior of the DeleteRequestState when deleting a request
-		
-		
-	}
-	
 	@Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour) throws Exception{
-        System.out.println("address " + i.getNumber() );
-        System.out.println("Set of Requests before delete: "+ tour.setOfRequests.toString());
-        System.out.println("The request "+ hw.getRequestFromIntersection(i).toString()+ " will be deleted.");
-        
-        hw.openPopUpWindow("The request "+ hw.getRequestFromIntersection(i).toString()+ " will be deleted.");
-        tour.deleteRequest(hw.getRequestFromIntersection(i));
-        System.out.println("Set of Requests after delete: "+ tour.setOfRequests.toString());
-
-        
-        // TODO: find corresponding pickup or delivery address respec.
-		// TODO :  AddJOptionPane to ask for pickup duration and add it below
-		// Request newR = new Request(i, new Intersection("",0,0), 0,0);
-		// hw.setNewRequest(newR);
+        try {
+	        Request requestToBeDeleted = hw.getRequestFromIntersection(i);
+	        // display the JOptionPane showConfirmDialog
+	        String message = "The request " + requestToBeDeleted.toString() + " will be deleted.";
+	        String title = "Confirm delete";
+	        int reply = JOptionPane.showConfirmDialog(hw, message, title, JOptionPane.YES_NO_OPTION);
+	        if (reply == JOptionPane.YES_OPTION)
+	        {
+	        	// if the user confirmed the delete the request will be deleted from the set of requests of the tour
+	        	tour.deleteRequest(hw.getRequestFromIntersection(i));
+	            // TODO: update tour
+	        } 
+        }
+        catch (NullPointerException e) {
+	        JOptionPane.showMessageDialog(hw, "You did not chose a valid intersection.");
+        }
     }
 	
 	@Override
 	public void describeState(HomeWindow hw) throws Exception{
-        System.out.println("Select a colored point on the map so that the corresponding request will "
+        JOptionPane.showMessageDialog(hw, "Select a colored point on the map so that the corresponding request will "
         		+ "be deleted (pickup and delivery point)");
 	}
 	
