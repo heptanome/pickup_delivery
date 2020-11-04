@@ -26,7 +26,8 @@ public class DisplayingTourOnMapState implements State {
 	@Override
 	public void setMouseListener(HomeWindow hw)  {
 		// specific behavior of the working state when computing a tour		
-		
+		hw.removeAllMouseListeners();
+		hw.addMouseOnMapListener();
 	}
 
 }

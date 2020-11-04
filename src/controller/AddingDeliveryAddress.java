@@ -32,4 +32,11 @@ public class AddingDeliveryAddress implements State {
 		JOptionPane.showMessageDialog(hw, "Select a delivery point on the map  for the new request");  
 	}
 
+	@Override
+    public  void setMouseListener(HomeWindow hw) {
+		hw.removeAllMouseListeners();
+		hw.addSingleMouseClickOnAnyPointListener();
+	}
+
+
 }

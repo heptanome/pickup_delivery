@@ -82,7 +82,9 @@ public class Application implements PropertyChangeListener {
 		System.out.println("Ajout d'une requête : ");
 		currentState = apa;
 		currentState.describeState(homeWindow);
-		homeWindow.addSingleMouseClickOnAnyPointListener();
+		currentState.setMouseListener(homeWindow);
+		//homeWindow.removeAllMouseListeners();
+		//homeWindow.addSingleMouseClickOnAnyPointListener();
 		
 	}
 
@@ -90,14 +92,7 @@ public class Application implements PropertyChangeListener {
 		currentState.pointClicked((Intersection)selectedPoint, homeWindow, tour);
 		currentState = currentState.nextState();
 		currentState.describeState(homeWindow);
-
-		//TODO : replace this with a method setMouseListeners in the States
-		if(currentState instanceof DisplayingTourOnMapState){
-
-			System.out.println("done");
-			homeWindow.removeAllMouseListeners();
-			homeWindow.addMouseOnMapListener();
-		}
+		currentState.setMouseListener(homeWindow);
 
 	}
 

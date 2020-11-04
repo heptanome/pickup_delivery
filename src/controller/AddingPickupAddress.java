@@ -28,5 +28,11 @@ public class AddingPickupAddress implements State {
     @Override
 	public void describeState(HomeWindow hw){
         JOptionPane.showMessageDialog(hw, "Select a pickup point on the map for the new request"); 
+    }
+    
+    @Override
+    public  void setMouseListener(HomeWindow hw) {
+        hw.removeAllMouseListeners();
+		hw.addSingleMouseClickOnAnyPointListener();
 	}
 }

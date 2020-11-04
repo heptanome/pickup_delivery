@@ -27,5 +27,11 @@ public class AddingPointPreceedingPickup implements State {
     @Override
 	public void describeState(HomeWindow hw) {
         JOptionPane.showMessageDialog(hw, "Select a point on the map (colored point) that will preceed the pickup point"); 
+    }
+    
+    @Override
+    public  void setMouseListener(HomeWindow hw) {
+        hw.removeAllMouseListeners();
+		hw.addSingleMouseClickOnSpecialPointListener();
 	}
 }
