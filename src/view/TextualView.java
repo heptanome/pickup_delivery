@@ -1,22 +1,21 @@
 package view;
 
 import java.awt.BorderLayout;
-
 import java.awt.Color;
 import java.awt.Font;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-
-import javax.swing.*;
 import java.util.List;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
 
 import model.CityMap;
 import model.Intersection;
 import model.Request;
 import model.Segment;
 import model.SetOfRequests;
-import view.HomeWindow.HelpListener;
 
 public class TextualView extends JPanel {
 
@@ -38,45 +37,26 @@ public class TextualView extends JPanel {
 
 		fontTitle = new Font("Arial", Font.BOLD, 20);
 		fontRequest = new Font("Arial", Font.BOLD, 7);
-
-		JLabel label1 = new JLabel("Requests : ", JLabel.CENTER);
-		
-		JLabel header1 = new JLabel("Numero");
-		JLabel header2 = new JLabel("Pickup Adress");
-		JLabel header3 = new JLabel("Pickup Duration");
-		JLabel header4 = new JLabel("Delivery Adress");
-		JLabel header5 = new JLabel("Delivery Duration");
-		
-
-		label1.setBounds(0, 20, 200, 200);
-		label1.setFont(fontTitle);
-		
-		header1.setFont(fontRequest);
-		header2.setFont(fontRequest);
-		header3.setFont(fontRequest);
-		header4.setFont(fontRequest);
-		header5.setFont(fontRequest);
-		
-		header1.setBounds(20, 40, 200, 200);
-		header2.setBounds(70, 40, 200, 200);
-		header3.setBounds(140, 40, 200, 200);
-		header4.setBounds(220, 40, 200, 200);
-		header5.setBounds(300, 40, 200, 200);
-		
-		add(header1);
-		add(header2);
-		add(header3);
-		add(header4);
-		add(header5);
-
-		add(label1);
 		
 		displayCaption();
 	}
 	
 	public void displayRequests(SetOfRequests sor) {
 
-		//En JTable
+		JPanel conteneurTabRequest = new JPanel ();
+		//conteneurTabRequest.setBackground(Color.red);
+		conteneurTabRequest.setBounds(0, 50, 400, 200);
+		conteneurTabRequest.setLayout(null);
+		
+		JPanel conteneurTabJTableRequest = new JPanel ();
+		//conteneurTabJTableRequest.setBackground(Color.orange);
+		conteneurTabJTableRequest.setBounds(0, 50, 400, 100);
+		
+		//creation du titre
+		JLabel titreRequest = new JLabel("Request : ", JLabel.LEFT);
+		titreRequest.setBounds(0, 0, 400, 50);
+		titreRequest.setFont(fontTitle);
+		
 		String [][] donnees = new String [sor.getRequests().size()][5];
 		String[] entetes = {"Numero", "Pickup Adress", "Pickup duration", "Delivery Adress", "Delivery Duration"};
 		
@@ -88,15 +68,20 @@ public class TextualView extends JPanel {
 		}
 		
 		uiTable = new JTable(donnees, entetes);
+		uiTable.setBounds(10, 150, 300, 400);
 		
-		uiTable.setBounds(10, 150, 380, 150);
-		add(uiTable.getTableHeader(), BorderLayout.NORTH);
-		add(uiTable, BorderLayout.CENTER);
+		conteneurTabJTableRequest.add(uiTable.getTableHeader(), BorderLayout.NORTH);
+		conteneurTabJTableRequest.add(uiTable, BorderLayout.CENTER);
+		conteneurTabRequest.add(titreRequest);
+
 		
-		uiTable.getColumnModel().getColumn(0).setPreferredWidth(10);
-		uiTable.getColumnModel().getColumn(1).setPreferredWidth(60);
-		uiTable.getColumnModel().getColumn(2).setPreferredWidth(40);
-		uiTable.getColumnModel().getColumn(3).setPreferredWidth(60);
+		conteneurTabRequest.add(conteneurTabJTableRequest);
+		add(conteneurTabRequest);
+		
+		uiTable.getColumnModel().getColumn(0).setPreferredWidth(50);
+		uiTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+		uiTable.getColumnModel().getColumn(2).setPreferredWidth(50);
+		uiTable.getColumnModel().getColumn(3).setPreferredWidth(50);
 		
 		// https://stackoverflow.com/a/7351053
 		uiTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -110,13 +95,58 @@ public class TextualView extends JPanel {
 		        }
 		    }
 		});
+		
+		conteneurTabJTableRequest.updateUI();
+		conteneurTabRequest.updateUI();
+		updateUI();
 
 	}
 	
 	public void displayTour(SetOfRequests sor, List<Segment> segments) {
+		
+		//creation du conteneur du tableau
+		JPanel conteneurTabTour = new JPanel ();
+		//conteneurTabTour.setBackground(Color.orange);
+		conteneurTabTour.setBounds(0, 300, 400, 350);
+		conteneurTabTour.setLayout(null);
+		
+		JPanel conteneurTabJTableTour = new JPanel ();
+		//conteneurTabJTableTour.setBackground(Color.red);
+		conteneurTabJTableTour.setBounds(0, 50, 400, 200);
+		
+		//creation du titre
+		JLabel titreTour = new JLabel("Tour : ", JLabel.LEFT);
+		titreTour.setBounds(0, 0, 400, 50);
+		titreTour.setFont(fontTitle);
+		
+		//creation tab de donnees	
+		//String [][] tabData = new String [4][5];
+		String [][] tabData = {
+								{"1", "Delivery", "A", "2s"},
+								{"1", "Delivery", "A", "2s"},
+								{"1", "Delivery", "A", "2s"},
+								{"1", "Delivery", "A", "2s"}
+							};
+			
+		String[] tadHeader = {"Numero", "Type", "Adress", "Duration"};
+		JTable uiTableTour = new JTable(tabData, tadHeader);
+		
+		//uiTableTour.setBounds(100, 50, 0, 0);
+		
+		conteneurTabJTableTour.add(uiTableTour.getTableHeader(), BorderLayout.NORTH);
+		conteneurTabJTableTour.add(uiTableTour, BorderLayout.CENTER);
+		conteneurTabTour.add(titreTour);
+			
+		conteneurTabTour.add(conteneurTabJTableTour);
+		add(conteneurTabTour);
+		
+		conteneurTabJTableTour.updateUI();
+		conteneurTabTour.updateUI();
+		updateUI();
 	}
 	
 	public void displayCaption () {
+		
 		
 		Font fontCaption = new Font("Arial", Font.BOLD, 15);
 		
@@ -140,10 +170,10 @@ public class TextualView extends JPanel {
 		caption2.setBackground(Color.gray);
 		caption3.setBackground(Color.gray);
 		
-		titleCaption.setBounds(50, 600, 300, 30);
-		caption1.setBounds(50, 630, 300, 30);
-		caption2.setBounds(50, 660, 300, 30);
-		caption3.setBounds(50, 690, 300, 30);
+		titleCaption.setBounds(50, 650, 300, 30);
+		caption1.setBounds(50, 680, 300, 30);
+		caption2.setBounds(50, 710, 300, 30);
+		caption3.setBounds(50, 740, 300, 30);
 
 		add(titleCaption);
 		add(caption1);
