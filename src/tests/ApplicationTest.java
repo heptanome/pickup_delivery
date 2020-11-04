@@ -11,6 +11,7 @@ import controller.State;
 import model.Tour;
 import view.HomeWindow;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
@@ -37,21 +38,18 @@ class ApplicationTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		//tour instance is replaced by a mock
+		//tour, homeState and homeWindow  instance is replaced by a mock
 		tourMock = mock(Tour.class);
-
-		//Behavior simulation
-		doThrow(new IllegalArgumentException()).when(tourMock).setMap(new String());
-		doThrow(new IOException()).when(tourMock).setMap(MAP_FILE_PATH);
-		doThrow(new IOException()).when(tourMock).setMap(INCORRECT_PATH);
-		doThrow(new SAXException()).when(tourMock).setMap(CORRUPTED_MAP_FILE_PATH);
-		doThrow(new IllegalArgumentException()).when(tourMock).setRequests(new String());
-		doThrow(new IOException()).when(tourMock).setRequests(INCORRECT_PATH);
-		doThrow(new SAXException()).when(tourMock).setRequests(CORRUPTED_REQUEST_FILE_PATH);
-		
-		//homeState and homeWindow are replaced by a mock
 		stateMock = mock(HomeState.class);
 		homeWindowMock = mock(HomeWindow.class);
+		
+		//Behavior simulation
+		doThrow(new IllegalArgumentException()).when(stateMock).loadMap(new String(),tourMock);
+		doThrow(new IOException()).when(stateMock).loadMap(INCORRECT_PATH,tourMock);
+		doThrow(new SAXException()).when(stateMock).loadMap(CORRUPTED_MAP_FILE_PATH,tourMock);
+		doThrow(new IllegalArgumentException()).when(stateMock).loadRequests(new String(),tourMock);
+		doThrow(new IOException()).when(stateMock).loadRequests(INCORRECT_PATH,tourMock);
+		doThrow(new SAXException()).when(stateMock).loadRequests(CORRUPTED_REQUEST_FILE_PATH,tourMock);
 		
 		app = new Application(homeWindowMock, tourMock, stateMock);
 	}
@@ -60,39 +58,42 @@ class ApplicationTest {
 	void tearDown() throws Exception {
 	}
 	
-	/*TODO : Il faut tester stateMock et non pas tourMock
+	//TODO : Il faut tester stateMock et non pas tourMock
 	@Test
 	void testLoadMap() throws Exception {
-		app.loadMap(MAP_FILE_PATH);
 		app.loadMap(new String());
 		app.loadMap(INCORRECT_PATH);
 		app.loadMap(CORRUPTED_MAP_FILE_PATH);
+		app.loadMap(MAP_FILE_PATH);
 		
 		try {
-		verify(tourMock).setMap(MAP_FILE_PATH);
-		verify(tourMock).setMap(new String());
-		verify(tourMock).setMap(INCORRECT_PATH);
-		verify(tourMock).setMap(CORRUPTED_MAP_FILE_PATH);
-		} catch (Exception e) {}
-		verify(stateMock, times(4)).loadMap(anyString(), this.tourMock);
+		verify(stateMock).loadMap(MAP_FILE_PATH,tourMock);
+		verify(stateMock).loadMap(new String(),tourMock);
+		verify(stateMock).loadMap(INCORRECT_PATH,tourMock);
+		verify(stateMock).loadMap(CORRUPTED_MAP_FILE_PATH,tourMock);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Should not throw exception");
+		}
 		
 	}
 
 	@Test
 	void testLoadRequests() throws Exception {
-		app.loadRequests(REQUEST_FILE_PATH);
 		app.loadRequests(new String());
 		app.loadRequests(INCORRECT_PATH);
 		app.loadRequests(CORRUPTED_REQUEST_FILE_PATH);
+		app.loadRequests(REQUEST_FILE_PATH);
 		
 		try {
-		verify(tourMock).setRequests(REQUEST_FILE_PATH);
-		verify(tourMock).setRequests(new String());
-		verify(tourMock).setRequests(INCORRECT_PATH);
-		verify(tourMock).setRequests(CORRUPTED_REQUEST_FILE_PATH);
-		} catch (Exception e) {}
-		verify(stateMock, times(4)).loadRequests(anyString(), this.tourMock);
-	}*/
+		verify(stateMock).loadRequests(REQUEST_FILE_PATH, tourMock);
+		verify(stateMock).loadRequests(new String(),tourMock);
+		verify(stateMock).loadRequests(INCORRECT_PATH,tourMock);
+		verify(stateMock).loadRequests(CORRUPTED_REQUEST_FILE_PATH,tourMock);
+		} catch (Exception e) {
+			fail("Should not throw exception");
+		}
+	}
 
 	@Test
 	void testAddRequest() {

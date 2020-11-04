@@ -86,7 +86,7 @@ class TourTest implements PropertyChangeListener {
 			tour.setRequests(new String());
 			fail("Should throw exception IllegalArgumentException");
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			assertTrue(e instanceof IllegalArgumentException);
 		}
 
