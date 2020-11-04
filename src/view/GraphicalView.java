@@ -227,7 +227,11 @@ public class GraphicalView extends JPanel {
 			}
 		}
 	}
-	
+
+
+	/*
+	 * This method is used to respond to a click on the point of coordinates (x,y) on the map
+	 */
 	public Intersection mapClickedResponse(int x, int y){
 		// clear if necessary
 		this.clearSelectedPoint();
@@ -246,6 +250,32 @@ public class GraphicalView extends JPanel {
 
 	}
 	
+	/*
+	 * This method is used to respond to a click on the point of coordinates (x,y) on the map,  when you are looking for a type of point in particular
+	 * (random, pickup, delivery, depot)
+	 */
+	public Intersection mapClickedResponse(int x, int y, Color color){
+		// clear if necessary
+		this.clearSelectedPoint();
+
+		//Look for a new selected point
+		graphicalPoints.forEach(gp -> {
+			if(gp.isClicked(x, y) && gp.getColor()==color) {
+				gp.setSize(gp.getSize()*2);
+				selectedPoint = gp.getPoint();
+				return;
+			}
+		});
+		
+		repaint();
+		return selectedPoint;
+
+	}
+
+
+
+
+
 	public void selectPoint(Intersection inter) {
 		// clear if necessary
 		this.clearSelectedPoint();
