@@ -204,10 +204,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		tv.addPropertyChangeListener(this);
 	}
 	
-	public void openPopUpWindow(String text) {
-		PopupWindow popup = new PopupWindow(text);
-	}
-	
 	public void selectCell(Intersection inter) {
 		gv.selectPoint(inter);
 	}
