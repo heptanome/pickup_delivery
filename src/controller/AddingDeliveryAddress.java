@@ -1,19 +1,22 @@
 package controller;
 
 import view.HomeWindow;
+
+import javax.swing.JOptionPane;
+
 import model.Intersection;
 import model.Request;
+import view.HomeWindow;
 
 public class AddingDeliveryAddress implements State {
 	
 	@Override
 	public void pointClicked(Intersection i, HomeWindow hw) throws Exception{
-		System.out.println("delivery address " + i.getNumber());
+		int duration = Integer.parseInt(JOptionPane.showInputDialog (hw, "Enter a Number"));
+		System.out.println("delivery address " + i.getNumber() + "Duration : " + duration);
 		Request r = hw.getNewRequest();
-
-		//TODO :  AddJOptionPane to ask for pickup duration and add it
-		
 		r.setDeliveryAddress(i);
+		r.setDeliveryDuration(duration);
 		hw.setNewRequest(r);
 	}
 
@@ -23,8 +26,8 @@ public class AddingDeliveryAddress implements State {
 	}
 
 	@Override
-	public void describeState() throws Exception{
-        System.out.println("Select a delivery point on the map (white point)");
+	public void describeState(HomeWindow hw) throws Exception{
+		JOptionPane.showMessageDialog(hw, "Select a delivery point on the map (white point) for the new request");  
 	}
 
 }

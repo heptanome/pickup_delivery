@@ -42,7 +42,7 @@ public interface State {
 
 	}
 
-	public default void describeState() throws Exception{
+	public default void describeState(HomeWindow hw) throws Exception{
 
 	}
 }

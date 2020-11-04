@@ -67,7 +67,7 @@ public class Application implements PropertyChangeListener {
 	public void addRequest() throws Exception {
 		System.out.println("Ajout d'une requête : ");
 		currentState = apa;
-		currentState.describeState();
+		currentState.describeState(homeWindow);
 		homeWindow.addSingleMouseClickOnMapListener();
 		
 	}
@@ -75,7 +75,7 @@ public class Application implements PropertyChangeListener {
 	public void pointClicked(Object selectedPoint) throws Exception {
 		currentState.pointClicked((Intersection)selectedPoint, homeWindow);
 		currentState = currentState.nextState();
-		currentState.describeState();
+		currentState.describeState(homeWindow);
 
 		//TODO : replace this with a method setMouseListeners in the States
 		if(currentState instanceof WorkingState){

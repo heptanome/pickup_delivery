@@ -1,6 +1,9 @@
 package controller;
 
 import view.HomeWindow;
+
+import javax.swing.JOptionPane;
+
 import model.Intersection;
 
 public class AddingPointPreceedingDelivery implements State {
@@ -16,7 +19,7 @@ public class AddingPointPreceedingDelivery implements State {
     }
     
     @Override
-	public void describeState() throws Exception{
-        System.out.println("Select a point on the map that will preceed the delivery point(colored point)");
+	public void describeState(HomeWindow hw) throws Exception{
+        JOptionPane.showMessageDialog(hw, "Select a point on the map (colored point) that will preceed the delivery point"); 
 	}
 }
