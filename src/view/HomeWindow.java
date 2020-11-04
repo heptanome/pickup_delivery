@@ -366,8 +366,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			// Only works if there is a map loaded
 			if (loadedMap != null) {
 				Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
-				System.out.println(selectedPoint);
-				tv.selectCell(selectedPoint);
+				if(selectedPoint != null) {
+					System.out.println(selectedPoint);
+					tv.selectCell(selectedPoint);
+				}else {
+					System.out.println("no selected point");
+				}
 			}
 		}
 	}

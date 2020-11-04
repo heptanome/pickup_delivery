@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.JPanel;
 
@@ -239,14 +240,18 @@ public class GraphicalView extends JPanel {
 		this.clearSelectedPoint();
 
 		// Look for a new selected point
-		graphicalPoints.forEach(gp -> {
-			if (gp.isClicked(x, y)) {
-				gp.setSize(gp.getSize() * 2);
-				selectedPoint = gp.getPoint();
-				return;
-			}
-		});
-
+		
+		ListIterator<GraphicalPoint> gpIterator = graphicalPoints.listIterator();
+		GraphicalPoint gp = gpIterator.next();
+		while(gpIterator.hasNext() && !gp.isClicked(x,y)) {
+			gp = gpIterator.next();
+		}
+		
+		if(gp.isClicked(x, y)) {
+			gp.setSize(gp.getSize() * 2);
+			selectedPoint = gp.getPoint();
+		}
+		
 		repaint();
 		return selectedPoint;
 	}
