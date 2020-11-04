@@ -121,7 +121,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	}
 
 	
-	private void setButton(final JButton newButton, final ActionListener listener) {
+	private void setButton(JButton newButton, ActionListener listener) {
 		newButton.addActionListener(listener);
 		newButton.setUI(new StyledButtonUI());
 		newButton.setEnabled(false);
@@ -185,36 +185,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * @param segments An ordered (linked) list of segments the cyclist will have
 	 * to follow
 	 */
-	public void tourComputed(final List<Segment> segments) {
-		this.helpText = "<html>Your tour has been computed. <br>Feel free to add or delete a point.</html>";
-		gv.displayTour(segments);
-		tv.displayTour(this.loadedSOR, segments);
-		//TODO textual container
-	}
-	
-	public void selectCell(final Intersection inter) {
-		gv.selectPoint(inter);
-	}
-	
-	public void addPropertyChangeListener(final PropertyChangeListener pcl) {
-		support.addPropertyChangeListener(pcl);
-	}
-
-	public void removePropertyChangeListener(final PropertyChangeListener pcl) {
-		support.removePropertyChangeListener(pcl);
-	}
-	
-	/**
-	 * Passing the segments to the graphical container
-	 * @param segments An ordered (linked) list of segments the cyclist will have
-	 * to follow
-	 */
-	/*public void tourComputed(List<Segment> segments) {
+	public void tourComputed(List<Segment> segments) {
 		this.helpText = "Your tour has been computed. Feel free to add or delete a point.";
 		gv.displayTour(segments);
 		tv.displayTour(this.loadedSOR, segments);
 		//road map (file)
-	}*/
+	}
 
 	
 	public Request getNewRequest(){
@@ -243,6 +219,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	
 	public Request getRequestFromIntersection (final Intersection i) {
 		return loadedSOR.getRequestFromIntersection(i);
+	}
+	
+	public void selectCell(Intersection inter) {
+		gv.selectPoint(inter);
+	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener pcl) {
+		support.addPropertyChangeListener(pcl);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener pcl) {
+		support.removePropertyChangeListener(pcl);
 	}
 
 	public class LoadRequestListener implements ActionListener {
