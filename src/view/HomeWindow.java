@@ -220,10 +220,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public void setPreceedingDelivery (final Intersection i){
 		preceedingDelivery = i;
 	}
-	
-	public Request getRequestFromIntersection (Intersection i) {
-		return loadedSOR.getRequestFromIntersection(i);
-	}
 
 	public Intersection getPreceedingPickup (){
 		return precedingPickup;
@@ -232,6 +228,11 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public Intersection getPreceedingDelivery (){
 		return preceedingDelivery;
 	}
+	
+	public Request getRequestFromIntersection (Intersection i) {
+		return loadedSOR.getRequestFromIntersection(i);
+	}
+
 	
 
 	public class LoadRequestListener implements ActionListener {
