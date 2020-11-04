@@ -46,12 +46,11 @@ class SeqIterTest {
 		this.cityMap = new CityMap(intersections, segments);
 		
 		requests = new ArrayList<Request>();
-		requests.add(new Request("1", "5", 2, 3));
-		requests.add(new Request("4", "3", 6, 3));
-		this.sor = new SetOfRequests("0", new Date(1,2,3), requests);
+		requests.add(new Request(intersections.get(2),intersections.get(6), 2, 3));
+		requests.add(new Request(intersections.get(5),intersections.get(4), 6, 3));
+		this.sor = new SetOfRequests(new Intersection("0",0,0), new Date(1,2,3), requests);
 		
 		graph = new CompleteGraph(cityMap, sor);
-		
 		
 		unvisited = new HashSet<Integer>();
 		unvisited.add(1);
