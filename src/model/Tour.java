@@ -2,7 +2,6 @@ package model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -45,48 +44,6 @@ public class Tour {
 		this.setOfRequests = rp.loadRequests();
 		// signal the observers the set of requests has changed
 		support.firePropertyChange("updateRequests", oldReq, this.setOfRequests);
-	}
-	
-	public List<Segment> addRequest(Request newRequest, Intersection beforeDelivery, Intersection beforePickup){
-		//find afterDelivery and afterPickup
-		List<Intersection> requestPoints = setOfRequests.getRequestNodes();
-		
-		ListIterator<Segment> it;
-		Segment beforePicSeg = null;
-		Segment beforeDelSeg = null;
-		Segment afterPicSeg  = null;
-		Segment afterDelSeg  = null;
-		
-		it = path.listIterator(0);
-		while(it.hasNext()) {
-			Segment tmp = it.next();
-			if(tmp.getDestination() == beforePickup) {
-				beforePicSeg = tmp;
-				break;
-			}
-		}
-		
-		it = path.listIterator(path.indexOf(beforePicSeg));
-		while(it.hasNext()) {
-			Segment tmp = it.next();
-			for(Intersection i : requestPoints) {
-				if(tmp.getDestination() == i) {
-					afterPicSeg = tmp;
-				}
-			}
-		}
-		
-		it = path.listIterator(path.indexOf(afterPicSeg));
-		while(it.hasNext()) {
-			Segment tmp = it.next();
-			if(tmp.getDestination() == beforeDelivery) {
-				beforeDelSeg = tmp;
-			}
-		}
-		
-		
-		
-		return this.path;
 	}
 	
 	private CompleteGraph mapToCompleteGraph() {
