@@ -103,6 +103,9 @@ public class Tour {
 			}
 			intermediateNodes.clear();
 		}
+
+		RoadMap rm = new RoadMap(this.path, this.setOfRequests);
+		
 		support.firePropertyChange("tourComputed", null, this.path);
 		return this.path;
 	}

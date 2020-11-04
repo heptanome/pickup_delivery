@@ -2,7 +2,6 @@ package view;
 
 import javax.swing.*;
 
-import controller.Application;
 import model.CityMap;
 import model.Intersection;
 import model.Request;
@@ -10,7 +9,6 @@ import model.Segment;
 import model.SetOfRequests;
 
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -28,13 +26,7 @@ import java.util.TimerTask;
  */
 public class HomeWindow extends JFrame implements PropertyChangeListener {
 	private static final long serialVersionUID = 3L;
-	/**
-	 * The width of the window
-	 */
 	protected final static int WIDTH = 1420;
-	/**
-	 * The height of the window
-	 */
 	protected final static int HEIGHT = 850;
 	
 	/**
@@ -48,9 +40,14 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	private JButton btnLoadRequest = new JButton("Load a set of requests");
 	private JButton btnAddRequest = new JButton("Add a request");
 	private JButton btnDeleteRequest = new JButton("Delete a request");
-	private JButton btnComputeTour = new JButton("Compute a Tour");
-	private JButton btnHelp = new JButton("🆘");
+
+	private JButton btnComputeTour = new JButton("Compute a tour");
+	private JButton btnRoadMap = new JButton("Display the road map");
+	private JButton btnSaveRoadMap = new JButton("Save the Road Map");
+	private JButton btnHelp = new JButton("SOS");
+
 	private JLabel lblHelp = new JLabel();
+
 	private JPanel textualContainer;
 	private JPanel graphicalContainer;
 	private JPanel buttonsContainer;
@@ -97,49 +94,20 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		buttonsContainer.add(Box.createVerticalStrut(30));
 
 		// Buttons
-		btnLoadMap.addActionListener(new LoadMapListener());
-		btnLoadMap.setUI(new StyledButtonUI());
+		this.setButton(btnLoadMap, new LoadMapListener());
 		btnLoadMap.setEnabled(true);
-		btnLoadMap.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnLoadMap.setAlignmentY(5);
-		buttonsContainer.add(btnLoadMap);
-		buttonsContainer.add(Box.createVerticalStrut(10));
+		this.setButton(btnLoadRequest, new LoadRequestListener());
+		this.setButton(btnComputeTour, new ComputeTourListener());
+		this.setButton(btnRoadMap, new RoadMapListener());	
+		this.setButton(btnAddRequest, new AddRequestListener());
+		this.setButton(btnDeleteRequest, new DeleteRequestListener());
+		this.setButton(btnSaveRoadMap, new SaveRoadMapListener());
+		this.setButton(btnHelp, new HelpListener());
 		
-		btnLoadRequest.addActionListener(new LoadRequestListener());
-		btnLoadRequest.setUI(new StyledButtonUI());
-		btnLoadRequest.setEnabled(false);
-		btnLoadRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnLoadRequest);
-		buttonsContainer.add(Box.createVerticalStrut(10));
+		//JLabel
+		lblHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		btnAddRequest.addActionListener(new AddRequestListener());
-		btnAddRequest.setUI(new StyledButtonUI());
-		btnAddRequest.setEnabled(false);
-		btnAddRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnAddRequest);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-
-		btnDeleteRequest.addActionListener(new DeleteRequestListener());
-		btnDeleteRequest.setUI(new StyledButtonUI());
-		btnDeleteRequest.setEnabled(false);
-		btnDeleteRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnDeleteRequest);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-
-		btnComputeTour.addActionListener(new ComputeTourListener());
-		btnComputeTour.setUI(new StyledButtonUI());
-		btnComputeTour.setEnabled(false);
-		btnComputeTour.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnComputeTour);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-		
-		btnHelp.addActionListener(new HelpListener());
-		btnHelp.setUI(new StyledButtonUI());
-		btnHelp.setEnabled(true);
-		btnHelp.setFont(new Font("Arial", Font.BOLD, 30));
-		btnComputeTour.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnHelp);
-		
 		// Add containers
 		add(graphicalContainer);
 		add(textualContainer);
@@ -152,13 +120,23 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
+	
+	private void setButton(JButton newButton, ActionListener listener) {
+		newButton.addActionListener(listener);
+		newButton.setUI(new StyledButtonUI());
+		newButton.setEnabled(false);
+		newButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonsContainer.add(newButton);
+		buttonsContainer.add(Box.createVerticalStrut(10));
+	}
+	
 	/**
 	 * Refreshing the View (graphical) with a newly loaded map
 	 * @param map The map that was received from the Model after parsing it
 	 */
 	public void setMap(CityMap map) {
 		this.loadedMap = map;
-		this.helpText = "The map has been loaded. Please load a requests file now.";
+		this.helpText = "<html>The map has been loaded. <br> Please load a requests file now.</html>";
 
 		// Graphical view
 		graphicalContainer.removeAll();
@@ -182,7 +160,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 */
 	public void setRequests(SetOfRequests sor) {
 		this.loadedSOR = sor;
-		this.helpText = "The map and the set of requests have been loaded. Now is the time to compute!";
+		this.helpText = "<html>The map and the set of <br>requests have been loaded. <br> Now is the time to compute!</html>";
 		
 		// graphical view of a set of requests
 		gv.displayRequests(this.loadedSOR);
@@ -196,12 +174,22 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		tv.displayRequests(this.loadedSOR);
 		
 		// Buttons enabling
-		btnAddRequest.setEnabled(true);
-		btnDeleteRequest.setEnabled(true);
 		btnComputeTour.setEnabled(true);
 		
 		// event listening (Home listens to TextualView)
 		tv.addPropertyChangeListener(this);
+	}
+	
+	/**
+	 * Passing the segments to the graphical container
+	 * @param segments An ordered (linked) list of segments the cyclist will have
+	 * to follow
+	 */
+	public void tourComputed(List<Segment> segments) {
+		this.helpText = "<html>Your tour has been computed. <br>Feel free to add or delete a point.</html>";
+		gv.displayTour(segments);
+		tv.displayTour(this.loadedSOR, segments);
+		//TODO textual container
 	}
 	
 	public void selectCell(Intersection inter) {
@@ -221,12 +209,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * @param segments An ordered (linked) list of segments the cyclist will have
 	 * to follow
 	 */
-	public void tourComputed(List<Segment> segments) {
+	/*public void tourComputed(List<Segment> segments) {
 		this.helpText = "Your tour has been computed. Feel free to add or delete a point.";
 		gv.displayTour(segments);
 		tv.displayTour(this.loadedSOR, segments);
 		//road map (file)
-	}
+	}*/
 
 	
 	public Request getNewRequest(){
@@ -261,26 +249,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Un evenement a été detecté");
-			Object source = e.getSource();
-
-			if (source == btnLoadRequest) {
-				File repertoireCourant = null;
-				try {
-					repertoireCourant = new File(".").getCanonicalFile();
-					System.out.println("Répertoire courant : " + repertoireCourant);
-				} catch (IOException err) {
-				}
-				JFileChooser dialogue = new JFileChooser(repertoireCourant);
-				dialogue.showOpenDialog(null);
-				String requestPath = dialogue.getSelectedFile().getAbsolutePath();
-				System.out.println("Fichier choisi : " + requestPath);
-
-				support.firePropertyChange("loadRequests", "", requestPath);
-				// SetOfRequests sr = Application.loadRequest(requestPath);
-			} else {
-				System.out.println("Cet evenement n'a pas d'action associée");
+			File currentDirectory = null;
+			try {
+				currentDirectory = new File(".").getCanonicalFile();
+				System.out.println("Current directory : " + currentDirectory);
+			} catch (IOException err) {
 			}
+			JFileChooser dialogue = new JFileChooser(currentDirectory);
+			dialogue.showOpenDialog(null);
+			String requestPath = dialogue.getSelectedFile().getAbsolutePath();
+			System.out.println("Selected File : " + requestPath);
+
+			support.firePropertyChange("loadRequests", "", requestPath);
 		}
 
 	}
@@ -289,17 +269,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			File repertoireCourant = null;
+			File currentDirectory= null;
 			try {
-				repertoireCourant = new File(".").getCanonicalFile();
-				System.out.println("Répertoire courant : " + repertoireCourant);
+				currentDirectory = new File(".").getCanonicalFile();
+				System.out.println("Current directory : " + currentDirectory);
 			} catch (IOException err) {
+				
 			}
-			JFileChooser dialogue = new JFileChooser(repertoireCourant);
+			JFileChooser dialogue = new JFileChooser(currentDirectory);
 			dialogue.showOpenDialog(null);
 			String mapPath = dialogue.getSelectedFile().getAbsolutePath();
-			System.out.println("Fichier choisi : " + mapPath);
-			// Application.loadMap(mapPath);
+			System.out.println("Selected File : " + mapPath);
 			support.firePropertyChange("loadMap", "", mapPath);
 			System.out.println("fired loadmap");
 		}
@@ -329,6 +309,60 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			support.firePropertyChange("computeTour", null, null);
+			
+			// Buttons Enabling
+			btnRoadMap.setEnabled(true);
+			btnAddRequest.setEnabled(true);
+			btnDeleteRequest.setEnabled(true);
+		}
+
+	}
+	
+	public class RoadMapListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			if (btnRoadMap.getText() == "Return to the Map") {
+				this.removeRoadMap();
+				btnRoadMap.setText("Display the road map");
+				this.enableButtons(true);
+			}
+			else {
+				this.displayRoadMap();
+				btnRoadMap.setText("Return to the Map");
+				this.enableButtons(false);
+			}
+		}
+		
+		public void displayRoadMap() {
+			graphicalContainer.removeAll();
+			graphicalContainer.repaint();
+			JPanel roadMapView = new RoadMapView();
+			graphicalContainer.add(roadMapView);
+		}
+		
+		public void removeRoadMap() {
+			graphicalContainer.removeAll();
+			graphicalContainer.repaint();
+			graphicalContainer.add(gv);
+		}
+		
+		private void enableButtons(boolean state) {
+			btnSaveRoadMap.setEnabled(!state);
+			btnLoadMap.setEnabled(state);
+			btnLoadRequest.setEnabled(state);
+			btnComputeTour.setEnabled(state);
+			btnAddRequest.setEnabled(state);
+			btnDeleteRequest.setEnabled(state);
+		}
+
+	}
+	
+	public class SaveRoadMapListener implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Saving the road map");
 		}
 
 	}
@@ -343,7 +377,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			
 			TimerTask task = new TimerTask() {
 		        public void run() {
-		        	System.out.println("retour de clique");
 					buttonsContainer.remove(lblHelp);
 					buttonsContainer.updateUI();
 		        }
