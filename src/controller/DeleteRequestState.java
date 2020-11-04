@@ -2,6 +2,7 @@ package controller;
 
 import model.Intersection;
 import model.Request;
+import model.Tour;
 import view.HomeWindow;
 
 public class DeleteRequestState implements State {
@@ -14,9 +15,16 @@ public class DeleteRequestState implements State {
 	}
 	
 	@Override
-	public void pointClicked(Intersection i, HomeWindow hw) throws Exception{
+	public void pointClicked(Intersection i, HomeWindow hw, Tour tour) throws Exception{
         System.out.println("address " + i.getNumber() );
-        System.out.println("end");
+        System.out.println("Set of Requests before delete: "+ tour.setOfRequests.toString());
+        System.out.println("The request "+ hw.getRequestFromIntersection(i).toString()+ " will be deleted.");
+        
+        hw.openPopUpWindow("The request "+ hw.getRequestFromIntersection(i).toString()+ " will be deleted.");
+        tour.deleteRequest(hw.getRequestFromIntersection(i));
+        System.out.println("Set of Requests after delete: "+ tour.setOfRequests.toString());
+
+        
         // TODO: find corresponding pickup or delivery address respec.
 		// TODO :  AddJOptionPane to ask for pickup duration and add it below
 		// Request newR = new Request(i, new Intersection("",0,0), 0,0);

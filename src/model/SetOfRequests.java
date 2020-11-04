@@ -74,14 +74,19 @@ public class SetOfRequests {
 		return null;
 	}
 	
-	public Intersection getCorrespondingPickUpOrDelivery(Intersection intersection) {
+	public Request getRequestFromIntersection(Intersection intersection) {
+		// System.out.println("SOR: "+ intersection.toString());
+		// System.out.println("SOR: "+ this.toString());
 		for(Request r : requests) {
-			if(intersection ==  r.getPickup() ) {
-				return r.getDelivery();
-			} else if (intersection == r.getDelivery()) {
-				return r.getPickup();
+			if(intersection ==  r.getPickup() || intersection == r.getDelivery()) {
+				return r;
 			}
 		}
 		return null;
 	}
+	
+	public void deleteRequest(Request request) {
+		requests.remove(request);
+	}
+	
 }

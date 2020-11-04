@@ -2,10 +2,11 @@ package controller;
 
 import view.HomeWindow;
 import model.Intersection;
+import model.Tour;
 
 public class AddingPointPreceedingDelivery implements State {
     @Override
-	public void pointClicked(Intersection i, HomeWindow hw) throws Exception{
+	public void pointClicked(Intersection i, HomeWindow hw, Tour tour) throws Exception{
         System.out.println("preceeding delivery address " + i.getNumber() );
         hw.setPreceedingDelivery(i);
     }

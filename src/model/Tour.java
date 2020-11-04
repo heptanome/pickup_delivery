@@ -51,6 +51,12 @@ public class Tour {
 	    return g;
 	}
 	
+	public void deleteRequest(Request request) {
+		SetOfRequests oldReq = this.setOfRequests;
+		this.setOfRequests.deleteRequest(request);
+		support.firePropertyChange("updateRequests", oldReq, this.setOfRequests);
+	}
+		
 	public List<Segment> computeTour(){
 		//TSP tsp = new TSP1();
 		TSP tsp = new TSP2();

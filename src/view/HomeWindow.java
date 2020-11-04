@@ -204,6 +204,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		tv.addPropertyChangeListener(this);
 	}
 	
+	public void openPopUpWindow(String text) {
+		PopupWindow popup = new PopupWindow(text);
+	}
+	
 	public void selectCell(Intersection inter) {
 		gv.selectPoint(inter);
 	}
@@ -243,6 +247,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	public void setPreceedingDelivery (Intersection i){
 		preceedingDelivery = i;
+	}
+	
+	public Request getRequestFromIntersection (Intersection i) {
+		return loadedSOR.getRequestFromIntersection(i);
 	}
 
 	public class LoadRequestListener implements ActionListener {

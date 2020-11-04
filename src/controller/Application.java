@@ -74,7 +74,7 @@ public class Application implements PropertyChangeListener {
 	}
 
 	public void pointClicked(Object selectedPoint) throws Exception {
-		currentState.pointClicked((Intersection)selectedPoint, homeWindow);
+		currentState.pointClicked((Intersection)selectedPoint, homeWindow, tour);
 		currentState = currentState.nextState();
 		currentState.describeState();
 

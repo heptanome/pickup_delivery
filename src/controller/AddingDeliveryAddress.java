@@ -3,11 +3,12 @@ package controller;
 import view.HomeWindow;
 import model.Intersection;
 import model.Request;
+import model.Tour;
 
 public class AddingDeliveryAddress implements State {
 	
 	@Override
-	public void pointClicked(Intersection i, HomeWindow hw) throws Exception{
+	public void pointClicked(Intersection i, HomeWindow hw, Tour tour) throws Exception{
 		System.out.println("delivery address " + i.getNumber());
 		Request r = hw.getNewRequest();
 
