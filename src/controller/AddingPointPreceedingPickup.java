@@ -5,9 +5,8 @@ import view.HomeWindow;
 import javax.swing.JOptionPane;
 
 import model.Intersection;
-import view.HomeWindow;
 import model.Tour;
-import model.Request;;
+import view.HomeWindow;
 
 
 public class AddingPointPreceedingPickup implements State {

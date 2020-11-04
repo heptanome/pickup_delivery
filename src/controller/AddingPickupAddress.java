@@ -18,6 +18,7 @@ public class AddingPickupAddress implements State {
         newR.setPickupAddress(i);
         newR.setPickupDuration(duration);
         hw.setNewRequest(newR);
+	
     }
     
     @Override
