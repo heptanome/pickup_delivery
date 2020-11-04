@@ -1,23 +1,33 @@
 package model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.LinkedList;
-
+/**
+ * The class responsible for parsing a set of requests XML file passed in as a
+ * file path (string) retrieving all requests, the time at which the tour starts
+ * and the depot's point.
+ */
 public class RequestParser extends Parser {
-	
+
 	private CityMap map;
-	
+
 	public RequestParser(String fp, CityMap cm) throws Exception {
 		super(fp);
 		this.map = cm;
 	}
 
+	/**
+	 * Builds the set of request from the NodeLists
+	 * 
+	 * @return a populated set of requests the tour can then use
+	 */
 	public SetOfRequests loadRequests() {
 		SimpleDateFormat format = new SimpleDateFormat("H:M:s");
 
@@ -65,10 +75,10 @@ public class RequestParser extends Parser {
 	private SetOfRequests createTour(Intersection idDepot, Date departure, List<Request> req) {
 		return new SetOfRequests(idDepot, departure, req);
 	}
-	
+
 	private Intersection findIntersection(String id) {
-		for(Intersection i : map.getInstersections()) {
-			if(i.getNumber().equals(id))
+		for (Intersection i : map.getInstersections()) {
+			if (i.getNumber().equals(id))
 				return i;
 		}
 		return null;

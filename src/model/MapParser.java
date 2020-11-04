@@ -8,7 +8,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * The class responsible for parsing an XML file passed in as a file path
+ * The class responsible for parsing a map XML file passed in as a file path
  * (string) retrieving all intersections and segments. If any error were to
  * occur, the parser should fail silently (without crashing the application).
  */
@@ -21,8 +21,12 @@ public class MapParser extends Parser {
 		super(fp);
 	}
 
+	/**
+	 * Builds a CityMap from the intersections and segments NodeLists
+	 * 
+	 * @return a functioning CityMap
+	 */
 	public CityMap loadMap() {
-
 		NodeList interList = doc.getElementsByTagName("intersection");
 		NodeList segList = doc.getElementsByTagName("segment");
 
