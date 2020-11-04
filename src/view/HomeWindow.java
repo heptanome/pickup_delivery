@@ -90,23 +90,16 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		buttonsContainer.add(Box.createVerticalStrut(30));
 
 		// Buttons
-		this.setButton(btnLoadMap, new LoadMapListener(), buttonsContainer);
+		this.setButton(btnLoadMap, new LoadMapListener());
 		btnLoadMap.setEnabled(true);
 		btnLoadMap.setAlignmentY(5);
-		this.setButton(btnLoadRequest, new LoadRequestListener(), buttonsContainer);
-		this.setButton(btnComputeTour, new ComputeTourListener(), buttonsContainer);
-		this.setButton(btnRoadMap, new RoadMapListener(), buttonsContainer);	
-		this.setButton(btnAddRequest, new AddRequestListener(), buttonsContainer);
-		this.setButton(btnDeleteRequest, new DeleteRequestListener(), buttonsContainer);
-		this.setButton(btnSaveRoadMap, new SaveRoadMapListener(), buttonsContainer);
-
-		btnHelp.addActionListener(new HelpListener());
-		btnHelp.setUI(new StyledButtonUI());
-		btnHelp.setEnabled(true);
-		//btnHelp.setFont(new Font("Arial", Font.BOLD, 30));
-		btnHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnHelp);
-		buttonsContainer.add(Box.createVerticalStrut(10));
+		this.setButton(btnLoadRequest, new LoadRequestListener());
+		this.setButton(btnComputeTour, new ComputeTourListener());
+		this.setButton(btnRoadMap, new RoadMapListener());	
+		this.setButton(btnAddRequest, new AddRequestListener());
+		this.setButton(btnDeleteRequest, new DeleteRequestListener());
+		this.setButton(btnSaveRoadMap, new SaveRoadMapListener());
+		this.setButton(btnHelp, new HelpListener());
 		
 		//JLabel
 		lblHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -124,7 +117,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	}
 
 	
-	private void setButton(JButton newButton, ActionListener listener, JPanel buttonsContainer) {
+	private void setButton(JButton newButton, ActionListener listener) {
 		newButton.addActionListener(listener);
 		newButton.setUI(new StyledButtonUI());
 		newButton.setEnabled(false);
@@ -180,18 +173,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		tv.addPropertyChangeListener(this);
 	}
 	
-	public void selectCell(Intersection inter) {
-		gv.selectPoint(inter);
-	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener pcl) {
-		support.addPropertyChangeListener(pcl);
-	}
-
-	public void removePropertyChangeListener(PropertyChangeListener pcl) {
-		support.removePropertyChangeListener(pcl);
-	}
-	
 	/**
 	 * Passing the segments to the graphical container
 	 * @param segments An ordered (linked) list of segments the cyclist will have
@@ -202,6 +183,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		gv.displayTour(segments);
 		tv.displayTour(this.loadedSOR, segments);
 		//TODO textual container
+	}
+	
+	public void selectCell(Intersection inter) {
+		gv.selectPoint(inter);
+	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener pcl) {
+		support.addPropertyChangeListener(pcl);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener pcl) {
+		support.removePropertyChangeListener(pcl);
 	}
 
 	public class LoadRequestListener implements ActionListener {
@@ -338,7 +331,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			
 			TimerTask task = new TimerTask() {
 		        public void run() {
-		        	System.out.println("retour de clique");
 					buttonsContainer.remove(lblHelp);
 					buttonsContainer.updateUI();
 		        }
