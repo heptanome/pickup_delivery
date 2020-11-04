@@ -34,7 +34,7 @@ class CityMapTest {
 		intersections.add(new Intersection("0", 0, 0));
 		for (int i = 1; i < 10; i++) {
 			intersections.add(new Intersection(Integer.toString(i), i, i));
-			segments.add(new Segment(intersections.get(i-1).getNumber(), intersections.get(i).getNumber(), Integer.toString(i), (float) 1.4)); 
+			segments.add(new Segment(intersections.get(i-1), intersections.get(i), Integer.toString(i), (float) 1.4)); 
 		}
 		
 		cityMap = new CityMap(intersections, segments);
@@ -77,7 +77,7 @@ class CityMapTest {
 
 	@Test
 	void testGetIntFromNumberMap() {
-		assertEquals(numberToIdMap.get("1"), cityMap.getIntFromNumberMap("1"));
+		assertEquals(numberToIdMap.get("1"), cityMap.getIntFromIntersectionMap("1"));
 	}
 
 	@Test

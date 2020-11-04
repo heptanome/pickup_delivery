@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,15 +12,15 @@ public class CityMap {
   private List<Intersection> intersections;
   private List<Segment> segments;
   private int nbVertices;
-  private Map<String, Integer> numberToIdMap;
-  private Map<Integer, String> idToNumberMap;	
+  private Map<Intersection, Integer> numberToIdMap;
+  private Map<Integer, Intersection> idToNumberMap;	
 	
 	public CityMap(List<Intersection> intersections, List<Segment> segments) {
 		this.intersections = intersections;
 	    this.segments = segments;
 	    this.nbVertices = intersections.size();
-	    this.numberToIdMap = new HashMap<String,Integer>();
-	    this.idToNumberMap = new HashMap<Integer,String>();
+	    this.numberToIdMap = new HashMap<Intersection,Integer>();
+	    this.idToNumberMap = new HashMap<Integer,Intersection>();
 	    this.convertNumberToId();
 	}
 	
@@ -40,15 +41,15 @@ public class CityMap {
 		  return this.nbVertices;
 	  }
 	  
-	  public Map<String,Integer> getNumberIdMap(){
+	  public Map<Intersection,Integer> getNumberIdMap(){
 		  return numberToIdMap;
 	  }
 	  
-	  public int getIntFromNumberMap(String number){
+	  public int getIntFromIntersectionMap(Intersection number){
 		  return numberToIdMap.get(number);
 	  }
 	  
-	  public String getStringFromIdMap(int id){
+	  public Intersection getIntersectionFromIdMap(int id){
 		  return idToNumberMap.get(id);
 	  }
 
@@ -60,19 +61,29 @@ public class CityMap {
 		return segments;
 	}
 	
-	public Segment getSegmentFromPoints(String origin, String destination) {
+	public Segment getSegmentFromInter(Intersection origin, Intersection destination) {
 		for(Segment s: segments) {
-			if(s.getNumberOrigin().equals(origin) && s.getNumberDestination().equals(destination))
+			if(s.getOrigin() == origin && s.getDestination() == destination)
 				return s;
 		}
 		return null;
 	}
 	
+	public List<String> getNeighbours(String point){
+		List<String> neighbours = new LinkedList<String>();
+		//parcourir tous les segments
+		for (Segment s : segments) {
+			if(point.equals(s.getNumberOrigin()))
+				neighbours.add(s.getNumberDestination());
+		}
+		return neighbours;
+	}
+	
 	private void convertNumberToId() {
 		  int index = 0;
 		  for(Intersection intersection : this.intersections) {
-			  this.numberToIdMap.put(intersection.getNumber(),index);
-			  this.idToNumberMap.put(index,intersection.getNumber());
+			  this.numberToIdMap.put(intersection,index);
+			  this.idToNumberMap.put(index,intersection);
 			  index ++;
 		  }
 	}
