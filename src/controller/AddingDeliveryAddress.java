@@ -19,6 +19,7 @@ public class AddingDeliveryAddress implements State {
 		r.setDeliveryAddress(i);
 		r.setDeliveryDuration(duration);
 		hw.setNewRequest(r);
+
 	}
 
 	@Override

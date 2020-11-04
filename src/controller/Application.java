@@ -93,6 +93,8 @@ public class Application implements PropertyChangeListener {
 
 		//TODO : replace this with a method setMouseListeners in the States
 		if(currentState instanceof DisplayingTourOnMapState){
+
+			System.out.println("done");
 			homeWindow.removeAllMouseListeners();
 			homeWindow.addMouseOnMapListener();
 		}

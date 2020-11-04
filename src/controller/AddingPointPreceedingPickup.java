@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import model.Intersection;
 import view.HomeWindow;
 import model.Tour;
+import model.Request;;
 
 
 public class AddingPointPreceedingPickup implements State {
@@ -14,8 +15,8 @@ public class AddingPointPreceedingPickup implements State {
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour) throws Exception{
         System.out.println("preceeding pickup address " + i.getNumber() );
         hw.setPreceedingPickup(i);
-
-        //TODO : Send to the tour to update (fire event?) the tour (nothing implemented there yet)
+        
+        
     }
     
     @Override

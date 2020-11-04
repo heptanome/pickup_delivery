@@ -248,6 +248,14 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public void setPreceedingDelivery (Intersection i){
 		preceedingDelivery = i;
 	}
+
+	public Intersection getPreceedingPickup (){
+		return precedingPickup;
+	}
+
+	public Intersection getPreceedingDelivery (){
+		return preceedingDelivery;
+	}
 	
 	public Request getRequestFromIntersection (Intersection i) {
 		return loadedSOR.getRequestFromIntersection(i);
@@ -425,7 +433,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * we need the point clicked to be a random point (white point on the map)
 	 * 
 	 */
-	 public class MouseClickOnRandomPointListener implements MouseListener {
+	 /*public class MouseClickOnSpecialPointListener implements MouseListener {
 
 		@Override
 		public void mousePressed(MouseEvent e) {}
@@ -442,16 +450,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			//Only works if there is a map loaded
-			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY(), false);
+			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY(), true);
 			System.out.println("random : " + selectedPoint.getNumber());
 			support.firePropertyChange("pointClicked", null, selectedPoint);
 		}
 
 	}
 
-	public void addMouseClickOnRandomPointListener(){
-		graphicalContainer.addMouseListener(new MouseClickOnRandomPointListener());
+	public void addMouseClickOnSpecialPointListener(){
+		graphicalContainer.addMouseListener(new MouseClickOnSpecialPointListener());
 	}
+	*/
 
 	public void removeAllMouseListeners(){
 		for(int i = 0; i<graphicalContainer.getMouseListeners().length; i++){
