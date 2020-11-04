@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import model.CityMap;
 import model.Intersection;
@@ -42,7 +43,10 @@ public class TextualView extends JPanel {
 	}
 	
 	public void displayRequests(SetOfRequests sor) {
+		
+		
 
+		
 		JPanel conteneurTabRequest = new JPanel ();
 		//conteneurTabRequest.setBackground(Color.red);
 		conteneurTabRequest.setBounds(0, 50, 400, 200);
@@ -67,7 +71,18 @@ public class TextualView extends JPanel {
 			i++;
 		}
 		
+		//instance table model
+		DefaultTableModel tableModel = new DefaultTableModel(donnees, entetes) {
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
+		
 		uiTable = new JTable(donnees, entetes);
+		uiTable.setModel(tableModel);
 		uiTable.setBounds(10, 150, 300, 400);
 		
 		conteneurTabJTableRequest.add(uiTable.getTableHeader(), BorderLayout.NORTH);
@@ -127,9 +142,18 @@ public class TextualView extends JPanel {
 								{"1", "Delivery", "A", "2s"},
 								{"1", "Delivery", "A", "2s"}
 							};
-			
 		String[] tadHeader = {"Numero", "Type", "Adress", "Duration"};
+		
+		DefaultTableModel tableModel = new DefaultTableModel(tabData, tadHeader) {
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
 		JTable uiTableTour = new JTable(tabData, tadHeader);
+		uiTableTour.setModel(tableModel);
 		
 		//uiTableTour.setBounds(100, 50, 0, 0);
 		
