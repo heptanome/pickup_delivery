@@ -33,12 +33,12 @@ public class CompleteGraph implements Graph {
 		this.sor = sor;
 		this.cityMap = cm;
 		this.createMapGraph(cityMap.getNumberIdMap(), cityMap.getSegments());
-		Intersection[] requestNodes = sor.getRequestNodes();
-		this.initCostGraph(requestNodes.length);
-		int[] requestNodesInt = new int[requestNodes.length];
+		List<Intersection> requestNodes = sor.getRequestNodes();
+		this.initCostGraph(requestNodes.size());
+		int[] requestNodesInt = new int[requestNodes.size()];
 		this.precedence = new HashMap<Integer,int[]>();;
 		for(int index = 0; index < requestNodesInt.length; index++) {
-			requestNodesInt[index] = cityMap.getNumberIdMap().get(requestNodes[index]);
+			requestNodesInt[index] = cityMap.getNumberIdMap().get(requestNodes.get(index));
 		}
 		
 		this.createCompleteShortestGraph(requestNodesInt,cityMap.getNumberIdMap());
@@ -77,13 +77,13 @@ public class CompleteGraph implements Graph {
 	
 	@Override
 	public boolean isDeliveryAddress(int i) {
-		Intersection deliveryAddress = sor.getRequestNodes()[i];
+		Intersection deliveryAddress = sor.getRequestNodes().get(i);
 		return sor.isDeliveryPoint(deliveryAddress);
 	}
 	
 	@Override
 	public int getPickUpFromDelivery(int i) {
-		Intersection deliveryAddress = sor.getRequestNodes()[i];
+		Intersection deliveryAddress = sor.getRequestNodes().get(i);
 		Intersection pickUpAddress = sor.getPickUpFromDelivery(deliveryAddress);
 		int pickUpAddressInt = -1;
 		int index = 0;
