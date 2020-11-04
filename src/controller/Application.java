@@ -18,6 +18,7 @@ public class Application implements PropertyChangeListener {
 	private WorkingState workingState = new WorkingState();
 	private MapWithoutRequestsState mapWoRequestsState = new MapWithoutRequestsState();
 	private AddingPickupAddress apa = new AddingPickupAddress();
+	private DeleteRequestState deleteRequestState = new DeleteRequestState();
 
 	public static void main(String[] args) {
 		System.out.println("Bienvenue sur Pickup and Delivery");
@@ -85,12 +86,14 @@ public class Application implements PropertyChangeListener {
 
 	}
 
-	public void deleteRequest() {
-		// TODO : problem with static method
-		// currentState.deleteRequest();
+	public void deleteRequest() throws Exception {
 		System.out.println("Suppression d'une requête");
+		
+		currentState.deleteRequest();
+		currentState = deleteRequestState;
+		currentState.describeState();
+		homeWindow.addSingleMouseClickOnMapListener();
 
-		// TODO : A implémenter
 	}
 
 	public void computeTour() throws Exception {
@@ -127,6 +130,13 @@ public class Application implements PropertyChangeListener {
 		case "pointClicked":
 			try {
 				this.pointClicked(evt.getNewValue());
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		case "deleteRequest":
+			try {
+				this.deleteRequest();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}

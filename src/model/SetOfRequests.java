@@ -73,4 +73,15 @@ public class SetOfRequests {
 		}
 		return null;
 	}
+	
+	public Intersection getCorrespondingPickUpOrDelivery(Intersection intersection) {
+		for(Request r : requests) {
+			if(intersection ==  r.getPickup() ) {
+				return r.getDelivery();
+			} else if (intersection == r.getDelivery()) {
+				return r.getPickup();
+			}
+		}
+		return null;
+	}
 }

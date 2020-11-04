@@ -1,0 +1,37 @@
+package controller;
+
+import model.Intersection;
+import model.Request;
+import view.HomeWindow;
+
+public class DeleteRequestState implements State {
+	
+	
+	public void deleteRequest() throws Exception {
+		// specific behavior of the DeleteRequestState when deleting a request
+		
+		
+	}
+	
+	@Override
+	public void pointClicked(Intersection i, HomeWindow hw) throws Exception{
+        System.out.println("address " + i.getNumber() );
+        System.out.println("end");
+        // TODO: find corresponding pickup or delivery address respec.
+		// TODO :  AddJOptionPane to ask for pickup duration and add it below
+		// Request newR = new Request(i, new Intersection("",0,0), 0,0);
+		// hw.setNewRequest(newR);
+    }
+	
+	@Override
+	public void describeState() throws Exception{
+        System.out.println("Select a colored point on the map so that the corresponding request will "
+        		+ "be deleted (pickup and delivery point)");
+	}
+	
+	@Override
+	public State nextState() throws Exception{
+		// TODO: better not instanciate a new instance
+        return new WorkingState();
+    }
+}

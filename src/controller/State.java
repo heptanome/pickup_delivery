@@ -18,7 +18,7 @@ public interface State {
 		
 	}
 
-	public default void deleteRequests() {
+	public default void deleteRequest() throws Exception {
 		// default behavior of the states when deleting a request
 	}
 	
