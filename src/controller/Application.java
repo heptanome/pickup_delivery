@@ -18,7 +18,7 @@ public class Application implements PropertyChangeListener {
 	private MapWithoutRequestsState mapWoRequestsState = new MapWithoutRequestsState();
 
 	public static void main(String[] args) {
-		System.out.println("Bienvenue sur Pickup and Delivery");
+		System.out.println("Welcome on Pickup and Delivery");
 
 		Tour tour = new Tour();
 		HomeWindow homeWindow = new HomeWindow("Home Window");

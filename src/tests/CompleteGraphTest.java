@@ -37,7 +37,7 @@ class CompleteGraphTest {
 		intersections.add(new Intersection("0", 0, 0));
 		for (int i = 1; i < 10; i++) {
 			intersections.add(new Intersection(Integer.toString(i), i, i));
-			segments.add(new Segment(intersections.get(i-1).getNumber(), intersections.get(i).getNumber(), Integer.toString(i), (float) 1.4)); 
+			segments.add(new Segment(intersections.get(i-1), intersections.get(i), Integer.toString(i), (float) 1.4)); 
 		}
 		this.cityMap = new CityMap(intersections, segments);
 		this.nbVertices = cityMap.getNbVertices();
