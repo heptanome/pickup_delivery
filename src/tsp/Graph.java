@@ -1,5 +1,7 @@
 package tsp;
 
+import java.util.List;
+
 public interface Graph {
 	/**
 	 * @return the number of vertices in <code>this</code>
@@ -24,6 +26,6 @@ public interface Graph {
 	
 	public abstract boolean isDeliveryAddress(int i);
 	
-	public abstract int getPickUpFromDelivery(int i);
+	public abstract List<Integer> getPickUpFromDelivery(int i);
 
 }

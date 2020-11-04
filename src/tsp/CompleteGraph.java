@@ -1,6 +1,7 @@
 package tsp;
 import model.*;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +35,21 @@ public class CompleteGraph implements Graph {
 		this.cityMap = cm;
 		this.createMapGraph(cityMap.getNumberIdMap(), cityMap.getSegments());
 		List<Intersection> requestNodes = sor.getRequestNodes();
+		this.initCostGraph(requestNodes.size());
+		int[] requestNodesInt = new int[requestNodes.size()];
+		this.precedence = new HashMap<Integer,int[]>();;
+		for(int index = 0; index < requestNodesInt.length; index++) {
+			requestNodesInt[index] = cityMap.getNumberIdMap().get(requestNodes.get(index));
+		}
+		
+		this.createCompleteShortestGraph(requestNodesInt,cityMap.getNumberIdMap());
+	}
+	
+	public CompleteGraph(CityMap cm, List<Intersection> points){
+		this.nbVertices = cm.getNbVertices();
+		this.cityMap = cm;
+		this.createMapGraph(cityMap.getNumberIdMap(), cityMap.getSegments());
+		List<Intersection> requestNodes = points;
 		this.initCostGraph(requestNodes.size());
 		int[] requestNodesInt = new int[requestNodes.size()];
 		this.precedence = new HashMap<Integer,int[]>();;
@@ -82,17 +98,20 @@ public class CompleteGraph implements Graph {
 	}
 	
 	@Override
-	public int getPickUpFromDelivery(int i) {
+	public List<Integer> getPickUpFromDelivery(int i) {
 		Intersection deliveryAddress = sor.getRequestNodes().get(i);
-		Intersection pickUpAddress = sor.getPickUpFromDelivery(deliveryAddress);
-		int pickUpAddressInt = -1;
-		int index = 0;
-		for(Intersection inter : sor.getRequestNodes()) {
-			if(pickUpAddress == inter) {
-				pickUpAddressInt = index;
-				break;
+		List<Request> requests = sor.getRequestsFromDelivery(deliveryAddress);
+		List<Integer> pickUpAddressInt = new LinkedList<Integer>();
+		for(Request r : requests) {
+			Intersection pickUpAddress = r.getPickup();
+			int index = 0;
+			for(Intersection inter : sor.getRequestNodes()) {
+				if(pickUpAddress == inter) {
+					pickUpAddressInt.add(index);
+					break;
+				}
+				index ++;
 			}
-			index ++;
 		}
 		return pickUpAddressInt;
 	}

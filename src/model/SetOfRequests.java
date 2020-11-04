@@ -3,6 +3,7 @@ package model;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.text.SimpleDateFormat;
 
 /**
@@ -54,10 +55,7 @@ public class SetOfRequests {
 	  return requestNodes;
     }
 	
-	// we assume that all delivery and pickup points are unique. One intersection = one and
-	// only one pickup (or delivery) point.
 	public boolean isDeliveryPoint(Intersection i) {
-		
 		for(Request r : requests) {
 			if(i == r.getDelivery()) {
 				return true;
@@ -66,12 +64,13 @@ public class SetOfRequests {
 		return false;
 	}
 	
-	public Intersection getPickUpFromDelivery(Intersection delivery) {
+	public List<Request> getRequestsFromDelivery(Intersection delivery) {
+		List<Request> requestsList = new LinkedList<Request>();
 		for(Request r : requests) {
-			if(delivery ==  r.getPickup()) {
-				return r.getPickup();
+			if(delivery ==  r.getDelivery()) {
+				requestsList.add(r);
 			}
 		}
-		return null;
+		return requestsList;
 	}
 }
