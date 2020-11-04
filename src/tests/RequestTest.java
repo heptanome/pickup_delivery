@@ -46,7 +46,7 @@ class RequestTest {
 	}
 
 	@Test
-	void getPickup() {
+	void tesGetPickup() {
 		assertEquals(pickupIntersection,request.getPickup());
 	}
 	
@@ -56,7 +56,7 @@ class RequestTest {
 	}
 	
 	@Test
-	void getDelivery() {
+	void testGetDelivery() {
 		assertEquals(deliveryIntersection,request.getDelivery());
 	}
 	
@@ -66,12 +66,12 @@ class RequestTest {
 	}
 	
 	@Test
-	void getDeliveryDuration() {
+	void testGetDeliveryDuration() {
 		assertEquals(deliveryDuration, request.getDeliveryDuration());
 	}
 	
 	@Test
-	void getPickupDuration() {
+	void testGetPickupDuration() {
 		assertEquals(pickupDuration, request.getPickupDuration());
 	}
 
