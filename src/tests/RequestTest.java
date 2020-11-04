@@ -6,23 +6,39 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import model.Intersection;
 import model.Request;
 
 class RequestTest {
 
 	public String deliveryAddress;
+	public float deliveryAddressLatitude;
+	public float deliveryAddressLongitude;
 	public String pickupAddress;
+	public float pickupAddressLatitude;
+	public float pickupAddressLongitude;
 	public int deliveryDuration;
 	public int pickupDuration;
+	public Intersection deliveryIntersection;
+	public Intersection pickupIntersection;
 	public Request request;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		deliveryAddress = "55444215";
+		deliveryAddressLatitude = (float) 12.56;
+		deliveryAddressLongitude = (float) 15.786;
+		deliveryIntersection = new Intersection(deliveryAddress,deliveryAddressLatitude,deliveryAddressLongitude);
+		
 		pickupAddress = "21992645";
+		pickupAddressLatitude = (float) 18.98;
+		pickupAddressLongitude = (float) 45.3;
+		pickupIntersection = new Intersection(pickupAddress,pickupAddressLatitude,pickupAddressLongitude);
+		
 		deliveryDuration = 480;
 		pickupDuration = 360;
-		request = new Request(deliveryAddress,pickupAddress,deliveryDuration,pickupDuration);
+		
+		request = new Request(deliveryIntersection,pickupIntersection,deliveryDuration,pickupDuration);
 	}
 
 	@AfterEach
@@ -30,13 +46,33 @@ class RequestTest {
 	}
 
 	@Test
+	void tesGetPickup() {
+		assertEquals(pickupIntersection,request.getPickup());
+	}
+	
+	@Test
 	void testGetPickupAdress() {
-		assertEquals(request.getPickupAddress(), pickupAddress);
+		assertEquals(pickupAddress, request.getPickupAddress());
+	}
+	
+	@Test
+	void testGetDelivery() {
+		assertEquals(deliveryIntersection,request.getDelivery());
 	}
 	
 	@Test
 	void testGetDeliveryAddress() {
-		assertEquals(request.getDeliveryAddress(), deliveryAddress);
+		assertEquals(deliveryAddress, request.getDeliveryAddress());
+	}
+	
+	@Test
+	void testGetDeliveryDuration() {
+		assertEquals(deliveryDuration, request.getDeliveryDuration());
+	}
+	
+	@Test
+	void testGetPickupDuration() {
+		assertEquals(pickupDuration, request.getPickupDuration());
 	}
 
 	@Test

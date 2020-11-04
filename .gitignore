@@ -28,3 +28,6 @@ hs_err_pid*
 # eclipse
 .settings/*
 doc
+
+#classPath
+.classpath
