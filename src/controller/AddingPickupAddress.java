@@ -12,13 +12,18 @@ public class AddingPickupAddress implements State {
 
     @Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour) throws Exception{
-        int duration = Integer.parseInt(JOptionPane.showInputDialog (hw, "Enter a pickup duration (number of minutes)"));
-        System.out.println("Pickup address " + i.getNumber() + " Duration :" + duration );
-        Request newR = new Request(new Intersection("",0,0), new Intersection("",0,0), 0 ,0);
-        newR.setPickupAddress(i);
-        newR.setPickupDuration(duration);
-        hw.setNewRequest(newR);
-	
+        try {
+	        int duration = Integer.parseInt(JOptionPane.showInputDialog (hw, "Enter a pickup duration (number of minutes)"));
+            System.out.println("Pickup address " + i.getNumber() + " Duration :" + duration );
+            Request newR = new Request(new Intersection("",0,0), new Intersection("",0,0), 0 ,0);
+            newR.setPickupAddress(i);
+            newR.setPickupDuration(duration);
+            hw.setNewRequest(newR);
+        } catch (NullPointerException e) {
+	        JOptionPane.showMessageDialog(hw, "You did not chose a valid intersection.");
+        } catch (Exception e) {
+            System.out.println("An error occured");
+        }
     }
     
     @Override
