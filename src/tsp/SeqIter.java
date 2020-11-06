@@ -3,7 +3,6 @@ package tsp;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 public class SeqIter implements Iterator<Integer> {
 	private Integer[] candidates;
@@ -20,17 +19,21 @@ public class SeqIter implements Iterator<Integer> {
 	public SeqIter(Collection<Integer> unvisited, int currentVertex, Graph g){
 		this.candidates = new Integer[unvisited.size()];
 		for (Integer s : unvisited){
-			
 			if(g.isDeliveryAddress(s)) {
 				List<Integer> pickupList = g.getPickUpFromDelivery(s);
-				ListIterator<Integer> pickUpIt = pickupList.listIterator(0);
-				while( pickUpIt.hasNext() && !(unvisited.contains(pickUpIt.next()) ));
-				if(! pickUpIt.hasNext()) {
-					candidates[nbCandidates++] = s;
+				int index = 0;
+				while(index < pickupList.size() && unvisited.contains(pickupList.get(index))) {
+					index++;
+				}
+				if(index < pickupList.size()) { //meaning "you're the last one"
+					if (g.isArc(currentVertex, s)) {
+						candidates[nbCandidates++] = s;
+					}	
 				}
 			} else {
-				if (g.isArc(currentVertex, s))
+				if (g.isArc(currentVertex, s)) {
 					candidates[nbCandidates++] = s;
+				}
 			}
 		}
 	}
