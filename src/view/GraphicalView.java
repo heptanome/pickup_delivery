@@ -1,16 +1,21 @@
 package view;
 
-import javax.swing.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
-import model.Intersection;
+import javax.swing.JPanel;
+
 import model.CityMap;
+import model.Intersection;
 import model.Request;
 import model.Segment;
 import model.SetOfRequests;
-
-import java.awt.*;
-import java.util.LinkedList;
-import java.util.List;
 
 public class GraphicalView extends JPanel {
 	/**
@@ -30,7 +35,7 @@ public class GraphicalView extends JPanel {
 
 	public GraphicalView(CityMap loadedMap) {
 		setLayout(null);
-		setBounds(0, 0, 820, 840); //Larger than 800x800 to have margins
+		setBounds(0, 0, 820, 840); // Larger than 800x800 to have margins
 		intersections = loadedMap.getInstersections();
 		segments = loadedMap.getSegments();
 
@@ -52,34 +57,36 @@ public class GraphicalView extends JPanel {
 		g.fillRect(0, 0, 820, 820);
 
 		// Draw segments
-		Graphics2D g2d = (Graphics2D)g;
+		Graphics2D g2d = (Graphics2D) g;
 		Stroke normalRoad = new BasicStroke(1f);
 		Stroke importantRoad = new BasicStroke(5f);
 		g2d.setStroke(normalRoad);
 		for (GraphicalSegment gs : graphicalSegments) {
 			if (gs != null) {
-				if(gs.getOnPath() == 1) {
+				if (gs.getOnPath() == 1) {
 					g2d.setStroke(importantRoad);
 				}
 				g2d.setColor(gs.getColor());
 				g2d.drawLine(gs.getXOriginPixel(), gs.getYOriginPixel(), gs.getXDestPixel(), gs.geYDestPixel());
-				if(gs.getOnPath() == 1) {
+				if (gs.getOnPath() == 1) {
 					g2d.setStroke(normalRoad);
 				}
 			}
 		}
 
 		// Draw intersections
-		List<GraphicalPoint> coloredIntersections = new LinkedList<GraphicalPoint>(); //To store the colored intersections and draw them at the end
+		List<GraphicalPoint> coloredIntersections = new LinkedList<GraphicalPoint>(); // To store the colored
+																						// intersections and draw them
+																						// at the end
 		for (GraphicalPoint gp : graphicalPoints) {
-			if(gp.getColor()==Color.white){
+			if (gp.getColor() == Color.white) {
 				g.setColor(Color.white);
 				g.fillOval(gp.getXPixel(), gp.getYPixel(), gp.getSize(), gp.getSize());
 			} else {
 				coloredIntersections.add(gp);
 			}
 		}
-			
+
 		for (GraphicalPoint gp : coloredIntersections) {
 			g.setColor(gp.getColor());
 			g.fillOval(gp.getXPixel(), gp.getYPixel(), gp.getSize(), gp.getSize());
@@ -102,25 +109,24 @@ public class GraphicalView extends JPanel {
 			}
 		}
 	}
-	
+
 	public void displayTour(List<Segment> segments) {
 		int segSize = graphicalSegments.size();
-		
+
 		int i = 0;
 		// reset all segments to white
 		while (i < segSize) {
 			graphicalSegments.get(i).setOnPath(0);
 			i++;
 		}
-		
+
 		// change color of corresponding segments
 		segments.forEach(s -> {
 			int j = 0;
-			while(j < segSize) {
+			while (j < segSize) {
 				GraphicalSegment seg = graphicalSegments.get(j);
-				if(s.getNumberOrigin().equals(seg.getOrigin()) &&
-				s.getNumberDestination().equals(seg.getDestination())
-						) {
+				if (s.getNumberOrigin().equals(seg.getOrigin())
+						&& s.getNumberDestination().equals(seg.getDestination())) {
 					seg.setOnPath(1);
 					seg.setColor(Color.red);
 					break;
@@ -128,9 +134,9 @@ public class GraphicalView extends JPanel {
 				j++;
 			}
 		});
-		
+
 		repaint();
-		
+
 	}
 
 	public void displayRequests(SetOfRequests sr) {
@@ -141,7 +147,7 @@ public class GraphicalView extends JPanel {
 			graphicalPoints.get(i).setSize(8);
 			i++;
 		}
-		
+
 		// Look for the departure point
 		i = 0;
 		boolean found = false;
@@ -207,49 +213,35 @@ public class GraphicalView extends JPanel {
 			i++;
 		}
 		if (origin != null && destination != null) {
-			GraphicalSegment gs = new GraphicalSegment(idOrigin, idDestination, origin.getXPixel(), origin.getYPixel(), destination.getXPixel(),
-					destination.getYPixel());
+			GraphicalSegment gs = new GraphicalSegment(idOrigin, idDestination, origin.getXPixel(), origin.getYPixel(),
+					destination.getXPixel(), destination.getYPixel());
 			return gs;
 		}
 		return null;
 	}
 
-	public void clearSelectedPoint() {
-		//if a point is already selected, unselect it
-		if(selectedPoint != null){
-			int i = 0;
-			while ((i < graphicalPoints.size()) && selectedPoint != null) {
-				if (selectedPoint.getNumber().equals(graphicalPoints.get(i).getPoint().getNumber())) {
-					graphicalPoints.get(i).setSize(graphicalPoints.get(i).getSize()/2);;
-					selectedPoint = null;
-				}
-				i++;
-			}
-		}
-	}
 
-
-	/*
-	 * This method is used to respond to a click on the point of coordinates (x,y) on the map
-	 */
-	public Intersection mapClickedResponse(int x, int y){
+	public void selectPoint(Intersection inter) {
 		// clear if necessary
 		this.clearSelectedPoint();
+		String interNum = inter.getNumber();
 
-		//Look for a new selected point
 		graphicalPoints.forEach(gp -> {
-			if(gp.isClicked(x, y)) {
-				gp.setSize(gp.getSize()*2);
+			if (gp.getPoint().getNumber().equals(interNum)) {
+				gp.setSize(gp.getSize() * 2);
+				;
 				selectedPoint = gp.getPoint();
 				return;
 			}
 		});
-		
-		repaint();
-		return selectedPoint;
 
+		repaint();
 	}
-	
+
+	public Intersection getSelectedPoint() {
+		return selectedPoint;
+	}
+
 	/*
 	 * This method is used to respond to a click on the point of coordinates (x,y) on the map,  when you are looking for a type of point in particular
 	 * (random or special : pickup, delivery, depot)
@@ -273,28 +265,45 @@ public class GraphicalView extends JPanel {
 
 	}
 
-
-
-
-
-	public void selectPoint(Intersection inter) {
+	/*
+	 * This method is used to respond to a click on the point of coordinates (x,y) on the map
+	 */
+	public Intersection mapClickedResponse(int x, int y){
 		// clear if necessary
 		this.clearSelectedPoint();
-		String interNum = inter.getNumber();
+
+		// Look for a new selected point
 		
-		graphicalPoints.forEach(gp -> {
-			if(gp.getPoint().getNumber().equals(interNum)) {
-				gp.setSize(gp.getSize()*2);;
-				selectedPoint = gp.getPoint();
-				return;
-			}
-		});
+		ListIterator<GraphicalPoint> gpIterator = graphicalPoints.listIterator();
+		GraphicalPoint gp = gpIterator.next();
+		while(gpIterator.hasNext() && !gp.isClicked(x,y)) {
+			gp = gpIterator.next();
+		}
+		
+		if(gp.isClicked(x, y)) {
+			gp.setSize(gp.getSize() * 2);
+			selectedPoint = gp.getPoint();
+		}
 		
 		repaint();
-	}
-
-	public Intersection getSelectedPoint(){
 		return selectedPoint;
 	}
+
+
+	public void clearSelectedPoint() {
+		// if a point is already selected, unselect it
+		if (selectedPoint != null) {
+			int i = 0;
+			while ((i < graphicalPoints.size()) && selectedPoint != null) {
+				if (selectedPoint.getNumber().equals(graphicalPoints.get(i).getPoint().getNumber())) {
+					graphicalPoints.get(i).setSize(graphicalPoints.get(i).getSize() / 2);
+					selectedPoint = null;
+				}
+				i++;
+			}
+		}
+	}
+
+
 
 }
