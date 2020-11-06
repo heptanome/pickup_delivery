@@ -8,7 +8,12 @@ import model.Intersection;
 import model.Tour;
 import model.Request;
 
+/**
+ * State class used by the controller to handle the selection of the intersection that will preceed the new pickup address
+ * when adding a request to the tour.
+ */
 public class AddingPointPreceedingDelivery implements State {
+
     @Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
 
@@ -25,15 +30,8 @@ public class AddingPointPreceedingDelivery implements State {
             //Go to the next state (DisplayingTourOnMapState)
             a.setCurrentState(a.displayingTourState);
 
-
-
     }
 
-    @Override
-	public State nextState(){
-        return new DisplayingTourOnMapState();
-    }
-    
     @Override
 	public void describeState(HomeWindow hw) {
         JOptionPane.showMessageDialog(hw, "Select a point on the map (colored point) that will preceed the delivery point"); 

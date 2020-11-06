@@ -6,10 +6,13 @@ import javax.swing.JOptionPane;
 
 import model.Intersection;
 import model.Tour;
-import view.HomeWindow;
 
-
+/**
+ * State class used by the controller to handle the selection of the intersection that will preceed the new delivery address
+ * when adding a request to the tour.
+ */
 public class AddingPointPreceedingPickup implements State {
+
     @Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
     
@@ -19,14 +22,8 @@ public class AddingPointPreceedingPickup implements State {
 
             // Go to the next state (AddingDeliveryAdress)
             a.setCurrentState(a.ada);
-            
+    }
 
-    }
-    
-    @Override
-	public State nextState() {
-        return new AddingDeliveryAddress();
-    }
     
     @Override
 	public void describeState(HomeWindow hw) {

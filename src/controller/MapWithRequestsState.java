@@ -2,6 +2,10 @@ package controller;
 
 import model.Tour;
 
+/**
+ * State class used by the controller to handle the actions when it is displaying requests on the map before 
+ * the tour calculation
+ */
 public class MapWithRequestsState implements State {
 	
 	@Override

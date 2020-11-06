@@ -8,6 +8,10 @@ import model.Intersection;
 import model.Request;
 import model.Tour;
 
+/**
+ * State class used by the controller to handle the selection of the new delivery address (and its delivery duration)
+ * when adding a requets to the tour.
+ */
 public class AddingDeliveryAddress implements State {
 	
 	@Override
@@ -25,15 +29,8 @@ public class AddingDeliveryAddress implements State {
 
 			//Go to the next state (AddingPointPreceedingDeliveryState)
 			a.setCurrentState(a.appd);
-
-
-
 	}
 
-	@Override
-	public State nextState() {
-        return new AddingPointPreceedingDelivery();
-	}
 
 	@Override
 	public void describeState(HomeWindow hw) {
@@ -43,6 +40,7 @@ public class AddingDeliveryAddress implements State {
 	@Override
     public  void setMouseListener(HomeWindow hw) {
 		hw.removeAllMouseListeners();
+		//The new delivery intersection can be any type of intersection : A special one (depot, pickup or delivery) or not.
 		hw.addSingleMouseClickOnAnyPointListener();
 	}
 

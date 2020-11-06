@@ -65,7 +65,8 @@ public class Application implements PropertyChangeListener {
 	}
 
 
-	 /**Loads a map from a file path
+	 /**
+	  * Loads a map from a file path
 	 * 
 	 * @param fp The map's file path
 	 * @throws IllegalArgumentException if the file path is null

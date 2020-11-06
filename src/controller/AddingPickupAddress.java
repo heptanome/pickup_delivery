@@ -8,6 +8,10 @@ import model.Intersection;
 import model.Request;
 import model.Tour;
 
+/**
+ * State class used by the controller to handle the selection of the new pickup address (and its pickup duration)
+ * when adding a request to the tour.
+ */
 public class AddingPickupAddress implements State {
 
     @Override
@@ -28,10 +32,6 @@ public class AddingPickupAddress implements State {
 
     }
     
-    @Override
-	public State nextState() {
-        return new AddingPointPreceedingPickup();
-    }
     
     @Override
 	public void describeState(HomeWindow hw){
@@ -41,6 +41,7 @@ public class AddingPickupAddress implements State {
     @Override
     public  void setMouseListener(HomeWindow hw) {
         hw.removeAllMouseListeners();
+        //The new pickup intersection can be any type of intersection : A special one (depot, pickup or delivery) or not.
 		hw.addSingleMouseClickOnAnyPointListener();
 	}
 }
