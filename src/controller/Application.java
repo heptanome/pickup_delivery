@@ -24,14 +24,6 @@ public class Application implements PropertyChangeListener {
 		Tour tour = new Tour();
 		HomeWindow homeWindow = new HomeWindow("Home Window");
 		Application app = new Application(homeWindow, tour, new HomeState());
-		app.loadMap("/home/phanie/git/pickup_delivery/XML_data/testMap.xml");
-		app.loadRequests("/home/phanie/git/pickup_delivery/XML_data/testRequest.xml");
-		try {
-			app.computeTour();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public Application(HomeWindow hw, Tour t, State state) {
