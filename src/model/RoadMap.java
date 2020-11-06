@@ -1,6 +1,14 @@
 package model;
 
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+
+import tsp.CompleteGraph;
+import tsp.TSP;
+import tsp.TSP2;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -31,6 +39,113 @@ public class RoadMap {
 		this.orderedAddresses = new LinkedList<Intersection>();
 		this.calculateMapAddressToRequest();
 		this.reorderAddresses(roadsAfterComputedTour);
+	}
+	
+	public List<Segment> addRequest(Request newRequest, Intersection beforePickup, Intersection beforeDelivery, CityMap cm, List<Segment> path) {
+		/*Step 1 :
+		 * find "point after pickup" and "point after delivery"
+		*/
+		Intersection newPickup = newRequest.getPickup();
+		Intersection newDelivery = newRequest.getDelivery();
+		Intersection afterPickup = this.orderedAddresses.get(this.orderedAddresses.indexOf(beforePickup)+1);
+		Intersection afterDelivery = this.orderedAddresses.get(this.orderedAddresses.lastIndexOf(beforeDelivery)+1);
+		
+		this.orderedAddresses.add(this.orderedAddresses.indexOf(beforePickup)+1, newPickup);
+		this.orderedAddresses.add(this.orderedAddresses.lastIndexOf(beforeDelivery)+1, newDelivery);
+		
+		/*
+		 * Step 2 : compute shortest path from beforePickup to newPickup and from
+		 * newPickup to afterPickup
+		 * (same for delivery points)
+		 */
+		
+		List<Segment> pickupPath = adjustRoadMap(beforePickup, newPickup, afterPickup, cm);
+		List<Segment> deliveryPath = adjustRoadMap(beforeDelivery, newDelivery, afterDelivery, cm);
+
+		/*
+		 * Step 3 : modify the path with the new paths*/
+
+		List<Segment> beginning = new LinkedList<Segment>();
+		List<Segment> middle = new LinkedList<Segment>();
+		List<Segment> end = new LinkedList<Segment>();
+		
+		ListIterator<Segment> iterator = path.listIterator();
+		Segment next = iterator.next();
+		while(next.getOrigin() != beforePickup) {
+			beginning.add(next);
+			next = iterator.next();
+		}
+		while(next.getOrigin() != afterPickup)
+			next = iterator.next();
+		while(next.getOrigin() != beforeDelivery) {
+			middle.add(next);
+			next = iterator.next();
+		}
+		while(next.getOrigin() != afterDelivery)
+			next = iterator.next();
+		while(iterator.hasNext()) {
+			end.add(next);
+			next = iterator.next();
+		}
+		end.add(next);
+		path.clear();
+		path.addAll(beginning);
+		path.addAll(pickupPath);
+		path.addAll(middle);
+		path.addAll(deliveryPath);
+		path.addAll(end);
+		return path;
+		
+	}
+	
+	private List<Segment> adjustRoadMap(Intersection beforeI, Intersection newI, Intersection afterI, CityMap cm){
+		
+		List<Segment> path = new LinkedList<Segment>();
+		
+		List<Intersection> zone = new ArrayList<Intersection>(3);
+		zone.add(beforeI);
+		zone.add(newI);
+		zone.add(afterI);
+		CompleteGraph pickupGraph = new CompleteGraph(cm, zone);;
+		List<Integer> intermediateNodes = new LinkedList<Integer>();
+		int beforeInt = cm.getIntFromIntersectionMap(beforeI);
+		int newInt = cm.getIntFromIntersectionMap(newI);
+		int[] precedence = pickupGraph.getPrecedenceOfANode(beforeInt);
+		
+		
+		for (int i=newInt; i!= beforeInt; i=precedence[i]) {
+			intermediateNodes.add(i);
+		}
+		intermediateNodes.add(beforeInt);
+
+		ListIterator<Integer> iterator = intermediateNodes.listIterator(intermediateNodes.size()); 
+		Intersection currentNodeInter = cm.getIntersectionFromIdMap(iterator.previous());
+		Intersection previousNodeInter = currentNodeInter;
+		while(iterator.hasPrevious()){
+			int previousNodeId = iterator.previous();
+			previousNodeInter = cm.getIntersectionFromIdMap(previousNodeId);
+			path.add(cm.getSegmentFromInter(currentNodeInter, previousNodeInter));
+			currentNodeInter = previousNodeInter;
+		}
+		intermediateNodes.clear();
+		
+		int afterInt = cm.getIntFromIntersectionMap(afterI);
+		precedence = pickupGraph.getPrecedenceOfANode(newInt);
+		for (int i=afterInt; i!= newInt; i=precedence[i]) {
+			intermediateNodes.add(i);
+		}
+		intermediateNodes.add(newInt);
+
+		iterator = intermediateNodes.listIterator(intermediateNodes.size()); 
+		currentNodeInter = cm.getIntersectionFromIdMap(iterator.previous());
+		previousNodeInter = currentNodeInter;
+		while(iterator.hasPrevious()){
+			int previousNodeId = iterator.previous();
+			previousNodeInter = cm.getIntersectionFromIdMap(previousNodeId);
+			path.add(cm.getSegmentFromInter(currentNodeInter, previousNodeInter));
+			currentNodeInter = previousNodeInter;
+		}
+		return path;
 	}
 	
 	/**
@@ -88,7 +203,7 @@ public class RoadMap {
 		addressesToFind.remove(currentIntersection);
 	}
 	
-	private void printReorderedAddresses() {
+	public void printReorderedAddresses() {
 		int index = 0;
 		for (Intersection currentAddress : this.orderedAddresses) {
 			System.out.println("Address number : "+index+" "+currentAddress.toString());

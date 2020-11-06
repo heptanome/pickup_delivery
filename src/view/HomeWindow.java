@@ -1,7 +1,15 @@
 package view;
 
-import java.awt.Color;
+import javax.swing.*;
+
+import model.CityMap;
+import model.Intersection;
+import model.Request;
+import model.Segment;
+import model.SetOfRequests;
+
 import java.awt.Component;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -22,12 +30,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import model.CityMap;
-import model.Intersection;
-import model.Request;
-import model.Segment;
-import model.SetOfRequests;
 
 /**
  * The main class used in the View (MVC model), will showcase a window with
@@ -110,6 +112,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		// Buttons
 		this.setButton(btnLoadMap, new LoadMapListener());
 		btnLoadMap.setEnabled(true);
+
+		// Jlabel
 		// buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
 		btnLoadMap.setAlignmentX(Component.CENTER_ALIGNMENT);
 		// btnLoadMap.setAlignmentY(5);
@@ -156,7 +160,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		buttonsContainer.add(btnHelp);
 		buttonsContainer.add(Box.createVerticalStrut(10));
 
-		// JLabel
 		lblHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// Add containers
@@ -232,7 +235,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		// event listening (Home listens to TextualView)
 		tv.addPropertyChangeListener(this);
 	}
-
+	
 	public void selectCell(Intersection inter) {
 		gv.selectPoint(inter);
 	}
@@ -420,8 +423,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			buttonsContainer.updateUI();
 
 			TimerTask task = new TimerTask() {
-				public void run() {
-					System.out.println("retour de clique");
+		        public void run() {
 					buttonsContainer.remove(lblHelp);
 					buttonsContainer.updateUI();
 				}

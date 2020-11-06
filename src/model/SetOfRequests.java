@@ -3,6 +3,8 @@ package model;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -39,23 +41,21 @@ public class SetOfRequests {
 	 */
 	public List<Intersection> getRequestNodes() {
 		// 2*request (destination and departure) +1 depot
-		List<Intersection> requestNodes = new ArrayList<Intersection>(requests.size() * 2 + 1);
-		requestNodes.add(0, depot);
-		int index = 1;
-
-		for (Request r : requests) {
-			requestNodes.add(index, r.getDelivery());
-			requestNodes.add(index + 1, r.getPickup());
-			index += 2;
-		}
-		return requestNodes;
-	}
+	  List<Intersection> requestNodes = new ArrayList<Intersection>(requests.size()*2 + 1); //2*request (destination and departure) +1 depot
+	  requestNodes.add(0, depot);
+	  int index = 1;
+	  for(Request r : requests) {
+		  requestNodes.add(index,r.getDelivery());
+		  requestNodes.add(index+1,r.getPickup());
+		  index +=2;
+	  }
+	  return requestNodes;
+    }
 
 	// we assume that all delivery and pickup points are unique. One intersection =
 	// one and
 	// only one pickup (or delivery) point.
 	public boolean isDeliveryPoint(Intersection i) {
-
 		for (Request r : requests) {
 			if (i == r.getDelivery()) {
 				return true;
@@ -63,14 +63,15 @@ public class SetOfRequests {
 		}
 		return false;
 	}
-
-	public Intersection getPickUpFromDelivery(Intersection delivery) {
-		for (Request r : requests) {
-			if (delivery == r.getPickup()) {
-				return r.getPickup();
+	
+	public List<Request> getRequestsFromDelivery(Intersection delivery) {
+		List<Request> requestsList = new LinkedList<Request>();
+		for(Request r : requests) {
+			if(delivery ==  r.getDelivery()) {
+				requestsList.add(r);
 			}
 		}
-		return null;
+		return requestsList;
 	}
 	
 	public Request getRequestFromIntersection(Intersection intersection) {

@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 
 import model.Intersection;
 import model.Tour;
+import tsp.CompleteGraph;
 import view.HomeWindow;
 
 /**

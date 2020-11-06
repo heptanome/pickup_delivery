@@ -2,6 +2,7 @@ package tsp;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 public class SeqIter implements Iterator<Integer> {
 	private Integer[] candidates;
@@ -19,13 +20,20 @@ public class SeqIter implements Iterator<Integer> {
 		this.candidates = new Integer[unvisited.size()];
 		for (Integer s : unvisited){
 			if(g.isDeliveryAddress(s)) {
-				int pickup = g.getPickUpFromDelivery(s);
-				if (g.isArc(currentVertex, s) && !(unvisited.contains(pickup)) )
-					candidates[nbCandidates++] = s;
-				
+				List<Integer> pickupList = g.getPickUpFromDelivery(s);
+				int index = 0;
+				while(index < pickupList.size() && unvisited.contains(pickupList.get(index))) {
+					index++;
+				}
+				if(index < pickupList.size()) { //meaning "you're the last one"
+					if (g.isArc(currentVertex, s)) {
+						candidates[nbCandidates++] = s;
+					}	
+				}
 			} else {
-				if (g.isArc(currentVertex, s))
+				if (g.isArc(currentVertex, s)) {
 					candidates[nbCandidates++] = s;
+				}
 			}
 		}
 	}
