@@ -17,7 +17,7 @@ public class Application implements PropertyChangeListener {
 	protected final HomeState homeState = new HomeState();
 	protected final MapWithoutRequestsState mapWoRequestsState = new MapWithoutRequestsState();
 	protected final MapWithRequestsState mapWithRequestsState = new MapWithRequestsState();
-	protected final DisplayingTourOnMapState workingState = new DisplayingTourOnMapState();
+	protected final DisplayingTourOnMapState displayingTourState = new DisplayingTourOnMapState();
 	protected final AddingPickupAddress apa = new AddingPickupAddress();
 	protected final AddingPointPreceedingPickup appp = new AddingPointPreceedingPickup();
 	protected final AddingDeliveryAddress ada = new AddingDeliveryAddress();
@@ -68,7 +68,7 @@ public class Application implements PropertyChangeListener {
 	public void loadRequests(String fp) {
 		try {
 			currentState.loadRequests(fp, this.tour);
-			currentState = workingState;
+			currentState = displayingTourState;
 		} catch (IllegalArgumentException e) {
 			System.out.println("requests file path argument is null");
 		} catch (IOException e) {
@@ -89,8 +89,8 @@ public class Application implements PropertyChangeListener {
 	}
 
 	public void pointClicked(Object selectedPoint) throws Exception {
-		currentState.pointClicked((Intersection)selectedPoint, homeWindow, tour);
-		currentState = currentState.nextState();
+		currentState.pointClicked((Intersection)selectedPoint, homeWindow, tour, this);
+		//currentState = currentState.nextState();
 		currentState.describeState(homeWindow);
 		currentState.setMouseListener(homeWindow);
 

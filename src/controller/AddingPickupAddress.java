@@ -11,14 +11,21 @@ import model.Tour;
 public class AddingPickupAddress implements State {
 
     @Override
-	public void pointClicked(Intersection i, HomeWindow hw, Tour tour) throws Exception{
+	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) throws Exception{
         try {
+            //Get pickup duration
 	        int duration = Integer.parseInt(JOptionPane.showInputDialog (hw, "Enter a pickup duration (number of minutes)"));
             System.out.println("Pickup address " + i.getNumber() + " Duration :" + duration );
+
+            //Set the new request
             Request newR = new Request(new Intersection("",0,0), new Intersection("",0,0), 0 ,0);
             newR.setPickupAddress(i);
             newR.setPickupDuration(duration);
             hw.setNewRequest(newR);
+
+            //Go to the next state (AddingPointPreceedingPickupState)
+            a.setCurrentState(a.appp);
+            
         } catch (NullPointerException e) {
 	        JOptionPane.showMessageDialog(hw, "You did not chose a valid intersection.");
         } catch (Exception e) {

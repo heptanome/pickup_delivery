@@ -10,7 +10,7 @@ import view.HomeWindow;
 public class DeleteRequestState implements State {
 	
 	@Override
-	public void pointClicked(Intersection i, HomeWindow hw, Tour tour) throws Exception{
+	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) throws Exception{
         try {
 	        Request requestToBeDeleted = hw.getRequestFromIntersection(i);
 	        // display the JOptionPane showConfirmDialog

@@ -11,14 +11,20 @@ import model.Tour;
 public class AddingDeliveryAddress implements State {
 	
 	@Override
-	public void pointClicked(Intersection i, HomeWindow hw, Tour tour) throws Exception{
+	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) throws Exception{
 		try {
+			//Get delivery duration
 			int duration = Integer.parseInt(JOptionPane.showInputDialog (hw, "Enter a delivery duration (number of minutes)"));
 			System.out.println("delivery address " + i.getNumber() + "Duration : " + duration);
+
+			//Update de new request
 			Request r = hw.getNewRequest();
 			r.setDeliveryAddress(i);
 			r.setDeliveryDuration(duration);
 			hw.setNewRequest(r);
+
+			//Go to the next state (AddingPointPreceedingDeliveryState)
+			a.setCurrentState(a.appd);
         } catch (NullPointerException e) {
 	        JOptionPane.showMessageDialog(hw, "You did not chose a valid intersection.");
         } catch (Exception e) {

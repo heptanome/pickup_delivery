@@ -11,10 +11,14 @@ import view.HomeWindow;
 
 public class AddingPointPreceedingPickup implements State {
     @Override
-	public void pointClicked(Intersection i, HomeWindow hw, Tour tour) throws Exception{
+	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) throws Exception{
         try {
+            //Set the point prexeeding the pickup point
             System.out.println("preceeding pickup address " + i.getNumber() );
             hw.setPreceedingPickup(i);
+
+            // Go to the next state (AddingDeliveryAdress)
+            a.setCurrentState(a.ada);
             
         } catch (NullPointerException e) {
 	        JOptionPane.showMessageDialog(hw, "You did not chose a valid intersection.");
