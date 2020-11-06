@@ -262,7 +262,6 @@ public class GraphicalView extends JPanel {
 		
 		repaint();
 		return selectedPoint;
-
 	}
 
 	/*

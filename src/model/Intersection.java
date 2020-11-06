@@ -3,10 +3,11 @@ package model;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The class representing an intersection, which is a combination of a latitude,
+ * a longitude, a number (or id) and neighbours
+ */
 public class Intersection {
-	/**
-	 * Default constructor
-	 */
 
 	private String number;
 	private float latitude;
@@ -20,10 +21,6 @@ public class Intersection {
 		this.neighbours = new LinkedList<Intersection>();
 	}
 
-	public String toString() {
-		return "id : " + number + " {" + latitude + ", " + longitude + "}.";
-	}
-
 	public float getLatitude() {
 		return latitude;
 	}
@@ -35,12 +32,16 @@ public class Intersection {
 	public String getNumber() {
 		return this.number;
 	}
-	
+
 	public void addNeighbour(Intersection i) {
 		neighbours.add(i);
 	}
-	
-	public List<Intersection> getNeighbours(){
+
+	public List<Intersection> getNeighbours() {
 		return neighbours;
+	}
+
+	public String toString() {
+		return "id : " + number + " {" + latitude + ", " + longitude + "}.";
 	}
 }

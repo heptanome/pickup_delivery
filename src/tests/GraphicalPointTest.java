@@ -13,13 +13,10 @@ import view.GraphicalPoint;
 
 class GraphicalPointTest {
 	private GraphicalPoint graphicalPoint;
-	private Intersection intersection, intersection2;
-	private int xPixel;
-	private int yPixel;
-	private String intersectionId;
+	private Intersection intersection;
 	private Color color;
-
-	float minLat, minLongi, maxLat, maxLongi;
+	private float minLat, minLongi, maxLat, maxLongi;
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		minLat = 1;
@@ -33,13 +30,13 @@ class GraphicalPointTest {
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-
+	
 	@Test
-	void testGraphicalPoint() {
-		intersection2 = new Intersection("a", 2, 4);
-		
+	void testIsClicked() {
+		//TODO
+		//assertTrue(graphicalPoint.isClicked());
 	}
-
+	
 	@Test
 	void testGetXPixel() {
 		assertEquals(graphicalPoint.getXPixel(), 90);
@@ -49,12 +46,12 @@ class GraphicalPointTest {
 	void testGetYPixel() {
 		assertEquals(graphicalPoint.getYPixel(), 433);
 	}
-
+	
 	@Test
-	void testGetIntersectionId() {
-		assertEquals(graphicalPoint.getIntersectionId(), "abc");
+	void testGetPoint() {
+		assertEquals(graphicalPoint.getPoint(), intersection);
 	}
-
+	
 	@Test
 	void testGetColor() {
 		assertEquals(graphicalPoint.getColor(), color.white);
