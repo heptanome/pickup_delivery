@@ -43,9 +43,9 @@ class CompleteGraphTest {
 		this.nbVertices = cityMap.getNbVertices();
 		
 		requests = new ArrayList<Request>();
-		requests.add(new Request("1", "5", 2, 3));
-		requests.add(new Request("4", "3", 6, 3));
-		this.sor = new SetOfRequests("0", new Date(1,2,3), requests);
+		requests.add(new Request(intersections.get(2),intersections.get(6), 2, 3));
+		requests.add(new Request(intersections.get(5),intersections.get(4), 6, 3));
+		this.sor = new SetOfRequests(intersections.get(0), new Date(1,2,3), requests);
 		
 		completeGraph = new CompleteGraph(cityMap, sor);
 	}
@@ -53,18 +53,14 @@ class CompleteGraphTest {
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-
-	@Test
-	void testCompleteGraph() {
-		// TODO
-		
-	}
 	
 	@Test
 	void testGetNbVertices() {
 		assertEquals(completeGraph.getNbVertices(), requests.size()*2 + 1);
 	}
 	
+	/*
+	 TODO : Se renseigner sur l'algorithme de calcul de coûts. Est-ce qu'on peut le tester sans le réecrire ici ? Comment ?
 	@Test
 	void testGetCost() {
 		assertEquals(-1, completeGraph.getCost(-1,3));
@@ -73,7 +69,8 @@ class CompleteGraphTest {
 		}
 		assertTrue(1.4 - completeGraph.getCost(0,1) < 0.000001 && 1.4 - completeGraph.getCost(0,1) > - 0.000001 );
 	}
-
+	*/
+	
 	@Test
 	void testIsArc() {
 		for (int i = 1; i < completeGraph.getNbVertices(); i++) {
@@ -87,6 +84,7 @@ class CompleteGraphTest {
 		assertTrue(completeGraph.isDeliveryAddress(1));
 	}
 	
+	/* TODO : Demander et commenter quels sont les paramètres d'entrée et de sortie de la méthode testée
 	@Test
 	void testGetPickUpFromDelivery() {
 		for (int i=0; i< completeGraph.getNbVertices(); i++) {
@@ -94,7 +92,7 @@ class CompleteGraphTest {
 				assertTrue(completeGraph.getPickUpFromDelivery(i) == 2 || completeGraph.getPickUpFromDelivery(i) == 4);
 			}
 		}
-	}
+	}*/
 
 	@Test
 	void testToString() {

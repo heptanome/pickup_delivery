@@ -1,10 +1,10 @@
 package model;
 
-public class Segment extends Object {
-	/**
-	 * Default constructor
-	 */
-
+/**
+ * An object represented by two intersections (an origin and a destination) as
+ * well as a name and a length
+ */
+public class Segment {
 	private Intersection origin;
 	private Intersection destination;
 	private String name;
@@ -17,16 +17,10 @@ public class Segment extends Object {
 		this.length = length;
 	}
 
-	public String toString() {
-		return "Name : " + name + ", origin : " + origin.getNumber() + ", destination : " + destination.getNumber() + " (length : " + length
-				+ ").";
-	}
-
-	
 	public Intersection getOrigin() {
 		return origin;
 	}
-	
+
 	public String getNumberOrigin() {
 		return origin.getNumber();
 	}
@@ -34,12 +28,17 @@ public class Segment extends Object {
 	public Intersection getDestination() {
 		return destination;
 	}
-	
+
 	public String getNumberDestination() {
 		return destination.getNumber();
 	}
-	
+
 	public float getLength() {
-		  return this.length;
+		return this.length;
+	}
+
+	public String toString() {
+		return "Name : " + name + ", origin : " + origin.getNumber() + ", destination : " + destination.getNumber()
+				+ " (length : " + length + ").";
 	}
 }
