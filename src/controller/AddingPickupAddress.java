@@ -12,8 +12,8 @@ public class AddingPickupAddress implements State {
 
     @Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour) throws Exception{
-        int duration = Integer.parseInt(JOptionPane.showInputDialog (hw, "Enter a Number"));
-        System.out.println("pickup address " + i.getNumber() + " Duration :" + duration );
+        int duration = Integer.parseInt(JOptionPane.showInputDialog (hw, "Enter a pickup duration (number of minutes)"));
+        System.out.println("Pickup address " + i.getNumber() + " Duration :" + duration );
         Request newR = new Request(new Intersection("",0,0), new Intersection("",0,0), 0 ,0);
         newR.setPickupAddress(i);
         newR.setPickupDuration(duration);

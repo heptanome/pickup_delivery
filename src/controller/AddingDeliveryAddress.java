@@ -13,7 +13,7 @@ public class AddingDeliveryAddress implements State {
 	
 	@Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour) throws Exception{
-		int duration = Integer.parseInt(JOptionPane.showInputDialog (hw, "Enter a Number"));
+		int duration = Integer.parseInt(JOptionPane.showInputDialog (hw, "Enter a delivery duration (number of minutes)"));
 		System.out.println("delivery address " + i.getNumber() + "Duration : " + duration);
 		Request r = hw.getNewRequest();
 		r.setDeliveryAddress(i);

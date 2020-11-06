@@ -82,7 +82,7 @@ public class Application implements PropertyChangeListener {
 		System.out.println("Ajout d'une requête : ");
 		currentState = apa;
 		currentState.describeState(homeWindow);
-		homeWindow.addSingleMouseClickOnMapListener();
+		homeWindow.addSingleMouseClickOnAnyPointListener();
 		
 	}
 
@@ -106,7 +106,7 @@ public class Application implements PropertyChangeListener {
 		
 		currentState = deleteRequestState;
 		currentState.describeState(homeWindow);
-		homeWindow.addSingleMouseClickOnMapListener();
+		homeWindow.addSingleMouseClickOnSpecialPointListener();
 
 	}
 

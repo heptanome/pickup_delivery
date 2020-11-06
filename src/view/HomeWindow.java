@@ -36,22 +36,22 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	protected SetOfRequests loadedSOR;
 	protected String helpText;
 	
-	private JButton btnLoadMap = new JButton("Load a map");
-	private JButton btnLoadRequest = new JButton("Load a set of requests");
-	private JButton btnAddRequest = new JButton("Add a request");
-	private JButton btnDeleteRequest = new JButton("Delete a request");
+	private final JButton btnLoadMap = new JButton("Load a map");
+	private final JButton btnLoadRequest = new JButton("Load a set of requests");
+	private final JButton btnAddRequest = new JButton("Add a request");
+	private final JButton btnDeleteRequest = new JButton("Delete a request");
 
-	private JButton btnComputeTour = new JButton("Compute a tour");
-	private JButton btnRoadMap = new JButton("Display the road map");
-	private JButton btnSaveRoadMap = new JButton("Save the Road Map");
-	private JButton btnHelp = new JButton("SOS");
+	private final JButton btnComputeTour = new JButton("Compute a tour");
+	private final JButton btnRoadMap = new JButton("Display the road map");
+	private final JButton btnSaveRoadMap = new JButton("Save the Road Map");
+	private final JButton btnHelp = new JButton("SOS");
 
-	private JLabel lblHelp = new JLabel();
+	private final JLabel lblHelp = new JLabel();
 
-	private JPanel textualContainer;
-	private JPanel graphicalContainer;
-	private JPanel buttonsContainer;
-	private PropertyChangeSupport support;
+	private final JPanel textualContainer;
+	private final JPanel graphicalContainer;
+	private final JPanel buttonsContainer;
+	private final PropertyChangeSupport support;
 
 	public GraphicalView gv;
 	public TextualView tv;
@@ -65,7 +65,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * Will build the window following a specific layout together with specific buttons
 	 * @param name the name required for a window to be created
 	 */
-	public HomeWindow(String name) {
+	public HomeWindow(final String name) {
 		super(name);
 		this.support = new PropertyChangeSupport(this);
 		this.helpText = "Please load a map";
@@ -89,7 +89,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		buttonsContainer.setBounds(1220, 0, 200, HEIGHT-30);
 		buttonsContainer.setBackground(new Color(5, 132, 243));
 
-		BoxLayout boxLayout1 = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);
+		final BoxLayout boxLayout1 = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);
 		buttonsContainer.setLayout(boxLayout1);
 		buttonsContainer.add(Box.createVerticalStrut(30));
 
@@ -121,7 +121,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	}
 
 	
-	private void setButton(JButton newButton, ActionListener listener) {
+	private void setButton(final JButton newButton, final ActionListener listener) {
 		newButton.addActionListener(listener);
 		newButton.setUI(new StyledButtonUI());
 		newButton.setEnabled(false);
@@ -134,7 +134,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * Refreshing the View (graphical) with a newly loaded map
 	 * @param map The map that was received from the Model after parsing it
 	 */
-	public void setMap(CityMap map) {
+	public void setMap(final CityMap map) {
 		this.loadedMap = map;
 		this.helpText = "<html>The map has been loaded. <br> Please load a requests file now.</html>";
 
@@ -158,7 +158,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * Passing the set of requests down to the graphical and textual containers
 	 * @param sor Set of requests parsed from the Model
 	 */
-	public void setRequests(SetOfRequests sor) {
+	public void setRequests(final SetOfRequests sor) {
 		this.loadedSOR = sor;
 		this.helpText = "<html>The map and the set of <br>requests have been loaded. <br> Now is the time to compute!</html>";
 		
@@ -185,22 +185,22 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * @param segments An ordered (linked) list of segments the cyclist will have
 	 * to follow
 	 */
-	public void tourComputed(List<Segment> segments) {
+	public void tourComputed(final List<Segment> segments) {
 		this.helpText = "<html>Your tour has been computed. <br>Feel free to add or delete a point.</html>";
 		gv.displayTour(segments);
 		tv.displayTour(this.loadedSOR, segments);
 		//TODO textual container
 	}
 	
-	public void selectCell(Intersection inter) {
+	public void selectCell(final Intersection inter) {
 		gv.selectPoint(inter);
 	}
 	
-	public void addPropertyChangeListener(PropertyChangeListener pcl) {
+	public void addPropertyChangeListener(final PropertyChangeListener pcl) {
 		support.addPropertyChangeListener(pcl);
 	}
 
-	public void removePropertyChangeListener(PropertyChangeListener pcl) {
+	public void removePropertyChangeListener(final PropertyChangeListener pcl) {
 		support.removePropertyChangeListener(pcl);
 	}
 	
@@ -221,15 +221,15 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		return newRequest;
 	}
 
-	public void setNewRequest(Request r){
+	public void setNewRequest(final Request r){
 		newRequest = r;
 	}
 
-	public void setPreceedingPickup (Intersection i){
+	public void setPreceedingPickup (final Intersection i){
 		precedingPickup = i;
 	}
 
-	public void setPreceedingDelivery (Intersection i){
+	public void setPreceedingDelivery (final Intersection i){
 		preceedingDelivery = i;
 	}
 
@@ -241,23 +241,23 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		return preceedingDelivery;
 	}
 	
-	public Request getRequestFromIntersection (Intersection i) {
+	public Request getRequestFromIntersection (final Intersection i) {
 		return loadedSOR.getRequestFromIntersection(i);
 	}
 
 	public class LoadRequestListener implements ActionListener {
 		
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(final ActionEvent e) {
 			File currentDirectory = null;
 			try {
 				currentDirectory = new File(".").getCanonicalFile();
 				System.out.println("Current directory : " + currentDirectory);
-			} catch (IOException err) {
+			} catch (final IOException err) {
 			}
-			JFileChooser dialogue = new JFileChooser(currentDirectory);
+			final JFileChooser dialogue = new JFileChooser(currentDirectory);
 			dialogue.showOpenDialog(null);
-			String requestPath = dialogue.getSelectedFile().getAbsolutePath();
+			final String requestPath = dialogue.getSelectedFile().getAbsolutePath();
 			System.out.println("Selected File : " + requestPath);
 
 			support.firePropertyChange("loadRequests", "", requestPath);
@@ -268,17 +268,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public class LoadMapListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(final ActionEvent arg0) {
 			File currentDirectory= null;
 			try {
 				currentDirectory = new File(".").getCanonicalFile();
 				System.out.println("Current directory : " + currentDirectory);
-			} catch (IOException err) {
+			} catch (final IOException err) {
 				
 			}
-			JFileChooser dialogue = new JFileChooser(currentDirectory);
+			final JFileChooser dialogue = new JFileChooser(currentDirectory);
 			dialogue.showOpenDialog(null);
-			String mapPath = dialogue.getSelectedFile().getAbsolutePath();
+			final String mapPath = dialogue.getSelectedFile().getAbsolutePath();
 			System.out.println("Selected File : " + mapPath);
 			support.firePropertyChange("loadMap", "", mapPath);
 			System.out.println("fired loadmap");
@@ -289,7 +289,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public class AddRequestListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(final ActionEvent arg0) {
 			support.firePropertyChange("addRequest", null, null);
 		}
 
@@ -298,7 +298,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public class DeleteRequestListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(final ActionEvent arg0) {
 			support.firePropertyChange("deleteRequest", null, null);
 		}
 
@@ -307,7 +307,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public class ComputeTourListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(final ActionEvent arg0) {
 			support.firePropertyChange("computeTour", null, null);
 			
 			// Buttons Enabling
@@ -321,7 +321,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public class RoadMapListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(final ActionEvent arg0) {
 			if (btnRoadMap.getText() == "Return to the Map") {
 				this.removeRoadMap();
 				btnRoadMap.setText("Display the road map");
@@ -337,7 +337,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		public void displayRoadMap() {
 			graphicalContainer.removeAll();
 			graphicalContainer.repaint();
-			JPanel roadMapView = new RoadMapView();
+			final JPanel roadMapView = new RoadMapView();
 			graphicalContainer.add(roadMapView);
 		}
 		
@@ -347,7 +347,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			graphicalContainer.add(gv);
 		}
 		
-		private void enableButtons(boolean state) {
+		private void enableButtons(final boolean state) {
 			btnSaveRoadMap.setEnabled(!state);
 			btnLoadMap.setEnabled(state);
 			btnLoadRequest.setEnabled(state);
@@ -361,7 +361,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public class SaveRoadMapListener implements ActionListener {
 		
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(final ActionEvent e) {
 			System.out.println("Saving the road map");
 		}
 
@@ -370,19 +370,19 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public class HelpListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(final ActionEvent arg0) {
 			lblHelp.setText(helpText);
 			buttonsContainer.add(lblHelp);
 			buttonsContainer.updateUI();
 			
-			TimerTask task = new TimerTask() {
+			final TimerTask task = new TimerTask() {
 		        public void run() {
 					buttonsContainer.remove(lblHelp);
 					buttonsContainer.updateUI();
 		        }
 		    };
-		    Timer timer = new Timer("Timer");
-		    long delay = 5000L;
+		    final Timer timer = new Timer("Timer");
+		    final long delay = 5000L;
 		    timer.schedule(task, delay);
 		}
 
@@ -395,22 +395,22 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public class MouseOnMapListener implements MouseListener {
 
 		@Override
-		public void mousePressed(MouseEvent e) {}
+		public void mousePressed(final MouseEvent e) {}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {}
+		public void mouseReleased(final MouseEvent e) {}
 
 		@Override
-		public void mouseEntered(MouseEvent e) {}
+		public void mouseEntered(final MouseEvent e) {}
 
 		@Override
-		public void mouseExited(MouseEvent e) {}
+		public void mouseExited(final MouseEvent e) {}
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
+		public void mouseClicked(final MouseEvent e) {
 			//Only works if there is a map loaded
 			if(loadedMap!=null){
-				Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
+				final Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
 				System.out.println(selectedPoint.getNumber());
 				tv.selectCell(selectedPoint);
 				//TODO : implement a metohd in textual view that highlights the request that has this id 
@@ -427,69 +427,67 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * we need the point clicked to be a special point (pickup, delivery, departure)
 	 * 
 	 */
-
-	 //TODO : rename to be more explicite, like below
-	public class SingleMouseClickOnMapListener implements MouseListener {
+	public class SingleMouseClickOnSpecialPointListener implements MouseListener {
 
 		@Override
-		public void mousePressed(MouseEvent e) {}
+		public void mousePressed(final MouseEvent e) {}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {}
+		public void mouseReleased(final MouseEvent e) {}
 
 		@Override
-		public void mouseEntered(MouseEvent e) {}
+		public void mouseEntered(final MouseEvent e) {}
 
 		@Override
-		public void mouseExited(MouseEvent e) {}
+		public void mouseExited(final MouseEvent e) {}
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
+		public void mouseClicked(final MouseEvent e) {
 			//Only works if there is a map loaded
-			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY(), true);
+			final Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY(), true);
 			System.out.println("special : " + selectedPoint.getNumber());
 			support.firePropertyChange("pointClicked", null, selectedPoint);
 		}
 
 	}
 
-	public void addSingleMouseClickOnMapListener(){
-		graphicalContainer.addMouseListener(new SingleMouseClickOnMapListener());
+	public void addSingleMouseClickOnSpecialPointListener(){
+		graphicalContainer.addMouseListener(new SingleMouseClickOnSpecialPointListener());
 	}
 
 	/*
 	 * Mouse listener that fires an property change after one click (for the addRequest + delete) when 
-	 * we need the point clicked to be a random point (white point on the map)
-	 * 
+	 * the point clicked can be special or random
 	 */
-	 /*public class MouseClickOnSpecialPointListener implements MouseListener {
+	public class SingleMouseClickOnAnyPointListener implements MouseListener {
 
 		@Override
-		public void mousePressed(MouseEvent e) {}
+		public void mousePressed(final MouseEvent e) {}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {}
+		public void mouseReleased(final MouseEvent e) {}
 
 		@Override
-		public void mouseEntered(MouseEvent e) {}
+		public void mouseEntered(final MouseEvent e) {}
 
 		@Override
-		public void mouseExited(MouseEvent e) {}
+		public void mouseExited(final MouseEvent e) {}
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
+		public void mouseClicked(final MouseEvent e) {
 			//Only works if there is a map loaded
-			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY(), true);
-			System.out.println("random : " + selectedPoint.getNumber());
+			final Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
+			System.out.println("special or random : " + selectedPoint.getNumber());
 			support.firePropertyChange("pointClicked", null, selectedPoint);
 		}
 
 	}
 
-	public void addMouseClickOnSpecialPointListener(){
-		graphicalContainer.addMouseListener(new MouseClickOnSpecialPointListener());
+	public void addSingleMouseClickOnAnyPointListener(){
+		graphicalContainer.addMouseListener(new SingleMouseClickOnAnyPointListener());
+		System.out.println(graphicalContainer.getMouseListeners().length);
 	}
-	*/
+
 
 	public void removeAllMouseListeners(){
 		for(int i = 0; i<graphicalContainer.getMouseListeners().length; i++){
@@ -508,8 +506,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		String propName = evt.getPropertyName();
+	public void propertyChange(final PropertyChangeEvent evt) {
+		final String propName = evt.getPropertyName();
 
 		switch (propName) {
 		case "updateMap":
