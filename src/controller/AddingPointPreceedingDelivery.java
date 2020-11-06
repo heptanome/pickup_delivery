@@ -10,8 +10,8 @@ import model.Request;
 
 public class AddingPointPreceedingDelivery implements State {
     @Override
-	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) throws Exception{
-        try {
+	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
+
             //Set the point preceeding the delivery
             System.out.println("preceeding delivery address " + i.getNumber() );
             hw.setPreceedingDelivery(i);
@@ -25,11 +25,7 @@ public class AddingPointPreceedingDelivery implements State {
             //Go to the next state (DisplayingTourOnMapState)
             a.setCurrentState(a.displayingTourState);
 
-        } catch (NullPointerException e) {
-	        JOptionPane.showMessageDialog(hw, "You did not chose a valid intersection.");
-        } catch (Exception e) {
-            System.out.println("An error occured");
-        }
+
 
     }
 

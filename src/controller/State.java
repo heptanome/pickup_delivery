@@ -33,7 +33,7 @@ public interface State {
 		// default behavior of the states when canceling a running process
 	}
 
-	public default void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a)throws Exception{
+	public default void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a){
 
 	}
 

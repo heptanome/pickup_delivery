@@ -10,8 +10,8 @@ import view.HomeWindow;
 public class DeleteRequestState implements State {
 	
 	@Override
-	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) throws Exception{
-        try {
+	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a){
+     
 	        Request requestToBeDeleted = hw.getRequestFromIntersection(i);
 	        // display the JOptionPane showConfirmDialog
 	        String message = "The request " + requestToBeDeleted.toString() + " will be deleted.";
@@ -23,10 +23,7 @@ public class DeleteRequestState implements State {
 	        	tour.deleteRequest(hw.getRequestFromIntersection(i));
 	            // TODO: update tour
 	        } 
-        }
-        catch (NullPointerException e) {
-	        JOptionPane.showMessageDialog(hw, "You did not chose a valid intersection.");
-        }
+
     }
 	
 	@Override

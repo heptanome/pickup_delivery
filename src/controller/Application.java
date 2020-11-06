@@ -8,7 +8,6 @@ import org.xml.sax.SAXException;
 
 import model.Intersection;
 import model.Tour;
-import tsp.CompleteGraph;
 import view.HomeWindow;
 
 /**
@@ -66,11 +65,15 @@ public class Application implements PropertyChangeListener {
 	}
 
 
-	 /* Loads a map from a file path
+	 /**Loads a map from a file path
 	 * 
 	 * @param fp The map's file path
+	 * @throws IllegalArgumentException if the file path is null
+	 * @throws IOException if there is a I/O error
+	 * @throws SAXException if the xml file couldn't be parsed correctly
+	 * @throws Exception for any other exception
 	 */
-	public void loadMap(String fp) {
+	public void loadMap(String fp) throws IllegalArgumentException, IOException, SAXException, Exception{
 		try {
 			currentState.loadMap(fp, this.tour);
 			currentState = mapWoRequestsState;
@@ -88,8 +91,12 @@ public class Application implements PropertyChangeListener {
 	 * Loads a request from a file path
 	 * 
 	 * @param fp The set of requests' file path
+	 * @throws IllegalArgumentException if the file path is null
+	 * @throws IOException if there is a I/O error
+	 * @throws SAXException if the xml file couldn't be parsed correctly
+	 * @throws Exception for any other exception
 	 */
-	public void loadRequests(String fp) {
+	public void loadRequests(String fp) throws IllegalArgumentException, IOException, SAXException, Exception{
 		try {
 			currentState.loadRequests(fp, this.tour);
 			currentState = displayingTourState;
@@ -103,24 +110,37 @@ public class Application implements PropertyChangeListener {
 		}
 	}
 
-	public void addRequest() throws Exception {
+
+	/**
+	 * Starts the creation of a new request to add to the tour
+	 * Pre condition : a set of requests has to be loaded
+	 * 
+	 */
+	public void addRequest() {
 		System.out.println("Ajout d'une requête : ");
 		currentState = apa;
 		currentState.describeState(homeWindow);
 		currentState.setMouseListener(homeWindow);
-		//homeWindow.removeAllMouseListeners();
-		//homeWindow.addSingleMouseClickOnAnyPointListener();
-		
 	}
 
-	public void pointClicked(Object selectedPoint) throws Exception {
-		currentState.pointClicked((Intersection)selectedPoint, homeWindow, tour, this);
-		//currentState = currentState.nextState();
-		currentState.describeState(homeWindow);
-		currentState.setMouseListener(homeWindow);
-
+	/**
+	 * Method called when a point (an intersction) is selected on the map in one of
+	 * the process of adding a request, or when deleting a request.
+	 * 
+	 * @param selectedPoint : the point that has been clicked
+	 */
+	public void pointClicked(Object selectedPoint)  {
+			currentState.pointClicked((Intersection)selectedPoint, homeWindow, tour, this);
+			currentState.describeState(homeWindow);
+			currentState.setMouseListener(homeWindow);
 	}
 
+	/**
+	 * Starts the process of deleting a request from the tour
+	 * Pre condition : a set of requests has to be loaded
+	 * //TODO : exception 
+	 * @throws Exception 
+	 */
 	public void deleteRequest() throws Exception {
 		System.out.println("Suppression d'une requête");
 		
@@ -130,6 +150,11 @@ public class Application implements PropertyChangeListener {
 
 	}
 
+	/**
+	 * Starts the process of computing a tour
+	 * Pre condition : a set of requests has to be loaded
+	 * 
+	 */
 	public void computeTour() throws Exception {
 		currentState.computeTour(tour);
 	}
@@ -141,6 +166,12 @@ public class Application implements PropertyChangeListener {
 	 * "loadMap": triggers the controller into loading a map
 	 * 
 	 * "loadRequests": triggers the controller into loading a request
+	 * 
+	 * "addRequest" : triggers the controller into adding  a request
+	 * 
+	 * "deleteRequest" : triggers the controller into its response to a clic during the adding and deleting processes
+	 * 
+	 * "deleteRequest" : triggers the controller into deleting  a request
 	 * 
 	 * "computeTour": triggers the controller into computing the tour
 	 */

@@ -497,10 +497,11 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void mouseClicked(final MouseEvent e) {
-			//Only works if there is a map loaded
-			final Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY(), true);
-			System.out.println("special : " + selectedPoint.getNumber());
-			support.firePropertyChange("pointClicked", null, selectedPoint);
+			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY(), true);
+			if(selectedPoint != null) {
+				System.out.println("special : " + selectedPoint.getNumber());
+				support.firePropertyChange("pointClicked", null, selectedPoint);
+			}
 		}
 
 	}
@@ -529,10 +530,11 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void mouseClicked(final MouseEvent e) {
-			//Only works if there is a map loaded
-			final Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
-			System.out.println("special or random : " + selectedPoint.getNumber());
-			support.firePropertyChange("pointClicked", null, selectedPoint);
+			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
+			if(selectedPoint != null) {
+				System.out.println("special or random : " + selectedPoint.getNumber());
+				support.firePropertyChange("pointClicked", null, selectedPoint);
+			}
 		}
 
 	}
