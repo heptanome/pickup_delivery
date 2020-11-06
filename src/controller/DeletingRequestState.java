@@ -11,7 +11,7 @@ import view.HomeWindow;
  * State class used by the controller to handle the selection of the request to delete in the process of deleting
  * a requets from the tour.
  */
-public class DeleteRequestState implements State {
+public class DeletingRequestState implements State {
 	
 	@Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a){

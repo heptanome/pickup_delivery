@@ -23,18 +23,18 @@ public class Application implements PropertyChangeListener {
 	protected final MapWithoutRequestsState mapWoRequestsState = new MapWithoutRequestsState();
 	protected final MapWithRequestsState mapWithRequestsState = new MapWithRequestsState();
 	protected final DisplayingTourOnMapState displayingTourState = new DisplayingTourOnMapState();
-	protected final AddingPickupAddress apa = new AddingPickupAddress();
-	protected final AddingPointPreceedingPickup appp = new AddingPointPreceedingPickup();
-	protected final AddingDeliveryAddress ada = new AddingDeliveryAddress();
-	protected final AddingPointPreceedingDelivery appd = new AddingPointPreceedingDelivery();
-	protected final DeleteRequestState deleteRequestState = new DeleteRequestState();
+	protected final AddingPickupAddressState apa = new AddingPickupAddressState();
+	protected final AddingPointPreceedingPickupState appp = new AddingPointPreceedingPickupState();
+	protected final AddingDeliveryAddressState ada = new AddingDeliveryAddressState();
+	protected final AddingPointPreceedingDeliveryState appd = new AddingPointPreceedingDeliveryState();
+	protected final DeletingRequestState deleteRequestState = new DeletingRequestState();
 
 	public static void main(String[] args) {
 		Tour tour = new Tour();
 		HomeWindow homeWindow = new HomeWindow("Home Window");
 		State state = new HomeState();
 
-		Application app = new Application(homeWindow, tour, state);
+		new Application(homeWindow, tour, state);
 	}
 
 	/**

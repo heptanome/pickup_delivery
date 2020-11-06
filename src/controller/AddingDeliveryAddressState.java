@@ -12,7 +12,7 @@ import model.Tour;
  * State class used by the controller to handle the selection of the new delivery address (and its delivery duration)
  * when adding a requets to the tour.
  */
-public class AddingDeliveryAddress implements State {
+public class AddingDeliveryAddressState implements State {
 	
 	@Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a){

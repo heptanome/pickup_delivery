@@ -11,7 +11,7 @@ import model.Tour;
  * State class used by the controller to handle the selection of the intersection that will preceed the new delivery address
  * when adding a request to the tour.
  */
-public class AddingPointPreceedingPickup implements State {
+public class AddingPointPreceedingPickupState implements State {
 
     @Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {

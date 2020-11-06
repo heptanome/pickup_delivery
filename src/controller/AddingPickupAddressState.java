@@ -12,7 +12,7 @@ import model.Tour;
  * State class used by the controller to handle the selection of the new pickup address (and its pickup duration)
  * when adding a request to the tour.
  */
-public class AddingPickupAddress implements State {
+public class AddingPickupAddressState implements State {
 
     @Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
