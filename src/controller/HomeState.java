@@ -1,5 +1,9 @@
 package controller;
 
+import java.io.IOException;
+
+import org.xml.sax.SAXException;
+
 import model.Tour;
 import view.HomeWindow;
 
@@ -9,8 +13,19 @@ import view.HomeWindow;
 public class HomeState implements State {
 	
 	@Override
-	public void loadMap(String fp, Tour tour) throws Exception {
-		tour.setMap(fp);
+	public void loadMap(Application a, HomeWindow homeWindow, String fp, Tour tour) {
+		try {
+			tour.setMap(fp);
+			a.setCurrentState(a.mapWoRequestsState);
+			setButtons(homeWindow);
+		} catch (IllegalArgumentException e) {
+			System.out.println("map file path argument is null");
+		} catch (IOException e) {
+			System.out.println("An IO error occured");
+		} catch (SAXException e) {
+			System.out.println("Unable to parse the document");
+		} catch (Exception e) {}
+		
 	}
 
 	@Override

@@ -73,19 +73,8 @@ public class Application implements PropertyChangeListener {
 	 * @throws SAXException if the xml file couldn't be parsed correctly
 	 * @throws Exception for any other exception
 	 */
-	public void loadMap(String fp) throws IllegalArgumentException, IOException, SAXException, Exception{
-		try {
-			currentState.loadMap(fp, this.tour);
-			currentState = mapWoRequestsState;
-			currentState.setButtons(homeWindow);
-		} catch (IllegalArgumentException e) {
-			System.out.println("map file path argument is null");
-		} catch (IOException e) {
-			System.out.println("An IO error occured");
-		} catch (SAXException e) {
-			System.out.println("Unable to parse the document");
-		} catch (Exception e) {
-		}
+	public void loadMap(String fp) {
+			currentState.loadMap(this,this.homeWindow, fp, this.tour);
 	}
 
 	/**

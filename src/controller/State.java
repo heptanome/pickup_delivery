@@ -15,7 +15,7 @@ public interface State {
 	 * @param fp the file path to the map (xml file)
 	 * @param tour the tour that will use the map
 	 */
-	public default void loadMap(String fp, Tour tour) throws Exception {
+	public default void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour) {
 	}
 	
    /**
@@ -25,14 +25,14 @@ public interface State {
 	 * @param fp the file path to the map (xml file)
 	 * @param tour the tour that will use the map
 	 */
-	public default void loadRequests(String fp, Tour tour) throws Exception {
+	public default void loadRequests(Application a, String fp, Tour tour) {
 	}
 	
    /**
 	 * Method called by the controller after a click on the button "Compute Tour"
 	 * 
 	 */
-	public default void computeTour(Tour tour) throws Exception {	
+	public default void computeTour(Application a, Tour tour) {	
 	}
 
 	/**
