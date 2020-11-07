@@ -19,7 +19,7 @@ public class AddingPointPreceedingDeliveryState implements State {
 
             //TODO : Utiliser la methoe checkPrecedence de la roadMap pour verifier que hw.getPreceedingPickup est avant i
             // si oui faire ci dessous, si non message que pas valide et rester sur cet état.
-            // Pour ce faire, elle est où la roadMap?
+            // Pour ce faire, elle est où la roadMap? Elle est dans tour.getRoadMap
 
             //Set the point preceeding the delivery
             System.out.println("preceeding delivery address " + i.getNumber() );
@@ -32,6 +32,8 @@ public class AddingPointPreceedingDeliveryState implements State {
                 + " minutes) to visit after the address " + hw.getPreceedingDelivery().getNumber() + " <br>Will be added to the tour.</html>");
 
             //TODO : compute the new tour (and display it)!
+            tour.addRequest(hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup());
+            
 
             //Go to the next state (DisplayingTourOnMapState)
             a.setCurrentState(a.displayingTourState);
