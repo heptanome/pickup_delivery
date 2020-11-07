@@ -31,6 +31,8 @@ public class AddingPointPreceedingDeliveryState implements State {
                 + " minutes) to visit after the address " + hw.getPreceedingPickup().getNumber() + " <br>  - Delivery address " +r.getDeliveryAddress() +" (delivery duration : " + r.getDeliveryDuration() 
                 + " minutes) to visit after the address " + hw.getPreceedingDelivery().getNumber() + " <br>Will be added to the tour.</html>");
 
+            //TODO : compute the new tour (and display it)!
+
             //Go to the next state (DisplayingTourOnMapState)
             a.setCurrentState(a.displayingTourState);
 
