@@ -154,7 +154,7 @@ public class Application implements PropertyChangeListener {
 		homeWindow.addSingleMouseClickOnSpecialPointListener();
 
 	}
-
+	
 	/**
 	 * Starts the process of computing a tour
 	 * Pre condition : a set of requests has to be loaded
