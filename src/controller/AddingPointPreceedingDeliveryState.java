@@ -29,10 +29,6 @@ public class AddingPointPreceedingDeliveryState implements State {
                 //i is not after the point preceeding pickup, the user has to choose again
                 JOptionPane.showMessageDialog(hw, "<html>The point you chose is visited before the one preceeding the new pickup, in the current tour. "
                 + "  <br> It is not possible, choose another one !</html>");
-            } else if (isLast) {
-                //i can't be the last intersection of the tour (the depot) 
-                JOptionPane.showMessageDialog(hw, "<html>The point you chose is the depot. You can't add anything after the depot. "
-                + "  <br> Choose another point !</html>");
             } else  {
                 //Normal case
                 //Set the point preceeding the delivery
