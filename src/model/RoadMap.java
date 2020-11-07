@@ -5,8 +5,6 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import tsp.CompleteGraph;
-import tsp.TSP;
-import tsp.TSP2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,9 +40,7 @@ public class RoadMap {
 	}
 	
 	public List<Segment> addRequest(Request newRequest, Intersection beforePickup, Intersection beforeDelivery, CityMap cm, List<Segment> path) {
-		/*Step 1 :
-		 * find "point after pickup" and "point after delivery"
-		*/
+
 		Intersection newPickup = newRequest.getPickup();
 		Intersection newDelivery = newRequest.getDelivery();
 		Intersection afterPickup = this.orderedAddresses.get(this.orderedAddresses.indexOf(beforePickup)+1);
@@ -53,21 +49,23 @@ public class RoadMap {
 		this.orderedAddresses.add(this.orderedAddresses.lastIndexOf(beforeDelivery)+1, newDelivery);
 		this.orderedAddresses.add(this.orderedAddresses.indexOf(beforePickup)+1, newPickup);
 		
+		List<Segment> pickupPath = new LinkedList<Segment>();
+		List<Segment> deliveryPath = new LinkedList<Segment>();
+		List<Intersection> zone;
 		if(beforePickup == beforeDelivery) {
+			zone = new ArrayList<Intersection>(4);
+			zone.add(beforePickup); zone.add(newPickup); zone.add(newDelivery); zone.add(afterDelivery);
 			afterPickup = newDelivery;
 			beforeDelivery = newPickup;
+			pickupPath = adjustRoadMap(zone, cm);
+		} else {
+			zone = new ArrayList<Intersection>(4);
+			zone.add(beforePickup); zone.add(newPickup); zone.add(afterPickup);
+			pickupPath = adjustRoadMap(zone, cm);
+			zone.clear();
+			zone.add(beforeDelivery); zone.add(newDelivery); zone.add(afterDelivery);
+			deliveryPath = adjustRoadMap(zone, cm);
 		}
-		
-		/*
-		 * Step 2 : compute shortest path from beforePickup to newPickup and from
-		 * newPickup to afterPickup
-		 * (same for delivery points)
-		 */
-		List<Segment> pickupPath = adjustRoadMap(beforePickup, newPickup, afterPickup, cm);
-		List<Segment> deliveryPath = adjustRoadMap(beforeDelivery, newDelivery, afterDelivery, cm);
-
-		/*
-		 * Step 3 : modify the path with the new paths*/
 
 		List<Segment> beginning = new LinkedList<Segment>();
 		List<Segment> middle = new LinkedList<Segment>();
@@ -106,27 +104,12 @@ public class RoadMap {
 		path.addAll(middle);
 		path.addAll(deliveryPath);
 		path.addAll(end);
-		System.out.println("bp: "+beforePickup);
-		System.out.println("np: "+newPickup);
-		System.out.println("ap: "+afterPickup);
-		System.out.println("bd: "+beforeDelivery);
-		System.out.println("nd: "+newDelivery);
-		System.out.println("ad: "+afterDelivery);
-		System.out.println("beginning: "+beginning);
-		System.out.println("pickupPath: "+pickupPath);
-		System.out.println("middle: "+middle);
-		System.out.println("deliveryPath: "+deliveryPath);
-		System.out.println("end: "+end);
 		return path;
 		
 	}
 	
-	private List<Segment> adjustRoadMap(Intersection beforeI, Intersection newI, Intersection afterI, CityMap cm){
-		
-		List<Intersection> zone = new ArrayList<Intersection>(3);
-		zone.add(beforeI);
-		zone.add(newI);
-		zone.add(afterI);
+	private List<Segment> adjustRoadMap(List<Intersection> zone, CityMap cm){
+		;
 		List<Segment> path = new LinkedList<Segment>();
 		
 		CompleteGraph pickupGraph = new CompleteGraph(cm, zone);
