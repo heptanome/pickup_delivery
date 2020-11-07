@@ -18,9 +18,11 @@ public class AddingPointPreceedingDeliveryState implements State {
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
 
             //TODO : Utiliser la methoe checkPrecedence de la roadMap pour verifier que hw.getPreceedingPickup est avant i
-            // si oui faire ci dessous, si non message que pas valide et rester sur cet état.
-            // Pour ce faire, elle est où la roadMap? Elle est dans tour.getRoadMap
-
+    		tour.getRoadMap().checkPrecedence(hw.getPreceedingPickup(), i); //doit être true pour être valide
+    		tour.getRoadMap().isLastIntersection(i); // doit être false pour être valide
+            // si oui faire ci dessous, si non message que pas valide et rester sur cet état.   		
+    		//TODO bis : empêcher de prendre le point de depot pour ce point
+    		
             //Set the point preceeding the delivery
             System.out.println("preceeding delivery address " + i.getNumber() );
             hw.setPreceedingDelivery(i);

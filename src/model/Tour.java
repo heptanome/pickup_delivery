@@ -134,4 +134,10 @@ public class Tour {
 		support.firePropertyChange("tourComputed", null, this.path);
 		return this.path;
 	}
+
+	public RoadMap getRoadMap() {
+		return roadMap;
+	}
+	
+	
 }
