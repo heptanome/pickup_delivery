@@ -17,11 +17,15 @@ import model.Request;
 import model.Segment;
 import model.SetOfRequests;
 
+/**
+ * Class used to to display the intersections, the segments, the requests and the tour graphically, i.e. on a map
+ */
 public class GraphicalView extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
+	private final int GV_WIDTH = 820;
+	private final int GV_HEIGHT = 840; // Larger than 800x800 to have margins
+
 	private List<Intersection> intersections;
 	private List<Segment> segments;
 	private float minLat;
@@ -33,9 +37,13 @@ public class GraphicalView extends JPanel {
 	private Intersection selectedPoint;
 	private List<GraphicalSegment> graphicalSegments;
 
+	/**
+	 * Contructor
+	 * @param loadedMap the cityMap containing the Intersections and Segments to display
+	 */
 	public GraphicalView(CityMap loadedMap) {
 		setLayout(null);
-		setBounds(0, 0, 820, 840); // Larger than 800x800 to have margins
+		setBounds(0, 0, GV_WIDTH, GV_HEIGHT); 
 		intersections = loadedMap.getInstersections();
 		segments = loadedMap.getSegments();
 
@@ -51,6 +59,9 @@ public class GraphicalView extends JPanel {
 		displayMap();
 	}
 
+	/**
+	 * Paints the component
+	 */
 	public void paint(Graphics g) {
 		// Background
 		g.setColor(Color.gray);
@@ -94,6 +105,9 @@ public class GraphicalView extends JPanel {
 
 	}
 
+	/**
+	 * Method called to set the Graphical points and segments to display on the map.
+	 */
 	public void displayMap() {
 		// Graphical points
 		for (Intersection i : intersections) {
@@ -110,17 +124,17 @@ public class GraphicalView extends JPanel {
 		}
 	}
 
+	/**
+	 * Sets the Segments that belong to the Tour to be displayed in red and bigger.
+	 * @param segments the list of Segment that belong to the Tour
+	 */
 	public void displayTour(List<Segment> segments) {
+		// Clear en eventual current tour (diplay on the map)
+		clearTourOnMap();
+		clearSelectedPoint();
+
+		// Change color of corresponding segments
 		int segSize = graphicalSegments.size();
-
-		int i = 0;
-		// reset all segments to white
-		while (i < segSize) {
-			graphicalSegments.get(i).setOnPath(0);
-			i++;
-		}
-
-		// change color of corresponding segments
 		segments.forEach(s -> {
 			int j = 0;
 			while (j < segSize) {
@@ -139,17 +153,18 @@ public class GraphicalView extends JPanel {
 
 	}
 
+	/**
+	 * Sets the color and size of the GraphicalPoints that are part of the loaded SetOfRequests
+	 * @param sr the SetOfRequests, containing the the intersections to highlight
+	 */
 	public void displayRequests(SetOfRequests sr) {
-		// Reset map, i. e. change the color of all points to white
-		int i = 0;
-		while (i < graphicalPoints.size()) {
-			graphicalPoints.get(i).setColor(Color.white);
-			graphicalPoints.get(i).setSize(8);
-			i++;
-		}
+		//Reset the map
+		clearRequestsOnMap();
+		clearTourOnMap();
+		clearSelectedPoint();
 
 		// Look for the departure point
-		i = 0;
+		int i = 0;
 		boolean found = false;
 		while (i < graphicalPoints.size() && !found) {
 			if (sr.getDepotAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
@@ -182,6 +197,9 @@ public class GraphicalView extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Goes over all of the intersections of the map to set the exteme coordinates, in order to later set the scale of the map.
+	 */
 	public void setExtemeCoordinates() {
 		for (Intersection i : intersections) {
 			if (i.getLatitude() < minLat) {
@@ -198,6 +216,12 @@ public class GraphicalView extends JPanel {
 		}
 	}
 
+	/**
+	 * Creates a graphical segment
+	 * @param idOrigin the id of the origin Intersection
+	 * @param idDestination the id of the destination Intersection
+	 * @return the GraphicalSegment created
+	 */
 	public GraphicalSegment createSegment(String idOrigin, String idDestination) {
 		// Go through the list to find the intersection
 		int i = 0;
@@ -221,6 +245,10 @@ public class GraphicalView extends JPanel {
 	}
 
 
+	/**
+	 * Select (double the size) a Graphical Point on the map
+	 * @param inter the Intersection that we want the corresponding Graphical Point to be selected
+	 */
 	public void selectPoint(Intersection inter) {
 		// clear if necessary
 		this.clearSelectedPoint();
@@ -238,13 +266,21 @@ public class GraphicalView extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Getter for the selectedPonint attribute
+	 * @return the selectedPoint attribute
+	 */
 	public Intersection getSelectedPoint() {
 		return selectedPoint;
 	}
 
-	/*
+	/** 
 	 * This method is used to respond to a click on the point of coordinates (x,y) on the map,  when you are looking for a type of point in particular
 	 * (random or special : pickup, delivery, depot)
+	 * @param x the horizontal coordinate (in pixels) of the click
+	 * @param y the vertical coordinate (in pixels) of the click
+	 * @param isSpecial a boolean indicating wether the intersection has to be special (i.e is a colored point on the map) or not. 
+	 * @return the Intersection clicked if one was found, else returns null
 	 */
 	public Intersection mapClickedResponse(int x, int y, boolean isSpecial){
 		// clear if necessary
@@ -264,8 +300,11 @@ public class GraphicalView extends JPanel {
 		return selectedPoint;
 	}
 
-	/*
+	/** 
 	 * This method is used to respond to a click on the point of coordinates (x,y) on the map
+	 * @param x the horizontal coordinate (in pixels) of the click
+	 * @param y the vertical coordinate (in pixels) of the click
+	 * @return the Intersection clicked if one was found, else returns null
 	 */
 	public Intersection mapClickedResponse(int x, int y){
 		// clear if necessary
@@ -289,10 +328,13 @@ public class GraphicalView extends JPanel {
 	}
 
 
+	/**
+	 * Unselect (reduce its size) the selected point on the map, if there is one.
+	 */
 	public void clearSelectedPoint() {
-		// if a point is already selected, unselect it
 		if (selectedPoint != null) {
 			int i = 0;
+			//Look for the selected point in the list of Graphical Points
 			while ((i < graphicalPoints.size()) && selectedPoint != null) {
 				if (selectedPoint.getNumber().equals(graphicalPoints.get(i).getPoint().getNumber())) {
 					graphicalPoints.get(i).setSize(graphicalPoints.get(i).getSize() / 2);
@@ -303,6 +345,33 @@ public class GraphicalView extends JPanel {
 		}
 	}
 
+	/**
+	 * Resets every point to white and to a normal size (8px here)
+	 */
+	public void clearRequestsOnMap(){
+		int i = 0;
+		while (i < graphicalPoints.size()) {
+			graphicalPoints.get(i).setColor(Color.white);
+			graphicalPoints.get(i).setSize(8);
+			i++;
+		}
+		//In case a point was selected
+		clearSelectedPoint();
+	}
 
+	/**
+	 * Resets all the segments of the map to white and to a normal size (the ones that belonged to the tour were red
+	 * and thicker)
+	 */
+	public void clearTourOnMap(){
+		int segSize = graphicalSegments.size();
+		int i = 0;
+		// reset all segments to white and small size
+		while (i < segSize) {
+			graphicalSegments.get(i).setOnPath(0);
+			graphicalSegments.get(i).setColor(Color.white);
+			i++;
+		}
+	}
 
 }
