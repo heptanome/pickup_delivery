@@ -29,4 +29,9 @@ public class DisplayingTourOnMapState implements State {
 		hw.addMouseOnMapListener();
 	}
 
+	@Override
+    public  void setButtons(HomeWindow hw) {
+        hw.setButtonsEnabled(true, true, false, true, true, true, false, true);
+	}
+
 }

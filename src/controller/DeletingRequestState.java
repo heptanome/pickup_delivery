@@ -29,12 +29,18 @@ public class DeletingRequestState implements State {
 		} 
 		//Go to the next state : DisplayingTourOnMapState
 		a.setCurrentState(a.displayingTourState);
+		
     }
 	
 	@Override
 	public void describeState(HomeWindow hw) {
         JOptionPane.showMessageDialog(hw, "Select a colored point on the map so that the corresponding request will "
         		+ "be deleted (pickup and delivery point)");
+	}
+
+	@Override
+    public  void setButtons(HomeWindow hw) {
+        hw.setButtonsEnabled(false, false, false, false, false, false, false, true);
 	}
 
 	//TODO :override setMouseListener here instead of setting it in Application.java

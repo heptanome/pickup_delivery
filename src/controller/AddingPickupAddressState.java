@@ -43,5 +43,10 @@ public class AddingPickupAddressState implements State {
         hw.removeAllMouseListeners();
         //The new pickup intersection can be any type of intersection : A special one (depot, pickup or delivery) or not.
 		hw.addSingleMouseClickOnAnyPointListener();
+    }
+    
+    @Override
+    public  void setButtons(HomeWindow hw) {
+        hw.setButtonsEnabled(false, false, false, false, false, false, false, true);
 	}
 }

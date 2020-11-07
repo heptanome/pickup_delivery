@@ -44,5 +44,10 @@ public class AddingDeliveryAddressState implements State {
 		hw.addSingleMouseClickOnAnyPointListener();
 	}
 
+	@Override
+    public  void setButtons(HomeWindow hw) {
+        hw.setButtonsEnabled(false, false, false, false, false, false, false, true);
+	}
+
 
 }

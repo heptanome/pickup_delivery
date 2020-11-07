@@ -143,6 +143,28 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		buttonsContainer.add(newButton);
 		buttonsContainer.add(Box.createVerticalStrut(10));
 	}
+
+	/**
+	 * Updates which buttons are enabled
+	 * @param setMapB : true if btnLoadMap needs to be enabled
+	 * @param setRequestsB : true if btnLoadRequest needs to be enabled
+	 * @param computeB : true if ComputeTour needs to be enabled
+	 * @param displayRoadMapB : true if btnRoadMap needs to be enabled
+	 * @param addB : true if btnAddRequest needs to be enabled
+	 * @param deleteB : true if btnDeleteRequest needs to be enabled
+	 * @param saveB : true if btnSaveRoadMap needs to be enabled
+	 * @param sosB : true if btnHelp needs to be enabled
+	 */
+	public void setButtonsEnabled(boolean setMapB, boolean setRequestsB, boolean computeB, boolean displayRoadMapB, boolean addB, boolean deleteB, boolean saveB, boolean sosB) {
+		btnLoadMap.setEnabled(setMapB);
+		btnLoadRequest.setEnabled(setRequestsB);
+		btnComputeTour.setEnabled(computeB);
+		btnRoadMap.setEnabled(displayRoadMapB);
+		btnAddRequest.setEnabled(addB);
+		btnDeleteRequest.setEnabled(deleteB);
+		btnSaveRoadMap.setEnabled(saveB);
+		btnHelp.setEnabled(sosB);
+	}
 	
 	/**
 	 * Refreshing the View (graphical) with a newly loaded map
@@ -162,11 +184,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		gv = new GraphicalView(this.loadedMap);
 		graphicalContainer.add(gv);
 
-		// Buttons enabling
-		btnLoadRequest.setEnabled(true);
-		btnAddRequest.setEnabled(false);
-		btnDeleteRequest.setEnabled(false);
-		btnComputeTour.setEnabled(false);
 	}
 
 	/**
@@ -188,9 +205,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		tv.setBounds(0, 0, 400, 800);
 		textualContainer.add(tv);
 		tv.displayRequests(this.loadedSOR);
-
-		// Buttons enabling
-		btnComputeTour.setEnabled(true);
 
 		// event listening (Home listens to TextualView)
 		tv.addPropertyChangeListener(this);
@@ -316,11 +330,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		@Override
 		public void actionPerformed(final ActionEvent arg0) {
 			support.firePropertyChange("computeTour", null, null);
-			
-			// Buttons Enabling
-			btnRoadMap.setEnabled(true);
-			btnAddRequest.setEnabled(true);
-			btnDeleteRequest.setEnabled(true);
 		}
 
 	}

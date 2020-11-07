@@ -64,10 +64,18 @@ public interface State {
 	}
 
 	/**
-	 * Method called by the controller to display a message about specific to the current State
+	 * Method called by the controller to display a message about specific information of the current State
 	 * 
 	 * @param hw the HomeWindow
 	 */
 	public default void describeState(HomeWindow hw) {
+	}
+
+	/**
+	 * Method called by the controller to update which buttons are enabled depending on the state
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	public default void setButtons(HomeWindow hw) {
 	}
 }

@@ -45,5 +45,10 @@ public class AddingPointPreceedingDeliveryState implements State {
     public  void setMouseListener(HomeWindow hw) {
         hw.removeAllMouseListeners();
 		hw.addSingleMouseClickOnSpecialPointListener();
+    }
+    
+    @Override
+    public  void setButtons(HomeWindow hw) {
+        hw.setButtonsEnabled(false, false, false, false, false, false, false, true);
 	}
 }

@@ -32,9 +32,8 @@ public class Application implements PropertyChangeListener {
 	public static void main(String[] args) {
 		Tour tour = new Tour();
 		HomeWindow homeWindow = new HomeWindow("Home Window");
-		State state = new HomeState();
 
-		new Application(homeWindow, tour, state);
+		new Application(homeWindow, tour);
 	}
 
 	/**
@@ -45,11 +44,11 @@ public class Application implements PropertyChangeListener {
 	 * @param t     the Model to work with
 	 * @param state the initial state to start in
 	 */
-	public Application(HomeWindow hw, Tour t, State state) {
-		this.currentState = state;
-
+	public Application(HomeWindow hw, Tour t) {
 		this.tour = t;
 		this.homeWindow = hw;
+		this.currentState = homeState;
+		this.currentState.setButtons(homeWindow);
 		// Window listens to Tour events
 		this.tour.addPropertyChangeListener(this.homeWindow);
 		// Application listens to Window events
@@ -78,6 +77,7 @@ public class Application implements PropertyChangeListener {
 		try {
 			currentState.loadMap(fp, this.tour);
 			currentState = mapWoRequestsState;
+			currentState.setButtons(homeWindow);
 		} catch (IllegalArgumentException e) {
 			System.out.println("map file path argument is null");
 		} catch (IOException e) {
@@ -100,7 +100,8 @@ public class Application implements PropertyChangeListener {
 	public void loadRequests(String fp) throws IllegalArgumentException, IOException, SAXException, Exception{
 		try {
 			currentState.loadRequests(fp, this.tour);
-			currentState = displayingTourState;
+			currentState = mapWithRequestsState;
+			currentState.setButtons(homeWindow);
 		} catch (IllegalArgumentException e) {
 			System.out.println("requests file path argument is null");
 		} catch (IOException e) {
@@ -120,6 +121,7 @@ public class Application implements PropertyChangeListener {
 	public void addRequest() {
 		System.out.println("Ajout d'une requête : ");
 		currentState = apa;
+		currentState.setButtons(homeWindow);
 		currentState.describeState(homeWindow);
 		currentState.setMouseListener(homeWindow);
 	}
@@ -132,6 +134,7 @@ public class Application implements PropertyChangeListener {
 	 */
 	public void pointClicked(Object selectedPoint)  {
 			currentState.pointClicked((Intersection)selectedPoint, homeWindow, tour, this);
+			currentState.setButtons(homeWindow);
 			currentState.describeState(homeWindow);
 			currentState.setMouseListener(homeWindow);
 	}
@@ -146,6 +149,7 @@ public class Application implements PropertyChangeListener {
 		System.out.println("Suppression d'une requête");
 		
 		currentState = deleteRequestState;
+		currentState.setButtons(homeWindow);
 		currentState.describeState(homeWindow);
 		homeWindow.addSingleMouseClickOnSpecialPointListener();
 
@@ -158,6 +162,8 @@ public class Application implements PropertyChangeListener {
 	 */
 	public void computeTour() throws Exception {
 		currentState.computeTour(tour);
+		setCurrentState(displayingTourState);
+		currentState.setButtons(homeWindow);
 	}
 
 	/**
