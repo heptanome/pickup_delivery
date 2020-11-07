@@ -202,7 +202,10 @@ public class RoadMap {
 		this.orderedAddresses.add(currentIntersection);
 		addressesToFind.remove(currentIntersection);
 	}
-	
+
+	/**
+	 * Prints the addressess in the terminal, in the right order
+	 */
 	public void printReorderedAddresses() {
 		int index = 0;
 		for (Intersection currentAddress : this.orderedAddresses) {
@@ -210,5 +213,26 @@ public class RoadMap {
 			index++;
 		}
 	}
+
+	/**
+	 * Checks if an intersection is before another one in the orderedAddresses liked list
+	 * @param i1 the first Intersection
+	 * @param i2 the second Intersection
+	 * @return true if i1 is indeed before i2 in the LinkedList orderedAdresses, false is it is after or if one of the two
+	 * intersections were not found in the list
+	 * 
+	 */
+	public boolean checkPrecedence(Intersection i1, Intersection i2) {
+		int i1index = orderedAddresses.indexOf(i1);
+		int i2index = orderedAddresses.indexOf(i2);
+		System.out.println(i1index + "  " + i2index);
+		if((i1index != -1) && (i2index != -1) && (i1index < i2index)){
+			//Both intersections were found and i1 is before i2
+			return true;
+		}
+		return false;
+	}
+
+
 
 }
