@@ -129,7 +129,7 @@ public class GraphicalView extends JPanel {
 	 * @param segments the list of Segment that belong to the Tour
 	 */
 	public void displayTour(List<Segment> segments) {
-		// Clear en eventual current tour (diplay on the map)
+		// Clear en eventual current tour (display on the map)
 		clearTourOnMap();
 		clearSelectedPoint();
 
@@ -237,8 +237,7 @@ public class GraphicalView extends JPanel {
 			i++;
 		}
 		if (origin != null && destination != null) {
-			GraphicalSegment gs = new GraphicalSegment(idOrigin, idDestination, origin.getXPixel(), origin.getYPixel(),
-					destination.getXPixel(), destination.getYPixel());
+			GraphicalSegment gs = new GraphicalSegment(origin, destination);
 			return gs;
 		}
 		return null;
