@@ -81,8 +81,9 @@ public class RoadMap {
 			middle.add(next);
 			next = iterator.next();
 		}
-		while(next.getOrigin() != afterDelivery)
+		while(next.getOrigin() != afterDelivery) {
 			next = iterator.next();
+		}
 		while(iterator.hasNext()) {
 			end.add(next);
 			next = iterator.next();
@@ -189,6 +190,8 @@ public class RoadMap {
 				break;
 			}
 		}
+		this.orderedAddresses.addFirst(this.setOfRequests.getDepot());
+		this.orderedAddresses.addLast(this.setOfRequests.getDepot());
 	}
 	
 	/**

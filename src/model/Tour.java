@@ -22,6 +22,7 @@ public class Tour {
 	public SetOfRequests setOfRequests;
 	private PropertyChangeSupport support;
 	private List<Segment> path;
+	private RoadMap roadMap;
 
 	public Tour() {
 		// observable object
@@ -63,21 +64,20 @@ public class Tour {
 		support.firePropertyChange("updateRequests", oldReq, this.setOfRequests);
 	}
 
-	public List<Segment> addRequest(Request newRequest, Intersection beforeDelivery, Intersection beforePickup) {
-		// find afterDelivery and afterPickup
-
-		return this.path;
-	}
-
-	private CompleteGraph mapToCompleteGraph() {
-		CompleteGraph g = new CompleteGraph(map, setOfRequests);
-		return g;
+	public void addRequest(Request newRequest, Intersection beforeDelivery, Intersection beforePickup) {
+		
+		this.setOfRequests.getRequests().add(newRequest);
+		this.path = this.roadMap.addRequest(newRequest, beforePickup, beforeDelivery, this.map, this.path);
+		support.firePropertyChange("tourComputed", null, this.path);
+		support.firePropertyChange("updateRequests", null, this.setOfRequests);
+		System.out.println("done");
 	}
 	
 	public void deleteRequest(Request request) {
 		SetOfRequests oldReq = this.setOfRequests;
 		this.setOfRequests.deleteRequest(request);
 		support.firePropertyChange("updateRequests", oldReq, this.setOfRequests);
+		
 	}
 
 
@@ -129,7 +129,7 @@ public class Tour {
 			intermediateNodes.clear();
 		}
 		
-		RoadMap rm = new RoadMap(this.path, this.setOfRequests);
+		this.roadMap = new RoadMap(this.path, this.setOfRequests);
 		
 		support.firePropertyChange("tourComputed", null, this.path);
 		return this.path;
