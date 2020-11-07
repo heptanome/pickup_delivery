@@ -84,25 +84,24 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		super(name);
 		this.support = new PropertyChangeSupport(this);
 		this.helpText = "Please load a map";
-
-		// Layout
+		
+		//Layout
 		setLayout(null);
 
 		// Graphical container
 		graphicalContainer = new JPanel();
 		graphicalContainer.setLayout(null);
-		graphicalContainer.setBounds(0, 0, 820, HEIGHT - 30);
-		graphicalContainer.addMouseListener(new MouseOnMapListener());
+		graphicalContainer.setBounds(0, 0, 820, HEIGHT-30);
 
-		// Textual container
+		//Textual container
 		textualContainer = new JPanel();
 		textualContainer.setLayout(null);
-		textualContainer.setBounds(820, 0, 400, HEIGHT - 30);
+		textualContainer.setBounds(820, 0, 400, HEIGHT-30);
 		textualContainer.setBackground(new Color(188, 188, 188));
 
-		// Buttons container
+		//Buttons container
 		buttonsContainer = new JPanel();
-		buttonsContainer.setBounds(1220, 0, 200, HEIGHT - 30);
+		buttonsContainer.setBounds(1220, 0, 200, HEIGHT-30);
 		buttonsContainer.setBackground(new Color(5, 132, 243));
 
 		final BoxLayout boxLayout1 = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);
@@ -112,54 +111,16 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		// Buttons
 		this.setButton(btnLoadMap, new LoadMapListener());
 		btnLoadMap.setEnabled(true);
-
-		// Jlabel
-		// buttonsContainer.add(btnLoadMap, BorderLayout.SOUTH);
-		btnLoadMap.setAlignmentX(Component.CENTER_ALIGNMENT);
-		// btnLoadMap.setAlignmentY(5);
-		buttonsContainer.add(btnLoadMap);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-
-		btnLoadRequest.addActionListener(new LoadRequestListener());
-		btnLoadRequest.setUI(new StyledButtonUI());
-		btnLoadRequest.setEnabled(false);
-		// buttonsContainer.add(btnLoadRequest, BorderLayout.SOUTH);
-		btnLoadRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnLoadRequest);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-
-		btnAddRequest.addActionListener(new AddRequestListener());
-		btnAddRequest.setUI(new StyledButtonUI());
-		btnAddRequest.setEnabled(false);
-		// buttonsContainer.add(btnAddRequest, BorderLayout.SOUTH);
-		btnAddRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnAddRequest);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-
-		btnDeleteRequest.addActionListener(new DeleteRequestListener());
-		btnDeleteRequest.setUI(new StyledButtonUI());
-		btnDeleteRequest.setEnabled(false);
-		// buttonsContainer.add(btnDeleteRequest, BorderLayout.SOUTH);
-		btnDeleteRequest.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnDeleteRequest);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-
-		btnComputeTour.addActionListener(new ComputeTourListener());
-		btnComputeTour.setUI(new StyledButtonUI());
-		btnComputeTour.setEnabled(false);
-		// buttonsContainer.add(btnComputeTour, BorderLayout.SOUTH);
-		btnComputeTour.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnComputeTour);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-
-		btnHelp.addActionListener(new HelpListener());
-		btnHelp.setUI(new StyledButtonUI());
-		btnHelp.setEnabled(true);
-		// btnHelp.setFont(new Font("Arial", Font.BOLD, 30));
-		btnHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonsContainer.add(btnHelp);
-		buttonsContainer.add(Box.createVerticalStrut(10));
-
+		btnLoadMap.setAlignmentY(5);
+		this.setButton(btnLoadRequest, new LoadRequestListener());
+		this.setButton(btnComputeTour, new ComputeTourListener());
+		this.setButton(btnRoadMap, new RoadMapListener());	
+		this.setButton(btnAddRequest, new AddRequestListener());
+		this.setButton(btnDeleteRequest, new DeleteRequestListener());
+		this.setButton(btnSaveRoadMap, new SaveRoadMapListener());
+		this.setButton(btnHelp, new HelpListener());
+		
+		//JLabel
 		lblHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// Add containers
@@ -173,7 +134,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-
 	
 	private void setButton(JButton newButton, ActionListener listener) {
 		newButton.addActionListener(listener);
