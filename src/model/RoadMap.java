@@ -235,6 +235,16 @@ public class RoadMap {
 		}
 		return false;
 	}
+	
+	/**
+	 * Checks if an intersection is the last of the LinkedList orderedAddresses
+	 * @param i the Intersection
+	 * @return true if i1 is indeed the last Intersection in the LinkedList orderedAdresses, false for any other case
+	 * 
+	 */
+	public boolean isLastIntersection(Intersection i) {
+		return this.orderedAddresses.getLast() == i;
+	}
 
 
 
