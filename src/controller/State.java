@@ -25,14 +25,14 @@ public interface State {
 	 * @param fp the file path to the map (xml file)
 	 * @param tour the tour that will use the map
 	 */
-	public default void loadRequests(Application a, String fp, Tour tour) {
+	public default void loadRequests(Application a, HomeWindow hw, String fp, Tour tour) {
 	}
 	
    /**
 	 * Method called by the controller after a click on the button "Compute Tour"
 	 * 
 	 */
-	public default void computeTour(Application a, Tour tour) {	
+	public default void computeTour(Application a, HomeWindow hw, Tour tour) {	
 	}
 
 	/**

@@ -17,19 +17,15 @@ public class HomeState implements State {
 		try {
 			tour.setMap(fp);
 			a.setCurrentState(a.mapWoRequestsState);
-			setButtons(homeWindow);
-		} catch (IllegalArgumentException e) {
-			System.out.println("map file path argument is null");
-		} catch (IOException e) {
-			System.out.println("An IO error occured");
-		} catch (SAXException e) {
-			System.out.println("Unable to parse the document");
-		} catch (Exception e) {}
+			a.getCurrentState().setButtons(homeWindow);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
-    public  void setButtons(HomeWindow hw) {
+    public void setButtons(HomeWindow hw) {
         hw.setButtonsEnabled(true, false, false, false, false, false, false, false);
 	}
 
