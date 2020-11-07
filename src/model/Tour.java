@@ -68,8 +68,8 @@ public class Tour {
 		
 		this.setOfRequests.getRequests().add(newRequest);
 		this.path = this.roadMap.addRequest(newRequest, beforePickup, beforeDelivery, this.map, this.path);
-		support.firePropertyChange("tourComputed", null, this.path);
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
+		support.firePropertyChange("tourComputed", null, this.path);
 		System.out.println("done");
 	}
 	

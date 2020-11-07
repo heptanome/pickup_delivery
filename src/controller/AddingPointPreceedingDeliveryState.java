@@ -17,28 +17,40 @@ public class AddingPointPreceedingDeliveryState implements State {
     @Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
 
-            //TODO : Utiliser la methoe checkPrecedence de la roadMap pour verifier que hw.getPreceedingPickup est avant i
-    		tour.getRoadMap().checkPrecedence(hw.getPreceedingPickup(), i); //doit être true pour être valide
-    		tour.getRoadMap().isLastIntersection(i); // doit être false pour être valide
-            // si oui faire ci dessous, si non message que pas valide et rester sur cet état.   		
-    		//TODO bis : empêcher de prendre le point de depot pour ce point
-    		
-            //Set the point preceeding the delivery
-            System.out.println("preceeding delivery address " + i.getNumber() );
-            hw.setPreceedingDelivery(i);
-    
-            //Inform the user of the complete requets that is going to be added
-            Request r = hw.getNewRequest();
-            JOptionPane.showMessageDialog(hw, "<html>The following request :<br>  - Pickup address " +r.getPickupAddress() +" (pickup duration : " + r.getPickupDuration() 
-                + " minutes) to visit after the address " + hw.getPreceedingPickup().getNumber() + " <br>  - Delivery address " +r.getDeliveryAddress() +" (delivery duration : " + r.getDeliveryDuration() 
-                + " minutes) to visit after the address " + hw.getPreceedingDelivery().getNumber() + " <br>Will be added to the tour.</html>");
-
-            //TODO : compute the new tour (and display it)!
-            tour.addRequest(hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup());
+            //Check the validity of the point selected
+    		boolean isAfterPPP = tour.getRoadMap().checkPrecedence(hw.getPreceedingPickup(), i); //must be true to be valid
+    		boolean isLast = tour.getRoadMap().isLastIntersection(i); // must be false to be valid
             
+            if (isLast) {
+            //i can't be the last intersection of the tour (the depot) 
+            JOptionPane.showMessageDialog(hw, "<html>The point you chose is the depot. You can't add anything after the depot. "
+            + "  <br> Choose another point !</html>");
+            } else if(!isAfterPPP ){
+                //i is not after the point preceeding pickup, the user has to choose again
+                JOptionPane.showMessageDialog(hw, "<html>The point you chose is visited before the one preceeding the new pickup, in the current tour. "
+                + "  <br> It is not possible, choose another one !</html>");
+            } else if (isLast) {
+                //i can't be the last intersection of the tour (the depot) 
+                JOptionPane.showMessageDialog(hw, "<html>The point you chose is the depot. You can't add anything after the depot. "
+                + "  <br> Choose another point !</html>");
+            } else  {
+                //Normal case
+                //Set the point preceeding the delivery
+                System.out.println("preceeding delivery address " + i.getNumber() );
+                hw.setPreceedingDelivery(i);
+        
+                //Inform the user of the complete requets that is going to be added
+                Request r = hw.getNewRequest();
+                JOptionPane.showMessageDialog(hw, "<html>The following request :<br>  - Pickup address " +r.getPickupAddress() +" (pickup duration : " + r.getPickupDuration() 
+                    + " minutes) to visit after the address " + hw.getPreceedingPickup().getNumber() + " <br>  - Delivery address " +r.getDeliveryAddress() +" (delivery duration : " + r.getDeliveryDuration() 
+                    + " minutes) to visit after the address " + hw.getPreceedingDelivery().getNumber() + " <br>Will be added to the tour.</html>");
 
-            //Go to the next state (DisplayingTourOnMapState)
-            a.setCurrentState(a.displayingTourState);
+                //Update the tour
+                tour.addRequest(hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup());
+
+                //Go to the next state (DisplayingTourOnMapState)
+                a.setCurrentState(a.displayingTourState);
+            }
 
     }
 
