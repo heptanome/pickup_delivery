@@ -50,15 +50,19 @@ public class RoadMap {
 		Intersection afterPickup = this.orderedAddresses.get(this.orderedAddresses.indexOf(beforePickup)+1);
 		Intersection afterDelivery = this.orderedAddresses.get(this.orderedAddresses.lastIndexOf(beforeDelivery)+1);
 		
-		this.orderedAddresses.add(this.orderedAddresses.indexOf(beforePickup)+1, newPickup);
 		this.orderedAddresses.add(this.orderedAddresses.lastIndexOf(beforeDelivery)+1, newDelivery);
+		this.orderedAddresses.add(this.orderedAddresses.indexOf(beforePickup)+1, newPickup);
+		
+		if(beforePickup == beforeDelivery) {
+			afterPickup = newDelivery;
+			beforeDelivery = newPickup;
+		}
 		
 		/*
 		 * Step 2 : compute shortest path from beforePickup to newPickup and from
 		 * newPickup to afterPickup
 		 * (same for delivery points)
 		 */
-		
 		List<Segment> pickupPath = adjustRoadMap(beforePickup, newPickup, afterPickup, cm);
 		List<Segment> deliveryPath = adjustRoadMap(beforeDelivery, newDelivery, afterDelivery, cm);
 
@@ -71,23 +75,28 @@ public class RoadMap {
 		
 		ListIterator<Segment> iterator = path.listIterator();
 		Segment next = iterator.next();
-		while(next.getOrigin() != beforePickup) {
+		while(next.getOrigin() != beforePickup && iterator.hasNext()) {
 			beginning.add(next);
 			next = iterator.next();
 		}
-		while(next.getOrigin() != afterPickup)
+		
+		while(next.getOrigin() != afterPickup && iterator.hasNext() )
 			next = iterator.next();
-		while(next.getOrigin() != beforeDelivery) {
+		
+		while(next.getOrigin() != beforeDelivery && iterator.hasNext()) {
 			middle.add(next);
 			next = iterator.next();
 		}
+		
 		while(next.getOrigin() != afterDelivery && iterator.hasNext()) {
 			next = iterator.next();
 		}
+		
 		while(iterator.hasNext()) {
 			end.add(next);
 			next = iterator.next();
 		}
+		
 		if(! this.isLastIntersection(afterDelivery))
 			end.add(next);
 		
@@ -97,6 +106,12 @@ public class RoadMap {
 		path.addAll(middle);
 		path.addAll(deliveryPath);
 		path.addAll(end);
+		System.out.println("bp: "+beforePickup);
+		System.out.println("np: "+newPickup);
+		System.out.println("ap: "+afterPickup);
+		System.out.println("bd: "+beforeDelivery);
+		System.out.println("nd: "+newDelivery);
+		System.out.println("ad: "+afterDelivery);
 		System.out.println("beginning: "+beginning);
 		System.out.println("pickupPath: "+pickupPath);
 		System.out.println("middle: "+middle);
@@ -108,45 +123,36 @@ public class RoadMap {
 	
 	private List<Segment> adjustRoadMap(Intersection beforeI, Intersection newI, Intersection afterI, CityMap cm){
 		
-		List<Segment> path = new LinkedList<Segment>();
-		
 		List<Intersection> zone = new ArrayList<Intersection>(3);
 		zone.add(beforeI);
 		zone.add(newI);
 		zone.add(afterI);
-		CompleteGraph pickupGraph = new CompleteGraph(cm, zone);;
+		List<Segment> path = new LinkedList<Segment>();
+		
+		CompleteGraph pickupGraph = new CompleteGraph(cm, zone);
+		
+		for(int i = 0; i < zone.size()-1; i++) {
+			path.addAll(this.constructPath(zone.get(i), zone.get(i+1), cm, pickupGraph));
+		}
+		return path;
+	}
+	
+	private List<Segment> constructPath(Intersection first, Intersection second, CityMap cm, CompleteGraph g){
+		
+		List<Segment> path = new LinkedList<Segment>();
+		
 		List<Integer> intermediateNodes = new LinkedList<Integer>();
-		int beforeInt = cm.getIntFromIntersectionMap(beforeI);
-		int newInt = cm.getIntFromIntersectionMap(newI);
-		int[] precedence = pickupGraph.getPrecedenceOfANode(beforeInt);
-		
-		
-		for (int i=newInt; i!= beforeInt; i=precedence[i]) {
+		int firstInt = cm.getIntFromIntersectionMap(first);
+		int secondInt1 = cm.getIntFromIntersectionMap(second);
+		int[] precedence = g.getPrecedenceOfANode(firstInt);
+		for (int i=secondInt1; i!= firstInt; i=precedence[i]) {
 			intermediateNodes.add(i);
 		}
-		intermediateNodes.add(beforeInt);
+		intermediateNodes.add(firstInt);
 
 		ListIterator<Integer> iterator = intermediateNodes.listIterator(intermediateNodes.size()); 
 		Intersection currentNodeInter = cm.getIntersectionFromIdMap(iterator.previous());
 		Intersection previousNodeInter = currentNodeInter;
-		while(iterator.hasPrevious()){
-			int previousNodeId = iterator.previous();
-			previousNodeInter = cm.getIntersectionFromIdMap(previousNodeId);
-			path.add(cm.getSegmentFromInter(currentNodeInter, previousNodeInter));
-			currentNodeInter = previousNodeInter;
-		}
-		intermediateNodes.clear();
-		
-		int afterInt = cm.getIntFromIntersectionMap(afterI);
-		precedence = pickupGraph.getPrecedenceOfANode(newInt);
-		for (int i=afterInt; i!= newInt; i=precedence[i]) {
-			intermediateNodes.add(i);
-		}
-		intermediateNodes.add(newInt);
-
-		iterator = intermediateNodes.listIterator(intermediateNodes.size()); 
-		currentNodeInter = cm.getIntersectionFromIdMap(iterator.previous());
-		previousNodeInter = currentNodeInter;
 		while(iterator.hasPrevious()){
 			int previousNodeId = iterator.previous();
 			previousNodeInter = cm.getIntersectionFromIdMap(previousNodeId);
@@ -228,7 +234,7 @@ public class RoadMap {
 	 * Checks if an intersection is before another one in the orderedAddresses liked list
 	 * @param i1 the first Intersection
 	 * @param i2 the second Intersection
-	 * @return true if i1 is indeed before i2 in the LinkedList orderedAdresses, false is it is after or if one of the two
+	 * @return true if i1 is indeed before i2 in the LinkedList orderedAdresses or if i1 == i2, false is it is after or if one of the two
 	 * intersections were not found in the list
 	 * 
 	 */
@@ -236,8 +242,8 @@ public class RoadMap {
 		int i1index = orderedAddresses.indexOf(i1);
 		int i2index = orderedAddresses.indexOf(i2);
 		System.out.println(i1index + "  " + i2index);
-		if((i1index != -1) && (i2index != -1) && (i1index < i2index)){
-			//Both intersections were found and i1 is before i2
+		if((i1index != -1) && (i2index != -1) && (i1index <= i2index)){
+			//Both intersections were found and i1 is before, or equal to, i2
 			return true;
 		}
 		return false;
@@ -252,7 +258,4 @@ public class RoadMap {
 	public boolean isLastIntersection(Intersection i) {
 		return this.orderedAddresses.getLast() == i;
 	}
-
-
-
 }
