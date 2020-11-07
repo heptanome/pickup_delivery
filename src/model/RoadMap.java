@@ -81,20 +81,27 @@ public class RoadMap {
 			middle.add(next);
 			next = iterator.next();
 		}
-		while(next.getOrigin() != afterDelivery) {
+		while(next.getOrigin() != afterDelivery && iterator.hasNext()) {
 			next = iterator.next();
 		}
 		while(iterator.hasNext()) {
 			end.add(next);
 			next = iterator.next();
 		}
-		end.add(next);
+		if(! this.isLastIntersection(afterDelivery))
+			end.add(next);
+		
 		path.clear();
 		path.addAll(beginning);
 		path.addAll(pickupPath);
 		path.addAll(middle);
 		path.addAll(deliveryPath);
 		path.addAll(end);
+		System.out.println("beginning: "+beginning);
+		System.out.println("pickupPath: "+pickupPath);
+		System.out.println("middle: "+middle);
+		System.out.println("deliveryPath: "+deliveryPath);
+		System.out.println("end: "+end);
 		return path;
 		
 	}
