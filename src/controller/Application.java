@@ -62,7 +62,10 @@ public class Application implements PropertyChangeListener {
 	protected void setCurrentState(State state){
 		currentState = state;
 	}
-
+	
+	protected State getCurrentState(){
+		return currentState;
+	}
 
 	 /**
 	  * Loads a map from a file path
@@ -73,19 +76,8 @@ public class Application implements PropertyChangeListener {
 	 * @throws SAXException if the xml file couldn't be parsed correctly
 	 * @throws Exception for any other exception
 	 */
-	public void loadMap(String fp) throws IllegalArgumentException, IOException, SAXException, Exception{
-		try {
-			currentState.loadMap(fp, this.tour);
-			currentState = mapWoRequestsState;
-			currentState.setButtons(homeWindow);
-		} catch (IllegalArgumentException e) {
-			System.out.println("map file path argument is null");
-		} catch (IOException e) {
-			System.out.println("An IO error occured");
-		} catch (SAXException e) {
-			System.out.println("Unable to parse the document");
-		} catch (Exception e) {
-		}
+	public void loadMap(String fp) {
+			currentState.loadMap(this,this.homeWindow, fp, this.tour);
 	}
 
 	/**
@@ -97,19 +89,8 @@ public class Application implements PropertyChangeListener {
 	 * @throws SAXException if the xml file couldn't be parsed correctly
 	 * @throws Exception for any other exception
 	 */
-	public void loadRequests(String fp) throws IllegalArgumentException, IOException, SAXException, Exception{
-		try {
-			currentState.loadRequests(fp, this.tour);
-			currentState = mapWithRequestsState;
-			currentState.setButtons(homeWindow);
-		} catch (IllegalArgumentException e) {
-			System.out.println("requests file path argument is null");
-		} catch (IOException e) {
-			System.out.println("An IO error occured");
-		} catch (SAXException e) {
-			System.out.println("Unable to parse the document");
-		} catch (Exception e) {
-		}
+	public void loadRequests(String fp) {
+			currentState.loadRequests(this,homeWindow, fp, this.tour);
 	}
 
 
@@ -161,9 +142,7 @@ public class Application implements PropertyChangeListener {
 	 * 
 	 */
 	public void computeTour() throws Exception {
-		currentState.computeTour(tour);
-		setCurrentState(displayingTourState);
-		currentState.setButtons(homeWindow);
+		currentState.computeTour(this, homeWindow, tour);
 	}
 
 	/**
