@@ -47,7 +47,16 @@ public class MapWithRequestsState implements State {
 
 	@Override
     public  void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(true, true, true, false, false, false, false,  false, false, false);
+        hw.setButtonsEnabled(true, true, true, false, false, false, false,  true, false, false);
+	}
+
+	@Override
+	public void undo(ListOfCommands l, Application a, HomeWindow hw){
+
+		l.undo();
+		a.setCurrentState(a.mapWoRequestsState);
+		a.getCurrentState().setButtons(hw , l);
+
 	}
 
 }

@@ -139,11 +139,18 @@ public class Tour {
 		return roadMap;
 	}
 
-	public void resetTour(){
+	public void resetMap(){
 		CityMap oldMap = this.map;
 		this.map = null;
 		// signal the observers the map has changed
 		support.firePropertyChange("updateMap", oldMap, this.map);
+	}
+
+	public void resetRequests(){
+		SetOfRequests oldSor= this.setOfRequests;
+		this.setOfRequests= null;
+		// signal the observers the map has changed
+		support.firePropertyChange("updateRequests", oldSor, this.setOfRequests);
 	}
 	
 	

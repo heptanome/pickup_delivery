@@ -25,17 +25,17 @@ public class MapWithoutRequestsState implements State {
 	public void loadRequests(Application a, HomeWindow hw,  String fp, Tour tour, ListOfCommands l) {
 		try {
 			tour.setRequests(fp);
+			l.add(new LoadRequestsCommand(tour, fp));
 			a.setCurrentState(a.mapWithRequestsState);
 			a.getCurrentState().setButtons(hw,l);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@Override
     public  void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(true, true, false, false, false, false, false, true, false, false);
+        hw.setButtonsEnabled(true, true, false, false, false, false, false, true, l.redoPossible(), false);
 	}
 
 	@Override
@@ -45,6 +45,13 @@ public class MapWithoutRequestsState implements State {
 		a.setCurrentState(a.homeState);
 		a.getCurrentState().setButtons(hw , l);
 
+	}
+
+	@Override
+	public void redo(ListOfCommands l, Application a, HomeWindow hw){
+		l.redo();
+		a.setCurrentState(a.mapWithRequestsState);
+		a.getCurrentState().setButtons(hw,l);
 	}
 
 }
