@@ -10,8 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import model.Intersection;
-import view.GraphicalPoint;
-import view.GraphicalSegment;
+import view.graphical.GraphicalPoint;
+import view.graphical.GraphicalSegment;
 
 class GraphicalSegmentTest {
 	
