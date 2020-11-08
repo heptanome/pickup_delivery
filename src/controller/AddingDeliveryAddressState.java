@@ -14,6 +14,13 @@ import model.Tour;
  */
 public class AddingDeliveryAddressState implements State {
 	
+	@Override
+	public void initiateState(Application a, HomeWindow hw) {
+		setButtons(hw);
+		describeState(hw);
+		setMouseListener(hw);
+	}
+	
 	@Override 
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
 
@@ -29,27 +36,38 @@ public class AddingDeliveryAddressState implements State {
 
 			//Go to the next state (AddingPointPreceedingDeliveryState)
 			a.setCurrentState(a.appd);
-			a.getCurrentState().setButtons(hw);
-			a.getCurrentState().describeState(hw);
-			a.getCurrentState().setMouseListener(hw);
+			a.getCurrentState().initiateState(a, hw);
 	}
 
 
-	@Override
-	public void describeState(HomeWindow hw) {
+	/**
+	 * Method called by the States to display a message about specific information of the current State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	private void describeState(HomeWindow hw) {
 		JOptionPane.showMessageDialog(hw, "Select a delivery point on the map  for the new request");  
 		System.out.println("ada");
 	}
 
-	@Override
-    public void setMouseListener(HomeWindow hw) {
+	/**
+	 * Method called by the state to change the mouse listeners of a HomeWindow
+	 * according to the State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+    private void setMouseListener(HomeWindow hw) {
 		hw.removeAllMouseListeners();
 		//The new delivery intersection can be any type of intersection : A special one (depot, pickup or delivery) or not.
 		hw.addSingleMouseClickOnAnyPointListener();
 	}
 
-	@Override
-    public  void setButtons(HomeWindow hw) {
+	/**
+	 * Method called by the state to update which buttons are enabled depending on the state
+	 * 
+	 * @param hw the HomeWindow
+	 */
+    private void setButtons(HomeWindow hw) {
         hw.setButtonsEnabled(false, false, false, false, false, false, false, true);
 	}
 

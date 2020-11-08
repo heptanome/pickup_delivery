@@ -14,6 +14,13 @@ import view.HomeWindow;
 public class DeletingRequestState implements State {
 	
 	@Override
+	public void initiateState(Application a, HomeWindow hw) {
+		setButtons(hw);
+		describeState(hw);
+		setMouseListener(hw);
+	}
+	
+	@Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a){
 		Request requestToBeDeleted = hw.getRequestFromIntersection(i);
 		// display the JOptionPane showConfirmDialog
@@ -29,26 +36,38 @@ public class DeletingRequestState implements State {
 		} 
 		//Go to the next state : DisplayingTourOnMapState
 		a.setCurrentState(a.displayingTourState);
-		a.getCurrentState().setButtons(hw);
-		a.getCurrentState().setMouseListener(hw);
+		a.getCurrentState().initiateState(a, hw);
 		
     }
 	
-	@Override
-	public void describeState(HomeWindow hw) {
+	/**
+	 * Method called by the States to display a message about specific information of the current State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	private void describeState(HomeWindow hw) {
         JOptionPane.showMessageDialog(hw, "Select a colored point on the map so that the corresponding request will "
         		+ "be deleted (pickup and delivery point)");
 	}
 	
-	@Override
-    public void setMouseListener(HomeWindow hw) {
+	/**
+	 * Method called by the state to change the mouse listeners of a HomeWindow
+	 * according to the State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+    private void setMouseListener(HomeWindow hw) {
         hw.removeAllMouseListeners();
         //The new pickup intersection can be any type of intersection : A special one (depot, pickup or delivery) or not.
 		hw.addSingleMouseClickOnSpecialPointListener();
     }
 
-	@Override
-    public  void setButtons(HomeWindow hw) {
+	/**
+	 * Method called by the state to update which buttons are enabled depending on the state
+	 * 
+	 * @param hw the HomeWindow
+	 */
+    private void setButtons(HomeWindow hw) {
         hw.setButtonsEnabled(false, false, false, false, false, false, false, true);
 	}
 

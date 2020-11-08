@@ -71,21 +71,23 @@ public interface State {
 	public default void computeTour(Application a, HomeWindow hw, Tour tour) {	
 	}
 	
-	/**
-	 * Method called by the States to display a message about specific information of the current State
+   /**
+	 * Method called by a State to initiate the next State
 	 * 
-	 * @param hw the HomeWindow
+ 	 * @param a the controller of the application
+	 * @param homeWindow the main window of the application
 	 */
-	public default void describeState(HomeWindow hw) {
+	public default void initiateState(Application a, HomeWindow hw) {	
 	}
 	
 	/**
-	 * Method called by the state to change the mouse listeners of a HomeWindow
-	 * according to the State
-	 * 
-	 * @param hw the HomeWindow
+	 * Method called by the state to handle a raised Exception
+	 * @param a the controller of the app
+	 * @param e the Exception raised 
+	 * @param hv the HomeWindow
+	 * @param previousState the State in which the Exception has been raised
 	 */
-	public default void setMouseListener(HomeWindow hw) {
+	public default void handleException(Application a, Exception e, HomeWindow hw, State previousState) {
 	}
 
 	/**
@@ -95,11 +97,4 @@ public interface State {
 	public default void cancel() {
 	}
 
-	/**
-	 * Method called by the controller to update which buttons are enabled depending on the state
-	 * 
-	 * @param hw the HomeWindow
-	 */
-	public default void setButtons(HomeWindow hw) {
-	}
 }

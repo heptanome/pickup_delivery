@@ -28,6 +28,8 @@ public class Application implements PropertyChangeListener {
 	protected final AddingDeliveryAddressState ada = new AddingDeliveryAddressState();
 	protected final AddingPointPreceedingDeliveryState appd = new AddingPointPreceedingDeliveryState();
 	protected final DeletingRequestState deleteRequestState = new DeletingRequestState();
+	protected final MapOpeningExceptionState mapExceptionState = new MapOpeningExceptionState();
+	protected final RequestOpeningExceptionState requestExceptionState = new RequestOpeningExceptionState();
 
 	public static void main(String[] args) {
 		Tour tour = new Tour();
@@ -46,12 +48,15 @@ public class Application implements PropertyChangeListener {
 	public Application(HomeWindow hw, Tour t) {
 		this.tour = t;
 		this.homeWindow = hw;
-		this.currentState = homeState;
-		this.currentState.setButtons(homeWindow);
+		
 		// Window listens to Tour events
 		this.tour.addPropertyChangeListener(this.homeWindow);
 		// Application listens to Window events
 		this.homeWindow.addPropertyChangeListener(this);
+		
+		this.currentState = homeState;
+		this.currentState.initiateState(this, homeWindow);
+
 	}
 
 	/**
@@ -91,7 +96,6 @@ public class Application implements PropertyChangeListener {
 	public void loadRequests(String fp) {
 			currentState.loadRequests(this,homeWindow, fp, this.tour);
 	}
-
 
 	/**
 	 * Starts the creation of a new request to add to the tour
