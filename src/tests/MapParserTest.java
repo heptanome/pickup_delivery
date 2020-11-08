@@ -1,6 +1,9 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.FileNotFoundException;
 
@@ -9,8 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
-import model.MapParser;
 import model.CityMap;
+import model.MapParser;
 
 class MapParserTest {
 	public static final String MAP_FILE_PATH = "./XML_data/smallMap.xml";
@@ -20,7 +23,7 @@ class MapParserTest {
 	public static final int NB_INTER = 308;
 	public MapParser mp;
 	public CityMap map;
-	
+
 	@BeforeEach
 	void setUp() {
 		try {
@@ -29,8 +32,7 @@ class MapParserTest {
 			fail("Should not throw exception");
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 	@AfterEach
@@ -38,7 +40,7 @@ class MapParserTest {
 		mp = null;
 		assertNull(mp);
 	}
-	
+
 	@Test
 	void testMapParser() {
 		try {
@@ -47,14 +49,14 @@ class MapParserTest {
 		} catch (Exception e) {
 			assertTrue(e instanceof IllegalArgumentException);
 		}
-		
+
 		try {
 			mp = new MapParser(INCORRECT_PATH);
 			fail("Should throw exception FileNotFoundException");
 		} catch (Exception e) {
 			assertTrue(e instanceof FileNotFoundException);
 		}
-		
+
 		try {
 			mp = new MapParser(CORRUPTED_MAP_FILE_PATH);
 			fail("Should throw exception SAXParseException");
@@ -62,9 +64,9 @@ class MapParserTest {
 			assertTrue(e instanceof SAXParseException);
 		}
 	}
-	
+
 	@Test
-	void testLoadMap() {
+	void testLoadMap() throws InterruptedException {
 		// the loaded map (smallMap) has exactly 308 intersections and 616 segments
 		map = mp.loadMap();
 		assertEquals(NB_SEGMENTS, map.getSegments().size());
