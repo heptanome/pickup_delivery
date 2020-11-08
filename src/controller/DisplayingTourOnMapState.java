@@ -34,6 +34,24 @@ public class DisplayingTourOnMapState implements State {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void addRequests(Application a, HomeWindow hw) {
+		System.out.println("Ajout d'une requête : ");
+		a.setCurrentState(a.apa);
+		a.getCurrentState().describeState(hw);
+		a.getCurrentState().setButtons(hw);
+		a.getCurrentState().setMouseListener(hw);
+	}
+	
+	@Override
+	public void deleteRequests(Application a, HomeWindow hw)  {
+		System.out.println("Suppression d'une requête");
+		a.setCurrentState(a.deleteRequestState);
+		a.getCurrentState().describeState(hw);
+		a.getCurrentState().setButtons(hw);
+		a.getCurrentState().setMouseListener(hw);
+	}
 
 	@Override
 	public void computeTour(Application a, HomeWindow hw, Tour tour) {
@@ -43,7 +61,7 @@ public class DisplayingTourOnMapState implements State {
 			
 		}
 	}
-
+	
 	@Override
 	public void setMouseListener(HomeWindow hw)  {	
 		hw.removeAllMouseListeners();

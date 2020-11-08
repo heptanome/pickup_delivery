@@ -45,7 +45,9 @@ public class AddingPointPreceedingDeliveryState implements State {
                 tour.addRequest(hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup());
 
                 //Go to the next state (DisplayingTourOnMapState)
-                a.setCurrentState(a.displayingTourState);
+    			a.setCurrentState(a.displayingTourState);
+    			a.getCurrentState().setButtons(hw);
+    			a.getCurrentState().setMouseListener(hw);
             }
 
     }
@@ -53,10 +55,11 @@ public class AddingPointPreceedingDeliveryState implements State {
     @Override
 	public void describeState(HomeWindow hw) {
         JOptionPane.showMessageDialog(hw, "Select a point on the map (colored point) that will preceed the delivery point"); 
+        System.out.println("appd");
     }
     
-    @Override
-    public  void setMouseListener(HomeWindow hw) {
+	@Override
+    public void setMouseListener(HomeWindow hw) {
         hw.removeAllMouseListeners();
 		hw.addSingleMouseClickOnSpecialPointListener();
     }

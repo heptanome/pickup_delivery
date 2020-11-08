@@ -42,7 +42,6 @@ public class Application implements PropertyChangeListener {
 	 * 
 	 * @param hw    the View to work with
 	 * @param t     the Model to work with
-	 * @param state the initial state to start in
 	 */
 	public Application(HomeWindow hw, Tour t) {
 		this.tour = t;
@@ -100,24 +99,17 @@ public class Application implements PropertyChangeListener {
 	 * 
 	 */
 	public void addRequest() {
-		System.out.println("Ajout d'une requête : ");
-		currentState = apa;
-		currentState.setButtons(homeWindow);
-		currentState.describeState(homeWindow);
-		currentState.setMouseListener(homeWindow);
+		currentState.addRequests(this,homeWindow);
 	}
 
 	/**
-	 * Method called when a point (an intersction) is selected on the map in one of
+	 * Method called when a point (an intersection) is selected on the map in one of
 	 * the process of adding a request, or when deleting a request.
 	 * 
 	 * @param selectedPoint : the point that has been clicked
 	 */
-	public void pointClicked(Object selectedPoint)  {
+	public void pointClicked(Object selectedPoint) {
 			currentState.pointClicked((Intersection)selectedPoint, homeWindow, tour, this);
-			currentState.setButtons(homeWindow);
-			currentState.describeState(homeWindow);
-			currentState.setMouseListener(homeWindow);
 	}
 
 	/**
@@ -126,14 +118,8 @@ public class Application implements PropertyChangeListener {
 	 * //TODO : exception 
 	 * @throws Exception 
 	 */
-	public void deleteRequest() throws Exception {
-		System.out.println("Suppression d'une requête");
-		
-		currentState = deleteRequestState;
-		currentState.setButtons(homeWindow);
-		currentState.describeState(homeWindow);
-		homeWindow.addSingleMouseClickOnSpecialPointListener();
-
+	public void deleteRequest() {
+		currentState.deleteRequests(this, homeWindow);
 	}
 	
 	/**
