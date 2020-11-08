@@ -33,6 +33,10 @@ public class Tour {
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
 		support.addPropertyChangeListener(pcl);
 	}
+	
+	public RoadMap getRoadMap() {
+		return roadMap;
+	}
 
 	/**
 	 * Once the map has been loaded, this method saves it in the Tour and warns the
@@ -64,23 +68,45 @@ public class Tour {
 		support.firePropertyChange("updateRequests", oldReq, this.setOfRequests);
 	}
 
+	/**
+	 * Add a request and calculate the new path 
+	 * @param newRequest
+	 * 			new request to add to the path
+	 * @param beforeDelivery
+	 * 			Address before the delivery address of the new request
+	 * @param beforePickup
+	 * 			Address before the pickup address of the new request
+	 */
 	public void addRequest(Request newRequest, Intersection beforeDelivery, Intersection beforePickup) {
-		
-		this.setOfRequests.getRequests().add(newRequest);
-		this.path = this.roadMap.addRequest(newRequest, beforePickup, beforeDelivery, this.map, this.path);
+		this.setOfRequests.addRequest(newRequest);
+		this.roadMap.addRequest(newRequest, beforePickup, beforeDelivery, this.map, this.path);
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this.path);
-		System.out.println("done");
+		System.out.println("A request was added");
+		System.out.println(this.path.toString());
 	}
 	
+	/**
+	 * Delete a request and calculate the new path
+	 * @param request
+	 * 			request to delete
+	 */
 	public void deleteRequest(Request request) {
-		SetOfRequests oldReq = this.setOfRequests;
+		System.out.println(this.path.toString());
+		System.out.println("------");
 		this.setOfRequests.deleteRequest(request);
-		support.firePropertyChange("updateRequests", oldReq, this.setOfRequests);
+		this.roadMap.deleteRequest(request, this.map, this.path);
+		support.firePropertyChange("updateRequests", null, this.setOfRequests);
+		support.firePropertyChange("tourComputed", null, this.path);
+		System.out.println("A request was deleted");
+		System.out.println(this.path.toString());
 		
 	}
 
-
+	/**
+	 * Compute a tour i.e. find a best tour in a specific amount of time
+	 * @return list of segments containing the path the delivery man should follow 
+	 */
 	public List<Segment> computeTour() {
 		// TSP tsp = new TSP1();
 		TSP tsp = new TSP2();
@@ -134,10 +160,5 @@ public class Tour {
 		support.firePropertyChange("tourComputed", null, this.path);
 		return this.path;
 	}
-
-	public RoadMap getRoadMap() {
-		return roadMap;
-	}
-	
 	
 }

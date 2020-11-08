@@ -250,7 +250,6 @@ public class CompleteGraph implements Graph {
 	}
 	
 	private boolean isDijkstraFinished(int indexBegin, int indexEnd) {
-		//Alors oui ca a lair inutile mais si on change de modelisation pour visited ce sera plus simple a modifier
 		return (indexBegin == indexEnd);
 	}
 	

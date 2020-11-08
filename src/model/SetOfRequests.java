@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -75,8 +74,6 @@ public class SetOfRequests {
 	}
 	
 	public Request getRequestFromIntersection(Intersection intersection) {
-		// System.out.println("SOR: "+ intersection.toString());
-		// System.out.println("SOR: "+ this.toString());
 		for(Request r : requests) {
 			if(intersection ==  r.getPickup() || intersection == r.getDelivery()) {
 				return r;
@@ -87,6 +84,10 @@ public class SetOfRequests {
 	
 	public void deleteRequest(Request request) {
 		requests.remove(request);
+	}
+	
+	public void addRequest(Request request) {
+		requests.add(request);
 	}
 	
 

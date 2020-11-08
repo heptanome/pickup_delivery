@@ -38,7 +38,8 @@ public class Segment {
 	}
 
 	public String toString() {
-		return "Name : " + name + ", origin : " + origin.getNumber() + ", destination : " + destination.getNumber()
-				+ " (length : " + length + ").";
+		//return "Name : " + name + ", origin : " + origin.getNumber() + ", destination : " + destination.getNumber()
+				//+ " (length : " + length + ").";
+		return "{origin : " + origin.getNumber() + ";destination : " + destination.getNumber()+"}\n";
 	}
 }
