@@ -12,17 +12,17 @@ public abstract class TemplateTSP implements TSP {
 	private long startTime;
 	
 	public void searchSolution(int timeLimit, Graph g){
-		if (timeLimit <= 0) return; //si tu dépasses la limite de temps, cesse
-		startTime = System.currentTimeMillis();	//gestion de la limite de temps
-		this.timeLimit = timeLimit; //gestion de la limite de temps
-		this.g = g; //recupération du graphe complet
-		bestSol = new Integer[g.getNbVertices()]; //tableau des sommets de la meilleure solution
-		Collection<Integer> unvisited = new ArrayList<Integer>(g.getNbVertices()-1); //tous les sommets pas encore visité
-		for (int i=1; i<g.getNbVertices(); i++) unvisited.add(i); //ajouter tous les sommets, sauf le sommet 0
-		Collection<Integer> visited = new ArrayList<Integer>(g.getNbVertices()); //tous les sommets déjà vus
-		visited.add(0); // Ajouter le premier sommet visité aka 0
-		bestSolCost = Float.MAX_VALUE; // le cout de la meilleure solution so far
-		branchAndBound(0, unvisited, visited, 0); //branch&bound récursif
+		if (timeLimit <= 0) return;
+		startTime = System.currentTimeMillis();
+		this.timeLimit = timeLimit;
+		this.g = g;
+		bestSol = new Integer[g.getNbVertices()];
+		Collection<Integer> unvisited = new ArrayList<Integer>(g.getNbVertices()-1);
+		for (int i=1; i<g.getNbVertices(); i++) unvisited.add(i);
+		Collection<Integer> visited = new ArrayList<Integer>(g.getNbVertices());
+		visited.add(0);
+		bestSolCost = Float.MAX_VALUE;
+		branchAndBound(0, unvisited, visited, 0);
 	}
 	
 	public Integer getSolution(int i){
@@ -65,14 +65,14 @@ public abstract class TemplateTSP implements TSP {
 	private void branchAndBound(int currentVertex, Collection<Integer> unvisited, 
 			Collection<Integer> visited, float currentCost){
 		if (System.currentTimeMillis() - startTime > timeLimit) return;
-	    if (unvisited.size() == 0){ //si tous les sommets ont été visités
-	    	if (g.isArc(currentVertex,0)){ //si il existe un arc entre 0 et le noeud actuel
-	    		if (currentCost+g.getCost(currentVertex,0) < bestSolCost){ //on a trouvé une solution
+	    if (unvisited.size() == 0){
+	    	if (g.isArc(currentVertex,0)){
+	    		if (currentCost+g.getCost(currentVertex,0) < bestSolCost){
 	    			visited.toArray(bestSol);
 	    			bestSolCost = currentCost+g.getCost(currentVertex,0);
 	    		}
 	    	}
-	    } else if (currentCost+bound(currentVertex,unvisited) < bestSolCost){ //si la piste est intéressante
+	    } else if (currentCost+bound(currentVertex,unvisited) < bestSolCost){
 	        Iterator<Integer> it = iterator(currentVertex, unvisited, g);
 	        while (it.hasNext()){
 	        	Integer nextVertex = it.next();

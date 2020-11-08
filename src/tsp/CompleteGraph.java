@@ -7,6 +7,20 @@ import java.util.Map;
 import java.util.Set;
 
 public class CompleteGraph implements Graph {
+	
+	/**
+	 * Attributes
+	 * @param nbVertices : number of vertices of the CostGraph array
+	 * @param SetOfRequests sor : list of requests
+	 * @param map : 2D array representing the full map
+	 * @param cost : 2D array representing a complete graph, where each vertex is a pickup or delivery point, or the depot
+	 * @param costTmp : 2D array allowing us to make a link between map and cost
+	 * @param precedence : Map storing a the precedence array of each vertex of cost after Djikstra algorithm
+	 * @param nameNodeCost : Map allowing us to make a link between an Intersection and the integer used to represent it
+	 * 
+	 * First, the constructor creates an array representing the city map. It is a rather big array, and not complete at all
+	 * Then, it creates the CostGraph array, which represents a complete graph, where each vertex is a delivery or pickup point, or the depot
+	 */
 	private static final float INFINITE = Float.MAX_VALUE;
 	int nbVertices;
 	float[][] map;
@@ -20,14 +34,11 @@ public class CompleteGraph implements Graph {
 	
 	/**
 	 * Constructor
-	 * @param nbVertices : number of nodes in a map
-	 * @type  int
-	 * @param numberToIdMap 		: Map between the number of an intersection and its id
-	 * @type  Map<Intersection, Integer>
-	 * @param segments 				: Loaded map's segments 
-	 * @type  List<Segment>
-	 * @param requestNodes 			: Numbers of the pickup and delivery intersections of every requests
-	 * @type  Intersection[]
+	 * @param CityMap cm
+	 * @param SetOfRequests sor
+	 * 
+	 * First, the constructor creates an array representing the city map. It is a rather big array, and not complete at all
+	 * Then, it creates the CostGraph array, wich represents a complete graph, where each vertex is a delivery or pickup point, or the depot
 	 */
 	public CompleteGraph(CityMap cm, SetOfRequests sor){
 		this.nbVertices = cm.getNbVertices();
@@ -44,6 +55,14 @@ public class CompleteGraph implements Graph {
 		
 		this.createCompleteShortestGraph(requestNodesInt,cityMap.getNumberIdMap());
 	}
+	/**
+	 * Constructor
+	 * @param CityMap cm
+	 * @param List<Intersection> points : list of delivery or pickup points, and the depot
+	 * 
+	 * First, the constructor creates an array representing the city map. It is a rather big array, and not complete at all
+	 * Then, it creates the CostGraph array, wich represents a complete graph, where each vertex is a delivery or pickup point, or the depot
+	 */
 	
 	public CompleteGraph(CityMap cm, List<Intersection> points){
 		this.nbVertices = cm.getNbVertices();
@@ -117,7 +136,7 @@ public class CompleteGraph implements Graph {
 	}
 
 	/**
-	 * Convert the map into a table 2D of intersections containing distances
+	 * Convert the map into a 2D array of intersections containing distances
 	 * between the origin and the destination of the segment
 	 * @param numberToIdMap 		: Map between the number of an intersection and its id
 	 * @type  Map<Intersection, Integer>
@@ -157,12 +176,12 @@ public class CompleteGraph implements Graph {
 	}
 	
 	/**
-	 * Convert the request nodes's numbers into request nodes's ids
+	 * Create a complete graph of a shortest paths between each vertex, where each vertex is
+	 * a delivery or pickup point, or the depot.
 	 * @param  requestNodes		   : Request nodes's numbers
-	 * @type   Intersection[]
+	 * @type   int[]
 	 * @param  numberToIdMap	   : Map between the number of an intersection and its id
 	 * @type   Map<Intersection,Integer>
-	 * @return int[]			   : Request nodes's ids
 	 */
 	private void createCompleteShortestGraph(int[] requestsNodes, Map<Intersection,Integer> numberToIdMap) {
 		Set<Map.Entry<Intersection,Integer>> set = numberToIdMap.entrySet();
@@ -173,10 +192,8 @@ public class CompleteGraph implements Graph {
 				costTmp[nodeOrigin][nodeDestination] = coutDijkstra[nodeDestination];
 			}
 		}
-		//printPrecedence();
 		int indexI = 0;
 		for(int i : requestsNodes) {
-			//get Intersection corresponding to I value:
 			Intersection nameNode = null;
 			for(Map.Entry<Intersection,Integer> paire : set) {
 				if(paire.getValue() == i) {
@@ -193,15 +210,21 @@ public class CompleteGraph implements Graph {
 			}
 			indexI++;
 		}
-		this.nbVertices = requestsNodes.length; //ça c'est vraiment pas ouf. Pb de conception
+		this.nbVertices = requestsNodes.length;
 	}
 		
+	/**
+	 * Apply the Dijkstra algorithm from firstNode. This method also compute the precedence array of the node and 
+	 * stores it in the precedence attribute of <code>this</code>
+	 * 
+	 * @return float[] : an array containing the shortest distance from firstNode to any other node in cost graph
+	 */
 	private float[] DijkstraFromANode(int firstNode) {
 		if (firstNode >= this.nbVertices) {
 			throw new IllegalArgumentException("This node doesn't exist!");
 		}
-		float[] d = new float[this.nbVertices]; // Matrice de cout au depart du sommet firstNode
-		int[] pi = new int[this.nbVertices]; // Matrice de précédence
+		float[] d = new float[this.nbVertices];
+		int[] pi = new int[this.nbVertices];
 		int colorNodes[] = new int[this.nbVertices]; //{white :0, grey:1 , black:-1}
 		
 		//Initialisation
@@ -210,21 +233,22 @@ public class CompleteGraph implements Graph {
 			pi[i] = -1;
 		}
 		
-		//On commence par visiter le sommet firstNode, il devient gris
+		//Visiting first node
 		d[firstNode] = 0;
 		int indexBegin = 0;
 		int indexEnd = 1;
 		colorNodes[firstNode] = 1;
 		
-		//Tant qu'on a pas visite tous les sommets
+		//While all nodes arre not visited
 		while (!this.isDijkstraFinished(indexBegin, indexEnd)) {
-			//Choisir le noeud parmi les sommets gris dont la distance est la plus courte
+			
+			//choosing the closest node
 			int currentNode = findIndexOfMinCostOfVisitedNodes(colorNodes, d);
 			Intersection currentNodeIntersection = cityMap.getIntersectionFromIdMap(currentNode);
 			
 			List<Intersection> neighbours = currentNodeIntersection.getNeighbours();
 			for (Intersection n : neighbours) {
-				// On cherche les successeurs (intersection destination) du sommet actuel (intersection origine)
+				// finding neighbours
 				int neighbour = cityMap.getIntFromIntersectionMap(n);
 				//Relachement
 				if(!(colorNodes[neighbour] == -1)) {
@@ -233,14 +257,14 @@ public class CompleteGraph implements Graph {
 						 d[neighbour] = newCost;
 						 pi[neighbour] = currentNode;
 					}
-					//On colorise en gris ce nouveau noeud si besoin
+					//node becomes grey
 					if (!(colorNodes[neighbour] == 1)){
 						colorNodes[neighbour] = 1;
 						indexEnd++;
 					}
 				}
 			}
-			//On a fini le sommer actuel, on le colore en noir
+			//Onode becomes black
 			colorNodes[currentNode]=-1;
 			indexBegin++;
 		}
@@ -250,7 +274,6 @@ public class CompleteGraph implements Graph {
 	}
 	
 	private boolean isDijkstraFinished(int indexBegin, int indexEnd) {
-		//Alors oui ca a lair inutile mais si on change de modelisation pour visited ce sera plus simple a modifier
 		return (indexBegin == indexEnd);
 	}
 	

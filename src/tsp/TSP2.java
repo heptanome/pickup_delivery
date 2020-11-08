@@ -8,10 +8,14 @@ public class TSP2 extends TemplateTSP {
 	@Override
 	protected float bound(Integer currentVertex, Collection<Integer> unvisited) {
 		/*
-		 * Fonction d'évaluation simple :
-		 * On détermine le plus petit arc du graphe
-		 * on renvoie cette plus petite longueur multipliée par le nombre de sommets restant 
-		 * à visiter*/
+		 * Simple bound method :
+		 * we find the shortest arc of the graph
+		 * the remaining cost is superior, or equal to, this cost multiplied by the number of
+		 * remaining vertex to visit + 1 (because we need to go back at the origin)
+		 * 
+		 * This bound method is inspired from the "TP AAIA : Branch & Bound pour le voyageur de commerce" 
+		 * by Pierre-Edouard Portier, Christine Solnon and Christian Wolf we did last year.
+		 */
 		return (unvisited.size()+1 * g.minArcCost());
 	}
 
