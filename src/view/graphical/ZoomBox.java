@@ -3,8 +3,6 @@ package view.graphical;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
@@ -36,27 +34,22 @@ public class ZoomBox extends JPanel {
 		setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		setVisible(true);
 
-		timer = new Timer(1, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				repaint();
-			}
-		});
-		timer.start();
-
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(img, -x * ZOOM + OFFSET, -y * ZOOM + OFFSET, imgWidth, imgHeight, this);
-		setLocation(x, y);
+		g.setColor(Color.black);
+		g.drawLine(0, WIDTH / 2, HEIGHT, WIDTH / 2);
+		g.drawLine(HEIGHT / 2, 0, HEIGHT / 2, WIDTH);
 
 	}
 
 	public void updateLocation(int xMouse, int yMouse) {
 		x = xMouse + OFFSET;
 		y = yMouse + OFFSET;
+		repaint();
 	}
 
 	public void updateImage() {
