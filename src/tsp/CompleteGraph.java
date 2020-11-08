@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class CompleteGraph implements Graph {
 	
@@ -52,7 +53,6 @@ public class CompleteGraph implements Graph {
 		for(int index = 0; index < requestNodesInt.length; index++) {
 			requestNodesInt[index] = cityMap.getNumberIdMap().get(requestNodes.get(index));
 		}
-		
 		this.createCompleteShortestGraph(requestNodesInt,cityMap.getNumberIdMap());
 	}
 	/**
@@ -219,7 +219,7 @@ public class CompleteGraph implements Graph {
 	 * 
 	 * @return float[] : an array containing the shortest distance from firstNode to any other node in cost graph
 	 */
-	private float[] DijkstraFromANode(int firstNode) {
+/*	private float[] DijkstraFromANodeWithoutList(int firstNode) {
 		if (firstNode >= this.nbVertices) {
 			throw new IllegalArgumentException("This node doesn't exist!");
 		}
@@ -241,7 +241,7 @@ public class CompleteGraph implements Graph {
 		
 		//While all nodes arre not visited
 		while (!this.isDijkstraFinished(indexBegin, indexEnd)) {
-			
+			System.out.println("bonjou");
 			//choosing the closest node
 			int currentNode = findIndexOfMinCostOfVisitedNodes(colorNodes, d);
 			Intersection currentNodeIntersection = cityMap.getIntersectionFromIdMap(currentNode);
@@ -271,9 +271,71 @@ public class CompleteGraph implements Graph {
 		this.precedence.put(Integer.valueOf(firstNode), pi);
 		
 		return d;
+	}*/
+	
+	private float[] DijkstraFromANode(int firstNode) {
+		if (firstNode >= this.nbVertices) {
+			throw new IllegalArgumentException("This node doesn't exist!");
+		}
+		float[] d = new float[this.nbVertices];
+		int[] pi = new int[this.nbVertices];
+		TreeMap<Float, List<Integer>> greyNodes = new TreeMap<Float, List<Integer> >();
+		List<Integer> blackNodes = new LinkedList<Integer>();
+		
+		//Initialisation
+		for (int i= 0; i< nbVertices; i++) {
+			d[i] = INFINITE;
+			pi[i] = -1;
+		}
+		
+		//Visiting first node
+		d[firstNode] = 0;
+		List<Integer> tmpList = new LinkedList<Integer>();
+		tmpList.add(firstNode);
+		greyNodes.put(d[firstNode], tmpList);
+		
+		//While all nodes are not visited
+		while (!greyNodes.isEmpty()) {
+			
+			//choosing the closest node
+			int currentNode = greyNodes.firstEntry().getValue().remove(0);
+			if(greyNodes.firstEntry().getValue().isEmpty())
+				greyNodes.pollFirstEntry();
+			Intersection currentNodeIntersection = cityMap.getIntersectionFromIdMap(currentNode);
+			
+			List<Intersection> neighbours = currentNodeIntersection.getNeighbours();
+			for (Intersection n : neighbours) {
+				// finding neighbours
+				int neighbour = cityMap.getIntFromIntersectionMap(n);
+				//Relachement
+				if(!blackNodes.contains(neighbour)) {
+					float newCost =  map[currentNode][neighbour] + d[currentNode];
+					if ( newCost < d[neighbour]) {
+						 d[neighbour] = newCost;
+						 pi[neighbour] = currentNode;
+					}
+					//node becomes grey
+					if (!(isNodeGrey(neighbour,greyNodes))){
+						if(greyNodes.containsKey(d[neighbour])) {
+							greyNodes.get(d[neighbour]).add(neighbour);
+						} else {
+							List<Integer> tmpListNode = new LinkedList<Integer>();
+							tmpListNode.add(neighbour);
+							greyNodes.put(d[neighbour], tmpListNode);
+						}
+					}
+				}
+			}
+			//Node becomes black
+			blackNodes.add(currentNode);
+		}
+		
+		this.precedence.put(Integer.valueOf(firstNode), pi);
+		
+		return d;
 	}
 	
-	private boolean isDijkstraFinished(int indexBegin, int indexEnd) {
+	/*private boolean isDijkstraFinished(int indexBegin, int indexEnd) {
 		return (indexBegin == indexEnd);
 	}
 	
@@ -288,6 +350,15 @@ public class CompleteGraph implements Graph {
 			}
 		}
 		return index;
+	}*/
+	
+	private boolean isNodeGrey(int n, TreeMap<Float,List<Integer>> greyNodes) {
+		
+		for(Map.Entry<Float,List<Integer>> entry : greyNodes.entrySet())
+			for(Integer i : entry.getValue())
+				if(i == n)
+					return true;
+		return false;
 	}
 	
 	public String toString() {
