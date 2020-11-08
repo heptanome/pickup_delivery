@@ -102,7 +102,8 @@ public class RoadMap {
 		List<Intersection> zone = new ArrayList<Intersection>(2);
 		
 		if (beforeDelivery == requestToDelete.getPickup()) {
-			//TO DO
+			Intersection[] addressesPickup = {beforePickup, afterDelivery};
+			pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
 		} else {
 			Intersection[] addressesPickup = {beforePickup, afterPickup};
 			pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
