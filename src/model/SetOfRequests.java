@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -37,11 +36,11 @@ public class SetOfRequests {
 	 * From the set of requests, return the list of intersections used for the depot
 	 * and for each request
 	 * 
-	 * @return
+	 * @return List<Intersection>
 	 */
 	public List<Intersection> getRequestNodes() {
 		// 2*request (destination and departure) +1 depot
-	  List<Intersection> requestNodes = new ArrayList<Intersection>(requests.size()*2 + 1); //2*request (destination and departure) +1 depot
+	  List<Intersection> requestNodes = new ArrayList<Intersection>(requests.size()*2 + 1);
 	  requestNodes.add(0, depot);
 	  int index = 1;
 	  for(Request r : requests) {
@@ -52,36 +51,41 @@ public class SetOfRequests {
 	  return requestNodes;
     }
 
-	// we assume that all delivery and pickup points are unique. One intersection =
-	// one and
-	// only one pickup (or delivery) point.
 	public boolean isDeliveryPoint(Intersection i) {
-		for (Request r : requests) {
-			if (i == r.getDelivery()) {
+		for (Request r : requests)
+			if (i == r.getDelivery())
 				return true;
-			}
-		}
 		return false;
 	}
 	
+	/**
+	 * From the set of requests, return the list of requests whose delivery point is
+	 * the intersection delivery.
+	 * 
+	 * @param delivery the delivery point to be tested
+	 * @type Intersection
+	 * @return List<Request>
+	 */
 	public List<Request> getRequestsFromDelivery(Intersection delivery) {
 		List<Request> requestsList = new LinkedList<Request>();
-		for(Request r : requests) {
-			if(delivery ==  r.getDelivery()) {
+		for(Request r : requests)
+			if(delivery ==  r.getDelivery())
 				requestsList.add(r);
-			}
-		}
 		return requestsList;
 	}
 	
+	/**
+	 * From the set of requests, return the list of requests whose delivery or pickup point is
+	 * the intersection given as a parameter.
+	 * 
+	 * @param intersection the intersection to be tested
+	 * @type Intersection
+	 * @return List<Request>
+	 */
 	public Request getRequestFromIntersection(Intersection intersection) {
-		// System.out.println("SOR: "+ intersection.toString());
-		// System.out.println("SOR: "+ this.toString());
-		for(Request r : requests) {
-			if(intersection ==  r.getPickup() || intersection == r.getDelivery()) {
+		for(Request r : requests)
+			if(intersection ==  r.getPickup() || intersection == r.getDelivery())
 				return r;
-			}
-		}
 		return null;
 	}
 	

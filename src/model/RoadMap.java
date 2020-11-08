@@ -2,7 +2,6 @@ package model;
 
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 
 import tsp.CompleteGraph;
 
@@ -39,8 +38,40 @@ public class RoadMap {
 		this.reorderAddresses(roadsAfterComputedTour);
 	}
 	
+	/**
+	 * The goal of the addRequest method is to re-compute the smallest possible part of the path, 
+	 * while the other parts of the path remain unchanged.
+	 * 
+	 * @param newRequest     : the request that must me added to the tour
+	 * @type 				 : Request
+	 * @param beforePickup   : the intersection that has to be visited before the pickup point of the new request
+	 * @type 				 : Intersection
+	 * @param beforeDelivery : the intersection that has to be visited before the delivery point of the new request
+	 * @type 				 : Intersection
+	 * @param cm             : the CityMap corresponding to the path, used to compute the new path
+	 * @type 				 : CityMap
+	 * @param path           : the tour before the new request has been added
+	 * @type 				 : List<Segment>
+	 * @return List<Segment> : the path modified path with the new request
+	 */
 	public List<Segment> addRequest(Request newRequest, Intersection beforePickup, Intersection beforeDelivery, CityMap cm, List<Segment> path) {
-
+		
+	 /* There are two main cases :
+	  * 	- newDelivery does not follow newPickup : 2 new paths have to be computed and added to the tour, 
+	  * 		from beforePickup to newPickup to afterPickup and from beforeDelivery to new Delivery to afterDelivery
+	  * 
+	  * 	- newDelivery follows newPickup : 1 new path has to be computed and added to the tour, from beforePickup
+	  * 		to newPickup to newDelivery to afterDelivery
+	  * 
+	  * The method is in three steps :
+	  * 	- finding important points, such as afterDelivery and afterPickup, and adding the new Request into the
+	  * 		the list of addresses that have to be visited
+	  * 	
+	  * 	- computing the new shortest intermediates paths, and finding all the intermediates nodes from the cityMap
+	  * 	
+	  * 	- cutting and concatenating the old path in order to create a new path with the new Request.
+	  * */
+	
 		Intersection newPickup = newRequest.getPickup();
 		Intersection newDelivery = newRequest.getDelivery();
 		Intersection afterPickup = this.orderedAddresses.get(this.orderedAddresses.indexOf(beforePickup)+1);
@@ -108,8 +139,15 @@ public class RoadMap {
 		
 	}
 	
+	/**
+	 * Compute and return the shortest path in the cityMap cm from the first to the last point of the zone list,
+	 * while passing by every point in the list, in the given order. 
+	 * 
+	 * @return List<Segment>
+	 * @param List<Intersection> zone : 
+	 * @param CityMap cm
+	 * */
 	private List<Segment> adjustRoadMap(List<Intersection> zone, CityMap cm){
-		;
 		List<Segment> path = new LinkedList<Segment>();
 		
 		CompleteGraph pickupGraph = new CompleteGraph(cm, zone);
@@ -119,7 +157,15 @@ public class RoadMap {
 		}
 		return path;
 	}
-	
+	/**
+	 * Compute and return the shortest path in the cityMap cm from point first to point second 
+	 * 
+	 * @return List<Segment>
+	 * @param Intersection first
+	 * @param Intersection second
+	 * @param CityMap cm
+	 * @param CompleteGraph g
+	 * */
 	private List<Segment> constructPath(Intersection first, Intersection second, CityMap cm, CompleteGraph g){
 		
 		List<Segment> path = new LinkedList<Segment>();
