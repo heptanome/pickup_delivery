@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -16,14 +17,17 @@ import org.w3c.dom.NodeList;
  */
 public class MapParser extends Parser {
 
-	private final int NB_THREADS = 4;
+	private final int NB_THREADS = 3;
 
 	private List<Intersection> intersectionsList;
 	private List<Segment> segmentsList;
-	ReadWriteLock lock = new ReentrantReadWriteLock();
+
+	private ReadWriteLock lock = new ReentrantReadWriteLock();
+	private HashMap<String, Intersection> interMap;
 
 	public MapParser(String fp) throws Exception {
 		super(fp);
+		interMap = new HashMap<>();
 	}
 
 	/**
@@ -46,6 +50,7 @@ public class MapParser extends Parser {
 		List<Node> castedInterList = asList(interList);
 		List<Node> castedSegList = asList(segList);
 
+		// parsing intersections
 		for (int i = 0; i < NB_THREADS; i++) {
 			List<Node> partInterList;
 			partInterList = castedInterList.subList(interSize * i, interSize * (i + 1));
@@ -62,6 +67,7 @@ public class MapParser extends Parser {
 			parserThreads[i].join();
 		}
 
+		// parsing segments
 		for (int i = 0; i < NB_THREADS; i++) {
 			List<Node> partSegList;
 			partSegList = castedSegList.subList(segSize * i, segSize * (i + 1));
@@ -83,7 +89,9 @@ public class MapParser extends Parser {
 	}
 
 	private Intersection createIntersection(String id, float latitude, float longitude) {
-		return new Intersection(id, longitude, latitude);
+		Intersection newInter = new Intersection(id, longitude, latitude);
+		interMap.put(id, newInter);
+		return newInter;
 	}
 
 	private Segment createSegment(Intersection origin, Intersection destination, String name, float length) {
@@ -92,14 +100,6 @@ public class MapParser extends Parser {
 
 	private CityMap createMap(List<Intersection> intersec, List<Segment> seg) {
 		return new CityMap(intersec, seg);
-	}
-
-	private Intersection findIntersection(String id) {
-		for (Intersection i : intersectionsList) {
-			if (i.getNumber().equals(id))
-				return i;
-		}
-		return null;
 	}
 
 	class IntersectionThread extends Thread {
@@ -116,6 +116,8 @@ public class MapParser extends Parser {
 				String id = inter.getAttribute("id");
 				float latitude = Float.parseFloat(inter.getAttribute("latitude"));
 				float longitude = Float.parseFloat(inter.getAttribute("longitude"));
+
+				// must be done with the utmost precaution
 				lock.writeLock().lock();
 				intersectionsList.add(createIntersection(id, latitude, longitude));
 				lock.writeLock().unlock();
@@ -138,11 +140,13 @@ public class MapParser extends Parser {
 				String idDestination = seg.getAttribute("destination");
 				float length = Float.parseFloat(seg.getAttribute("length"));
 				String name = seg.getAttribute("name");
-				Intersection origin = findIntersection(idOrigin);
-				Intersection destination = findIntersection(idDestination);
+				Intersection origin = interMap.get(idOrigin);
+				Intersection destination = interMap.get(idDestination);
 				Segment segment = createSegment(origin, destination, name, length);
-				origin.addNeighbour(destination);
+
+				// must be done with the utmost precaution
 				lock.writeLock().lock();
+				origin.addNeighbour(destination);
 				segmentsList.add(segment);
 				lock.writeLock().unlock();
 			}

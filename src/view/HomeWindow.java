@@ -327,9 +327,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			final JFileChooser dialogue = new JFileChooser(currentDirectory);
 			dialogue.showOpenDialog(null);
 			final String mapPath = dialogue.getSelectedFile().getAbsolutePath();
-			System.out.println("Selected File : " + mapPath);
 			support.firePropertyChange("loadMap", "", mapPath);
-			System.out.println("fired loadmap");
 		}
 
 	}
