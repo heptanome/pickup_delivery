@@ -43,15 +43,14 @@ public class TextualView extends JPanel {
 	
 	public void displayRequests(SetOfRequests sor) {
 		
-
-		
 		JPanel conteneurTabRequest = new JPanel ();
 		//conteneurTabRequest.setBackground(Color.red);
 		conteneurTabRequest.setBounds(0, 50, 400, 200);
 		conteneurTabRequest.setLayout(null);
+		JPanel conteneurTabJTableRequest = new JPanel ();
 		
 		if(sor != null){
-			JPanel conteneurTabJTableRequest = new JPanel ();
+			
 			//conteneurTabJTableRequest.setBackground(Color.orange);
 			conteneurTabJTableRequest.setBounds(0, 50, 400, 100);
 			
@@ -92,10 +91,11 @@ public class TextualView extends JPanel {
 			conteneurTabRequest.add(conteneurTabJTableRequest);
 			add(conteneurTabRequest);
 			
-			uiTable.getColumnModel().getColumn(0).setPreferredWidth(50);
-			uiTable.getColumnModel().getColumn(1).setPreferredWidth(50);
-			uiTable.getColumnModel().getColumn(2).setPreferredWidth(50);
-			uiTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+			uiTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+			uiTable.getColumnModel().getColumn(1).setPreferredWidth(85);
+			uiTable.getColumnModel().getColumn(2).setPreferredWidth(90);
+			uiTable.getColumnModel().getColumn(3).setPreferredWidth(90);
+			uiTable.getColumnModel().getColumn(4).setPreferredWidth(100);
 			
 			// https://stackoverflow.com/a/7351053
 			uiTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -117,7 +117,6 @@ public class TextualView extends JPanel {
 			displayCaption();
 		}
 		
-
 	}
 	
 	public void displayTour(SetOfRequests sor, List<Segment> segments) {
@@ -145,7 +144,7 @@ public class TextualView extends JPanel {
 								{"1", "Delivery", "A", "2s"},
 								{"1", "Delivery", "A", "2s"}
 							};
-		String[] tadHeader = {"Numero", "Type", "Adress", "Duration"};
+		String[] tadHeader = {"Order", "Type", "Adress", "Duration"};
 		
 		DefaultTableModel tableModel = new DefaultTableModel(tabData, tadHeader) {
 
@@ -197,10 +196,10 @@ public class TextualView extends JPanel {
 		caption2.setBackground(Color.gray);
 		caption3.setBackground(Color.gray);
 		
-		titleCaption.setBounds(50, 650, 300, 30);
-		caption1.setBounds(50, 680, 300, 30);
-		caption2.setBounds(50, 710, 300, 30);
-		caption3.setBounds(50, 740, 300, 30);
+		titleCaption.setBounds(50, 670, 300, 30);
+		caption1.setBounds(50, 700, 300, 30);
+		caption2.setBounds(50, 730, 300, 30);
+		caption3.setBounds(50, 760, 300, 30);
 
 		add(titleCaption);
 		add(caption1);

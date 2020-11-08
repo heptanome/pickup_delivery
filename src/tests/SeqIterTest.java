@@ -22,10 +22,7 @@ import tsp.Graph;
 import tsp.SeqIter;
 
 class SeqIterTest {
-	private Integer[] candidates;
-	private int nbCandidates;
 	private Collection<Integer> unvisited;
-	private int currentVertex;
 	private Graph graph;
 	private List<Intersection> intersections;
 	private List<Segment> segments;
@@ -57,19 +54,6 @@ class SeqIterTest {
 		unvisited.add(2);
 		unvisited.add(3);
 		
-		this.candidates = new Integer[unvisited.size()];
-		
-		for (Integer s : unvisited){
-			if(graph.isDeliveryAddress(s)) {
-				int pickup = graph.getPickUpFromDelivery(s);
-				if (graph.isArc(currentVertex, s) && !(unvisited.contains(pickup)) )
-					candidates[nbCandidates++] = s;
-				
-			} else {
-				if (graph.isArc(currentVertex, s))
-					candidates[nbCandidates++] = s;
-			}
-		}
 		this.seqIter = new SeqIter(unvisited, 0, graph);
 		
 	}
@@ -80,7 +64,7 @@ class SeqIterTest {
 
 	@Test
 	void testSeqIter() {
-		// TODO
+		assertTrue(seqIter != null);
 	}
 
 	@Test
@@ -96,7 +80,7 @@ class SeqIterTest {
 
 	@Test
 	void testRemove() {
-		// TODO
+		seqIter.remove();
 	}
 
 }
