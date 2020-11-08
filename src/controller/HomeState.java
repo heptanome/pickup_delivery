@@ -1,9 +1,5 @@
 package controller;
 
-import java.io.IOException;
-
-import org.xml.sax.SAXException;
-
 import model.Tour;
 import view.HomeWindow;
 
@@ -13,28 +9,39 @@ import view.HomeWindow;
 public class HomeState implements State {
 	
 	@Override
-	public void loadMap(Application a, HomeWindow homeWindow, String fp, Tour tour, ListOfCommands l) {
+	public void initiateState(Application a, HomeWindow hw) {
+		setButtons(hw, a.getListOfCommands());
+	}
+	
+	@Override
+	public void loadMap(Application a, HomeWindow homeWindow, String fp, Tour tour) {
 		try {
 			tour.setMap(fp);
-			l.add(new LoadMapCommand(tour,fp));
+			a.getListOfCommands().add(new LoadMapCommand(tour,fp));
 			a.setCurrentState(a.mapWoRequestsState);
-			a.getCurrentState().setButtons(homeWindow,l);
+			a.getCurrentState().initiateState(a, homeWindow);
 		} catch (Exception e) {
-			e.printStackTrace();
+			a.setCurrentState(a.mapExceptionState);
+			a.getCurrentState().initiateState(a, homeWindow);
+			a.getCurrentState().handleException(a,e,homeWindow,this);
 		}
-		
-	}
-
-	@Override
-    public void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(true, false, false, false, false, false, false, false, l.redoPossible(), false);
 	}
 
 	@Override
 	public void redo(ListOfCommands l, Application a, HomeWindow hw){
 		l.redo();
 		a.setCurrentState(a.mapWoRequestsState);
-		a.getCurrentState().setButtons(hw,l);
+		a.getCurrentState().initiateState(a, hw);
+		//a.getCurrentState().setButtons(hw, l);
+	}
+	
+	/**
+	 * Method called by the state to update which buttons are enabled depending on the state
+	 * 
+	 * @param hw the HomeWindow
+	 */
+    private void setButtons(HomeWindow hw, ListOfCommands l) {
+        hw.setButtonsEnabled(true, false, false, false, false, false, false, false, l.redoPossible(), false);
 	}
 
 }

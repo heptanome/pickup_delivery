@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The class representing a map by keeping in memory a loaded map XML file. It
+ * The class is representing a map by keeping in memory a loaded map XML file. It
  * mostly uses a list of intersections and a list of segments.
  *
  */
@@ -36,7 +36,7 @@ public class CityMap {
 	 * 
 	 * @param origin
 	 * @param destination
-	 * @return either a segment, either null
+	 * @return a segment if found, null otherwise
 	 */
 	public Segment getSegmentFromInter(Intersection origin, Intersection destination) {
 		for (Segment s : segments) {
@@ -49,6 +49,8 @@ public class CityMap {
 	/**
 	 * From the intersections, populate two java <Map> objects to easily retrieve
 	 * them afterwards
+	 * Number is a unique <String>
+	 * Id is a unique <int>, used to compute the shortest path
 	 */
 	private void convertNumberToId() {
 		int index = 0;

@@ -9,7 +9,7 @@ import java.util.Map;
 
 import tsp.CompleteGraph;
 import tsp.TSP;
-import tsp.TSP2;
+import tsp.TSP3;
 
 /**
  * Main class of the Model. A tour will hold onto a map, a set of requests and
@@ -18,8 +18,8 @@ import tsp.TSP2;
  * propertyChange
  */
 public class Tour {
-	public CityMap map;
-	public SetOfRequests setOfRequests;
+	private CityMap map;
+	private SetOfRequests setOfRequests;
 	private PropertyChangeSupport support;
 	private List<Segment> path;
 	private RoadMap roadMap;
@@ -64,15 +64,34 @@ public class Tour {
 		support.firePropertyChange("updateRequests", oldReq, this.setOfRequests);
 	}
 
+	/**
+	 * Once a new Request has been specified by the user, this method
+	 * adds it to the setOfRequests, computes a new path, saves it in the Tour
+	 * and warns the View it has been updated
+	 * 
+	 * @param newRequest the request added to the tour
+	 * @type Request
+	 * @param beforeDelivery the point that must be visited before the delivery. It has to be either a delivery or a pickup point. It has to be visited after beforePikup
+	 * @type Intersection
+	 * @param beforePickup the point that must be visited before the pickup. It has to be either a delivery or a pickup point.
+	 * @type Intersection
+	 */
 	public void addRequest(Request newRequest, Intersection beforeDelivery, Intersection beforePickup) {
 		
 		this.setOfRequests.getRequests().add(newRequest);
 		this.path = this.roadMap.addRequest(newRequest, beforePickup, beforeDelivery, this.map, this.path);
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this.path);
-		System.out.println("done");
 	}
 	
+	/**
+	 * Once a Request has been specified by the user, this method
+	 * removes it from the setOfRequests, computes a new path, saves it in the Tour
+	 * and warns the View it has been updated
+	 * 
+	 * @param request the request removed from the tour
+	 * @type Request
+	 */
 	public void deleteRequest(Request request) {
 		SetOfRequests oldReq = this.setOfRequests;
 		this.setOfRequests.deleteRequest(request);
@@ -80,11 +99,18 @@ public class Tour {
 		
 	}
 
-
+	/**
+	 * Once a tour has been computed, this method adds it in the Tour, adds the corresponding RoadMap
+	 * in the Tour and warns the View it has been updated. The tour computed is the best tour that could be found in 20s,
+	 * not necessarily the best of all possible tours.
+	 * 
+	 * @return List<Segment> an ordered list of segment, where each destination is equals to the next segment's origin
+	 * 
+	 */
 	public List<Segment> computeTour() {
 		// TSP tsp = new TSP1();
-		TSP tsp = new TSP2();
-		// TSP tsp = new TSP3();
+		//TSP tsp = new TSP2();
+		 TSP tsp = new TSP3();
 
 		CompleteGraph g = new CompleteGraph(map, setOfRequests);
 		long startTime = System.currentTimeMillis();

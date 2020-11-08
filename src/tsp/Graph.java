@@ -22,10 +22,21 @@ public interface Graph {
 	 */
 	public abstract boolean isArc(int i, int j);
 	
+	/**
+	 * @return cost of the shortest arc in <code>this</code>
+	 */
 	public abstract float minArcCost();
 	
+	/**
+	 * @param i 
+	 * @return true if <code>i</code> is a point where is delivery has to be made
+	 */
 	public abstract boolean isDeliveryAddress(int i);
 	
+	/**
+	 * @param i 
+	 * @return a List<Integer> where each integer of the list is a point whose delivery point is <code>i</code>
+	 */
 	public abstract List<Integer> getPickUpFromDelivery(int i);
 
 }

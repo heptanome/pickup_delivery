@@ -228,10 +228,6 @@ public class TextualView extends JPanel {
 		}
 	}
 	
-	public boolean isCellEditable(int x, int y) {
-		return false;
-	}
-	
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         support.addPropertyChangeListener(pcl);
     }

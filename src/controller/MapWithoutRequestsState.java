@@ -1,9 +1,5 @@
 package controller;
 
-import java.io.IOException;
-
-import org.xml.sax.SAXException;
-
 import model.Tour;
 import view.HomeWindow;
 
@@ -13,37 +9,43 @@ import view.HomeWindow;
 public class MapWithoutRequestsState implements State {
 	
 	@Override
-	public void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour, ListOfCommands l) {
+	public void initiateState(Application a, HomeWindow hw) {
+		setButtons(hw, a.getListOfCommands());
+	}
+	
+	@Override
+	public void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour) {
 		try {
 			tour.setMap(fp);
 		} catch (Exception e) {
-			e.printStackTrace();
+			a.setCurrentState(a.mapExceptionState);
+			a.getCurrentState().initiateState(a, homeWindow);
+			a.getCurrentState().handleException(a,e,homeWindow,this);
 		}
 	}
 	
 	@Override
-	public void loadRequests(Application a, HomeWindow hw,  String fp, Tour tour, ListOfCommands l) {
+	public void loadRequests(Application a, HomeWindow hw,  String fp, Tour tour) {
 		try {
 			tour.setRequests(fp);
-			l.add(new LoadRequestsCommand(tour, fp));
+			a.getListOfCommands().add(new LoadRequestsCommand(tour, fp));
 			a.setCurrentState(a.mapWithRequestsState);
-			a.getCurrentState().setButtons(hw,l);
+			a.getCurrentState().initiateState(a, hw);
 		} catch (Exception e) {
-			e.printStackTrace();
+			a.setCurrentState(a.requestExceptionState);
+			a.getCurrentState().initiateState(a, hw);
+			a.getCurrentState().handleException(a,e,hw,this);
 		}
 	}
 
-	@Override
-    public  void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(true, true, false, false, false, false, false, true, l.redoPossible(), false);
-	}
 
 	@Override
 	public void undo(ListOfCommands l, Application a, HomeWindow hw){
 
 		l.undo();
 		a.setCurrentState(a.homeState);
-		a.getCurrentState().setButtons(hw , l);
+		a.getCurrentState().initiateState(a, hw);
+		//a.getCurrentState().setButtons(hw , l);
 
 	}
 
@@ -51,7 +53,18 @@ public class MapWithoutRequestsState implements State {
 	public void redo(ListOfCommands l, Application a, HomeWindow hw){
 		l.redo();
 		a.setCurrentState(a.mapWithRequestsState);
-		a.getCurrentState().setButtons(hw,l);
+		a.getCurrentState().initiateState(a, hw);
+		//a.getCurrentState().setButtons(hw,l);
+	}
+			
+
+	/**
+	 * Method called by the state to update which buttons are enabled depending on the state
+	 * 
+	 * @param hw the HomeWindow
+	 */
+    private  void setButtons(HomeWindow hw, ListOfCommands l) {
+        hw.setButtonsEnabled(true, true, false, false, false, false, false, true, l.redoPossible(), false);
 	}
 
 }

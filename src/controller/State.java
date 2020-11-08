@@ -12,27 +12,82 @@ public interface State {
 	 * Method called by the controller after a click on the button "Load a map" and the selection of 
 	 * a xml file containing the map, in the file system.
 	 * 
+	 * @param a the controller of the application
+	 * @param homeWindow the main window of the application
 	 * @param fp the file path to the map (xml file)
 	 * @param tour the tour that will use the map
 	 */
-	public default void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour, ListOfCommands l){
+	public default void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour){
 	}
 	
    /**
 	 * Method called by the controller after a click on the button "Load a set of requests" and the selection of 
 	 * a xml file containing the set of requests, in the file system.
 	 * 
+	 * @param a the controller of the application
+	 * @param homeWindow the main window of the application
 	 * @param fp the file path to the map (xml file)
 	 * @param tour the tour that will use the map
 	 */
-	public default void loadRequests(Application a, HomeWindow hw, String fp, Tour tour, ListOfCommands l) {
+	public default void loadRequests(Application a, HomeWindow hw, String fp, Tour tour) {
+	}
+	
+   /**
+	 * Method called by the controller after a click on the button "Add a request".
+	 * 
+	 * @param a the controller of the application
+	 * @param homeWindow the main window of the application
+	 */
+	public default void addRequests(Application a, HomeWindow hw) {
+	}
+	
+   /**
+	 * Method called by the controller when a point (an intersection) is selected on the map in one of
+	 * the process of adding a request, or when deleting a request.
+	 * 
+	 * @param i the Intersection clicked
+	 * @param hw the HomeWindow
+	 * @param tour the Tour to which the intersection belongs
+	 * @param a the current Application
+	 */
+	public default void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a){
+	}
+	
+   /**
+	 * Method called by the controller to delete a request from the tour 
+	 * @param a the controller of the application
+	 * @param homeWindow the main window of the application
+	 */
+	public default void deleteRequests(Application a, HomeWindow hw)  {
 	}
 	
    /**
 	 * Method called by the controller after a click on the button "Compute Tour"
 	 * 
+ 	 * @param a the controller of the application
+	 * @param homeWindow the main window of the application
+	 * @param tour the tour that will be calculate
 	 */
-	public default void computeTour(Application a, HomeWindow hw, Tour tour, ListOfCommands l) {	
+	public default void computeTour(Application a, HomeWindow hw, Tour tour) {	
+	}
+	
+   /**
+	 * Method called by a State to initiate the next State
+	 * 
+ 	 * @param a the controller of the application
+	 * @param homeWindow the main window of the application
+	 */
+	public default void initiateState(Application a, HomeWindow hw) {	
+	}
+	
+	/**
+	 * Method called by the state to handle a raised Exception
+	 * @param a the controller of the app
+	 * @param e the Exception raised 
+	 * @param hv the HomeWindow
+	 * @param previousState the State in which the Exception has been raised
+	 */
+	public default void handleException(Application a, Exception e, HomeWindow hw, State previousState) {
 	}
 
 	/**
@@ -42,42 +97,6 @@ public interface State {
 	public default void cancel() {
 	}
 
-   /**
-	 * Method called by the controller after a click on the button "Load a set of requests" and the selection of 
-	 * a xml file containing the set of requests, in the file system.
-	 * 
-	 * @param i the Intersection clicked
-	 * @param hw the HomeWindow
-	 * @param tour the Tour to which the intersection belongs
-	 * @param a the current Application
-	 */
-	public default void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a){
-	}
-
-	/**
-	 * Method called by the controller to change the mouse listeners of a HomeWindow
-	 * according to the State
-	 * 
-	 * @param hw the HomeWindow
-	 */
-	public default void setMouseListener(HomeWindow hw) {
-	}
-
-	/**
-	 * Method called by the controller to display a message about specific information of the current State
-	 * 
-	 * @param hw the HomeWindow
-	 */
-	public default void describeState(HomeWindow hw) {
-	}
-
-	/**
-	 * Method called by the controller to update which buttons are enabled depending on the state
-	 * 
-	 * @param hw the HomeWindow
-	 */
-	public default void setButtons(HomeWindow hw, ListOfCommands l){
-	}
 
 	/**
 	 * Method called by the controller after a click on the button "Undo"
@@ -96,4 +115,6 @@ public interface State {
 	 */
 	public default void redo(ListOfCommands l, Application a, HomeWindow hw){
 	}
+
+
 }

@@ -29,6 +29,8 @@ public class Application implements PropertyChangeListener {
 	protected final AddingDeliveryAddressState ada = new AddingDeliveryAddressState();
 	protected final AddingPointPreceedingDeliveryState appd = new AddingPointPreceedingDeliveryState();
 	protected final DeletingRequestState deleteRequestState = new DeletingRequestState();
+	protected final MapOpeningExceptionState mapExceptionState = new MapOpeningExceptionState();
+	protected final RequestOpeningExceptionState requestExceptionState = new RequestOpeningExceptionState();
 
 	public static void main(final String[] args) {
 		final Tour tour = new Tour();
@@ -43,18 +45,21 @@ public class Application implements PropertyChangeListener {
 	 * 
 	 * @param hw    the View to work with
 	 * @param t     the Model to work with
-	 * @param state the initial state to start in
 	 */
 	public Application(final HomeWindow hw, final Tour t) {
 		this.tour = t;
 		this.homeWindow = hw;
 		this.listOfCommands = new ListOfCommands();
 		this.currentState = homeState;
-		this.currentState.setButtons(homeWindow, listOfCommands);
+		this.currentState.initiateState(this, this.homeWindow);
 		// Window listens to Tour events
 		this.tour.addPropertyChangeListener(this.homeWindow);
 		// Application listens to Window events
 		this.homeWindow.addPropertyChangeListener(this);
+		
+		this.currentState = homeState;
+		this.currentState.initiateState(this, homeWindow);
+
 	}
 
 	/**
@@ -80,7 +85,7 @@ public class Application implements PropertyChangeListener {
 	 * @throws Exception                for any other exception
 	 */
 	public void loadMap(final String fp) {
-		currentState.loadMap(this, this.homeWindow, fp, this.tour, this.listOfCommands);
+		currentState.loadMap(this, this.homeWindow, fp, this.tour);
 	}
 
 	/**
@@ -93,7 +98,7 @@ public class Application implements PropertyChangeListener {
 	 * @throws Exception                for any other exception
 	 */
 	public void loadRequests(final String fp) {
-		currentState.loadRequests(this, homeWindow, fp, this.tour, this.listOfCommands);
+		currentState.loadRequests(this, homeWindow, fp, this.tour);
 	}
 
 	/**
@@ -102,24 +107,17 @@ public class Application implements PropertyChangeListener {
 	 * 
 	 */
 	public void addRequest() {
-		System.out.println("Ajout d'une requête : ");
-		currentState = apa;
-		currentState.setButtons(homeWindow, listOfCommands);
-		currentState.describeState(homeWindow);
-		currentState.setMouseListener(homeWindow);
+		currentState.addRequests(this,homeWindow);
 	}
 
 	/**
-	 * Method called when a point (an intersction) is selected on the map in one of
+	 * Method called when a point (an intersection) is selected on the map in one of
 	 * the process of adding a request, or when deleting a request.
 	 * 
 	 * @param selectedPoint : the point that has been clicked
 	 */
-	public void pointClicked(final Object selectedPoint) {
-		currentState.pointClicked((Intersection) selectedPoint, homeWindow, tour, this);
-		currentState.setButtons(homeWindow, listOfCommands);
-		currentState.describeState(homeWindow);
-		currentState.setMouseListener(homeWindow);
+	public void pointClicked(Object selectedPoint) {
+			currentState.pointClicked((Intersection)selectedPoint, homeWindow, tour, this);
 	}
 
 	/**
@@ -128,14 +126,8 @@ public class Application implements PropertyChangeListener {
 	 * 
 	 * @throws Exception
 	 */
-	public void deleteRequest() throws Exception {
-		System.out.println("Suppression d'une requête");
-
-		currentState = deleteRequestState;
-		currentState.setButtons(homeWindow, listOfCommands);
-		currentState.describeState(homeWindow);
-		homeWindow.addSingleMouseClickOnSpecialPointListener();
-
+	public void deleteRequest() {
+		currentState.deleteRequests(this, homeWindow);
 	}
 
 	/**
@@ -144,7 +136,15 @@ public class Application implements PropertyChangeListener {
 	 * 
 	 */
 	public void computeTour() throws Exception {
-		currentState.computeTour(this, homeWindow, tour, listOfCommands);
+		currentState.computeTour(this, homeWindow, tour);
+	}
+
+	/**
+	 * Getter for the listOfCommands attribute
+	 * @return listeOfCommands
+	 */
+	public ListOfCommands getListOfCommands(){
+		return this.listOfCommands;
 	}
 
 	/**
