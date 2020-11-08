@@ -482,11 +482,15 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			// Only works if there is a map loaded
 			if (loadedMap != null) {
 				Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
+
+				/**
+				 * for a better UX (otherwise the zoom disappears), the update is used in case
+				 * the map changes
+				 */
+				zoom.updateImage();
+				zoom.repaint();
 				if (selectedPoint != null) {
-					System.out.println(selectedPoint);
 					tv.selectCell(selectedPoint);
-				} else {
-					System.out.println("no selected point");
 				}
 			}
 		}
@@ -495,13 +499,11 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public class MouseMotionOnMapListener implements MouseMotionListener {
 		@Override
 		public void mouseDragged(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
 			zoom.updateLocation(e.getX(), e.getY());
-
 		}
 
 	}
@@ -515,7 +517,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	}
 
 	/*
-	 * Mouse listener that fires an property change after one click (for the
+	 * Mouse listener that fires a property change after one click (for the
 	 * addRequest + delete) when we need the point clicked to be a special point
 	 * (pickup, delivery, departure)
 	 * 
@@ -541,6 +543,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		@Override
 		public void mouseClicked(final MouseEvent e) {
 			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY(), true);
+
 			if (selectedPoint != null) {
 				System.out.println("special : " + selectedPoint.getNumber());
 				support.firePropertyChange("pointClicked", null, selectedPoint);

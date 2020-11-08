@@ -313,7 +313,6 @@ public class GraphicalView extends JPanel {
 			if (gp.isClicked(x, y) && gp.getIsSpecial() == isSpecial) {
 				gp.setSize(gp.getSize() * 2);
 				selectedPoint = gp.getPoint();
-				System.out.println(selectedPoint.getNumber());
 				return;
 			}
 		});
