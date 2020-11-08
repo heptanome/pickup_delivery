@@ -14,6 +14,7 @@ import java.util.LinkedList;
 public class RoadMap {
 	private HashMap<Intersection, Request> mapAddressToRequest;
 	private LinkedList<Intersection> orderedAddresses;
+	private HashMap<Intersection, Boolean> mapIntersectionToType;
 
 	/**
 	 * Constructor
@@ -23,6 +24,7 @@ public class RoadMap {
 	 */
 	public RoadMap(List<Segment> roadsAfterComputedTour, SetOfRequests initialSetOfRequests) {
 		this.mapAddressToRequest = new HashMap<Intersection,Request>();
+		this.mapIntersectionToType = new HashMap<Intersection,Boolean>();
 		this.orderedAddresses = new LinkedList<Intersection>();
 		this.calculateMapAddressToRequest(initialSetOfRequests);
 		this.reorderAddresses(roadsAfterComputedTour, initialSetOfRequests);
@@ -46,10 +48,10 @@ public class RoadMap {
 
 		Intersection newPickup = newRequest.getPickup();
 		Intersection newDelivery = newRequest.getDelivery();
-		
+
 		int indexBeforePickup = this.orderedAddresses.indexOf(beforePickup)+1;
 		Intersection afterPickup = this.orderedAddresses.get(indexBeforePickup);
-		int indexBeforeDelivery = this.orderedAddresses.lastIndexOf(beforeDelivery)+1;
+		int indexBeforeDelivery = this.orderedAddresses.indexOf(beforeDelivery)+1;
 		Intersection afterDelivery = this.orderedAddresses.get(indexBeforeDelivery);
 
 		this.orderedAddresses.add(indexBeforePickup, newDelivery);
@@ -61,8 +63,8 @@ public class RoadMap {
 		if(beforePickup == beforeDelivery) {
 			Intersection[] addresses = {beforePickup, newPickup, newDelivery, afterDelivery};
 			pickupPath = this.findNewRoads(zone, cityMap, addresses);
-			afterPickup = newDelivery;
-			beforeDelivery = newPickup;
+			afterPickup = afterDelivery;
+			beforeDelivery = afterDelivery;
 		} else {
 			Intersection[] addressesPickup = {beforePickup, newPickup, afterPickup};
 			pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
@@ -85,7 +87,7 @@ public class RoadMap {
 	 */
 	public void deleteRequest(Request requestToDelete, CityMap cityMap, LinkedList<Segment> path){
 		int indexPickUpToDelete = this.orderedAddresses.indexOf(requestToDelete.getPickup());
-		int indexDeliveryToDelete = this.orderedAddresses.lastIndexOf(requestToDelete.getDelivery());
+		int indexDeliveryToDelete = this.orderedAddresses.indexOf(requestToDelete.getDelivery());
 		
 		//Get the intersections before and after the request to delete
 		Intersection beforePickup = this.orderedAddresses.get(indexPickUpToDelete-1);
@@ -164,8 +166,12 @@ public class RoadMap {
 	 */
 	private void calculateMapAddressToRequest(SetOfRequests initialSetOfRequests) {
 		for (Request currentRequest : initialSetOfRequests.getRequests()) {
-			this.mapAddressToRequest.put(currentRequest.getPickup(),currentRequest);
-			this.mapAddressToRequest.put(currentRequest.getDelivery(),currentRequest);
+			Intersection currentPickup = currentRequest.getPickup();
+			Intersection currentDelivery = currentRequest.getDelivery();
+			this.mapAddressToRequest.put(currentPickup, currentRequest);
+			this.mapIntersectionToType.put(currentPickup, true);
+			this.mapAddressToRequest.put(currentDelivery, currentRequest);
+			this.mapIntersectionToType.put(currentDelivery, false);
 		}
 	}
 
@@ -203,6 +209,7 @@ public class RoadMap {
 		Intersection depot = initialSetOfRequests.getDepot();
 		this.orderedAddresses.addFirst(depot);
 		this.orderedAddresses.addLast(depot);
+		this.mapIntersectionToType.put(depot, true);
 	}
 	
 	/**
@@ -264,10 +271,29 @@ public class RoadMap {
 	private Segment addIntersectionToPath(ListIterator<Segment> iterator, Segment next, 
 										List<Segment> listSegments, Intersection intersectionLimit ) {
 		while(next.getOrigin() != intersectionLimit && iterator.hasNext()) {
-			if(listSegments != null) {
-				listSegments.add(next);
-			}
+			listSegments.add(next);
 			next = iterator.next();
+		}
+		return next;
+	}
+	
+	private Segment addIntersectionToPathBegin(ListIterator<Segment> iterator, Segment next,
+											List<Segment> listSegments, Intersection intersectionLimit ) {
+		if(this.mapIntersectionToType.get(intersectionLimit)) {
+			while(next.getOrigin() != intersectionLimit && iterator.hasNext()) {
+				listSegments.add(next);
+				next = iterator.next();
+			}
+		} else {
+			Intersection pickup = this.mapAddressToRequest.get(intersectionLimit).getPickup();
+			while(next.getOrigin() != pickup && iterator.hasNext()) {
+				listSegments.add(next);
+				next = iterator.next();
+			}
+			while(next.getOrigin() != intersectionLimit && iterator.hasNext()) {
+				listSegments.add(next);
+				next = iterator.next();
+			}
 		}
 		return next;
 	}
@@ -281,7 +307,7 @@ public class RoadMap {
 		ListIterator<Segment> iterator = path.listIterator();
 		Segment next = iterator.next();
 
-		this.addIntersectionToPath(iterator, next, beginning, beforePickup);
+		this.addIntersectionToPathBegin(iterator, next, beginning, beforePickup);
 		while(next.getOrigin() != afterPickup && iterator.hasNext()) {
 			next = iterator.next();
 		}
@@ -292,17 +318,23 @@ public class RoadMap {
 		Segment lastSegment = this.addIntersectionToPath(iterator, next, end, null);
 		
 		if(lastSegment != null) {
-			if (!end.isEmpty() || deliveryPath.getLast().getDestination() != lastSegment.getDestination()) {
+			if (!end.isEmpty()) {
 				end.add(lastSegment);
+			} else if (!deliveryPath.isEmpty()) {
+				if (deliveryPath.getLast().getDestination() != lastSegment.getDestination()) {
+					end.add(lastSegment);
+				}
+			} else if (!middle.isEmpty()) {
+				if (middle.getLast().getDestination() != lastSegment.getDestination()) {
+					end.add(lastSegment);
+				}
+			} else if (!pickupPath.isEmpty()) {
+				if (pickupPath.getLast().getDestination() != lastSegment.getDestination()) {
+					end.add(lastSegment);
+				}
 			}
 		}
-		
-		System.out.println("BEGINNING "+ beginning);
-		System.out.println("PICKUP PATH "+ pickupPath);
-		System.out.println("MIDDLE "+ middle);
-		System.out.println("DELIVERY PATH "+ deliveryPath);
-		System.out.println("END "+ end);
-		
+
 		path.clear();
 		path.addAll(beginning);
 		path.addAll(pickupPath);
