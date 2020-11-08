@@ -16,6 +16,8 @@ import model.Intersection;
 import model.Request;
 import model.Segment;
 import model.SetOfRequests;
+import view.graphical.GraphicalPoint;
+import view.graphical.GraphicalSegment;
 
 /**
  * Class used to to display the intersections, the segments, the requests and

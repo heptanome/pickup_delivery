@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import model.Intersection;
-import view.GraphicalPoint;
+import view.graphical.GraphicalPoint;
 
 class GraphicalPointTest {
 	private GraphicalPoint graphicalPoint;
