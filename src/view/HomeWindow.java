@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -28,6 +29,7 @@ import model.Intersection;
 import model.Request;
 import model.Segment;
 import model.SetOfRequests;
+import view.graphical.ZoomBox;
 
 /**
  * The main class used in the View (MVC model), will showcase a window with
@@ -44,7 +46,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	protected CityMap loadedMap;
 	protected SetOfRequests loadedSOR;
 	protected String helpText;
-	
+
 	private final JButton btnLoadMap = new JButton("Load a map");
 	private final JButton btnLoadRequest = new JButton("Load a set of requests");
 	private final JButton btnAddRequest = new JButton("Add a request");
@@ -56,6 +58,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	private final JButton btnHelp = new JButton("SOS");
 
 	private final JLabel lblHelp = new JLabel();
+	private ZoomBox zoom;
 
 	private final JPanel textualContainer;
 	private final JPanel graphicalContainer;
@@ -65,8 +68,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	public GraphicalView gv;
 	public TextualView tv;
 
-	/* 
-	 *Variables used to add a new request
+	/*
+	 * Variables used to add a new request
 	 */
 	private Request newRequest = null;
 	private Intersection precedingPickup = null;
@@ -82,24 +85,24 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		super(name);
 		this.support = new PropertyChangeSupport(this);
 		this.helpText = "Please load a map";
-		
-		//Layout
+
+		// Layout
 		setLayout(null);
 
 		// Graphical container
 		graphicalContainer = new JPanel();
 		graphicalContainer.setLayout(null);
-		graphicalContainer.setBounds(0, 0, 820, HEIGHT-30);
+		graphicalContainer.setBounds(0, 0, 820, HEIGHT - 30);
 
-		//Textual container
+		// Textual container
 		textualContainer = new JPanel();
 		textualContainer.setLayout(null);
-		textualContainer.setBounds(820, 0, 400, HEIGHT-30);
+		textualContainer.setBounds(820, 0, 400, HEIGHT - 30);
 		textualContainer.setBackground(new Color(188, 188, 188));
 
-		//Buttons container
+		// Buttons container
 		buttonsContainer = new JPanel();
-		buttonsContainer.setBounds(1220, 0, 200, HEIGHT-30);
+		buttonsContainer.setBounds(1220, 0, 200, HEIGHT - 30);
 		buttonsContainer.setBackground(new Color(5, 132, 243));
 
 		final BoxLayout boxLayout1 = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);
@@ -112,13 +115,13 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnLoadMap.setAlignmentY(5);
 		this.setButton(btnLoadRequest, new LoadRequestListener());
 		this.setButton(btnComputeTour, new ComputeTourListener());
-		this.setButton(btnRoadMap, new RoadMapListener());	
+		this.setButton(btnRoadMap, new RoadMapListener());
 		this.setButton(btnAddRequest, new AddRequestListener());
 		this.setButton(btnDeleteRequest, new DeleteRequestListener());
 		this.setButton(btnSaveRoadMap, new SaveRoadMapListener());
 		this.setButton(btnHelp, new HelpListener());
-		
-		//JLabel
+
+		// JLabel
 		lblHelp.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// Add containers
@@ -132,7 +135,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-	
+
 	private void setButton(JButton newButton, ActionListener listener) {
 		newButton.addActionListener(listener);
 		newButton.setUI(new StyledButtonUI());
@@ -144,16 +147,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	/**
 	 * Updates which buttons are enabled
-	 * @param setMapB : true if btnLoadMap needs to be enabled
-	 * @param setRequestsB : true if btnLoadRequest needs to be enabled
-	 * @param computeB : true if ComputeTour needs to be enabled
+	 * 
+	 * @param setMapB         : true if btnLoadMap needs to be enabled
+	 * @param setRequestsB    : true if btnLoadRequest needs to be enabled
+	 * @param computeB        : true if ComputeTour needs to be enabled
 	 * @param displayRoadMapB : true if btnRoadMap needs to be enabled
-	 * @param addB : true if btnAddRequest needs to be enabled
-	 * @param deleteB : true if btnDeleteRequest needs to be enabled
-	 * @param saveB : true if btnSaveRoadMap needs to be enabled
-	 * @param sosB : true if btnHelp needs to be enabled
+	 * @param addB            : true if btnAddRequest needs to be enabled
+	 * @param deleteB         : true if btnDeleteRequest needs to be enabled
+	 * @param saveB           : true if btnSaveRoadMap needs to be enabled
+	 * @param sosB            : true if btnHelp needs to be enabled
 	 */
-	public void setButtonsEnabled(boolean setMapB, boolean setRequestsB, boolean computeB, boolean displayRoadMapB, boolean addB, boolean deleteB, boolean saveB, boolean sosB) {
+	public void setButtonsEnabled(boolean setMapB, boolean setRequestsB, boolean computeB, boolean displayRoadMapB,
+			boolean addB, boolean deleteB, boolean saveB, boolean sosB) {
 		btnLoadMap.setEnabled(setMapB);
 		btnLoadRequest.setEnabled(setRequestsB);
 		btnComputeTour.setEnabled(computeB);
@@ -163,7 +168,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnSaveRoadMap.setEnabled(saveB);
 		btnHelp.setEnabled(sosB);
 	}
-	
+
 	/**
 	 * Refreshing the View (graphical) with a newly loaded map
 	 * 
@@ -175,7 +180,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		// Graphical view
 		graphicalContainer.removeAll();
-		if(graphicalContainer.getMouseListeners().length>0){
+		if (graphicalContainer.getMouseListeners().length > 0) {
 			graphicalContainer.removeMouseListener(graphicalContainer.getMouseListeners()[0]);
 		}
 		graphicalContainer.repaint();
@@ -207,7 +212,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		// event listening (Home listens to TextualView)
 		tv.addPropertyChangeListener(this);
 	}
-	
+
 	public void selectCell(Intersection inter) {
 		gv.selectPoint(inter);
 	}
@@ -233,36 +238,33 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		// TODO textual container & road map (file)
 	}
 
-	
-	public Request getNewRequest(){
+	public Request getNewRequest() {
 		return newRequest;
 	}
 
-	public void setNewRequest(final Request r){
+	public void setNewRequest(final Request r) {
 		newRequest = r;
 	}
 
-	public void setPreceedingPickup (final Intersection i){
+	public void setPreceedingPickup(final Intersection i) {
 		precedingPickup = i;
 	}
 
-	public void setPreceedingDelivery (final Intersection i){
+	public void setPreceedingDelivery(final Intersection i) {
 		preceedingDelivery = i;
 	}
 
-	public Intersection getPreceedingPickup (){
+	public Intersection getPreceedingPickup() {
 		return precedingPickup;
 	}
 
-	public Intersection getPreceedingDelivery (){
+	public Intersection getPreceedingDelivery() {
 		return preceedingDelivery;
 	}
-	
-	public Request getRequestFromIntersection (Intersection i) {
+
+	public Request getRequestFromIntersection(Intersection i) {
 		return loadedSOR.getRequestFromIntersection(i);
 	}
-
-	
 
 	public class LoadRequestListener implements ActionListener {
 
@@ -288,12 +290,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(final ActionEvent arg0) {
-			File currentDirectory= null;
+			File currentDirectory = null;
 			try {
 				currentDirectory = new File(".").getCanonicalFile();
 				System.out.println("Current directory : " + currentDirectory);
 			} catch (final IOException err) {
-				
+
 			}
 			final JFileChooser dialogue = new JFileChooser(currentDirectory);
 			dialogue.showOpenDialog(null);
@@ -331,7 +333,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 
 	}
-	
+
 	public class RoadMapListener implements ActionListener {
 
 		@Override
@@ -340,27 +342,26 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 				this.removeRoadMap();
 				btnRoadMap.setText("Display the road map");
 				this.enableButtons(true);
-			}
-			else {
+			} else {
 				this.displayRoadMap();
 				btnRoadMap.setText("Return to the Map");
 				this.enableButtons(false);
 			}
 		}
-		
+
 		public void displayRoadMap() {
 			graphicalContainer.removeAll();
 			graphicalContainer.repaint();
 			final JPanel roadMapView = new RoadMapView();
 			graphicalContainer.add(roadMapView);
 		}
-		
+
 		public void removeRoadMap() {
 			graphicalContainer.removeAll();
 			graphicalContainer.repaint();
 			graphicalContainer.add(gv);
 		}
-		
+
 		private void enableButtons(final boolean state) {
 			btnSaveRoadMap.setEnabled(!state);
 			btnLoadMap.setEnabled(state);
@@ -371,9 +372,9 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 
 	}
-	
+
 	public class SaveRoadMapListener implements ActionListener {
-		
+
 		@Override
 		public void actionPerformed(final ActionEvent e) {
 			System.out.println("Saving the road map");
@@ -390,7 +391,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			buttonsContainer.updateUI();
 
 			TimerTask task = new TimerTask() {
-		        public void run() {
+				public void run() {
 					buttonsContainer.remove(lblHelp);
 					buttonsContainer.updateUI();
 				}
@@ -403,7 +404,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	}
 
 	/*
-	 * Mouse listener to use in the states where the map is displayed (click on map or table)
+	 * Mouse listener to use in the states where the map is displayed (click on map
+	 * or table)
 	 *
 	 */
 	public class MouseOnMapListener implements MouseListener {
@@ -429,43 +431,74 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			// Only works if there is a map loaded
 			if (loadedMap != null) {
 				Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
-				if(selectedPoint != null) {
+				if (selectedPoint != null) {
 					System.out.println(selectedPoint);
 					tv.selectCell(selectedPoint);
-				}else {
+				} else {
 					System.out.println("no selected point");
 				}
 			}
 		}
 	}
 
-	public void addMouseOnMapListener(){
+	public class MouseMotionOnMapListener implements MouseMotionListener {
+
+		public MouseMotionOnMapListener() {
+			zoom = new ZoomBox(gv);
+			zoom.updateImage();
+			graphicalContainer.add(zoom);
+		}
+
+		@Override
+		public void mouseDragged(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			zoom.updateLocation(e.getX(), e.getY());
+
+		}
+
+	}
+
+	public void addMouseOnMapListener() {
 		graphicalContainer.addMouseListener(new MouseOnMapListener());
 	}
 
+	public void addMouseMotionOnMapListener() {
+		graphicalContainer.addMouseMotionListener(new MouseMotionOnMapListener());
+	}
+
 	/*
-	 * Mouse listener that fires an property change after one click (for the addRequest + delete) when 
-	 * we need the point clicked to be a special point (pickup, delivery, departure)
+	 * Mouse listener that fires an property change after one click (for the
+	 * addRequest + delete) when we need the point clicked to be a special point
+	 * (pickup, delivery, departure)
 	 * 
 	 */
 	public class SingleMouseClickOnSpecialPointListener implements MouseListener {
 
 		@Override
-		public void mousePressed(final MouseEvent e) {}
+		public void mousePressed(final MouseEvent e) {
+		}
 
 		@Override
-		public void mouseReleased(final MouseEvent e) {}
+		public void mouseReleased(final MouseEvent e) {
+		}
 
 		@Override
-		public void mouseEntered(final MouseEvent e) {}
+		public void mouseEntered(final MouseEvent e) {
+		}
 
 		@Override
-		public void mouseExited(final MouseEvent e) {}
+		public void mouseExited(final MouseEvent e) {
+		}
 
 		@Override
 		public void mouseClicked(final MouseEvent e) {
 			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY(), true);
-			if(selectedPoint != null) {
+			if (selectedPoint != null) {
 				System.out.println("special : " + selectedPoint.getNumber());
 				support.firePropertyChange("pointClicked", null, selectedPoint);
 			}
@@ -473,32 +506,36 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	}
 
-	public void addSingleMouseClickOnSpecialPointListener(){
+	public void addSingleMouseClickOnSpecialPointListener() {
 		graphicalContainer.addMouseListener(new SingleMouseClickOnSpecialPointListener());
 	}
 
 	/*
-	 * Mouse listener that fires an property change after one click (for the addRequest + delete) when 
-	 * the point clicked can be special or random
+	 * Mouse listener that fires an property change after one click (for the
+	 * addRequest + delete) when the point clicked can be special or random
 	 */
 	public class SingleMouseClickOnAnyPointListener implements MouseListener {
 
 		@Override
-		public void mousePressed(final MouseEvent e) {}
+		public void mousePressed(final MouseEvent e) {
+		}
 
 		@Override
-		public void mouseReleased(final MouseEvent e) {}
+		public void mouseReleased(final MouseEvent e) {
+		}
 
 		@Override
-		public void mouseEntered(final MouseEvent e) {}
+		public void mouseEntered(final MouseEvent e) {
+		}
 
 		@Override
-		public void mouseExited(final MouseEvent e) {}
+		public void mouseExited(final MouseEvent e) {
+		}
 
 		@Override
 		public void mouseClicked(final MouseEvent e) {
 			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
-			if(selectedPoint != null) {
+			if (selectedPoint != null) {
 				System.out.println("special or random : " + selectedPoint.getNumber());
 				support.firePropertyChange("pointClicked", null, selectedPoint);
 			}
@@ -506,21 +543,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	}
 
-	public void addSingleMouseClickOnAnyPointListener(){
+	public void addSingleMouseClickOnAnyPointListener() {
 		graphicalContainer.addMouseListener(new SingleMouseClickOnAnyPointListener());
 		System.out.println(graphicalContainer.getMouseListeners().length);
 	}
 
-
-	public void removeAllMouseListeners(){
-		for(int i = 0; i<graphicalContainer.getMouseListeners().length; i++){
+	public void removeAllMouseListeners() {
+		for (int i = 0; i < graphicalContainer.getMouseListeners().length; i++) {
 			graphicalContainer.removeMouseListener(graphicalContainer.getMouseListeners()[i]);
 		}
 		System.out.println(graphicalContainer.getMouseListeners().length);
 	}
-
-
-	
 
 	/**
 	 * Following good practice, the Model communicates with the View using listeners
@@ -549,7 +582,4 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			break;
 		}
 	}
-
-	
-
 }
