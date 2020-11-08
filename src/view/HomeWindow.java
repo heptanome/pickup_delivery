@@ -428,6 +428,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		public void mouseClicked(MouseEvent e) {
 			// Only works if there is a map loaded
 			if (loadedMap != null) {
+				System.out.println("clic");
 				Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
 				if(selectedPoint != null) {
 					System.out.println(selectedPoint);
