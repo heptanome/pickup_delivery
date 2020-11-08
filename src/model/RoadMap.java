@@ -379,4 +379,13 @@ public class RoadMap {
 		path.addAll(end);
 		return path;
 	}
+	
+	public LinkedList<Intersection> getOrderedAddresses() {
+		return orderedAddresses;
+	}
+	
+	public HashMap<Intersection, Request> getMapAddressToRequest() {
+		return mapAddressToRequest;
+	}
+
 }
