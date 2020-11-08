@@ -13,7 +13,14 @@ import model.Tour;
  * when adding a request to the tour.
  */
 public class AddingPickupAddressState implements State {
-
+	
+	@Override
+	public void initiateState(Application a, HomeWindow hw) {
+		describeState(hw);
+		setButtons(hw, a.getListOfCommands());
+		setMouseListener(hw);
+	}
+	
     @Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
   
@@ -27,26 +34,56 @@ public class AddingPickupAddressState implements State {
             newR.setPickupDuration(duration);
             hw.setNewRequest(newR);
 
-            //Go to the next state (AddingPointPreceedingPickupState)
-            a.setCurrentState(a.appp);
+			//Go to the next state (AddingPointPreceedingPickupState)
+			a.getListOfCommands().add(new AddPickupCommand(i, hw, duration));
+			a.setCurrentState(a.appp);
+			a.getCurrentState().initiateState(a, hw);
 
     }
     
-    
-    @Override
-	public void describeState(HomeWindow hw){
-        JOptionPane.showMessageDialog(hw, "Select a pickup point on the map for the new request"); 
+	/**
+	 * Method called by the States to display a message about specific information of the current State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	private void describeState(HomeWindow hw){
+        JOptionPane.showMessageDialog(hw, "Select a pickup point on the map for the new request");
+		System.out.println("apa");
     }
     
-    @Override
-    public  void setMouseListener(HomeWindow hw) {
+	/**
+	 * Method called by the state to change the mouse listeners of a HomeWindow
+	 * according to the State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+    private void setMouseListener(HomeWindow hw) {
         hw.removeAllMouseListeners();
         //The new pickup intersection can be any type of intersection : A special one (depot, pickup or delivery) or not.
 		hw.addSingleMouseClickOnAnyPointListener();
     }
     
-    @Override
-    public  void setButtons(HomeWindow hw) {
-        hw.setButtonsEnabled(false, false, false, false, false, false, false, true);
+
+	/**
+	 * Method called by the state to update which buttons are enabled depending on the state
+	 * 
+	 * @param hw the HomeWindow
+	 * @param l the current listOfCommands
+	 */
+    private void setButtons(HomeWindow hw, ListOfCommands l) {
+        hw.setButtonsEnabled(false, false, false, false, false, false, false,  true, l.redoPossible() , true);
+	}
+
+	@Override
+	public void undo(ListOfCommands l, Application a, HomeWindow hw){
+		a.setCurrentState(a.displayingTourState);
+		a.getCurrentState().initiateState(a, hw);
+	}
+
+	@Override
+	public void redo(ListOfCommands l, Application a, HomeWindow hw){
+		l.redo();
+		a.setCurrentState(a.appp);
+		a.getCurrentState().initiateState(a, hw);
 	}
 }

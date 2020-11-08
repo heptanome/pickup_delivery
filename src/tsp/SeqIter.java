@@ -12,6 +12,10 @@ public class SeqIter implements Iterator<Integer> {
 	 * Create an iterator to traverse the set of vertices in <code>unvisited</code> 
 	 * which are successors of <code>currentVertex</code> in <code>g</code>
 	 * Vertices are traversed in the same order as in <code>unvisited</code>
+	 * 
+	 * Vertex B can not be a successor of vertex A if B is a point where one or more deliveries have to
+	 * be made and all of the corresponding pickup points have not already been visited.
+	 * 
 	 * @param unvisited
 	 * @param currentVertex
 	 * @param g
@@ -25,7 +29,7 @@ public class SeqIter implements Iterator<Integer> {
 				while(index < pickupList.size() && unvisited.contains(pickupList.get(index))) {
 					index++;
 				}
-				if(index < pickupList.size()) { //meaning "you're the last one"
+				if(index < pickupList.size()) {
 					if (g.isArc(currentVertex, s)) {
 						candidates[nbCandidates++] = s;
 					}	

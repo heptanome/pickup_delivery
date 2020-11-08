@@ -1,4 +1,4 @@
-package view;
+package view.graphical;
 
 import java.lang.Math;
 import java.awt.*;

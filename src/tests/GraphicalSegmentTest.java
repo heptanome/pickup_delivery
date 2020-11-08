@@ -8,27 +8,23 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import view.GraphicalSegment;
+
+import model.Intersection;
+import view.graphical.GraphicalPoint;
+import view.graphical.GraphicalSegment;
 
 class GraphicalSegmentTest {
 	
-	public static int xOriginPixel;
-	public static int yOriginPixel;
-	public static int xDestPixel;
-	public static int yDestPixel;
-	private static String idOrigin;
-	private static String idDest;
 	public static GraphicalSegment graphicalSegment;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		idOrigin = "25319255";
-		idDest = "1370403192";
-		xOriginPixel = 20;
-		yOriginPixel = 25;
-		xDestPixel = 56;
-		yDestPixel = 129;
-		graphicalSegment = new GraphicalSegment(idOrigin, idDest, xOriginPixel,yOriginPixel,xDestPixel,yDestPixel);
+
+		Intersection originI = new Intersection("25319255", 3, 11);
+		Intersection destinationI  = new Intersection( "1370403192", 10 , 4);
+		GraphicalPoint originGP = new GraphicalPoint(originI, 1 , 20 , 3 , 18);
+		GraphicalPoint destinationGP = new GraphicalPoint(destinationI, 1 , 20 , 3 , 18);
+		graphicalSegment = new GraphicalSegment(originGP, destinationGP);
 	}
 
 	@BeforeEach
@@ -41,32 +37,32 @@ class GraphicalSegmentTest {
 	
 	@Test
 	void testOrigin() {
-		assertEquals(graphicalSegment.getOrigin(),idOrigin);
+		assertEquals(graphicalSegment.getOrigin(),"25319255");
 	}
 	
 	@Test
 	void testDestination() {
-		assertEquals(graphicalSegment.getDestination(),idDest);
+		assertEquals(graphicalSegment.getDestination(),"1370403192");
 	}
 	
 	@Test
 	void testGetXOriginPixel() {
-		assertEquals(graphicalSegment.getXOriginPixel(),xOriginPixel+4);
+		assertEquals(graphicalSegment.getXOriginPixel(),94);
 	}
 
 	@Test
 	void testGetYOriginPixel() {
-		assertEquals(graphicalSegment.getYOriginPixel(),yOriginPixel+4);
+		assertEquals(graphicalSegment.getYOriginPixel(),437);
 	}
 
 	@Test
 	void testGetXDestPixel() {
-		assertEquals(graphicalSegment.getXDestPixel(),xDestPixel+4);
+		assertEquals(graphicalSegment.getXDestPixel(),389);
 	}
 
 	@Test
 	void testGeYDestPixel() {
-		assertEquals(graphicalSegment.geYDestPixel(),yDestPixel+4);
+		assertEquals(graphicalSegment.geYDestPixel(),63);
 	}
 
 	@Test

@@ -9,7 +9,7 @@ import java.util.Map;
 
 import tsp.CompleteGraph;
 import tsp.TSP;
-import tsp.TSP2;
+import tsp.TSP3;
 
 /**
  * Main class of the Model. A tour will hold onto a map, a set of requests and
@@ -18,8 +18,8 @@ import tsp.TSP2;
  * propertyChange
  */
 public class Tour {
-	public CityMap map;
-	public SetOfRequests setOfRequests;
+	private CityMap map;
+	private SetOfRequests setOfRequests;
 	private PropertyChangeSupport support;
 	private LinkedList<Segment> path;
 	private RoadMap roadMap;
@@ -65,7 +65,9 @@ public class Tour {
 	}
 
 	/**
-	 * Add a request and calculate the new path 
+	 * Once a new Request has been specified by the user, this method
+	 * adds it to the setOfRequests, computes a new path, saves it in the Tour
+	 * and warns the View it has been updated
 	 * @param newRequest
 	 * 			new request to add to the path
 	 * @param beforeDelivery
@@ -82,7 +84,9 @@ public class Tour {
 	}
 	
 	/**
-	 * Delete a request and calculate the new path
+	 * Once a Request has been specified by the user, this method
+	 * removes it from the setOfRequests, computes a new path, saves it in the Tour
+	 * and warns the View it has been updated
 	 * @param request
 	 * 			request to delete
 	 */
@@ -95,7 +99,10 @@ public class Tour {
 	}
 
 	/**
-	 * Compute a tour i.e. find a best tour in a specific amount of time
+	 * Once a tour has been computed, this method adds it in the Tour, adds the corresponding RoadMap
+	 * in the Tour and warns the View it has been updated. The tour computed is the best tour that could be found in 20s,
+	 * not necessarily the best of all possible tours.
+	 * 
 	 * @return list of segments containing the path the delivery man should follow 
 	 */
 	public List<Segment> computeTour() {
@@ -155,6 +162,21 @@ public class Tour {
 	public RoadMap getRoadMap() {
 		return roadMap;
 	}
+	
+	public void resetMap(){
+		CityMap oldMap = this.map;
+		this.map = null;
+		// signal the observers the map has changed
+		support.firePropertyChange("updateMap", oldMap, this.map);
+	}
+
+	public void resetRequests(){
+		SetOfRequests oldSor= this.setOfRequests;
+		this.setOfRequests= null;
+		// signal the observers the map has changed
+		support.firePropertyChange("updateRequests", oldSor, this.setOfRequests);
+	}
+	
 	
 	
 }

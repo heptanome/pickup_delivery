@@ -1,9 +1,5 @@
 package controller;
 
-import java.io.IOException;
-
-import org.xml.sax.SAXException;
-
 import model.Tour;
 import view.HomeWindow;
 
@@ -13,13 +9,21 @@ import view.HomeWindow;
 public class DisplayingTourOnMapState implements State {
 	
 	@Override
+	public void initiateState(Application a, HomeWindow hw) {
+		setButtons(hw, a.getListOfCommands());
+		setMouseListener(hw);
+	}
+	
+	@Override
 	public void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour) {
 		try {
 			tour.setMap(fp);
 			a.setCurrentState(a.mapWoRequestsState);
-			a.getCurrentState().setButtons(homeWindow);
+			a.getCurrentState().initiateState(a, homeWindow);
 		} catch (Exception e) {
-			e.printStackTrace();
+			a.setCurrentState(a.mapExceptionState);
+			a.getCurrentState().initiateState(a, homeWindow);
+			a.getCurrentState().handleException(a,e,homeWindow,this);
 		}
 	}
 	
@@ -28,11 +32,26 @@ public class DisplayingTourOnMapState implements State {
 		try {
 			tour.setRequests(fp);
 			a.setCurrentState(a.mapWithRequestsState);
-			a.getCurrentState().setButtons(hw);
+			a.getCurrentState().initiateState(a, hw);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			a.setCurrentState(a.requestExceptionState);
+			a.getCurrentState().initiateState(a, hw);
+			a.getCurrentState().handleException(a,e,hw,this);
 		}
+	}
+	
+	@Override
+	public void addRequests(Application a, HomeWindow hw) {
+		System.out.println("Ajout d'une requête : ");
+		a.setCurrentState(a.apa);
+		a.getCurrentState().initiateState(a, hw);
+	}
+	
+	@Override
+	public void deleteRequests(Application a, HomeWindow hw)  {
+		System.out.println("Suppression d'une requête");
+		a.setCurrentState(a.deleteRequestState);
+		a.getCurrentState().initiateState(a,hw);
 	}
 
 	@Override
@@ -43,16 +62,40 @@ public class DisplayingTourOnMapState implements State {
 			
 		}
 	}
+	
+	@Override
+	public void undo(ListOfCommands l, Application a, HomeWindow hw){
+		l.undo();
+		System.out.println(l.redoPossible());
+		this.initiateState(a, hw);
+	}
 
 	@Override
-	public void setMouseListener(HomeWindow hw)  {	
+	public void redo(ListOfCommands l, Application a, HomeWindow hw){
+		l.redo();
+		this.initiateState(a, hw);
+	}
+	
+	/**
+	 * Method called by the state to change the mouse listeners of a HomeWindow
+	 * according to the State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	private void setMouseListener(HomeWindow hw)  {	
 		hw.removeAllMouseListeners();
 		hw.addMouseOnMapListener();
 	}
 
-	@Override
-    public  void setButtons(HomeWindow hw) {
-        hw.setButtonsEnabled(true, true, false, true, true, true, false, true);
+
+	/**
+	 * Method called by the state to update which buttons are enabled depending on the state
+	 * 
+	 * @param hw the HomeWindow
+	 * @param l the current listOfCommands
+	 */
+    private void setButtons(HomeWindow hw, ListOfCommands l) {
+        hw.setButtonsEnabled(true, true, false, true, true, true, false , l.undoPossible() , l.redoPossible(), true);
 	}
 
 }

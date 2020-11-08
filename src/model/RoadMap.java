@@ -46,6 +46,22 @@ public class RoadMap {
 	public void addRequest(Request newRequest, Intersection beforePickup,
 							Intersection beforeDelivery, CityMap cityMap, LinkedList<Segment> path) {
 
+		/* There are two main cases :
+	  * 	- newDelivery does not follow newPickup : 2 new paths have to be computed and added to the tour, 
+	  * 		from beforePickup to newPickup to afterPickup and from beforeDelivery to new Delivery to afterDelivery
+	  * 
+	  * 	- newDelivery follows newPickup : 1 new path has to be computed and added to the tour, from beforePickup
+	  * 		to newPickup to newDelivery to afterDelivery
+	  * 
+	  * The method is in three steps :
+	  * 	- finding important points, such as afterDelivery and afterPickup, and adding the new Request into the
+	  * 		the list of addresses that have to be visited
+	  * 	
+	  * 	- computing the new shortest intermediates paths, and finding all the intermediates nodes from the cityMap
+	  * 	
+	  * 	- cutting and concatenating the old path in order to create a new path with the new Request.
+	  * */
+	  
 		Intersection newPickup = newRequest.getPickup();
 		Intersection newDelivery = newRequest.getDelivery();
 

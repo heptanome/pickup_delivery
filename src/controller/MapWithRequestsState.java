@@ -1,9 +1,5 @@
 package controller;
 
-import java.io.IOException;
-
-import org.xml.sax.SAXException;
-
 import model.Tour;
 import view.HomeWindow;
 
@@ -14,13 +10,20 @@ import view.HomeWindow;
 public class MapWithRequestsState implements State {
 	
 	@Override
+	public void initiateState(Application a, HomeWindow hw) {
+		setButtons(hw, a.getListOfCommands());
+	}
+	
+	@Override
 	public void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour) {
 		try {
 			tour.setMap(fp);
 			a.setCurrentState(a.mapWoRequestsState);
-			a.getCurrentState().setButtons(homeWindow);
+			a.getCurrentState().initiateState(a, homeWindow);
 		} catch (Exception e) {
-			e.printStackTrace();
+			a.setCurrentState(a.mapExceptionState);
+			a.getCurrentState().initiateState(a, homeWindow);
+			a.getCurrentState().handleException(a,e,homeWindow,this);
 		}
 	}
 	
@@ -28,9 +31,12 @@ public class MapWithRequestsState implements State {
 	public void loadRequests(Application a, HomeWindow hw,  String fp, Tour tour) {
 		try {
 			tour.setRequests(fp);
+			a.setCurrentState(a.mapWithRequestsState);
+			a.getCurrentState().initiateState(a, hw);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			a.setCurrentState(a.requestExceptionState);
+			a.getCurrentState().initiateState(a, hw);
+			a.getCurrentState().handleException(a,e,hw,this);
 		}
 	}
 
@@ -39,15 +45,31 @@ public class MapWithRequestsState implements State {
 		try {
 			tour.computeTour(); // returns a list of segments
 			a.setCurrentState(a.displayingTourState);
-			a.getCurrentState().setButtons(hw);
+			a.getListOfCommands().reset(); //To remove if we decide that we can undo/redo "compute tour"
+			a.getCurrentState().initiateState(a, hw);
 		}catch (Exception e) {
 			
 		}
 	}
 
+
 	@Override
-    public  void setButtons(HomeWindow hw) {
-        hw.setButtonsEnabled(true, true, true, false, false, false, false, false);
+	public void undo(ListOfCommands l, Application a, HomeWindow hw){
+
+		l.undo();
+		a.setCurrentState(a.mapWoRequestsState);
+		a.getCurrentState().initiateState(a, hw);
+		//a.getCurrentState().setButtons(hw , l);
+	}
+
+	/**
+	 * Method called by the state to update which buttons are enabled depending on the state
+	 * 
+	 * @param hw the HomeWindow
+	 * @param l the current listOfCommands
+	 */
+    private void setButtons(HomeWindow hw, ListOfCommands l) {
+        hw.setButtonsEnabled(true, true, true, false, false, false, false,  true, false, false);
 	}
 
 }
