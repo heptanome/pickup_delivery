@@ -67,8 +67,15 @@ public class AddingPickupAddressState implements State {
 	 * Method called by the state to update which buttons are enabled depending on the state
 	 * 
 	 * @param hw the HomeWindow
+	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(false, false, false, false, false, false, false,  false, false, true);
+        hw.setButtonsEnabled(false, false, false, false, false, false, false,  true, l.redoPossible() , true);
+	}
+
+	@Override
+	public void undo(ListOfCommands l, Application a, HomeWindow hw){
+		a.setCurrentState(a.displayingTourState);
+		a.getCurrentState().initiateState(a, hw);
 	}
 }

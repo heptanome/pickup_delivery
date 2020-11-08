@@ -66,6 +66,14 @@ public class ListOfCommands {
 	public boolean redoPossible(){
 		return (currentIndex < list.size()-1);
 	}
+
+	/**
+	 * Checks whether a "undo" action is possible
+	 * @return true if "redo" is possible
+	 */
+	public boolean undoPossible(){
+		return (currentIndex > -1);
+	}
 	
 	/**
 	 * Permanently remove all commands from the list

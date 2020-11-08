@@ -63,6 +63,19 @@ public class DisplayingTourOnMapState implements State {
 		}
 	}
 	
+	@Override
+	public void undo(ListOfCommands l, Application a, HomeWindow hw){
+		l.undo();
+		System.out.println(l.redoPossible());
+		this.initiateState(a, hw);
+	}
+
+	@Override
+	public void redo(ListOfCommands l, Application a, HomeWindow hw){
+		l.redo();
+		this.initiateState(a, hw);
+	}
+	
 	/**
 	 * Method called by the state to change the mouse listeners of a HomeWindow
 	 * according to the State
@@ -79,9 +92,10 @@ public class DisplayingTourOnMapState implements State {
 	 * Method called by the state to update which buttons are enabled depending on the state
 	 * 
 	 * @param hw the HomeWindow
+	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(true, true, false, true, true, true, false , false, false, true);
+        hw.setButtonsEnabled(true, true, false, true, true, true, false , l.undoPossible() , l.redoPossible(), true);
 	}
 
 }

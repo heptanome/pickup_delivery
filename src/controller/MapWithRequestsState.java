@@ -45,6 +45,7 @@ public class MapWithRequestsState implements State {
 		try {
 			tour.computeTour(); // returns a list of segments
 			a.setCurrentState(a.displayingTourState);
+			a.getListOfCommands().reset(); //To remove if we decide that we can undo/redo "compute tour"
 			a.getCurrentState().initiateState(a, hw);
 		}catch (Exception e) {
 			
@@ -65,6 +66,7 @@ public class MapWithRequestsState implements State {
 	 * Method called by the state to update which buttons are enabled depending on the state
 	 * 
 	 * @param hw the HomeWindow
+	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
         hw.setButtonsEnabled(true, true, true, false, false, false, false,  true, false, false);

@@ -51,6 +51,9 @@ public class AddingPointPreceedingDeliveryState implements State {
                 //Update the tour
                 tour.addRequest(hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup());
 
+                //Add to the list of commands
+                a.getListOfCommands().add(new AddCompleteRequestCommand(tour, hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup()) );
+
                 //Go to the next state (DisplayingTourOnMapState)
     			a.setCurrentState(a.displayingTourState);
     			a.getCurrentState().initiateState(a, hw);
@@ -83,6 +86,7 @@ public class AddingPointPreceedingDeliveryState implements State {
 	 * Method called by the state to update which buttons are enabled depending on the state
 	 * 
 	 * @param hw the HomeWindow
+	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
         hw.setButtonsEnabled(false, false, false, false, false, false, false,  false, false, true);

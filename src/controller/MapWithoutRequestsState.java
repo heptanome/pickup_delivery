@@ -62,6 +62,7 @@ public class MapWithoutRequestsState implements State {
 	 * Method called by the state to update which buttons are enabled depending on the state
 	 * 
 	 * @param hw the HomeWindow
+	 * @param l the current listOfCommands
 	 */
     private  void setButtons(HomeWindow hw, ListOfCommands l) {
         hw.setButtonsEnabled(true, true, false, false, false, false, false, true, l.redoPossible(), false);
