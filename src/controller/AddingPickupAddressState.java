@@ -34,7 +34,8 @@ public class AddingPickupAddressState implements State {
             newR.setPickupDuration(duration);
             hw.setNewRequest(newR);
 
-            //Go to the next state (AddingPointPreceedingPickupState)
+			//Go to the next state (AddingPointPreceedingPickupState)
+			a.getListOfCommands().add(new AddPickupCommand(i, hw, duration));
 			a.setCurrentState(a.appp);
 			a.getCurrentState().initiateState(a, hw);
 
@@ -76,6 +77,13 @@ public class AddingPickupAddressState implements State {
 	@Override
 	public void undo(ListOfCommands l, Application a, HomeWindow hw){
 		a.setCurrentState(a.displayingTourState);
+		a.getCurrentState().initiateState(a, hw);
+	}
+
+	@Override
+	public void redo(ListOfCommands l, Application a, HomeWindow hw){
+		l.redo();
+		a.setCurrentState(a.appp);
 		a.getCurrentState().initiateState(a, hw);
 	}
 }

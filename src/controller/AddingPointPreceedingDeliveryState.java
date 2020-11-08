@@ -42,24 +42,42 @@ public class AddingPointPreceedingDeliveryState implements State {
                 System.out.println("preceeding delivery address " + i.getNumber() );
                 hw.setPreceedingDelivery(i);
         
-                //Inform the user of the complete requets that is going to be added
+                //Ask for confirmation
                 Request r = hw.getNewRequest();
-                JOptionPane.showMessageDialog(hw, "<html>The following request :<br>  - Pickup address " +r.getPickupAddress() +" (pickup duration : " + r.getPickupDuration() 
-                    + " minutes) to visit after the address " + hw.getPreceedingPickup().getNumber() + " <br>  - Delivery address " +r.getDeliveryAddress() +" (delivery duration : " + r.getDeliveryDuration() 
-                    + " minutes) to visit after the address " + hw.getPreceedingDelivery().getNumber() + " <br>Will be added to the tour.</html>");
 
-                //Update the tour
-                tour.addRequest(hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup());
+                String message = "<html>The new request is :<br>  <br>  - Pickup address " +r.getPickupAddress() +" (pickup duration : " + r.getPickupDuration() 
+                + " minutes) <br> - To visit after the address " + hw.getPreceedingPickup().getNumber() + " <br>  - Delivery address " +r.getDeliveryAddress() +" (delivery duration : " + r.getDeliveryDuration() 
+                + " minutes) <br> - To visit after the address " + hw.getPreceedingDelivery().getNumber() + " <br> <br> Click \"Ok\" to add it to the tour, \"Cancel\" to change the last selected point.</html>";
+                String title = "Confirm the new request to add";
+                int reply = JOptionPane.showConfirmDialog(hw, message, title, JOptionPane.OK_CANCEL_OPTION);
+                if (reply == JOptionPane.YES_OPTION)
+                {
+                    //Update the tour
+                    tour.addRequest(hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup());
 
-                //Add to the list of commands
-                a.getListOfCommands().add(new AddCompleteRequestCommand(tour, hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup()) );
+                    //Add to the list of commands
+                    a.getListOfCommands().add(new AddCompleteRequestCommand(tour, hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup()) );
 
-                //Go to the next state (DisplayingTourOnMapState)
-    			a.setCurrentState(a.displayingTourState);
-    			a.getCurrentState().initiateState(a, hw);
+                    //Go to the next state (DisplayingTourOnMapState)
+                    a.setCurrentState(a.displayingTourState);
+                    a.getCurrentState().initiateState(a, hw);
+
+                } else {
+                    initiateState(a, hw);
+                }
+
+                
             }
 
     }
+
+    @Override
+	public void undo(ListOfCommands l, Application a, HomeWindow hw){
+		l.undo();
+		a.setCurrentState(a.ada);
+		a.getCurrentState().initiateState(a, hw);
+	}
+
 
 	/**
 	 * Method called by the States to display a message about specific information of the current State
@@ -89,6 +107,6 @@ public class AddingPointPreceedingDeliveryState implements State {
 	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(false, false, false, false, false, false, false,  false, false, true);
+        hw.setButtonsEnabled(false, false, false, false, false, false, false,  true, false, true);
 	}
 }

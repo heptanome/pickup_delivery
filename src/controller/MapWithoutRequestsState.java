@@ -54,7 +54,6 @@ public class MapWithoutRequestsState implements State {
 		l.redo();
 		a.setCurrentState(a.mapWithRequestsState);
 		a.getCurrentState().initiateState(a, hw);
-		//a.getCurrentState().setButtons(hw,l);
 	}
 			
 

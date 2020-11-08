@@ -35,8 +35,23 @@ public class AddingDeliveryAddressState implements State {
 			hw.setNewRequest(r);
 
 			//Go to the next state (AddingPointPreceedingDeliveryState)
+			a.getListOfCommands().add(new AddDeliveryCommand(i, hw, duration));
 			a.setCurrentState(a.appd);
 			a.getCurrentState().initiateState(a, hw);
+	}
+
+	@Override
+	public void undo(ListOfCommands l, Application a, HomeWindow hw){
+		l.undo();
+		a.setCurrentState(a.appp);
+		a.getCurrentState().initiateState(a, hw);
+	}
+
+	@Override
+	public void redo(ListOfCommands l, Application a, HomeWindow hw){
+		l.redo();
+		a.setCurrentState(a.appd);
+		a.getCurrentState().initiateState(a, hw);
 	}
 
 
@@ -70,7 +85,7 @@ public class AddingDeliveryAddressState implements State {
 	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(false, false, false, false, false, false, false,  false, false, true);
+        hw.setButtonsEnabled(false, false, false, false, false, false, false,  true, l.redoPossible(), true);
 	}
 
 

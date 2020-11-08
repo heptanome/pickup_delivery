@@ -25,13 +25,27 @@ public class AddingPointPreceedingPickupState implements State {
     
             //Set the point prexeeding the pickup point
             System.out.println("preceeding pickup address " + i.getNumber() );
-            hw.setPreceedingPickup(i);
+			hw.setPreceedingPickup(i);
 
-            // Go to the next state (AddingDeliveryAdress)
+			// Go to the next state (AddingDeliveryAdress)
+			a.getListOfCommands().add(new AddPointPreceedingPickupCommand(i, hw) );
 			a.setCurrentState(a.ada);
 			a.getCurrentState().initiateState(a, hw);
     }
 
+	@Override
+	public void undo(ListOfCommands l, Application a, HomeWindow hw){
+		l.undo();
+		a.setCurrentState(a.apa);
+		a.getCurrentState().initiateState(a, hw);
+	}
+
+	@Override
+	public void redo(ListOfCommands l, Application a, HomeWindow hw){
+		l.redo();
+		a.setCurrentState(a.ada);
+		a.getCurrentState().initiateState(a, hw);
+	}
     
 	/**
 	 * Method called by the States to display a message about specific information of the current State
@@ -61,6 +75,8 @@ public class AddingPointPreceedingPickupState implements State {
 	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(false, false, false, false, false, false, false,  false, false, true);
+        hw.setButtonsEnabled(false, false, false, false, false, false, false,  true, l.redoPossible(), true);
 	}
+
+	
 }
