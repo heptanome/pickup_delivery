@@ -61,30 +61,61 @@ public class CityMap {
 		}
 	}
 
+	/**
+	 * Get the amount of vertices
+	 * @return the number of vertices
+	 */
 	public int getNbVertices() {
 		return this.nbVertices;
 	}
 
+	/**
+	 * Get the map to easily find an id of an intersection by giving this intersection 
+	 * @return a map with as key an intersection and as value an id
+	 */
 	public Map<Intersection, Integer> getNumberIdMap() {
 		return numberToIdMap;
 	}
 
-	public int getIntFromIntersectionMap(Intersection number) {
-		return numberToIdMap.get(number);
+	/**
+	 * Find the id of an intersection
+	 * @param intersection
+	 * 			Intersection which we need to find its id
+	 * @return the id corresponding of the intersection given in the parameters
+	 */
+	public int getIntFromIntersectionMap(Intersection intersection) {
+		return numberToIdMap.get(intersection);
 	}
 
+	/**
+	 * Find a intersection with its id
+	 * @param id
+	 * 			Id of an intersection to find
+	 * @return the intersection corresponding of the id given in the parameters
+	 */
 	public Intersection getIntersectionFromIdMap(int id) {
 		return idToNumberMap.get(id);
 	}
 
+	/**
+	 * Get the intersections corresponding of roads in the city map
+	 * @return a list of intersection of the city map
+	 */
 	public List<Intersection> getInstersections() {
 		return intersections;
 	}
 
+	/**
+	 * Get the roads of a map
+	 * @return a list of segments of the city map
+	 */
 	public List<Segment> getSegments() {
 		return segments;
 	}
 
+	/**
+	 * Convert information of a CityMap to a String
+	 */
 	public String toString() {
 		String message = "";
 		message += "Intersections :\n";

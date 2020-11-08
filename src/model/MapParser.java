@@ -17,6 +17,12 @@ public class MapParser extends Parser {
 	private List<Intersection> intersectionsList;
 	private List<Segment> segmentsList;
 
+	/**
+	 * Constructor 
+	 * @param fp
+	 * 			File to parse
+	 * @throws Exception
+	 */
 	public MapParser(String fp) throws Exception {
 		super(fp);
 	}

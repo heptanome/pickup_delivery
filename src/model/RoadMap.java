@@ -102,6 +102,25 @@ public class RoadMap {
 	 * 			Actual path after the tour's been computed
 	 */
 	public void deleteRequest(Request requestToDelete, CityMap cityMap, LinkedList<Segment> path){
+		
+		/* There are two main cases :
+		  * 	- the delivery address of the request to delete does not follow its pickup address : 
+		  * 		2 new paths have to be computed and added to the tour :
+		  * 		from beforePickup to afterPickup and from beforeDelivery to afterDelivery
+		  * 
+		  * 	- the delivery address of the request to delete does not follow its pickup address :
+		  * 		1 new path has to be computed and added to the tour :
+		  * 		from beforePickup to afterDelivery
+		  * 
+		  * The method is in three steps :
+		  * 	- finding important points, such as afterDelivery and afterPickup, and adding the new Request into the
+		  * 		the list of addresses that have to be visited
+		  * 	
+		  * 	- computing the new shortest intermediates paths, and finding all the intermediates nodes from the cityMap
+		  * 	
+		  * 	- cutting and concatenating the old path in order to create a new path with the new intermediates paths.
+		  * */
+
 		int indexPickUpToDelete = this.orderedAddresses.indexOf(requestToDelete.getPickup());
 		int indexDeliveryToDelete = this.orderedAddresses.indexOf(requestToDelete.getDelivery());
 		
@@ -119,6 +138,7 @@ public class RoadMap {
 		LinkedList<Segment> deliveryPath = new LinkedList<Segment>();
 		List<Intersection> zone = new ArrayList<Intersection>(2);
 		
+		//Compute the new shortest intermediates paths
 		if (beforeDelivery == requestToDelete.getPickup()) {
 			Intersection[] addressesPickup = {beforePickup, afterDelivery};
 			pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
