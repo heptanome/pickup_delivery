@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.List;
+import java.util.LinkedList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import model.CityMap;
 import model.Intersection;
 import model.Request;
-import model.Segment;
+import model.RoadMap;
 import model.SetOfRequests;
 
 public class TextualView extends JPanel {
@@ -116,8 +116,9 @@ public class TextualView extends JPanel {
 
 	}
 
-	public void displayTour(SetOfRequests sor, List<Segment> segments) {
+	public void displayTour(RoadMap roadMap) {
 
+		System.out.println("DisplayTour avec RoadMap");
 		// creation du conteneur du tableau
 		JPanel conteneurTabTour = new JPanel();
 		// conteneurTabTour.setBackground(Color.orange);
@@ -132,11 +133,24 @@ public class TextualView extends JPanel {
 		JLabel titreTour = new JLabel("Tour : ", JLabel.LEFT);
 		titreTour.setBounds(0, 0, 400, 50);
 		titreTour.setFont(fontTitle);
-
+		
+		//recuperation donnees
+		
+		LinkedList<Intersection> orderedAddresses = roadMap.getOrderedAddresses();
+		String [][] tabData = new String [orderedAddresses.size()][4];
+		
+		
+		int i = 0;
+		for (Intersection inter : orderedAddresses) {
+			String [] obj = {Integer.toString(i + 1), "Type", inter.getNumber(), "Duration"};
+			System.out.println(obj[2]);
+			tabData[i] = obj;
+			i++;
+		}
+		
+		System.out.println("Entree dans iner");
 		// creation tab de donnees
-		// String [][] tabData = new String [4][5];
-		String[][] tabData = { { "1", "Delivery", "A", "2s" }, { "1", "Delivery", "A", "2s" },
-				{ "1", "Delivery", "A", "2s" }, { "1", "Delivery", "A", "2s" } };
+		//String[][] tabData = { { "1", "Delivery", "A", "2s" }, { "1", "Delivery", "A", "2s" },{ "1", "Delivery", "A", "2s" }, { "1", "Delivery", "A", "2s" } };
 		String[] tadHeader = { "Order", "Type", "Adress", "Duration" };
 
 		DefaultTableModel tableModel = new DefaultTableModel(tabData, tadHeader) {

@@ -27,8 +27,10 @@ import javax.swing.JPanel;
 import model.CityMap;
 import model.Intersection;
 import model.Request;
+import model.RoadMap;
 import model.Segment;
 import model.SetOfRequests;
+import model.Tour;
 import view.graphical.ZoomBox;
 
 /**
@@ -258,11 +260,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * @param segments An ordered (linked) list of segments the cyclist will have to
 	 *                 follow
 	 */
-	public void tourComputed(List<Segment> segments) {
+	public void tourComputed(List<Segment> segments, RoadMap roadMap) {
 		this.helpText = "<html>Your tour has been computed.<br> Feel free to add or delete a point.</html>";
 		gv.displayTour(segments);
-		tv.displayTour(this.loadedSOR, segments);
-		// TODO textual container & road map (file)
+		tv.displayTour(roadMap);
 	}
 
 	public Request getNewRequest() {
@@ -619,7 +620,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			this.setRequests((SetOfRequests) evt.getNewValue());
 			break;
 		case "tourComputed":
-			this.tourComputed((List<Segment>) evt.getNewValue());
+			Tour tour = (Tour) evt.getNewValue();
+			List<Segment> segments = tour.getPath();
+			RoadMap roadMap = tour.getRoadMap();
+			this.tourComputed(segments, roadMap);
 			break;
 		case "selectCell":
 			this.selectCell((Intersection) evt.getNewValue());

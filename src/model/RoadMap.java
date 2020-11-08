@@ -1,13 +1,12 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
 import tsp.CompleteGraph;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 
 /**
  * Road map that the delivery man should follow
@@ -31,6 +30,8 @@ public class RoadMap {
 	 * @type 						 : SetOfRequests
 	 */
 	public RoadMap(List<Segment> roadsAfterComputedTour, SetOfRequests initialSetOfRequests) {
+		
+		System.out.println("Utilisation RoadMap");
 		this.setOfRequests = initialSetOfRequests;
 		this.mapAddressToRequest = new HashMap<Intersection,Request>();
 		this.orderedAddresses = new LinkedList<Intersection>();
@@ -287,4 +288,13 @@ public class RoadMap {
 	public boolean isLastIntersection(Intersection i) {
 		return this.orderedAddresses.getLast() == i;
 	}
+	
+	public LinkedList<Intersection> getOrderedAddresses() {
+		return orderedAddresses;
+	}
+	
+	public HashMap<Intersection, Request> getMapAddressToRequest() {
+		return mapAddressToRequest;
+	}
+
 }
