@@ -1,5 +1,6 @@
 package view.graphical;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -7,7 +8,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import view.GraphicalView;
 
@@ -18,7 +18,6 @@ public class ZoomBox extends JPanel {
 	private final int OFFSET = -105;
 	private final int ZOOM = 2;
 
-	private Timer timer;
 	private int x, y, imgWidth, imgHeight;
 	private BufferedImage img;
 	private GraphicalView gv;
@@ -40,9 +39,13 @@ public class ZoomBox extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(img, -x * ZOOM + OFFSET, -y * ZOOM + OFFSET, imgWidth, imgHeight, this);
-		g.setColor(Color.black);
-		g.drawLine(0, WIDTH / 2, HEIGHT, WIDTH / 2);
-		g.drawLine(HEIGHT / 2, 0, HEIGHT / 2, WIDTH);
+
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setStroke(new BasicStroke(1f));
+
+		g2d.setColor(Color.black);
+		g2d.drawLine(75, 100, 125, 100);
+		g2d.drawLine(100, 75, 100, 125);
 
 	}
 
