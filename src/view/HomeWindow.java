@@ -175,6 +175,16 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnUndo.setEnabled(undoB);
 		btnRedo.setEnabled(redoB);
 		btnHelp.setEnabled(sosB);
+
+		/**
+		 * XXX the setButtonEnabled function is called on all (almost?) each state
+		 * change, so I'm car-jacking it to update the zoom image when needed
+		 * 
+		 * This is not the most proper way to do it, that's why I'll flag it with TODO
+		 */
+		if (zoom != null) {
+			zoom.updateImage();
+		}
 	}
 
 	/**
@@ -193,8 +203,14 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		graphicalContainer.repaint();
 
 		if (map != null) {
+			// reset the graphical map
 			gv = new GraphicalView(this.loadedMap);
 			graphicalContainer.add(gv);
+
+			// and reset its zoom
+			zoom = new ZoomBox(gv);
+			graphicalContainer.add(zoom);
+
 			this.helpText = "<html>The map has been loaded. <br> Please load a requests file now.</html>";
 		}
 
@@ -465,7 +481,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		public void mouseClicked(MouseEvent e) {
 			// Only works if there is a map loaded
 			if (loadedMap != null) {
-				System.out.println("clic");
 				Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
 				if (selectedPoint != null) {
 					System.out.println(selectedPoint);
@@ -478,17 +493,9 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	}
 
 	public class MouseMotionOnMapListener implements MouseMotionListener {
-
-		public MouseMotionOnMapListener() {
-			zoom = new ZoomBox(gv);
-			zoom.updateImage();
-			graphicalContainer.add(zoom);
-		}
-
 		@Override
 		public void mouseDragged(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
