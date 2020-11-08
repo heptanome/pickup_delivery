@@ -264,7 +264,7 @@ public class CompleteGraph implements Graph {
 					}
 				}
 			}
-			//Onode becomes black
+			//Node becomes black
 			colorNodes[currentNode]=-1;
 			indexBegin++;
 		}
