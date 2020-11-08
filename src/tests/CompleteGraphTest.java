@@ -17,7 +17,7 @@ import model.Segment;
 import model.SetOfRequests;
 import tsp.CompleteGraph;
 
-class CompleteGraphTest {
+class CompleteGraphTest extends GraphTest {
 	CompleteGraph completeGraph;
 	
 	private List<Intersection> intersections;
@@ -55,6 +55,7 @@ class CompleteGraphTest {
 	}
 	
 	@Test
+	@Override
 	void testGetNbVertices() {
 		assertEquals(completeGraph.getNbVertices(), requests.size()*2 + 1);
 	}
@@ -62,6 +63,7 @@ class CompleteGraphTest {
 	/*
 	 TODO : Se renseigner sur l'algorithme de calcul de coûts. Est-ce qu'on peut le tester sans le réecrire ici ? Comment ?
 	@Test
+	@Override
 	void testGetCost() {
 		assertEquals(-1, completeGraph.getCost(-1,3));
 		for (int i = 1; i < completeGraph.getNbVertices(); i++) {
@@ -72,6 +74,7 @@ class CompleteGraphTest {
 	*/
 	
 	@Test
+	@Override
 	void testIsArc() {
 		for (int i = 1; i < completeGraph.getNbVertices(); i++) {
 			assertTrue(completeGraph.isArc(i-1, i));
@@ -80,19 +83,34 @@ class CompleteGraphTest {
 	}
 	
 	@Test
+	@Override
 	void testIsDeliveryAddress() {
 		assertTrue(completeGraph.isDeliveryAddress(1));
 	}
 	
-	/* TODO : Demander et commenter quels sont les paramètres d'entrée et de sortie de la méthode testée
+	@Test
+	@Override
+	void testGetCost() {
+		assertEquals(completeGraph.getCost(1, 1), 0);
+		assertEquals(completeGraph.getCost(1, 2), completeGraph.getCost(2, 3));
+		assertEquals(completeGraph.getCost(1, 10), -1);
+	}
+	
+	@Test
+	@Override
+	void testMinArcCost() {
+		assertEquals(completeGraph.minArcCost(), 0);
+	}
+	
 	@Test
 	void testGetPickUpFromDelivery() {
+		/* TODO : Demander et commenter quels sont les paramètres d'entrée et de sortie de la méthode testée
 		for (int i=0; i< completeGraph.getNbVertices(); i++) {
 			if (completeGraph.isDeliveryAddress(i)) {
 				assertTrue(completeGraph.getPickUpFromDelivery(i) == 2 || completeGraph.getPickUpFromDelivery(i) == 4);
 			}
-		}
-	}*/
+		}*/
+	}
 
 	@Test
 	void testToString() {
