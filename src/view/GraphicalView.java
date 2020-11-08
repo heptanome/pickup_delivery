@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -39,6 +40,7 @@ public class GraphicalView extends JPanel {
 	private List<GraphicalPoint> graphicalPoints;
 	private Intersection selectedPoint;
 	private List<GraphicalSegment> graphicalSegments;
+	private HashMap<String, GraphicalPoint> graphicalPointMap;
 
 	/**
 	 * Constructor
@@ -56,6 +58,7 @@ public class GraphicalView extends JPanel {
 		minLongi = Float.POSITIVE_INFINITY;
 		maxLat = 0;
 		maxLongi = 0;
+		graphicalPointMap = new HashMap<>();
 
 		if (loadedMap != null) {
 			intersections = loadedMap.getInstersections();
@@ -126,6 +129,7 @@ public class GraphicalView extends JPanel {
 		for (Intersection i : intersections) {
 			GraphicalPoint gp = new GraphicalPoint(i, minLat, minLongi, maxLat, maxLongi);
 			graphicalPoints.add(gp);
+			graphicalPointMap.put(i.getNumber(), gp);
 		}
 
 		// Graphical segments
@@ -244,18 +248,9 @@ public class GraphicalView extends JPanel {
 	 */
 	public GraphicalSegment createSegment(String idOrigin, String idDestination) {
 		// Go through the list to find the intersection
-		int i = 0;
-		GraphicalPoint origin = null;
-		GraphicalPoint destination = null;
-		while ((i < graphicalPoints.size()) && (origin == null || destination == null)) {
-			if (idOrigin.equals(graphicalPoints.get(i).getPoint().getNumber())) {
-				origin = graphicalPoints.get(i);
-			}
-			if (idDestination.equals(graphicalPoints.get(i).getPoint().getNumber())) {
-				destination = graphicalPoints.get(i);
-			}
-			i++;
-		}
+		GraphicalPoint origin = graphicalPointMap.get(idOrigin);
+		GraphicalPoint destination = graphicalPointMap.get(idDestination);
+
 		if (origin != null && destination != null) {
 			GraphicalSegment gs = new GraphicalSegment(origin, destination);
 			return gs;
