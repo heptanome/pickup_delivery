@@ -1,9 +1,5 @@
 package controller;
 
-import java.io.IOException;
-
-import org.xml.sax.SAXException;
-
 import model.Tour;
 import view.HomeWindow;
 
@@ -26,7 +22,7 @@ public class HomeState implements State {
 
 	@Override
     public void setButtons(HomeWindow hw) {
-        hw.setButtonsEnabled(true, false, false, false, false, false, false, false);
+        hw.setButtonsEnabled(true, false, false, false, false, false, false, true);
 	}
 
 }

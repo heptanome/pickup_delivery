@@ -1,9 +1,5 @@
 package controller;
 
-import java.io.IOException;
-
-import org.xml.sax.SAXException;
-
 import model.Tour;
 import view.HomeWindow;
 
@@ -35,7 +31,7 @@ public class MapWithoutRequestsState implements State {
 
 	@Override
     public  void setButtons(HomeWindow hw) {
-        hw.setButtonsEnabled(true, true, false, false, false, false, false, false);
+        hw.setButtonsEnabled(true, true, false, false, false, false, false, true);
 	}
 
 }
