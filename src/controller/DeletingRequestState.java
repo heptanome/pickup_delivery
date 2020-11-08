@@ -29,6 +29,8 @@ public class DeletingRequestState implements State {
 		} 
 		//Go to the next state : DisplayingTourOnMapState
 		a.setCurrentState(a.displayingTourState);
+		a.getCurrentState().setButtons(hw);
+		a.getCurrentState().setMouseListener(hw);
 		
     }
 	
@@ -37,6 +39,13 @@ public class DeletingRequestState implements State {
         JOptionPane.showMessageDialog(hw, "Select a colored point on the map so that the corresponding request will "
         		+ "be deleted (pickup and delivery point)");
 	}
+	
+	@Override
+    public void setMouseListener(HomeWindow hw) {
+        hw.removeAllMouseListeners();
+        //The new pickup intersection can be any type of intersection : A special one (depot, pickup or delivery) or not.
+		hw.addSingleMouseClickOnSpecialPointListener();
+    }
 
 	@Override
     public  void setButtons(HomeWindow hw) {

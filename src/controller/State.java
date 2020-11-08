@@ -12,6 +12,8 @@ public interface State {
 	 * Method called by the controller after a click on the button "Load a map" and the selection of 
 	 * a xml file containing the map, in the file system.
 	 * 
+	 * @param a the controller of the application
+	 * @param homeWindow the main window of the application
 	 * @param fp the file path to the map (xml file)
 	 * @param tour the tour that will use the map
 	 */
@@ -22,6 +24,8 @@ public interface State {
 	 * Method called by the controller after a click on the button "Load a set of requests" and the selection of 
 	 * a xml file containing the set of requests, in the file system.
 	 * 
+	 * @param a the controller of the application
+	 * @param homeWindow the main window of the application
 	 * @param fp the file path to the map (xml file)
 	 * @param tour the tour that will use the map
 	 */
@@ -29,22 +33,17 @@ public interface State {
 	}
 	
    /**
-	 * Method called by the controller after a click on the button "Compute Tour"
+	 * Method called by the controller after a click on the button "Add a request".
 	 * 
+	 * @param a the controller of the application
+	 * @param homeWindow the main window of the application
 	 */
-	public default void computeTour(Application a, HomeWindow hw, Tour tour) {	
+	public default void addRequests(Application a, HomeWindow hw) {
 	}
-
-	/**
-	 * Method called by the controller to cancel a running process
-	 * 
-	 */
-	public default void cancel() {
-	}
-
+	
    /**
-	 * Method called by the controller after a click on the button "Load a set of requests" and the selection of 
-	 * a xml file containing the set of requests, in the file system.
+	 * Method called by the controller when a point (an intersection) is selected on the map in one of
+	 * the process of adding a request, or when deleting a request.
 	 * 
 	 * @param i the Intersection clicked
 	 * @param hw the HomeWindow
@@ -53,9 +52,35 @@ public interface State {
 	 */
 	public default void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a){
 	}
-
+	
+   /**
+	 * Method called by the controller to delete a request from the tour 
+	 * @param a the controller of the application
+	 * @param homeWindow the main window of the application
+	 */
+	public default void deleteRequests(Application a, HomeWindow hw)  {
+	}
+	
+   /**
+	 * Method called by the controller after a click on the button "Compute Tour"
+	 * 
+ 	 * @param a the controller of the application
+	 * @param homeWindow the main window of the application
+	 * @param tour the tour that will be calculate
+	 */
+	public default void computeTour(Application a, HomeWindow hw, Tour tour) {	
+	}
+	
 	/**
-	 * Method called by the controller to change the mouse listeners of a HomeWindow
+	 * Method called by the States to display a message about specific information of the current State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	public default void describeState(HomeWindow hw) {
+	}
+	
+	/**
+	 * Method called by the state to change the mouse listeners of a HomeWindow
 	 * according to the State
 	 * 
 	 * @param hw the HomeWindow
@@ -64,11 +89,10 @@ public interface State {
 	}
 
 	/**
-	 * Method called by the controller to display a message about specific information of the current State
+	 * Method called by the controller to cancel a running process
 	 * 
-	 * @param hw the HomeWindow
 	 */
-	public default void describeState(HomeWindow hw) {
+	public default void cancel() {
 	}
 
 	/**

@@ -21,17 +21,21 @@ public class AddingPointPreceedingPickupState implements State {
             hw.setPreceedingPickup(i);
 
             // Go to the next state (AddingDeliveryAdress)
-            a.setCurrentState(a.ada);
+			a.setCurrentState(a.ada);
+			a.getCurrentState().setButtons(hw);
+			a.getCurrentState().describeState(hw);
+			a.getCurrentState().setMouseListener(hw);
     }
 
     
     @Override
 	public void describeState(HomeWindow hw) {
-        JOptionPane.showMessageDialog(hw, "Select a point on the map (colored point) that will preceed the pickup point"); 
+        JOptionPane.showMessageDialog(hw, "Select a point on the map (colored point) that will preceed the pickup point");
+        System.out.println("appp");
     }
     
-    @Override
-    public  void setMouseListener(HomeWindow hw) {
+	@Override
+    public void setMouseListener(HomeWindow hw) {
         hw.removeAllMouseListeners();
 		hw.addSingleMouseClickOnSpecialPointListener();
     }

@@ -28,18 +28,22 @@ public class AddingPickupAddressState implements State {
             hw.setNewRequest(newR);
 
             //Go to the next state (AddingPointPreceedingPickupState)
-            a.setCurrentState(a.appp);
+			a.setCurrentState(a.appp);
+			a.getCurrentState().setButtons(hw);
+			a.getCurrentState().describeState(hw);
+			a.getCurrentState().setMouseListener(hw);
 
     }
     
     
     @Override
 	public void describeState(HomeWindow hw){
-        JOptionPane.showMessageDialog(hw, "Select a pickup point on the map for the new request"); 
+        JOptionPane.showMessageDialog(hw, "Select a pickup point on the map for the new request");
+		System.out.println("apa");
     }
     
-    @Override
-    public  void setMouseListener(HomeWindow hw) {
+	@Override
+    public void setMouseListener(HomeWindow hw) {
         hw.removeAllMouseListeners();
         //The new pickup intersection can be any type of intersection : A special one (depot, pickup or delivery) or not.
 		hw.addSingleMouseClickOnAnyPointListener();

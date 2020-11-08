@@ -14,8 +14,8 @@ import model.Tour;
  */
 public class AddingDeliveryAddressState implements State {
 	
-	@Override
-	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a){
+	@Override 
+	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
 
 			//Get delivery duration
 			int duration = Integer.parseInt(JOptionPane.showInputDialog (hw, "Enter a delivery duration (number of minutes)"));
@@ -29,16 +29,20 @@ public class AddingDeliveryAddressState implements State {
 
 			//Go to the next state (AddingPointPreceedingDeliveryState)
 			a.setCurrentState(a.appd);
+			a.getCurrentState().setButtons(hw);
+			a.getCurrentState().describeState(hw);
+			a.getCurrentState().setMouseListener(hw);
 	}
 
 
 	@Override
 	public void describeState(HomeWindow hw) {
 		JOptionPane.showMessageDialog(hw, "Select a delivery point on the map  for the new request");  
+		System.out.println("ada");
 	}
 
 	@Override
-    public  void setMouseListener(HomeWindow hw) {
+    public void setMouseListener(HomeWindow hw) {
 		hw.removeAllMouseListeners();
 		//The new delivery intersection can be any type of intersection : A special one (depot, pickup or delivery) or not.
 		hw.addSingleMouseClickOnAnyPointListener();
