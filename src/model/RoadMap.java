@@ -42,7 +42,7 @@ public class RoadMap {
 	 * 			Actual path after the tour's been computed
 	 */
 	public void addRequest(Request newRequest, Intersection beforePickup,
-							Intersection beforeDelivery, CityMap cityMap,List<Segment> path) {
+							Intersection beforeDelivery, CityMap cityMap, LinkedList<Segment> path) {
 
 		Intersection newPickup = newRequest.getPickup();
 		Intersection newDelivery = newRequest.getDelivery();
@@ -55,8 +55,8 @@ public class RoadMap {
 		this.orderedAddresses.add(indexBeforePickup, newDelivery);
 		this.orderedAddresses.add(indexBeforeDelivery, newPickup);
 		
-		List<Segment> pickupPath = new LinkedList<Segment>();
-		List<Segment> deliveryPath = new LinkedList<Segment>();
+		LinkedList<Segment> pickupPath = new LinkedList<Segment>();
+		LinkedList<Segment> deliveryPath = new LinkedList<Segment>();
 		List<Intersection> zone = new ArrayList<Intersection>(4);
 		if(beforePickup == beforeDelivery) {
 			Intersection[] addresses = {beforePickup, newPickup, newDelivery, afterDelivery};
@@ -83,9 +83,9 @@ public class RoadMap {
 	 * @param path
 	 * 			Actual path after the tour's been computed
 	 */
-	public void deleteRequest(Request requestToDelete, CityMap cityMap, List<Segment> path){
+	public void deleteRequest(Request requestToDelete, CityMap cityMap, LinkedList<Segment> path){
 		int indexPickUpToDelete = this.orderedAddresses.indexOf(requestToDelete.getPickup());
-		int indexDeliveryToDelete = this.orderedAddresses.indexOf(requestToDelete.getDelivery());
+		int indexDeliveryToDelete = this.orderedAddresses.lastIndexOf(requestToDelete.getDelivery());
 		
 		//Get the intersections before and after the request to delete
 		Intersection beforePickup = this.orderedAddresses.get(indexPickUpToDelete-1);
@@ -95,20 +95,21 @@ public class RoadMap {
 		
 		//Remove the request to delete
 		this.orderedAddresses.remove(indexPickUpToDelete);
-		this.orderedAddresses.remove(indexDeliveryToDelete);
+		this.orderedAddresses.remove(indexDeliveryToDelete-1);
 		
+		LinkedList<Segment> pickupPath = new LinkedList<Segment>();
+		LinkedList<Segment> deliveryPath = new LinkedList<Segment>();
 		List<Intersection> zone = new ArrayList<Intersection>(2);
 		
-		//Calculate the new path between the intersections before and after the PickUp Address of the deleted request
-		List<Segment> pickupPath = new LinkedList<Segment>();
-		Intersection[] addressesPickup = {beforePickup, afterPickup};
-		pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
-
-		//Calculate the new path between the intersections before and after the Delivery Address of the deleted request
-		List<Segment> deliveryPath = new LinkedList<Segment>();
-		Intersection[] addressesDelivery = {beforeDelivery, afterDelivery};
-		deliveryPath = this.findNewRoads(zone, cityMap, addressesDelivery);
-		
+		if (beforeDelivery == requestToDelete.getPickup()) {
+			//TO DO
+		} else {
+			Intersection[] addressesPickup = {beforePickup, afterPickup};
+			pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
+	
+			Intersection[] addressesDelivery = {beforeDelivery, afterDelivery};
+			deliveryPath = this.findNewRoads(zone, cityMap, addressesDelivery);
+		}
 		calculateNewTotalPath(path, pickupPath, deliveryPath, beforePickup, afterPickup, beforeDelivery, afterDelivery);
 	}
 
@@ -215,8 +216,16 @@ public class RoadMap {
 		addressesToFind.remove(currentIntersection);
 	}
 	
-	private List<Segment> adjustRoadMap(List<Intersection> zone, CityMap cm){
-		List<Segment> path = new LinkedList<Segment>();
+	private LinkedList<Segment> findNewRoads(List<Intersection> zone, CityMap cityMap, Intersection[] addresses) {
+		zone.clear();
+		for(Intersection address : addresses) {
+			zone.add(address);
+		}
+		return adjustRoadMap(zone, cityMap);
+	}
+
+	private LinkedList<Segment> adjustRoadMap(List<Intersection> zone, CityMap cm){
+		LinkedList<Segment> path = new LinkedList<Segment>();
 		
 		CompleteGraph pickupGraph = new CompleteGraph(cm, zone);
 		
@@ -251,7 +260,7 @@ public class RoadMap {
 		return path;
 	}
 
-	private void addIntersectionToPath(ListIterator<Segment> iterator, Segment next, 
+	private Segment addIntersectionToPath(ListIterator<Segment> iterator, Segment next, 
 										List<Segment> listSegments, Intersection intersectionLimit ) {
 		while(next.getOrigin() != intersectionLimit && iterator.hasNext()) {
 			if(listSegments != null) {
@@ -259,33 +268,39 @@ public class RoadMap {
 			}
 			next = iterator.next();
 		}
-	}
-
-	private List<Segment> findNewRoads(List<Intersection> zone, CityMap cityMap, Intersection[] addresses) {
-		zone.clear();
-		for(Intersection address : addresses) {
-			zone.add(address);
-		}
-		return adjustRoadMap(zone, cityMap);
+		return next;
 	}
 	
-	private List<Segment> calculateNewTotalPath(List<Segment> path, List<Segment> pickupPath, List<Segment> deliveryPath,
+	private LinkedList<Segment> calculateNewTotalPath(LinkedList<Segment> path, LinkedList<Segment> pickupPath, LinkedList<Segment> deliveryPath,
 			Intersection beforePickup, Intersection afterPickup, Intersection beforeDelivery, Intersection afterDelivery){
 
-		List<Segment> beginning = new LinkedList<Segment>();
-		List<Segment> middle = new LinkedList<Segment>();
-		List<Segment> end = new LinkedList<Segment>();
+		LinkedList<Segment> beginning = new LinkedList<Segment>();
+		LinkedList<Segment> middle = new LinkedList<Segment>();
+		LinkedList<Segment> end = new LinkedList<Segment>();
 		ListIterator<Segment> iterator = path.listIterator();
 		Segment next = iterator.next();
-		
+
 		this.addIntersectionToPath(iterator, next, beginning, beforePickup);
-		this.addIntersectionToPath(iterator, next, null, afterPickup);
+		while(next.getOrigin() != afterPickup && iterator.hasNext()) {
+			next = iterator.next();
+		}
 		this.addIntersectionToPath(iterator, next, middle, beforeDelivery);
-		this.addIntersectionToPath(iterator, next, null, afterDelivery);
-		this.addIntersectionToPath(iterator, next, end, null);
+		while(next.getOrigin() != afterDelivery && iterator.hasNext()) {
+			next = iterator.next();
+		}
+		Segment lastSegment = this.addIntersectionToPath(iterator, next, end, null);
 		
-		if(!this.isLastIntersection(afterDelivery))
-			end.add(next);
+		if(lastSegment != null) {
+			if (!end.isEmpty() || deliveryPath.getLast().getDestination() != lastSegment.getDestination()) {
+				end.add(lastSegment);
+			}
+		}
+		
+		System.out.println("BEGINNING "+ beginning);
+		System.out.println("PICKUP PATH "+ pickupPath);
+		System.out.println("MIDDLE "+ middle);
+		System.out.println("DELIVERY PATH "+ deliveryPath);
+		System.out.println("END "+ end);
 		
 		path.clear();
 		path.addAll(beginning);

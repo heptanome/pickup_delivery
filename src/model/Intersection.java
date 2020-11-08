@@ -42,6 +42,7 @@ public class Intersection {
 	}
 
 	public String toString() {
-		return "id : " + number + " {" + latitude + ", " + longitude + "}.";
+		//return "id : " + number + " {" + latitude + ", " + longitude + "}.";
+		return "id : " + number;
 	}
 }

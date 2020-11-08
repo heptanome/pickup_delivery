@@ -21,7 +21,7 @@ public class Tour {
 	public CityMap map;
 	public SetOfRequests setOfRequests;
 	private PropertyChangeSupport support;
-	private List<Segment> path;
+	private LinkedList<Segment> path;
 	private RoadMap roadMap;
 
 	public Tour() {
@@ -32,10 +32,6 @@ public class Tour {
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
 		support.addPropertyChangeListener(pcl);
-	}
-	
-	public RoadMap getRoadMap() {
-		return roadMap;
 	}
 
 	/**
@@ -83,7 +79,6 @@ public class Tour {
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this.path);
 		System.out.println("A request was added");
-		System.out.println(this.path.toString());
 	}
 	
 	/**
@@ -92,15 +87,11 @@ public class Tour {
 	 * 			request to delete
 	 */
 	public void deleteRequest(Request request) {
-		System.out.println(this.path.toString());
-		System.out.println("------");
 		this.setOfRequests.deleteRequest(request);
 		this.roadMap.deleteRequest(request, this.map, this.path);
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this.path);
 		System.out.println("A request was deleted");
-		System.out.println(this.path.toString());
-		
 	}
 
 	/**
@@ -160,5 +151,10 @@ public class Tour {
 		support.firePropertyChange("tourComputed", null, this.path);
 		return this.path;
 	}
+
+	public RoadMap getRoadMap() {
+		return roadMap;
+	}
+	
 	
 }
