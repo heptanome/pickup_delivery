@@ -68,6 +68,9 @@ public class GraphicalView extends JPanel {
 		g.fillRect(0, 0, 820, 820);
 
 		// Draw segments
+		List<GraphicalSegment> coloredSegments = new LinkedList<GraphicalSegment>(); // To store the colored
+																						  // segments and draw them
+																						  // at the end
 		Graphics2D g2d = (Graphics2D) g;
 		Stroke normalRoad = new BasicStroke(1f);
 		Stroke importantRoad = new BasicStroke(5f);
@@ -75,17 +78,20 @@ public class GraphicalView extends JPanel {
 		for (GraphicalSegment gs : graphicalSegments) {
 			if (gs != null) {
 				if (gs.getOnPath() == 1) {
-					g2d.setStroke(importantRoad);
+					coloredSegments.add(gs);
 				}
 				g2d.setColor(gs.getColor());
 				g2d.drawLine(gs.getXOriginPixel(), gs.getYOriginPixel(), gs.getXDestPixel(), gs.geYDestPixel());
-				if (gs.getOnPath() == 1) {
-					g2d.setStroke(normalRoad);
-				}
 			}
 		}
+		//Draw colored segments (those on the tour) on top
+		g2d.setStroke(importantRoad);
+		for (GraphicalSegment gs : coloredSegments) {
+			g2d.setColor(gs.getColor());
+			g2d.drawLine(gs.getXOriginPixel(), gs.getYOriginPixel(), gs.getXDestPixel(), gs.geYDestPixel());
+		}
 
-		// Draw intersections
+		// Draw all intersections
 		List<GraphicalPoint> coloredIntersections = new LinkedList<GraphicalPoint>(); // To store the colored
 																						// intersections and draw them
 																						// at the end
@@ -97,7 +103,7 @@ public class GraphicalView extends JPanel {
 				coloredIntersections.add(gp);
 			}
 		}
-
+		//Draw colored intersections (special ones)
 		for (GraphicalPoint gp : coloredIntersections) {
 			g.setColor(gp.getColor());
 			g.fillOval(gp.getXPixel(), gp.getYPixel(), gp.getSize(), gp.getSize());
