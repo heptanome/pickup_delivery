@@ -43,10 +43,7 @@ public class GraphicalView extends JPanel {
 	 */
 	public GraphicalView(CityMap loadedMap) {
 		setLayout(null);
-		setBounds(0, 0, GV_WIDTH, GV_HEIGHT); 
-		intersections = loadedMap.getInstersections();
-		segments = loadedMap.getSegments();
-
+		setBounds(0, 0, GV_WIDTH, GV_HEIGHT);
 		graphicalPoints = new LinkedList<GraphicalPoint>();
 		selectedPoint = null;
 		graphicalSegments = new LinkedList<GraphicalSegment>();
@@ -54,9 +51,15 @@ public class GraphicalView extends JPanel {
 		minLongi = Float.POSITIVE_INFINITY;
 		maxLat = 0;
 		maxLongi = 0;
-		setExtemeCoordinates();
 
-		displayMap();
+		if(loadedMap != null){
+			intersections = loadedMap.getInstersections();
+			segments = loadedMap.getSegments();
+			setExtemeCoordinates();
+			displayMap();
+		}
+
+		
 	}
 
 	/**
@@ -169,34 +172,36 @@ public class GraphicalView extends JPanel {
 		clearTourOnMap();
 		clearSelectedPoint();
 
-		// Look for the departure point
-		int i = 0;
-		boolean found = false;
-		while (i < graphicalPoints.size() && !found) {
-			if (sr.getDepotAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
-				graphicalPoints.get(i).setColor(Color.yellow);
-				graphicalPoints.get(i).setSize(12);
-				found = true;
-			}
-			i++;
-		}
-
-		// Change the color of pickup and delivery points
-		for (Request r : sr.getRequests()) {
-			i = 0;
-			boolean dFound = false;
-			boolean pFound = false;
-			while (i < graphicalPoints.size() && (!pFound || !dFound)) {
-				if (r.getPickupAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
-					graphicalPoints.get(i).setColor(Color.BLUE);
+		if(sr != null){
+			// Look for the departure point
+			int i = 0;
+			boolean found = false;
+			while (i < graphicalPoints.size() && !found) {
+				if (sr.getDepotAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
+					graphicalPoints.get(i).setColor(Color.yellow);
 					graphicalPoints.get(i).setSize(12);
-					pFound = true;
-				} else if (r.getDeliveryAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
-					graphicalPoints.get(i).setColor(Color.MAGENTA);
-					graphicalPoints.get(i).setSize(12);
-					dFound = true;
+					found = true;
 				}
 				i++;
+			}
+
+			// Change the color of pickup and delivery points
+			for (Request r : sr.getRequests()) {
+				i = 0;
+				boolean dFound = false;
+				boolean pFound = false;
+				while (i < graphicalPoints.size() && (!pFound || !dFound)) {
+					if (r.getPickupAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
+						graphicalPoints.get(i).setColor(Color.BLUE);
+						graphicalPoints.get(i).setSize(12);
+						pFound = true;
+					} else if (r.getDeliveryAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
+						graphicalPoints.get(i).setColor(Color.MAGENTA);
+						graphicalPoints.get(i).setSize(12);
+						dFound = true;
+					}
+					i++;
+				}
 			}
 		}
 

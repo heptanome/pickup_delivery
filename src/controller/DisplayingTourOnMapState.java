@@ -10,7 +10,7 @@ public class DisplayingTourOnMapState implements State {
 	
 	@Override
 	public void initiateState(Application a, HomeWindow hw) {
-		setButtons(hw);
+		setButtons(hw, a.getListOfCommands());
 		setMouseListener(hw);
 	}
 	
@@ -74,13 +74,14 @@ public class DisplayingTourOnMapState implements State {
 		hw.addMouseOnMapListener();
 	}
 
+
 	/**
 	 * Method called by the state to update which buttons are enabled depending on the state
 	 * 
 	 * @param hw the HomeWindow
 	 */
-    private void setButtons(HomeWindow hw) {
-        hw.setButtonsEnabled(true, true, false, true, true, true, false, true);
+    private void setButtons(HomeWindow hw, ListOfCommands l) {
+        hw.setButtonsEnabled(true, true, false, true, true, true, false , false, false, true);
 	}
 
 }

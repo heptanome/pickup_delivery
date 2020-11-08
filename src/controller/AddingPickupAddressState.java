@@ -17,7 +17,7 @@ public class AddingPickupAddressState implements State {
 	@Override
 	public void initiateState(Application a, HomeWindow hw) {
 		describeState(hw);
-		setButtons(hw);
+		setButtons(hw, a.getListOfCommands());
 		setMouseListener(hw);
 	}
 	
@@ -62,12 +62,13 @@ public class AddingPickupAddressState implements State {
 		hw.addSingleMouseClickOnAnyPointListener();
     }
     
+
 	/**
 	 * Method called by the state to update which buttons are enabled depending on the state
 	 * 
 	 * @param hw the HomeWindow
 	 */
-    private void setButtons(HomeWindow hw) {
-        hw.setButtonsEnabled(false, false, false, false, false, false, false, true);
+    private void setButtons(HomeWindow hw, ListOfCommands l) {
+        hw.setButtonsEnabled(false, false, false, false, false, false, false,  false, false, true);
 	}
 }

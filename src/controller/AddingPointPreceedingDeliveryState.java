@@ -16,7 +16,7 @@ public class AddingPointPreceedingDeliveryState implements State {
 	
 	@Override
 	public void initiateState(Application a, HomeWindow hw) {
-		setButtons(hw);
+		setButtons(hw, a.getListOfCommands());
 		describeState(hw);
 		setMouseListener(hw);
 	}
@@ -84,7 +84,7 @@ public class AddingPointPreceedingDeliveryState implements State {
 	 * 
 	 * @param hw the HomeWindow
 	 */
-    private void setButtons(HomeWindow hw) {
-        hw.setButtonsEnabled(false, false, false, false, false, false, false, true);
+    private void setButtons(HomeWindow hw, ListOfCommands l) {
+        hw.setButtonsEnabled(false, false, false, false, false, false, false,  false, false, true);
 	}
 }

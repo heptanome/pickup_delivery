@@ -39,7 +39,6 @@ public class TextualView extends JPanel {
 		fontTitle = new Font("Arial", Font.BOLD, 20);
 		fontRequest = new Font("Arial", Font.BOLD, 7);
 		
-		displayCaption();
 	}
 	
 	public void displayRequests(SetOfRequests sor) {
@@ -48,71 +47,76 @@ public class TextualView extends JPanel {
 		//conteneurTabRequest.setBackground(Color.red);
 		conteneurTabRequest.setBounds(0, 50, 400, 200);
 		conteneurTabRequest.setLayout(null);
-		
 		JPanel conteneurTabJTableRequest = new JPanel ();
-		//conteneurTabJTableRequest.setBackground(Color.orange);
-		conteneurTabJTableRequest.setBounds(0, 50, 400, 100);
 		
-		//creation du titre
-		JLabel titreRequest = new JLabel("Request : ", JLabel.LEFT);
-		titreRequest.setBounds(0, 0, 400, 50);
-		titreRequest.setFont(fontTitle);
-		
-		String [][] donnees = new String [sor.getRequests().size()][5];
-		String[] entetes = {"N°", "Pickup Adress", "Pickup duration", "Delivery Adress", "Delivery Duration"};
-		
-		int i = 0;
-		for (Request r : sor.getRequests()) {
-			String[] obj = {Integer.toString(i+1), r.getPickupAddress(), Integer.toString(r.getPickupDuration()), r.getDeliveryAddress(), Integer.toString(r.getDeliveryDuration())};
-			donnees[i]= obj;
-			i++;
+		if(sor != null){
+			
+			//conteneurTabJTableRequest.setBackground(Color.orange);
+			conteneurTabJTableRequest.setBounds(0, 50, 400, 100);
+			
+			//creation du titre
+			JLabel titreRequest = new JLabel("Request : ", JLabel.LEFT);
+			titreRequest.setBounds(0, 0, 400, 50);
+			titreRequest.setFont(fontTitle);
+			
+			String [][] donnees = new String [sor.getRequests().size()][5];
+			String[] entetes = {"Numero", "Pickup Adress", "Pickup duration", "Delivery Adress", "Delivery Duration"};
+			
+			int i = 0;
+			for (Request r : sor.getRequests()) {
+				String[] obj = {Integer.toString(i+1), r.getPickupAddress(), Integer.toString(r.getPickupDuration()), r.getDeliveryAddress(), Integer.toString(r.getDeliveryDuration())};
+				donnees[i]= obj;
+				i++;
+			}
+			
+			//instance table model
+			DefaultTableModel tableModel = new DefaultTableModel(donnees, entetes) {
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+				//all cells false
+				return false;
+				}
+			};
+			
+			uiTable = new JTable(donnees, entetes);
+			uiTable.setModel(tableModel);
+			uiTable.setBounds(10, 150, 300, 400);
+			
+			conteneurTabJTableRequest.add(uiTable.getTableHeader(), BorderLayout.NORTH);
+			conteneurTabJTableRequest.add(uiTable, BorderLayout.CENTER);
+			conteneurTabRequest.add(titreRequest);
+
+			
+			conteneurTabRequest.add(conteneurTabJTableRequest);
+			add(conteneurTabRequest);
+			
+			uiTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+			uiTable.getColumnModel().getColumn(1).setPreferredWidth(85);
+			uiTable.getColumnModel().getColumn(2).setPreferredWidth(90);
+			uiTable.getColumnModel().getColumn(3).setPreferredWidth(90);
+			uiTable.getColumnModel().getColumn(4).setPreferredWidth(100);
+			
+			// https://stackoverflow.com/a/7351053
+			uiTable.addMouseListener(new java.awt.event.MouseAdapter() {
+				@Override
+				public void mouseClicked(java.awt.event.MouseEvent evt) {
+					int row = uiTable.rowAtPoint(evt.getPoint());
+					int col = uiTable.columnAtPoint(evt.getPoint());
+					if (row >= 0 && col >= 0) {
+						// selected a row
+						support.firePropertyChange("selectCell", null, sor.getRequests().get(row).getDelivery());
+					}
+				}
+			});
+			
+			conteneurTabJTableRequest.updateUI();
+			conteneurTabRequest.updateUI();
+			updateUI();
+
+			displayCaption();
 		}
 		
-		//instance table model
-		DefaultTableModel tableModel = new DefaultTableModel(donnees, entetes) {
-
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       //all cells false
-		       return false;
-		    }
-		};
-		
-		uiTable = new JTable(donnees, entetes);
-		uiTable.setModel(tableModel);
-		uiTable.setBounds(10, 150, 300, 400);
-		
-		conteneurTabJTableRequest.add(uiTable.getTableHeader(), BorderLayout.NORTH);
-		conteneurTabJTableRequest.add(uiTable, BorderLayout.CENTER);
-		conteneurTabRequest.add(titreRequest);
-
-		
-		conteneurTabRequest.add(conteneurTabJTableRequest);
-		add(conteneurTabRequest);
-		
-		uiTable.getColumnModel().getColumn(0).setPreferredWidth(20);
-		uiTable.getColumnModel().getColumn(1).setPreferredWidth(85);
-		uiTable.getColumnModel().getColumn(2).setPreferredWidth(90);
-		uiTable.getColumnModel().getColumn(3).setPreferredWidth(90);
-		uiTable.getColumnModel().getColumn(4).setPreferredWidth(100);
-		
-		// https://stackoverflow.com/a/7351053
-		uiTable.addMouseListener(new java.awt.event.MouseAdapter() {
-		    @Override
-		    public void mouseClicked(java.awt.event.MouseEvent evt) {
-		        int row = uiTable.rowAtPoint(evt.getPoint());
-		        int col = uiTable.columnAtPoint(evt.getPoint());
-		        if (row >= 0 && col >= 0) {
-		        	// selected a row
-		        	support.firePropertyChange("selectCell", null, sor.getRequests().get(row).getDelivery());
-		        }
-		    }
-		});
-		
-		conteneurTabJTableRequest.updateUI();
-		conteneurTabRequest.updateUI();
-		updateUI();
-
 	}
 	
 	public void displayTour(SetOfRequests sor, List<Segment> segments) {
