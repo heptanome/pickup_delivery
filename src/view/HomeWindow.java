@@ -1,15 +1,7 @@
 package view;
 
-import javax.swing.*;
-
-import model.CityMap;
-import model.Intersection;
-import model.Request;
-import model.Segment;
-import model.SetOfRequests;
-
-import java.awt.Component;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -30,6 +22,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import model.CityMap;
+import model.Intersection;
+import model.Request;
+import model.Segment;
+import model.SetOfRequests;
 
 /**
  * The main class used in the View (MVC model), will showcase a window with
@@ -229,7 +227,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 *                 follow
 	 */
 	public void tourComputed(List<Segment> segments) {
-		this.helpText = "Your tour has been computed. Feel free to add or delete a point.";
+		this.helpText = "<html>Your tour has been computed.<br> Feel free to add or delete a point.</html>";
 		gv.displayTour(segments);
 		tv.displayTour(this.loadedSOR, segments);
 		// TODO textual container & road map (file)
