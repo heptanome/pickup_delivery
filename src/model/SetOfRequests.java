@@ -52,9 +52,11 @@ public class SetOfRequests {
     }
 
 	public boolean isDeliveryPoint(Intersection i) {
-		for (Request r : requests)
-			if (i == r.getDelivery())
+		for (Request r : requests) {
+			if (i == r.getDelivery()) {
 				return true;
+			}
+		}
 		return false;
 	}
 	
@@ -68,9 +70,11 @@ public class SetOfRequests {
 	 */
 	public List<Request> getRequestsFromDelivery(Intersection delivery) {
 		List<Request> requestsList = new LinkedList<Request>();
-		for(Request r : requests)
-			if(delivery ==  r.getDelivery())
+		for(Request r : requests) {
+			if(delivery ==  r.getDelivery()) {
 				requestsList.add(r);
+			}
+		}
 		return requestsList;
 	}
 	
@@ -83,14 +87,11 @@ public class SetOfRequests {
 	 * @return List<Request>
 	 */
 	public Request getRequestFromIntersection(Intersection intersection) {
-<<<<<<< HEAD
 		for(Request r : requests) {
 			if(intersection ==  r.getPickup() || intersection == r.getDelivery()) {
-=======
-		for(Request r : requests)
-			if(intersection ==  r.getPickup() || intersection == r.getDelivery())
->>>>>>> branch 'develop' of https://github.com/heptanome/pickup_delivery.git
 				return r;
+			}
+		}
 		return null;
 	}
 	

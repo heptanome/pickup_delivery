@@ -107,8 +107,8 @@ public class Tour {
 	 */
 	public List<Segment> computeTour() {
 		// TSP tsp = new TSP1();
-		TSP tsp = new TSP2();
-		// TSP tsp = new TSP3();
+		//TSP tsp = new TSP2();
+		TSP tsp = new TSP3();
 
 		CompleteGraph g = new CompleteGraph(map, setOfRequests);
 		long startTime = System.currentTimeMillis();
