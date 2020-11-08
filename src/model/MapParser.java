@@ -17,7 +17,7 @@ import org.w3c.dom.NodeList;
  */
 public class MapParser extends Parser {
 
-	private final int NB_THREADS = 3;
+	private final int NB_THREADS = 15;
 
 	private List<Intersection> intersectionsList;
 	private List<Segment> segmentsList;
