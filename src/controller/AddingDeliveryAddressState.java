@@ -45,8 +45,8 @@ public class AddingDeliveryAddressState implements State {
 	}
 
 	@Override
-    public  void setButtons(HomeWindow hw) {
-        hw.setButtonsEnabled(false, false, false, false, false, false, false, true);
+    public  void setButtons(HomeWindow hw, ListOfCommands l) {
+        hw.setButtonsEnabled(false, false, false, false, false, false, false,  false, false, true);
 	}
 
 

@@ -14,18 +14,18 @@ import view.HomeWindow;
 public class MapWithRequestsState implements State {
 	
 	@Override
-	public void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour) {
+	public void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour, ListOfCommands l) {
 		try {
 			tour.setMap(fp);
 			a.setCurrentState(a.mapWoRequestsState);
-			a.getCurrentState().setButtons(homeWindow);
+			a.getCurrentState().setButtons(homeWindow,l);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@Override
-	public void loadRequests(Application a, HomeWindow hw,  String fp, Tour tour) {
+	public void loadRequests(Application a, HomeWindow hw,  String fp, Tour tour, ListOfCommands l) {
 		try {
 			tour.setRequests(fp);
 		} catch (Exception e) {
@@ -35,19 +35,19 @@ public class MapWithRequestsState implements State {
 	}
 
 	@Override
-	public void computeTour(Application a, HomeWindow hw, Tour tour) {
+	public void computeTour(Application a, HomeWindow hw, Tour tour,ListOfCommands l) {
 		try {
 			tour.computeTour(); // returns a list of segments
 			a.setCurrentState(a.displayingTourState);
-			a.getCurrentState().setButtons(hw);
+			a.getCurrentState().setButtons(hw,l);
 		}catch (Exception e) {
 			
 		}
 	}
 
 	@Override
-    public  void setButtons(HomeWindow hw) {
-        hw.setButtonsEnabled(true, true, true, false, false, false, false, false);
+    public  void setButtons(HomeWindow hw, ListOfCommands l) {
+        hw.setButtonsEnabled(true, true, true, false, false, false, false,  false, false, false);
 	}
 
 }

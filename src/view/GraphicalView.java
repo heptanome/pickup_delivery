@@ -43,10 +43,7 @@ public class GraphicalView extends JPanel {
 	 */
 	public GraphicalView(CityMap loadedMap) {
 		setLayout(null);
-		setBounds(0, 0, GV_WIDTH, GV_HEIGHT); 
-		intersections = loadedMap.getInstersections();
-		segments = loadedMap.getSegments();
-
+		setBounds(0, 0, GV_WIDTH, GV_HEIGHT);
 		graphicalPoints = new LinkedList<GraphicalPoint>();
 		selectedPoint = null;
 		graphicalSegments = new LinkedList<GraphicalSegment>();
@@ -54,9 +51,15 @@ public class GraphicalView extends JPanel {
 		minLongi = Float.POSITIVE_INFINITY;
 		maxLat = 0;
 		maxLongi = 0;
-		setExtemeCoordinates();
 
-		displayMap();
+		if(loadedMap != null){
+			intersections = loadedMap.getInstersections();
+			segments = loadedMap.getSegments();
+			setExtemeCoordinates();
+			displayMap();
+		}
+
+		
 	}
 
 	/**

@@ -56,6 +56,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	private final JButton btnRoadMap = new JButton("Display the road map");
 	private final JButton btnSaveRoadMap = new JButton("Save the Road Map");
 	private final JButton btnHelp = new JButton("SOS");
+	private final JButton btnUndo = new JButton("Undo");
+	private final JButton btnRedo = new JButton("Redo");
 
 	private final JLabel lblHelp = new JLabel();
 
@@ -118,6 +120,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		this.setButton(btnAddRequest, new AddRequestListener());
 		this.setButton(btnDeleteRequest, new DeleteRequestListener());
 		this.setButton(btnSaveRoadMap, new SaveRoadMapListener());
+		this.setButton(btnUndo, new UndoListener());
+		this.setButton(btnRedo, new RedoListener());
 		this.setButton(btnHelp, new HelpListener());
 		
 		//JLabel
@@ -153,9 +157,13 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * @param addB : true if btnAddRequest needs to be enabled
 	 * @param deleteB : true if btnDeleteRequest needs to be enabled
 	 * @param saveB : true if btnSaveRoadMap needs to be enabled
+	 * @param undoB : true if btnUndo needs to be enabled
+	 * @param redoB : true if btnRedo needs to be enabled
 	 * @param sosB : true if btnHelp needs to be enabled
 	 */
-	public void setButtonsEnabled(boolean setMapB, boolean setRequestsB, boolean computeB, boolean displayRoadMapB, boolean addB, boolean deleteB, boolean saveB, boolean sosB) {
+	public void setButtonsEnabled(boolean setMapB, boolean setRequestsB, boolean computeB, boolean displayRoadMapB, 
+								  boolean addB, boolean deleteB, boolean saveB, boolean undoB, boolean redoB, 
+								  boolean sosB) {
 		btnLoadMap.setEnabled(setMapB);
 		btnLoadRequest.setEnabled(setRequestsB);
 		btnComputeTour.setEnabled(computeB);
@@ -163,6 +171,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnAddRequest.setEnabled(addB);
 		btnDeleteRequest.setEnabled(deleteB);
 		btnSaveRoadMap.setEnabled(saveB);
+		btnUndo.setEnabled(undoB);
+		btnRedo.setEnabled(redoB);
 		btnHelp.setEnabled(sosB);
 	}
 	
@@ -173,7 +183,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 */
 	public void setMap(final CityMap map) {
 		this.loadedMap = map;
-		this.helpText = "<html>The map has been loaded. <br> Please load a requests file now.</html>";
 
 		// Graphical view
 		graphicalContainer.removeAll();
@@ -181,8 +190,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			graphicalContainer.removeMouseListener(graphicalContainer.getMouseListeners()[0]);
 		}
 		graphicalContainer.repaint();
-		gv = new GraphicalView(this.loadedMap);
-		graphicalContainer.add(gv);
+
+		if(map!=null){
+			gv = new GraphicalView(this.loadedMap);
+			graphicalContainer.add(gv);
+			this.helpText = "<html>The map has been loaded. <br> Please load a requests file now.</html>";
+		}
 
 	}
 
@@ -400,6 +413,30 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			Timer timer = new Timer("Timer");
 			long delay = 5000L;
 			timer.schedule(task, delay);
+		}
+
+	}
+
+	/**
+	 * Listener for the "Undo" button
+	 */
+	public class UndoListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(final ActionEvent arg0) {
+			support.firePropertyChange("undo", null, null);
+		}
+
+	}
+
+	/**
+	 * Listener for the "Redo" button
+	 */
+	public class RedoListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(final ActionEvent arg0) {
+			support.firePropertyChange("redo", null, null);
 		}
 
 	}

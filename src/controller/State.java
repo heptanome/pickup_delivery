@@ -15,7 +15,7 @@ public interface State {
 	 * @param fp the file path to the map (xml file)
 	 * @param tour the tour that will use the map
 	 */
-	public default void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour) {
+	public default void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour, ListOfCommands l){
 	}
 	
    /**
@@ -25,14 +25,14 @@ public interface State {
 	 * @param fp the file path to the map (xml file)
 	 * @param tour the tour that will use the map
 	 */
-	public default void loadRequests(Application a, HomeWindow hw, String fp, Tour tour) {
+	public default void loadRequests(Application a, HomeWindow hw, String fp, Tour tour, ListOfCommands l) {
 	}
 	
    /**
 	 * Method called by the controller after a click on the button "Compute Tour"
 	 * 
 	 */
-	public default void computeTour(Application a, HomeWindow hw, Tour tour) {	
+	public default void computeTour(Application a, HomeWindow hw, Tour tour, ListOfCommands l) {	
 	}
 
 	/**
@@ -76,6 +76,24 @@ public interface State {
 	 * 
 	 * @param hw the HomeWindow
 	 */
-	public default void setButtons(HomeWindow hw) {
+	public default void setButtons(HomeWindow hw, ListOfCommands l){
+	}
+
+	/**
+	 * Method called by the controller after a click on the button "Undo"
+	 * @param l the current list of commands
+	 * @param a the current Application
+	 * @param hw the homeWindow displayed
+	 */
+	public default void undo(ListOfCommands l, Application a, HomeWindow hw){
+	}
+
+	/**
+	 * Method called by the controller after a click on the button "Undo"
+	 * @param l the current list of commands
+	 * @param a the current Application
+	 * @param hw the homeWindow displayed
+	 */
+	public default void redo(ListOfCommands l, Application a, HomeWindow hw){
 	}
 }

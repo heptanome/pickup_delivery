@@ -13,7 +13,7 @@ import view.HomeWindow;
 public class MapWithoutRequestsState implements State {
 	
 	@Override
-	public void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour) {
+	public void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour, ListOfCommands l) {
 		try {
 			tour.setMap(fp);
 		} catch (Exception e) {
@@ -22,11 +22,11 @@ public class MapWithoutRequestsState implements State {
 	}
 	
 	@Override
-	public void loadRequests(Application a, HomeWindow hw,  String fp, Tour tour) {
+	public void loadRequests(Application a, HomeWindow hw,  String fp, Tour tour, ListOfCommands l) {
 		try {
 			tour.setRequests(fp);
 			a.setCurrentState(a.mapWithRequestsState);
-			a.getCurrentState().setButtons(hw);
+			a.getCurrentState().setButtons(hw,l);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -34,8 +34,17 @@ public class MapWithoutRequestsState implements State {
 	}
 
 	@Override
-    public  void setButtons(HomeWindow hw) {
-        hw.setButtonsEnabled(true, true, false, false, false, false, false, false);
+    public  void setButtons(HomeWindow hw, ListOfCommands l) {
+        hw.setButtonsEnabled(true, true, false, false, false, false, false, true, false, false);
+	}
+
+	@Override
+	public void undo(ListOfCommands l, Application a, HomeWindow hw){
+
+		l.undo();
+		a.setCurrentState(a.homeState);
+		a.getCurrentState().setButtons(hw , l);
+
 	}
 
 }
