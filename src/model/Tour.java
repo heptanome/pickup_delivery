@@ -93,6 +93,7 @@ public class Tour {
 	 * View it has been updated
 	 * 
 	 * @param request request to delete
+	 * @return the new amount (as a number) of requests
 	 */
 	public int deleteRequest(Request request) {
 		support.firePropertyChange("startComputing", null, this);
@@ -134,18 +135,19 @@ public class Tour {
 			solutionInt[i] = tsp.getSolution(i);
 
 		solutionInt[solutionInt.length - 1] = 0;
-		
-		//Converting integer, used for array indexes, into the corresponding Intersection
+
+		// Converting integer, used for array indexes, into the corresponding
+		// Intersection
 		Map<Integer, Intersection> nodeIntersection = g.getNodeNames();
 		for (int i = 0; i < solutionInt.length; i++) {
 			solutionIntersection[i] = nodeIntersection.get(solutionInt[i]);
 		}
-		
-		/*Find all the intermediate nodes
-		 * For example, if in the solution, B is after A, we need to know
-		 * all intermediate intersections, and the different Segment of the Map.
-		 * We use the Djikstra precedence array to find this path.
-		 * */
+
+		/**
+		 * Find all the intermediate nodes For example, if in the solution, B is after
+		 * A, we need to know all intermediate intersections, and the different Segment
+		 * of the Map. We use the Djikstra precedence array to find this path.
+		 **/
 		List<Integer> intermediateNodes = new LinkedList<Integer>();
 		Segment newSegment;
 		for (int indexSol = 0; indexSol < solutionIntersection.length - 1; indexSol++) {
@@ -155,10 +157,11 @@ public class Tour {
 			for (int i = idDepart; i != idOrigine; i = precedence[i]) {
 				intermediateNodes.add(i);
 			}
-			
-			/*From the intermediates nodes, we find the corresponding Segment in the map,
+
+			/**
+			 * From the intermediates nodes, we find the corresponding Segment in the map,
 			 * and add it to the path
-			 * */
+			 */
 			ListIterator<Integer> iterator = intermediateNodes.listIterator(intermediateNodes.size());
 			Intersection currentNodeInter = solutionIntersection[indexSol];
 			Intersection previousNodeInter = solutionIntersection[indexSol];
@@ -187,7 +190,7 @@ public class Tour {
 	}
 
 	/**
-	 * Getter fot the path attribute
+	 * Getter for the path attribute
 	 * 
 	 * @return the Tour's path
 	 */
