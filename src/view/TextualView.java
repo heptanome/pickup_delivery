@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import javax.swing.JLabel;
@@ -88,7 +89,7 @@ public class TextualView extends JPanel {
 			conteneurTabRequest.add(conteneurTabJTableRequest);
 			add(conteneurTabRequest);
 
-			uiTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+			uiTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 			uiTable.getColumnModel().getColumn(1).setPreferredWidth(85);
 			uiTable.getColumnModel().getColumn(2).setPreferredWidth(90);
 			uiTable.getColumnModel().getColumn(3).setPreferredWidth(90);
@@ -135,22 +136,48 @@ public class TextualView extends JPanel {
 		titreTour.setFont(fontTitle);
 		
 		//recuperation donnees
+		HashMap<Intersection, Request> mapAddressToRequest = roadMap.getMapAddressToRequest();
 		
 		LinkedList<Intersection> orderedAddresses = roadMap.getOrderedAddresses();
 		String [][] tabData = new String [orderedAddresses.size()][4];
 		
-		
 		int i = 0;
+		boolean depart = false;
+		int duration = -1;
 		for (Intersection inter : orderedAddresses) {
-			String [] obj = {Integer.toString(i + 1), "Type", inter.getNumber(), "Duration"};
-			System.out.println(obj[2]);
+			Request r = mapAddressToRequest.get(inter);
+			String type = "not init";
+			if (r != null) {
+				if (inter.getNumber()==r.getPickupAddress()) {
+					//c'est une recherche de colis
+					type = "Pickup";
+					duration = r.getPickupDuration();
+				} else if (inter.getNumber()==r.getDeliveryAddress()) {
+					//c'est une livraison
+					type = "Delivery";
+					duration = r.getDeliveryDuration();
+				} else {
+					//c'est autre chose
+					type = "Other";
+					duration = -2;
+				}
+			} else {
+				if (depart == false) {
+					type = "Start";
+					duration = 0;
+					depart = true;
+				} else {
+					type = "End";
+					duration = 0;
+				}
+			}
+			
+			String [] obj = {Integer.toString(i + 1), type, inter.getNumber(), Integer.toString(duration)};
 			tabData[i] = obj;
 			i++;
 		}
 		
-		System.out.println("Entree dans iner");
 		// creation tab de donnees
-		//String[][] tabData = { { "1", "Delivery", "A", "2s" }, { "1", "Delivery", "A", "2s" },{ "1", "Delivery", "A", "2s" }, { "1", "Delivery", "A", "2s" } };
 		String[] tadHeader = { "Order", "Type", "Adress", "Duration" };
 
 		DefaultTableModel tableModel = new DefaultTableModel(tabData, tadHeader) {
