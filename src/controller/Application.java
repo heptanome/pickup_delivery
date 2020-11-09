@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import org.xml.sax.SAXException;
 
+import controller.command.ListOfCommands;
 import controller.state.AddingDeliveryAddressState;
 import controller.state.AddingPickupAddressState;
 import controller.state.AddingPointPreceedingDeliveryState;

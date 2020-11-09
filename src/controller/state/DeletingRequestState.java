@@ -3,8 +3,8 @@ package controller.state;
 import javax.swing.JOptionPane;
 
 import controller.Application;
-import controller.DeleteRequestCommand;
-import controller.ListOfCommands;
+import controller.command.DeleteRequestCommand;
+import controller.command.ListOfCommands;
 import model.Intersection;
 import model.Request;
 import model.Tour;

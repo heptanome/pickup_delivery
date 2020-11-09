@@ -1,17 +1,17 @@
-package controller;
+package controller.command;
 
 import model.Tour;
 
-public class LoadRequestsCommand implements Command{
+public class LoadMapCommand implements Command{
     private Tour tour;
     private String filePath;
 
     /**
-	 * Create the command which adds a set of requests
-	 * @param tour in chich to load the set of requests
-	 * @param fp the filepath to the set of requests
+	 * Create the command which adds a map
+	 * @param tour in which to load the map
+	 * @param fp the filepath to the map
 	 */
-	public LoadRequestsCommand(Tour t, String fp){
+	public LoadMapCommand(Tour t, String fp){
         this.tour = t;
         this.filePath = fp;
 	}
@@ -19,7 +19,7 @@ public class LoadRequestsCommand implements Command{
     @Override
     public void doCommand() {
         try{
-            tour.setRequests(this.filePath);
+            tour.setMap(filePath);
         } catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -28,7 +28,7 @@ public class LoadRequestsCommand implements Command{
     @Override
     public void undoCommand() {
         try{
-            tour.resetRequests();
+            tour.resetMap();
         } catch (Exception e) {
 			e.printStackTrace();
 		}

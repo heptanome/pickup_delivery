@@ -3,8 +3,8 @@ package controller.state;
 import javax.swing.JOptionPane;
 
 import controller.Application;
-import controller.ListOfCommands;
-import controller.LoadMapCommand;
+import controller.command.ListOfCommands;
+import controller.command.LoadMapCommand;
 import model.Tour;
 import view.HomeWindow;
 

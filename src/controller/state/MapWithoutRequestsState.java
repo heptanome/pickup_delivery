@@ -3,9 +3,9 @@ package controller.state;
 import javax.swing.JOptionPane;
 
 import controller.Application;
-import controller.ListOfCommands;
-import controller.LoadMapCommand;
-import controller.LoadRequestsCommand;
+import controller.command.ListOfCommands;
+import controller.command.LoadMapCommand;
+import controller.command.LoadRequestsCommand;
 import model.Tour;
 import view.HomeWindow;
 

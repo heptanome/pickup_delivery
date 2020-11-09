@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import org.xml.sax.SAXException;
 
 import controller.Application;
-import controller.IrrelevantFileException;
+import controller.command.IrrelevantFileException;
 import view.HomeWindow;
 
 /**

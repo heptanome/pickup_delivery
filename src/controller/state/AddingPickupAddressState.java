@@ -2,9 +2,9 @@ package controller.state;
 
 import javax.swing.JOptionPane;
 
-import controller.AddPickupCommand;
 import controller.Application;
-import controller.ListOfCommands;
+import controller.command.AddPickupCommand;
+import controller.command.ListOfCommands;
 import model.Intersection;
 import model.Request;
 import model.Tour;

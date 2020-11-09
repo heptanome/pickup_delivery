@@ -6,7 +6,7 @@ import view.HomeWindow;
 import javax.swing.JOptionPane;
 
 import controller.Application;
-import controller.ListOfCommands;
+import controller.command.ListOfCommands;
 import model.Intersection;
 
 /**
