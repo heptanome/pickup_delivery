@@ -178,7 +178,7 @@ public class TextualView extends JPanel {
 		
 		int i = 0;
 		boolean depart = false;
-		int duration = -1;
+		String duration = "-1";
 		for (Intersection inter : orderedAddresses) {
 
 			List<Request> listRequest = new LinkedList<Request>();
@@ -200,10 +200,10 @@ public class TextualView extends JPanel {
 					if (r != null) {
 						if (typeRequest) {
 							type = "Delivery";
-							duration = r.getDeliveryDuration();
+							duration = Integer.toString(r.getDeliveryDuration());
 						} else {
 							type = "Pickup";
-							duration = r.getPickupDuration();
+							duration = Integer.toString(r.getPickupDuration());
 						}
 						numeroReq = Integer.toString(r.getNumero());
 					}	
@@ -212,13 +212,15 @@ public class TextualView extends JPanel {
 				if (depart == false) {
 					type = "Start";
 					numeroReq = "NC";
+					duration = "NC";
 					depart = true;
 				} else {
 					type = "End";
 					numeroReq = "NC";
+					duration = "NC";
 				}
 			}
-			String [] obj = {numeroReq, type, inter.getNumber(), Integer.toString(duration)};
+			String [] obj = {numeroReq, type, inter.getNumber(), duration};
 			tabData[i] = obj;
 			i++;
 		}
