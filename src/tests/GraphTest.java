@@ -47,7 +47,7 @@ abstract class GraphTest {
 	}
 
 	@Test
-	void testGetPickUpFromDelivery() {
+	void testGetPickUpFromDelivery() throws Exception {
 		fail("Not yet implemented");
 	}
 

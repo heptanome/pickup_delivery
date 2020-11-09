@@ -118,7 +118,7 @@ public class CompleteGraph implements Graph {
 	}
 	
 	@Override
-	public List<Integer> getPickUpFromDelivery(int i) {
+	public List<Integer> getPickUpFromDelivery(int i) throws Exception{
 		Intersection deliveryAddress = sor.getRequestNodes().get(i);
 		List<Request> requests = sor.getRequestsFromDelivery(deliveryAddress);
 		List<Integer> pickUpAddressInt = new LinkedList<Integer>();

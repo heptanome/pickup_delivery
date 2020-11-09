@@ -6,7 +6,6 @@ import controller.Application;
 import controller.command.AddDeliveryCommand;
 import controller.command.ListOfCommands;
 import model.Intersection;
-import model.Request;
 import model.Tour;
 import view.HomeWindow;
 

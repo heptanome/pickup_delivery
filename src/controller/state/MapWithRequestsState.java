@@ -1,5 +1,7 @@
 package controller.state;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import controller.Application;
@@ -47,7 +49,20 @@ public class MapWithRequestsState implements State {
 	@Override
 	public void computeTour(Application a, HomeWindow hw, Tour tour) {
 		try {
-			tour.computeTour(); // returns a list of segments
+
+			//Compute in another thread (computeThread), display message in current thread 
+			ComputeThread computeThread = new ComputeThread(tour);
+			computeThread.start();
+			synchronized(computeThread){
+				try{
+					JOptionPane.showMessageDialog(hw, "<html>Computing the tour... "
+            		+ "  <br> It may take up to 20 seconds, don't worry ;) </html>");
+					computeThread.wait();
+				}catch(InterruptedException e){
+					e.printStackTrace();
+				}
+			}
+		
 			a.setCurrentState(a.displayingTourState);
 			a.getListOfCommands().reset(); //To remove if we decide that we can undo/redo "compute tour"
 			a.getCurrentState().initiateState(a, hw);
@@ -87,4 +102,19 @@ public class MapWithRequestsState implements State {
 		System.out.println("apa");
     }
 
+}
+
+class ComputeThread extends Thread{
+	Tour tour;
+	public ComputeThread (Tour t){
+		tour = t;
+	}
+    
+    @Override
+    public void run(){
+        synchronized(this){
+            tour.computeTour(); // returns a list of segments
+            notify();
+        }
+    }
 }
