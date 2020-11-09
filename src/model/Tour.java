@@ -158,7 +158,8 @@ public class Tour {
 		}
 		
 		this.roadMap = new RoadMap(this.path, this.setOfRequests);
-		
+		this.toString();
+		System.out.println(this.path);
 		support.firePropertyChange("tourComputed", null, this);
 		return this.path;
 	}
@@ -188,7 +189,7 @@ public class Tour {
 	public String toString() {
 		String message = "Road Map :\n"
 						 +"Departure at "+setOfRequests.getDepartureTime()+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"
-						 +this.roadMap.printRoadMap()+"\n"
+						 +this.roadMap.printRoadMap(this.path)+"\n"
 						 +"Have a good Tour :)";
 		
 		return message;

@@ -16,7 +16,6 @@ public class RoadMap {
 	private HashMap<Intersection, Request> mapAddressToRequest;
 	private LinkedList<Intersection> orderedAddresses;
 	private HashMap<Intersection, Boolean> mapIntersectionToType;
-	private List<Segment> path;
 
 	/**
 	 * Constructor
@@ -29,7 +28,6 @@ public class RoadMap {
 		this.mapAddressToRequest = new HashMap<Intersection, Request>();
 		this.mapIntersectionToType = new HashMap<Intersection, Boolean>();
 		this.orderedAddresses = new LinkedList<Intersection>();
-		this.path = roadsAfterComputedTour;
 		this.calculateMapAddressToRequest(initialSetOfRequests);
 		this.reorderAddresses(roadsAfterComputedTour, initialSetOfRequests);
 	}
@@ -206,11 +204,11 @@ public class RoadMap {
 		return this.orderedAddresses.getLast() == i;
 	}
 
-	public String printRoadMap() {
+	public String printRoadMap(List<Segment> path) {
 		int index = 1;
 		String message = "";
 		ListIterator<Intersection> itIntersection = this.orderedAddresses.listIterator();
-		ListIterator<Segment> itSegment = this.path.listIterator();
+		ListIterator<Segment> itSegment = path.listIterator();
 		Segment currentSegment = itSegment.next();
 		Segment previousSegment = currentSegment;
 		Intersection currentIntersection = itIntersection.next();
@@ -222,39 +220,57 @@ public class RoadMap {
 			length = currentSegment.getLength();
 			if (!itIntersection.hasNext())
 				break;
+			
 			status = this.getStatus(currentIntersection);
 			message += "Point " + index + " : " + status + "\n";
-			String name = previousSegment.getName();
-			while(currentSegment.getOrigin() != currentIntersection) {
+			
+			String name = currentSegment.getName();
+			length = 0;
+			
+			while(currentSegment.getDestination() != currentIntersection) {
 				currentSegment = itSegment.next();
 				if(currentSegment.getName().equals(name)|| currentSegment.getName().equals("")) {
 					length += currentSegment.getLength();
-					if(!currentSegment.getName().equals("")) {
-						name = currentSegment.getName();
-					}
 				} else {
-					message += "    Follow road \""+name+"\" for "+length+"\n";
+					if(length > 0) { //prevent from printing when you leave a street
+						message += "    Follow road \""+name+"\" for "+length+"\n";
+					}
 					length = currentSegment.getLength();
 					name = currentSegment.getName();
-					
 				}
 				previousSegment = currentSegment;
 			}
+			itSegment.previous();
+			previousSegment = itSegment.previous();
+			if(currentSegment.getName().equals(previousSegment.getName())|| currentSegment.getName().equals("")) {
+				length += currentSegment.getLength();
+			} else {
+				length =  currentSegment.getLength();
+			}
+			message += "    Follow road \""+currentSegment.getName()+"\" for "+length;
 			message += "\n";
+			itSegment.next();
+			previousSegment = itSegment.next();
+			
 			index++;
 		}
 		
+		/////////////////////////////////////////////////////////////////////////////////////////
+		
+		currentSegment = itSegment.next();
+		previousSegment = currentSegment;
 		message += "Go back to the Depot : \n";
-		String name = previousSegment.getName();
+		String name = currentSegment.getName();
 		length = currentSegment.getLength();
+		
 		while(itSegment.hasNext()) {
+			
 			currentSegment = itSegment.next();
 			if(currentSegment.getName().equals(name)|| currentSegment.getName().equals("")) {
 				length += currentSegment.getLength();
 				if(!currentSegment.getName().equals("")) {
 					name = currentSegment.getName();
 				}
-				message += "    Follow road \""+previousSegment.getName()+"\" for "+length;
 			} else {
 				message += "    Follow road \""+name+"\" for "+length+"\n";
 				length = currentSegment.getLength();
@@ -263,12 +279,14 @@ public class RoadMap {
 			}
 			previousSegment = currentSegment;
 		}
+		itSegment.previous();
+		previousSegment = itSegment.previous();
 		if(currentSegment.getName().equals(previousSegment.getName())|| currentSegment.getName().equals("")) {
 			length += currentSegment.getLength();
-			message += "    Follow road \""+previousSegment.getName()+"\" for "+length;
 		} else {
-			message += "    Follow road \""+currentSegment.getName()+"\" for "+currentSegment.getLength();
+			length = currentSegment.getLength();
 		}
+		message += "    Follow road \""+currentSegment.getName()+"\" for "+length;
 		return message;
 	}
 
