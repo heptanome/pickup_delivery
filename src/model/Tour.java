@@ -79,7 +79,7 @@ public class Tour implements Cloneable{
 		this.setOfRequests.addRequest(newRequest);
 		this.roadMap.addRequest(newRequest, beforePickup, beforeDelivery, this.map, this.path);
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
-		support.firePropertyChange("tourComputed", null, this.path);
+		support.firePropertyChange("tourComputed", null, this);
 		System.out.println("A request was added");
 	}
 	
@@ -171,9 +171,6 @@ public class Tour implements Cloneable{
 		return this.setOfRequests;
 	}
 	
-	public List<Segment> getPath() {
-		return path;
-	}
 
 	public void resetMap(){
 		CityMap oldMap = this.map;

@@ -32,6 +32,7 @@ public class DeleteRequestCommand implements Command{
     @Override
     public void undoCommand() {
         try{
+            System.out.println("undo add complete command");
             tour.addRequest(r, preceedingPickup, preceedingDelivery);
         } catch (Exception e) {
 			e.printStackTrace();

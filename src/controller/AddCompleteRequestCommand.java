@@ -1,8 +1,7 @@
 package controller;
 
-import java.util.LinkedList;
 
-import javax.swing.text.Segment;
+import javax.swing.text.StyledEditorKit;
 
 import model.Intersection;
 import model.Request;
@@ -15,6 +14,8 @@ public class AddCompleteRequestCommand implements Command{
     private Request newRequest;
     private Intersection preceedingPickup;
     private Intersection preceedingDelivery;
+    private int i;
+    private int j;
 /*
     private SetOfRequests oldSOR;
     private LinkedList<model.Segment> oldPath;
@@ -29,6 +30,8 @@ public class AddCompleteRequestCommand implements Command{
         this.newRequest = newR;
         this.preceedingPickup = preceedingP;
         this.preceedingDelivery = preceedingD;
+        i= t.getPath().size();
+        j = t.getPath().size();
 /*
         this.oldSOR = tour.getSOR();
         this.oldPath = tour.getPath();
@@ -47,6 +50,7 @@ public class AddCompleteRequestCommand implements Command{
     @Override
     public void undoCommand() {
         try{
+            System.out.println("undo add complete command");
             //this.tour.rollback(this.oldPath, this.oldSOR, this.oldRoadMap);
             //this.tour.deleteRequest(newRequest);
             //TODO
