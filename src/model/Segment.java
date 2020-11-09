@@ -75,4 +75,8 @@ public class Segment {
 		return "Name : " + name + ", origin : " + origin.getNumber() + ", destination : " + destination.getNumber()
 				+ " (length : " + length + ").";
 	}
+
+	public String getName() {
+		return name;
+	}
 }

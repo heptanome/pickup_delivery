@@ -156,6 +156,8 @@ public class Tour {
 		this.roadMap = new RoadMap(this.path, this.setOfRequests);
 		
 		support.firePropertyChange("tourComputed", null, this.path);
+		System.out.println(this+"\n");
+		System.out.println(this.path);
 		return this.path;
 	}
 
@@ -175,6 +177,15 @@ public class Tour {
 		this.setOfRequests= null;
 		// signal the observers the map has changed
 		support.firePropertyChange("updateRequests", oldSor, this.setOfRequests);
+	}
+	
+	public String toString() {
+		String message = "Road Map :\n"
+						 +"Departure at "+setOfRequests.getDepartureTime()+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"
+						 +this.roadMap.printRoadMap()+"\n"
+						 +"Have a good Tour :)";
+		
+		return message;
 	}
 	
 	
