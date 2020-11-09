@@ -13,7 +13,7 @@ jobs:
         with:
           java-version: 14
       - name: Build with javac
-				run: make
+        run: make
         # run: javac -d bin src/controller/*.java src/model/*.java src/view/*.java src/tsp/*.java src/view/graphical/*.java
       - name: Build and run tests
         run: |
