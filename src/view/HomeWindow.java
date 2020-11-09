@@ -200,7 +200,13 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 */
 	public void setMap(final CityMap map) {
 		this.loadedMap = map;
+		resetMap();
+	}
 
+	/**
+	 * Resets the map with no requests and no tour displayed + reinitializes textual view
+	 */
+	public void resetMap(){
 		// Graphical view
 		graphicalContainer.removeAll();
 		if (graphicalContainer.getMouseListeners().length > 0) {
@@ -208,7 +214,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 		graphicalContainer.repaint();
 
-		if (map != null) {
+		if (this.loadedMap != null) {
 			// reset the graphical map
 			gv = new GraphicalView(this.loadedMap);
 			graphicalContainer.add(gv);
@@ -221,6 +227,9 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			this.helpText = "<html>The map has been loaded. <br> Please load a requests file now.</html>";
 		}
 
+		//Rest textual view if there was one
+		textualContainer.removeAll();
+		textualContainer.repaint();
 	}
 
 	/**

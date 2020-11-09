@@ -98,5 +98,9 @@ class CityMapTest {
 	void testGetSegments() {
 		assertEquals(segments, cityMap.getSegments());
 	}
-
+	
+	@Test
+	void testtoString() {
+		assertTrue(cityMap.toString().contains(intersections.get(1).toString()));
+	}
 }

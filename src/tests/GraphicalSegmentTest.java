@@ -44,26 +44,6 @@ class GraphicalSegmentTest {
 	void testDestination() {
 		assertEquals(graphicalSegment.getDestination(),"1370403192");
 	}
-	
-	@Test
-	void testGetXOriginPixel() {
-		assertEquals(graphicalSegment.getXOriginPixel(),94);
-	}
-
-	@Test
-	void testGetYOriginPixel() {
-		assertEquals(graphicalSegment.getYOriginPixel(),437);
-	}
-
-	@Test
-	void testGetXDestPixel() {
-		assertEquals(graphicalSegment.getXDestPixel(),389);
-	}
-
-	@Test
-	void testGeYDestPixel() {
-		assertEquals(graphicalSegment.geYDestPixel(),63);
-	}
 
 	@Test
 	void testGetSetColor() {

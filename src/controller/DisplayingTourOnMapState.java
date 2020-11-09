@@ -108,6 +108,6 @@ public class DisplayingTourOnMapState implements State {
     @Override
 	public void describeState(HomeWindow hw){
         JOptionPane.showMessageDialog(hw, "A tour has been computed successfully. Feel free to add or delete a request.");
-		System.out.println("apa");
+		System.out.println("display tour");
     }
 }

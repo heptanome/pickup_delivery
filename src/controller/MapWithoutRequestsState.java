@@ -13,6 +13,7 @@ public class MapWithoutRequestsState implements State {
 
 	@Override
 	public void initiateState(Application a, HomeWindow hw) {
+		hw.resetMap();
 		setButtons(hw, a.getListOfCommands());
 	}
 

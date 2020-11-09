@@ -19,8 +19,8 @@ import model.SetOfRequests;
 import model.Tour;
 
 class TourTest implements PropertyChangeListener {
-	public static final String MAP_FILE_PATH = "./XML_data/smallMap.xml";
-	public static final int NB_INTER = 308;
+	public static final String MAP_FILE_PATH = "./XML_data/largeMap.xml";
+	public static final int NB_INTER = 3736;
 	public static final String CORRUPTED_MAP_FILE_PATH = "./XML_data/smallCorruptedMap.xml";
 	public static final String REQUEST_FILE_PATH = "./XML_data/requestsLarge9.xml";
 	public static final int NB_REQUEST = 9;
@@ -73,7 +73,7 @@ class TourTest implements PropertyChangeListener {
 	}
 
 	@Test
-	void testSetRequests() throws Exception {
+	void testSetRequests() {
 		try {
 			tour.setMap(MAP_FILE_PATH);
 			tour.setRequests(REQUEST_FILE_PATH);
@@ -86,7 +86,6 @@ class TourTest implements PropertyChangeListener {
 			tour.setRequests(new String());
 			fail("Should throw exception IllegalArgumentException");
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertTrue(e instanceof IllegalArgumentException);
 		}
 

@@ -31,7 +31,7 @@ public interface Graph {
 	 * @param i 
 	 * @return true if <code>i</code> is a point where is delivery has to be made
 	 */
-	public abstract boolean isDeliveryAddress(int i);
+	public abstract boolean isDeliveryAddress(int i) throws Exception;
 	
 	/**
 	 * @param i 
