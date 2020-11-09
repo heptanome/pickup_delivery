@@ -48,12 +48,8 @@ public class DeletingRequestState implements State {
 		a.getCurrentState().initiateState(a, hw);
 	}
 	
-	/**
-	 * Method called by the States to display a message about specific information of the current State
-	 * 
-	 * @param hw the HomeWindow
-	 */
-	private void describeState(HomeWindow hw) {
+	@Override
+	public void describeState(HomeWindow hw) {
         JOptionPane.showMessageDialog(hw, "Select a colored point on the map so that the corresponding request will "
         		+ "be deleted (pickup and delivery point)");
 	}
@@ -78,7 +74,7 @@ public class DeletingRequestState implements State {
 	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(false, false, false, false, false, false, false,  true, false, true);
+        hw.setButtonsEnabled(false, false, false, false, false, false, false,  true, false, true, false);
 	}
 
 

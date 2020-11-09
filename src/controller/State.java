@@ -2,6 +2,9 @@ package controller;
 
 import model.Tour;
 import view.HomeWindow;
+
+import javax.swing.JOptionPane;
+
 import model.Intersection;
 
 /**
@@ -94,9 +97,18 @@ public interface State {
 	 * Method called by the controller to cancel a running process
 	 * 
 	 */
-	public default void cancel() {
+	public default void cancel(Application a, HomeWindow hw) {
 	}
-
+	
+	/**
+	 * Method called by the States to display a message about specific information of the current State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	public default void describeState(HomeWindow hw){
+        JOptionPane.showMessageDialog(hw, "Feel free to add or delete a request or go ahead and compute a tour.");
+		System.out.println("apa");
+    }
 
 	/**
 	 * Method called by the controller after a click on the button "Undo"

@@ -143,22 +143,30 @@ public class Application implements PropertyChangeListener {
 	 * Getter for the listOfCommands attribute
 	 * @return listeOfCommands
 	 */
-	public ListOfCommands getListOfCommands(){
+	public ListOfCommands getListOfCommands() {
 		return this.listOfCommands;
 	}
 
 	/**
 	 * Method called by window after a click on the button "Undo"
 	 */
-	public void undo(){
+	public void undo() {
 		currentState.undo(listOfCommands, this, homeWindow);
 	}
 
 	/**
 	 * Method called by window after a click on the button "Undo"
 	 */
-	public void redo(){
+	public void redo() {
 		currentState.redo(listOfCommands, this, homeWindow);
+	}
+	
+	public void displayHelp() {
+		currentState.describeState(homeWindow);
+	}
+	
+	public void cancel() {
+		currentState.cancel(this, homeWindow);
 	}
 
 	/**
@@ -239,6 +247,20 @@ public class Application implements PropertyChangeListener {
 			case "redo":
 				try {
 					this.redo();
+				} catch (final Exception e) {
+				e.printStackTrace();
+			}
+			break;
+			case "askHelp":
+				try {
+					this.displayHelp();
+				} catch (final Exception e) {
+					e.printStackTrace();
+				}
+			break;
+			case "cancel":
+				try {
+					this.cancel();
 				} catch (final Exception e) {
 				e.printStackTrace();
 			}

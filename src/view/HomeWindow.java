@@ -27,8 +27,10 @@ import javax.swing.JPanel;
 import model.CityMap;
 import model.Intersection;
 import model.Request;
+import model.RoadMap;
 import model.Segment;
 import model.SetOfRequests;
+import model.Tour;
 import view.graphical.ZoomBox;
 
 /**
@@ -58,6 +60,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	private final JButton btnHelp = new JButton("SOS");
 	private final JButton btnUndo = new JButton("Undo");
 	private final JButton btnRedo = new JButton("Redo");
+	private final JButton btnCancel = new JButton("Cancel");
 
 	private final JLabel lblHelp = new JLabel();
 	private ZoomBox zoom;
@@ -123,6 +126,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		this.setButton(btnSaveRoadMap, new SaveRoadMapListener());
 		this.setButton(btnUndo, new UndoListener());
 		this.setButton(btnRedo, new RedoListener());
+		this.setButton(btnCancel, new CancelListener());
 		this.setButton(btnHelp, new HelpListener());
 
 		// JLabel
@@ -164,7 +168,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * @param sosB            : true if btnHelp needs to be enabled
 	 */
 	public void setButtonsEnabled(boolean setMapB, boolean setRequestsB, boolean computeB, boolean displayRoadMapB,
-			boolean addB, boolean deleteB, boolean saveB, boolean undoB, boolean redoB, boolean sosB) {
+			boolean addB, boolean deleteB, boolean saveB, boolean undoB, boolean redoB, boolean sosB, boolean cancelB) {
 		btnLoadMap.setEnabled(setMapB);
 		btnLoadRequest.setEnabled(setRequestsB);
 		btnComputeTour.setEnabled(computeB);
@@ -175,6 +179,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnUndo.setEnabled(undoB);
 		btnRedo.setEnabled(redoB);
 		btnHelp.setEnabled(sosB);
+		btnCancel.setEnabled(cancelB);
 
 		/**
 		 * XXX the setButtonEnabled function is called on all (almost?) each state
@@ -209,7 +214,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 			// and reset its zoom
 			zoom = new ZoomBox(gv);
-			graphicalContainer.add(zoom);
+			add(zoom);
+			zoom.setLocation(HEIGHT - 30, HEIGHT - 230);
 
 			this.helpText = "<html>The map has been loaded. <br> Please load a requests file now.</html>";
 		}
@@ -258,11 +264,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * @param segments An ordered (linked) list of segments the cyclist will have to
 	 *                 follow
 	 */
-	public void tourComputed(List<Segment> segments) {
+	public void tourComputed(List<Segment> segments, RoadMap roadMap) {
 		this.helpText = "<html>Your tour has been computed.<br> Feel free to add or delete a point.</html>";
 		gv.displayTour(segments);
-		tv.displayTour(this.loadedSOR, segments);
-		// TODO textual container & road map (file)
+		tv.displayTour(roadMap);
 	}
 
 	public Request getNewRequest() {
@@ -299,16 +304,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		public void actionPerformed(final ActionEvent e) {
 			File currentDirectory = null;
 			try {
-				currentDirectory = new File(".").getCanonicalFile();
+				currentDirectory = new File("./XML_data").getCanonicalFile();
 				System.out.println("Current directory : " + currentDirectory);
 			} catch (final IOException err) {
 			}
 			final JFileChooser dialogue = new JFileChooser(currentDirectory);
-			dialogue.showOpenDialog(null);
-			final String requestPath = dialogue.getSelectedFile().getAbsolutePath();
-			System.out.println("Selected File : " + requestPath);
-
-			support.firePropertyChange("loadRequests", "", requestPath);
+			int result = dialogue.showOpenDialog(null);
+			if (result == JFileChooser.APPROVE_OPTION) {
+				final String requestPath = dialogue.getSelectedFile().getAbsolutePath();
+				support.firePropertyChange("loadRequests", "", requestPath);
+				System.out.println("Selected File : " + requestPath);
+			}
 		}
 
 	}
@@ -319,15 +325,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		public void actionPerformed(final ActionEvent arg0) {
 			File currentDirectory = null;
 			try {
-				currentDirectory = new File(".").getCanonicalFile();
+				currentDirectory = new File("./XML_data").getCanonicalFile();
 				System.out.println("Current directory : " + currentDirectory);
 			} catch (final IOException err) {
 
 			}
 			final JFileChooser dialogue = new JFileChooser(currentDirectory);
-			dialogue.showOpenDialog(null);
-			final String mapPath = dialogue.getSelectedFile().getAbsolutePath();
-			support.firePropertyChange("loadMap", "", mapPath);
+			int result = dialogue.showOpenDialog(null);
+			if (result == JFileChooser.APPROVE_OPTION) {
+				final String mapPath = dialogue.getSelectedFile().getAbsolutePath();
+				System.out.println("Selected File : " + mapPath);
+				support.firePropertyChange("loadMap", "", mapPath);
+			}	
 		}
 
 	}
@@ -411,6 +420,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(final ActionEvent arg0) {
+			support.firePropertyChange("askHelp", null, null);
+			
 			lblHelp.setText(helpText);
 			buttonsContainer.add(lblHelp);
 			buttonsContainer.updateUI();
@@ -451,6 +462,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 
 	}
+	
+	/**
+	 * Listener for the "Cancel" button
+	 */
+	public class CancelListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(final ActionEvent arg0) {
+			support.firePropertyChange("cancel", null, null);
+		}
+
+	}
 
 	/*
 	 * Mouse listener to use in the states where the map is displayed (click on map
@@ -480,7 +503,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			// Only works if there is a map loaded
 			if (loadedMap != null) {
 				Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
-
 				/**
 				 * for a better UX (otherwise the zoom disappears), the update is used in case
 				 * the map changes
@@ -617,7 +639,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			this.setRequests((SetOfRequests) evt.getNewValue());
 			break;
 		case "tourComputed":
-			this.tourComputed((List<Segment>) evt.getNewValue());
+			Tour tour = (Tour) evt.getNewValue();
+			List<Segment> segments = tour.getPath();
+			RoadMap roadMap = tour.getRoadMap();
+			this.tourComputed(segments, roadMap);
 			break;
 		case "selectCell":
 			this.selectCell((Intersection) evt.getNewValue());
