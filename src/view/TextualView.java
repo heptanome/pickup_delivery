@@ -168,9 +168,12 @@ public class TextualView extends JPanel {
 			numero = -1;
 			Request r = mapAddressToRequest.get(inter);
 			
-			for (int j = 0; j<sor.getRequests().size(); j++) {
-				if (r == sor.getRequests().get(j)) {
-					numero = j;
+			//pour depanner de maniere provisoire
+			if (sor != null) {
+				for (int j = 0; j<sor.getRequests().size(); j++) {
+					if (r == sor.getRequests().get(j)) {
+						numero = j;
+					}
 				}
 			}
 			

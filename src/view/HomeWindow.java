@@ -644,7 +644,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			Tour tour = (Tour) evt.getNewValue();
 			List<Segment> segments = tour.getPath();
 			RoadMap roadMap = tour.getRoadMap();
-			SetOfRequests sor = tour.getSetOfRequests();
+			SetOfRequests sor = tour.getSOR();
 			this.tourComputed(segments, roadMap, sor);
 			break;
 		case "selectCell":
