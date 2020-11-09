@@ -32,23 +32,31 @@ public class AddingPickupAddressState implements State {
 		} else {
 			// Get pickup duration
 			int duration = -1;
+			String result = null;
 			while (duration < 0) {
-				String dialog = JOptionPane.showInputDialog(hw, "Enter a pickup duration (number of minutes)", 5);
-				duration = Integer.parseInt(dialog);
+				result = JOptionPane.showInputDialog(hw, "Enter a pickup duration (number of minutes)", 5);
+				if(result == null) {
+					break;
+				}
+				duration = Integer.parseInt(result);
 			}
-
-			System.out.println("Pickup address " + i.getNumber() + " Duration :" + duration);
-
-			// Set the new request
-			Request newR = new Request(new Intersection("", 0, 0), new Intersection("", 0, 0), 0, 0);
-			newR.setPickupAddress(i);
-			newR.setPickupDuration(duration);
-			hw.setNewRequest(newR);
-
-			// Go to the next state (AddingPointPreceedingPickupState)
-			a.getListOfCommands().add(new AddPickupCommand(i, hw, duration));
-			a.setCurrentState(a.appp);
-			a.getCurrentState().initiateState(a, hw);
+			
+			if (result != null) {
+				System.out.println("Pickup address " + i.getNumber() + " Duration :" + duration);
+	
+				// Set the new request
+				Request newR = new Request(new Intersection("", 0, 0), new Intersection("", 0, 0), 0, 0);
+				newR.setPickupAddress(i);
+				newR.setPickupDuration(duration);
+				hw.setNewRequest(newR);
+	
+				// Go to the next state (AddingPointPreceedingPickupState)
+				a.getListOfCommands().add(new AddPickupCommand(i, hw, duration));
+				a.setCurrentState(a.appp);
+				a.getCurrentState().initiateState(a, hw);
+			} else {
+				a.getCurrentState().initiateState(a, hw);
+			}
 		}
 
 	}

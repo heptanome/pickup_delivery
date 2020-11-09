@@ -33,21 +33,29 @@ public class AddingDeliveryAddressState implements State {
 		} else {
 			// Get delivery duration
 			int duration = -1;
+			String result = null;
 			while (duration < 0) {
-				String dialog = JOptionPane.showInputDialog(hw, "Enter a delivery duration (number of minutes)", 5);
-				duration = Integer.parseInt(dialog);
+				result = JOptionPane.showInputDialog(hw, "Enter a delivery duration (number of minutes)", 5);
+				if(result == null) {
+					break;
+				}
+				duration = Integer.parseInt(result);
 			}
-
-			// Update de new request
-			Request r = hw.getNewRequest();
-			r.setDeliveryAddress(i);
-			r.setDeliveryDuration(duration);
-			hw.setNewRequest(r);
-
-			// Go to the next state (AddingPointPreceedingDeliveryState)
-			a.getListOfCommands().add(new AddDeliveryCommand(i, hw, duration));
-			a.setCurrentState(a.appd);
-			a.getCurrentState().initiateState(a, hw);
+			
+			if (result != null) {
+				// Update de new request
+				Request r = hw.getNewRequest();
+				r.setDeliveryAddress(i);
+				r.setDeliveryDuration(duration);
+				hw.setNewRequest(r);
+	
+				// Go to the next state (AddingPointPreceedingDeliveryState)
+				a.getListOfCommands().add(new AddDeliveryCommand(i, hw, duration));
+				a.setCurrentState(a.appd);
+				a.getCurrentState().initiateState(a, hw);
+			} else {
+				a.getCurrentState().initiateState(a, hw);
+			}
 		}
 	}
 
