@@ -35,8 +35,7 @@ class SegmentTest {
 
 	@Test
 	void testToString() {
-		assertEquals(segment.toString(),"Name : " + name + ", origin : " + intersectionOrigin.getNumber() + ", destination : " + intersectionDestination.getNumber() + " (length : " + length
-				+ ").");
+		assertEquals(segment.toString(),"{ "+intersectionOrigin.getNumber()+" ; "+intersectionDestination.getNumber()+"}\n");
 	}
 
 	@Test

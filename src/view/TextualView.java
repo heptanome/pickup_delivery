@@ -74,7 +74,7 @@ public class TextualView extends JPanel {
 
 			int i = 0;
 			for (Request r : sor.getRequests()) {
-				String[] obj = { Integer.toString(i + 1), r.getPickupAddress(), Integer.toString(r.getPickupDuration()),
+				String[] obj = { Integer.toString(r.getNumero()), r.getPickupAddress(), Integer.toString(r.getPickupDuration()),
 						r.getDeliveryAddress(), Integer.toString(r.getDeliveryDuration()) };
 				donnees[i] = obj;
 				i++;
@@ -174,7 +174,6 @@ public class TextualView extends JPanel {
 		int i = 0;
 		boolean depart = false;
 		int duration = -1;
-		int numero = 0;
 		for (Intersection inter : orderedAddresses) {
 
 			List<Request> listRequest = new LinkedList<Request>();
@@ -188,7 +187,8 @@ public class TextualView extends JPanel {
 				listRequest = mapDeliveryAddressToRequest.get(inter);
 				typeRequest = true;
 			}
-				
+			
+			int numeroReq = -1;
 			for(Request r: listRequest) {
 				type = "not init";
 				if (r != null) {
@@ -199,6 +199,7 @@ public class TextualView extends JPanel {
 						type = "Pickup";
 						duration = r.getPickupDuration();
 					}
+					numeroReq = r.getNumero();
 				} else {
 					if (depart == false) {
 						type = "Start";
@@ -209,10 +210,9 @@ public class TextualView extends JPanel {
 						duration = 0;
 					}
 				}
-				String [] obj = {Integer.toString(numero), type, inter.getNumber(), Integer.toString(duration)};
+				String [] obj = {Integer.toString(numeroReq), type, inter.getNumber(), Integer.toString(duration)};
 				tabData[i] = obj;
 				i++;
-				numero++;
 			}	
 		}
 		
@@ -317,7 +317,7 @@ public class TextualView extends JPanel {
 				uiTable.setRowSelectionInterval(i, i);
 			} 
 		}
-		
+		/**
 		int rowsTour = uiTableTour.getRowCount();
 		for (int i = 0; i < rowsTour; i++) {
 			String id1 = (String) uiTableTour.getValueAt(i, 2);
@@ -326,6 +326,7 @@ public class TextualView extends JPanel {
 				uiTableTour.setRowSelectionInterval(i, i);
 			}
 		}
+		**/
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
