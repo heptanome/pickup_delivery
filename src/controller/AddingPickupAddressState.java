@@ -45,13 +45,13 @@ public class AddingPickupAddressState implements State {
 				System.out.println("Pickup address " + i.getNumber() + " Duration :" + duration);
 	
 				// Set the new request
-				Request newR = new Request(new Intersection("", 0, 0), new Intersection("", 0, 0), 0, 0);
+				/*Request newR = new Request(new Intersection("", 0, 0), new Intersection("", 0, 0), 0, 0);
 				newR.setPickupAddress(i);
 				newR.setPickupDuration(duration);
-				hw.setNewRequest(newR);
+				hw.setNewRequest(newR);*/
+				a.getListOfCommands().add(new AddPickupCommand(i, hw, duration));
 	
 				// Go to the next state (AddingPointPreceedingPickupState)
-				a.getListOfCommands().add(new AddPickupCommand(i, hw, duration));
 				a.setCurrentState(a.appp);
 				a.getCurrentState().initiateState(a, hw);
 			} else {

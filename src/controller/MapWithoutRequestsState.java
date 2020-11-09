@@ -20,7 +20,7 @@ public class MapWithoutRequestsState implements State {
 	@Override
 	public void loadMap(Application a, HomeWindow homeWindow, String fp, Tour tour) {
 		try {
-			tour.setMap(fp);
+			a.getListOfCommands().add(new LoadMapCommand(tour, fp));
 		} catch (Exception e) {
 			a.setCurrentState(a.mapExceptionState);
 			a.getCurrentState().initiateState(a, homeWindow);
@@ -31,7 +31,6 @@ public class MapWithoutRequestsState implements State {
 	@Override
 	public void loadRequests(Application a, HomeWindow hw, String fp, Tour tour) {
 		try {
-			tour.setRequests(fp);
 			a.getListOfCommands().add(new LoadRequestsCommand(tour, fp));
 			a.setCurrentState(a.mapWithRequestsState);
 			a.getCurrentState().initiateState(a, hw);
@@ -67,7 +66,7 @@ public class MapWithoutRequestsState implements State {
 	 * @param l the current listOfCommands
 	 */
 	private void setButtons(HomeWindow hw, ListOfCommands l) {
-		hw.setButtonsEnabled(true, true, false, false, false, false, false, true, l.redoPossible(), true, false);
+		hw.setButtonsEnabled(true, true, false, false, false, false, false, l.undoPossible(), l.redoPossible(), true, false);
 	}
 	
     /**

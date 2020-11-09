@@ -34,7 +34,8 @@ public class DeletingRequestState implements State {
 			
 			Intersection preceedingPickup = tour.getIntersectionBefore(requestToBeDeleted.getPickup());
 			Intersection preceedingDelivery = tour.getIntersectionBefore(requestToBeDeleted.getDelivery());
-			nbRequets = tour.deleteRequest(hw.getRequestFromIntersection(i));
+			//nbRequets = tour.deleteRequest(hw.getRequestFromIntersection(i));
+
 			a.getListOfCommands().add(new DeleteRequestCommand(requestToBeDeleted, tour, preceedingPickup, preceedingDelivery));
 		} 
 		

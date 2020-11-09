@@ -20,6 +20,7 @@ public class DisplayingTourOnMapState implements State {
 	public void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour) {
 		try {
 			tour.setMap(fp);
+			a.getListOfCommands().reset();
 			a.setCurrentState(a.mapWoRequestsState);
 			a.getCurrentState().initiateState(a, homeWindow);
 		} catch (Exception e) {
@@ -33,6 +34,7 @@ public class DisplayingTourOnMapState implements State {
 	public void loadRequests(Application a, HomeWindow hw,  String fp, Tour tour) {
 		try {
 			tour.setRequests(fp);
+			a.getListOfCommands().reset();
 			a.setCurrentState(a.mapWithRequestsState);
 			a.getCurrentState().initiateState(a, hw);
 		} catch (Exception e) {

@@ -19,7 +19,6 @@ public class HomeState implements State {
 	@Override
 	public void loadMap(Application a, HomeWindow homeWindow, String fp, Tour tour) {
 		try {
-			tour.setMap(fp);
 			a.getListOfCommands().add(new LoadMapCommand(tour, fp));
 			a.setCurrentState(a.mapWoRequestsState);
 			a.getCurrentState().initiateState(a, homeWindow);

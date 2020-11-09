@@ -54,9 +54,7 @@ public class AddingPointPreceedingDeliveryState implements State {
                 {
 
                     //Update the tour
-                    tour.addRequest(hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup());
-
-                    //Add to the list of commands
+                    //tour.addRequest(hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup());
                     a.getListOfCommands().cancel();
                     a.getListOfCommands().cancel();
                     a.getListOfCommands().cancel();

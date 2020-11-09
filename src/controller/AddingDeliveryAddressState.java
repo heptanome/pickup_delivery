@@ -44,13 +44,14 @@ public class AddingDeliveryAddressState implements State {
 			
 			if (result != null) {
 				// Update de new request
+				/*
 				Request r = hw.getNewRequest();
 				r.setDeliveryAddress(i);
 				r.setDeliveryDuration(duration);
-				hw.setNewRequest(r);
+				hw.setNewRequest(r);*/
+				a.getListOfCommands().add(new AddDeliveryCommand(i, hw, duration));
 	
 				// Go to the next state (AddingPointPreceedingDeliveryState)
-				a.getListOfCommands().add(new AddDeliveryCommand(i, hw, duration));
 				a.setCurrentState(a.appd);
 				a.getCurrentState().initiateState(a, hw);
 			} else {

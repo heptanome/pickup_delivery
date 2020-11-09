@@ -25,10 +25,10 @@ public class AddingPointPreceedingPickupState implements State {
     
             //Set the point prexeeding the pickup point
             System.out.println("preceeding pickup address " + i.getNumber() );
-			hw.setPreceedingPickup(i);
+			//hw.setPreceedingPickup(i);
+			a.getListOfCommands().add(new AddPointPreceedingPickupCommand(i, hw) );
 
 			// Go to the next state (AddingDeliveryAdress)
-			a.getListOfCommands().add(new AddPointPreceedingPickupCommand(i, hw) );
 			a.setCurrentState(a.ada);
 			a.getCurrentState().initiateState(a, hw);
     }
