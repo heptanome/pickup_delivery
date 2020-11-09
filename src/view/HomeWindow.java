@@ -98,17 +98,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		graphicalContainer = new JPanel();
 		graphicalContainer.setLayout(null);
 		graphicalContainer.setBounds(0, 0, 820, HEIGHT - 30);
+		graphicalContainer.setBackground(new Color(0xc1c3c6));
 
 		// Textual container
 		textualContainer = new JPanel();
 		textualContainer.setLayout(null);
 		textualContainer.setBounds(820, 0, 400, HEIGHT - 30);
-		textualContainer.setBackground(new Color(188, 188, 188));
+		textualContainer.setBackground(new Color(0x2f394e));
 
 		// Buttons container
 		buttonsContainer = new JPanel();
 		buttonsContainer.setBounds(1220, 0, 200, HEIGHT - 30);
-		buttonsContainer.setBackground(new Color(5, 132, 243));
+		buttonsContainer.setBackground(new Color(0x41533b));
 
 		final BoxLayout boxLayout1 = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);
 		buttonsContainer.setLayout(boxLayout1);
@@ -417,7 +418,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		@Override
 		public void actionPerformed(final ActionEvent arg0) {
 			support.firePropertyChange("askHelp", null, null);
-			
+
 			lblHelp.setText(helpText);
 			buttonsContainer.add(lblHelp);
 			buttonsContainer.updateUI();
@@ -458,7 +459,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 
 	}
-	
+
 	/**
 	 * Listener for the "Cancel" button
 	 */
