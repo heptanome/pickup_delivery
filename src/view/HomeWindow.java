@@ -249,6 +249,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	public void selectCell(Intersection inter) {
 		gv.selectPoint(inter);
+		tv.selectCell(inter);
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
