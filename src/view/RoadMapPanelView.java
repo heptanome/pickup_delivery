@@ -2,11 +2,15 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.filechooser.FileSystemView;
 
 public class RoadMapPanelView extends JPanel{
 
@@ -17,6 +21,7 @@ public class RoadMapPanelView extends JPanel{
 	private final JPanel titleArea;
 	private final JScrollPane roadArea;
 	private JTextArea texte;
+	private String texteBrut = "";
 	Font fontTitle = new Font("Arial", Font.BOLD, 40);
 	Color back = new Color(0xc1c3c6);
 
@@ -56,10 +61,9 @@ public class RoadMapPanelView extends JPanel{
 	
 	public void addRoad () {
 		
-		texte = new JTextArea("no tour initialised");
+		texte = new JTextArea("no tour initialised JTextArea");
 		texte.setForeground(Color.BLACK);
 		texte.setEditable(false);
-		//title.setFont(fontTitle);
 		roadArea.setViewportView(texte);
 		roadArea.updateUI();
 		
@@ -68,6 +72,25 @@ public class RoadMapPanelView extends JPanel{
 	
 	public void updateRoad (String tourTxt) {
 		texte.setText(tourTxt);
+		this.texteBrut = tourTxt;
 		
+	}
+	
+	public void writeRoad () throws FileNotFoundException {
+		
+		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        jfc.setDialogTitle("Choose a directory to save your file: ");
+        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        int returnValue = jfc.showSaveDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            if (jfc.getSelectedFile().isDirectory()) {
+                System.out.println("You selected the directory: " + jfc.getSelectedFile());
+            }
+        }
+			
+		PrintWriter writer = new PrintWriter(jfc.getSelectedFile());
+		writer.println(texteBrut);
+		writer.close();
 	}
 }

@@ -24,6 +24,7 @@ public class AddingPointPreceedingDeliveryState implements State {
 		setButtons(hw, a.getListOfCommands());
 		describeState(hw);
 		setMouseListener(hw);
+		setHelp(hw);
 	}
 
     @Override
@@ -59,7 +60,6 @@ public class AddingPointPreceedingDeliveryState implements State {
                 {
 
                     //Update the tour
-                    //tour.addRequest(hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup());
                     a.getListOfCommands().removeWithOutUndoing();
                     a.getListOfCommands().removeWithOutUndoing();
                     a.getListOfCommands().removeWithOutUndoing();
@@ -88,8 +88,18 @@ public class AddingPointPreceedingDeliveryState implements State {
 
 	@Override
 	public void describeState(HomeWindow hw) {
-        JOptionPane.showMessageDialog(hw, "Add Request - step 4\nSelect a point on the map (colored point) that will preceed the delivery point"); 
+		JOptionPane.showMessageDialog(hw, "Add Request - step 4\nSelect a point on the map (colored point) that will preceed the delivery point");
         System.out.println("appd");
+    }
+
+    /**
+	 * Method called by the States to set the help message in the homeWindow, depending on the State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	private void setHelp(HomeWindow hw){
+        String message = "<html>Add Request - step 4\nSelect a point on<br> the map (colored <br>point) that will <br>preceed the delivery <br>point</html>";
+        hw.setHelpText(message);
     }
 	
 	@Override

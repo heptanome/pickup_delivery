@@ -21,6 +21,7 @@ public class AddingPointPreceedingPickupState implements State {
 		setButtons(hw, a.getListOfCommands());
 		describeState(hw);
 		setMouseListener(hw);
+		setHelp(hw);
 	}
 
     @Override
@@ -28,7 +29,6 @@ public class AddingPointPreceedingPickupState implements State {
     
             //Set the point prexeeding the pickup point
             System.out.println("preceeding pickup address " + i.getNumber() );
-			//hw.setPreceedingPickup(i);
 			a.getListOfCommands().add(new AddPointPreceedingPickupCommand(i, hw) );
 
 			// Go to the next state (AddingDeliveryAdress)
@@ -52,8 +52,20 @@ public class AddingPointPreceedingPickupState implements State {
     
 	@Override
 	public void describeState(HomeWindow hw) {
-        JOptionPane.showMessageDialog(hw, "Add Request - step 2\nSelect a point on the map (colored point) that will preceed the pickup point");
+		String message = "<html>Add Request - step 2\nSelect a point<br> on the map (colored <br>point) that will <br>preceed the pickup <br>point</html>";
+		hw.setHelpText(message);
+		JOptionPane.showMessageDialog(hw, "Add Request - step 2\nSelect a point on the map (colored point) that will preceed the pickup point");
         System.out.println("appp");
+	}
+	
+	/**
+	 * Method called by the States to set the help message in the homeWindow, depending on the State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	private void setHelp(HomeWindow hw){
+		String message = "<html>Map and requests <br>were loaded successfully. <br>Let's compute a tour!</html>";
+		hw.setHelpText(message);
     }
 	
 	@Override
