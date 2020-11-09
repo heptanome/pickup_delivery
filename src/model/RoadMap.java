@@ -169,6 +169,7 @@ public class RoadMap {
 		Intersection beforeDelivery = this.orderedAddresses.get(indexDeliveryToDelete-1);
 		Intersection afterDelivery = this.orderedAddresses.get(indexDeliveryToDelete+1);
 		
+		System.out.println("BP "+beforePickup+" AP "+afterPickup+" BD "+beforeDelivery+" AD "+afterDelivery);
 		//Remove the request to delete
 		this.orderedAddresses.remove(indexPickUpToDelete);
 		this.orderedAddresses.remove(indexDeliveryToDelete-1);
@@ -183,6 +184,8 @@ public class RoadMap {
 		if (beforeDelivery == requestToDelete.getPickup()) {
 			Intersection[] addressesPickup = {beforePickup, afterDelivery};
 			pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
+			afterPickup = afterDelivery;
+			beforeDelivery = afterDelivery;
 		} else {
 			Intersection[] addressesPickup = {beforePickup, afterPickup};
 			pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
@@ -227,8 +230,7 @@ public class RoadMap {
 		}
 		return false;
 	}
-		
-	
+			
 	/**
 	 * Check if an intersection is the last of the LinkedList orderedAddresses
 	 * @param i
@@ -397,7 +399,6 @@ public class RoadMap {
 			}
 		}
 	}
-
 
 	private LinkedList<Segment> findNewRoads(List<Intersection> zone, CityMap cityMap, Intersection[] addresses) {
 		zone.clear();
