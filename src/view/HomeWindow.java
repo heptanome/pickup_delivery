@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -23,6 +24,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 import model.CityMap;
 import model.Intersection;
@@ -312,6 +314,24 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	public Request getRequestFromIntersection(Intersection i) {
 		return loadedSOR.getRequestFromIntersection(i);
+	}
+
+	public void showHelpMessageString(String s){
+		this.helpText = s;
+
+		lblHelp.setText(helpText);
+			buttonsContainer.add(lblHelp);
+			buttonsContainer.updateUI();
+
+			TimerTask task = new TimerTask() {
+				public void run() {
+					buttonsContainer.remove(lblHelp);
+					buttonsContainer.updateUI();
+				}
+			};
+			Timer timer = new Timer("Timer");
+			long delay = 5000L;
+			timer.schedule(task, delay);
 	}
 
 	public class LoadRequestListener implements ActionListener {
@@ -662,12 +682,16 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		case "updateRequests":
 			this.setRequests((SetOfRequests) evt.getNewValue());
 			break;
+		case "startComputeTour":
+	        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+	        break;
 		case "tourComputed":
 			Tour tour = (Tour) evt.getNewValue();
 			List<Segment> segments = tour.getPath();
 			RoadMap roadMap = tour.getRoadMap();
 			SetOfRequests sor = tour.getSOR();
 			this.tourComputed(segments, roadMap, sor, tour);
+	        this.setCursor(Cursor.getDefaultCursor());
 			break;
 		case "selectCell":
 			this.selectCell((Intersection) evt.getNewValue());

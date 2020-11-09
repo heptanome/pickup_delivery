@@ -121,8 +121,8 @@ public class RoadMap {
 		int indexBeforeDelivery = this.orderedAddresses.indexOf(beforeDelivery)+1;
 		Intersection afterDelivery = this.orderedAddresses.get(indexBeforeDelivery);
 
-		this.orderedAddresses.add(indexBeforePickup, newDelivery);
-		this.orderedAddresses.add(indexBeforeDelivery, newPickup);
+		this.orderedAddresses.add(indexBeforePickup, newPickup);
+		this.orderedAddresses.add(indexBeforeDelivery, newDelivery);
 		this.addARequestToMap(this.mapPickupAddressToRequest, newPickup, newRequest);
 		this.addARequestToMap(this.mapDeliveryAddressToRequest, newDelivery, newRequest);
 		

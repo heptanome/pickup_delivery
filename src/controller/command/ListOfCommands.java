@@ -5,42 +5,45 @@ import java.util.LinkedList;
 public class ListOfCommands {
 	private LinkedList<Command> list;
 	private int currentIndex;
-	
-	public ListOfCommands(){
+
+	public ListOfCommands() {
 		currentIndex = -1;
 		list = new LinkedList<Command>();
 	}
-	
+
 	/**
 	 * Add command c to this
+	 * 
 	 * @param c the command to add
 	 */
-	public void add(Command c){
-        int i = currentIndex+1;
-        while(i<list.size()){
-            list.remove(i);
-        }
-        currentIndex++;
-        list.add(currentIndex, c);
-        c.doCommand();
-    }
-	
+	public void add(Command c) {
+		int i = currentIndex + 1;
+		while (i < list.size()) {
+			list.remove(i);
+		}
+		currentIndex++;
+		list.add(currentIndex, c);
+		c.doCommand();
+	}
+
 	/**
-	 * Temporary remove the last added command (this command may be reinserted again with redo)
+	 * Temporary remove the last added command (this command may be reinserted again
+	 * with redo)
 	 */
-	public void undo(){
-		if (currentIndex >= 0){
+	public void undo() {
+		if (currentIndex >= 0) {
 			Command cde = list.get(currentIndex);
 			currentIndex--;
 			cde.undoCommand();
 		}
 	}
-	
+
 	/**
-	 * Permanently remove the last added command (this command cannot be reinserted again with redo)
+	 * Permanently remove the last added command (this command cannot be reinserted
+	 * again with redo)
 	 */
-	public void cancel(){
-		if (currentIndex >= 0){
+	public void cancel() {
+		if (currentIndex >= 0) {
 			Command cde = list.get(currentIndex);
 			list.remove(currentIndex);
 			currentIndex--;
@@ -49,21 +52,21 @@ public class ListOfCommands {
 	}
 
 	/**
-	 * Permanently remove the last added command from the list whithout calling undoCommand() 
-	 * (this command cannot be reinserted again with redo) 
+	 * Permanently remove the last added command from the list without calling
+	 * undoCommand() (this command cannot be reinserted again with redo)
 	 */
-	public void removeWithOutUndoing(){
-		if (currentIndex >= 0){
+	public void removeWithOutUndoing() {
+		if (currentIndex >= 0) {
 			list.remove(currentIndex);
 			currentIndex--;
 		}
 	}
 
 	/**
-	 * Reinsert the last command removed by undo 
+	 * Reinsert the last command removed by undo
 	 */
-	public void redo(){
-		if (currentIndex < list.size()-1){
+	public void redo() {
+		if (currentIndex < list.size() - 1) {
 			currentIndex++;
 			Command cde = list.get(currentIndex);
 			cde.doCommand();
@@ -72,25 +75,27 @@ public class ListOfCommands {
 
 	/**
 	 * Checks whether a "redo" action is possible
+	 * 
 	 * @return true if "redo" is possible
 	 */
-	public boolean redoPossible(){
-		return (currentIndex < list.size()-1);
+	public boolean redoPossible() {
+		return (currentIndex < list.size() - 1);
 	}
 
 	/**
 	 * Checks whether a "undo" action is possible
+	 * 
 	 * @return true if "redo" is possible
 	 */
-	public boolean undoPossible(){
+	public boolean undoPossible() {
 		return (currentIndex > -1);
 	}
-	
+
 	/**
 	 * Permanently remove all commands from the list
 	 */
-	   public void reset(){
-	        currentIndex = -1;
-	        list.clear();  
-	    }
+	public void reset() {
+		currentIndex = -1;
+		list.clear();
+	}
 }
