@@ -249,6 +249,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	public void selectCell(Intersection inter) {
 		gv.selectPoint(inter);
+		tv.selectCell(inter);
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -265,10 +266,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * @param segments An ordered (linked) list of segments the cyclist will have to
 	 *                 follow
 	 */
-	public void tourComputed(List<Segment> segments, RoadMap roadMap) {
+	public void tourComputed(List<Segment> segments, RoadMap roadMap, SetOfRequests sor) {
 		this.helpText = "<html>Your tour has been computed.<br> Feel free to add or delete a point.</html>";
 		gv.displayTour(segments);
-		tv.displayTour(roadMap);
+		tv.displayTour(roadMap, sor);
 	}
 
 	public Request getNewRequest() {
@@ -643,7 +644,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			Tour tour = (Tour) evt.getNewValue();
 			List<Segment> segments = tour.getPath();
 			RoadMap roadMap = tour.getRoadMap();
-			this.tourComputed(segments, roadMap);
+			SetOfRequests sor = tour.getSOR();
+			this.tourComputed(segments, roadMap, sor);
 			break;
 		case "selectCell":
 			this.selectCell((Intersection) evt.getNewValue());

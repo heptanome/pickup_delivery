@@ -489,6 +489,20 @@ public class RoadMap {
 		path.addAll(end);
 		return path;
 	}
+
+		/**
+	 * Gets the intersection before another one in the orderedAdrdresses list
+	 * @param i
+	 * 			the Intersection 
+	 * @return the Intersection visited before i
+	 * 
+	 */
+	public Intersection getIntersectionBefore(Intersection i) {
+		int indexOfI = orderedAddresses.indexOf(i);
+		System.out.println(indexOfI);
+		Intersection iBefore = orderedAddresses.get(indexOfI -1);
+		return iBefore;
+	}
 	
 	public LinkedList<Intersection> getOrderedAddresses() {
 		return orderedAddresses;

@@ -52,10 +52,14 @@ public class AddingPointPreceedingDeliveryState implements State {
                 int reply = JOptionPane.showConfirmDialog(hw, message, title, JOptionPane.OK_CANCEL_OPTION);
                 if (reply == JOptionPane.YES_OPTION)
                 {
+
                     //Update the tour
                     tour.addRequest(hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup());
 
                     //Add to the list of commands
+                    a.getListOfCommands().cancel();
+                    a.getListOfCommands().cancel();
+                    a.getListOfCommands().cancel();
                     a.getListOfCommands().add(new AddCompleteRequestCommand(tour, hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup()) );
 
                     //Go to the next state (DisplayingTourOnMapState)
@@ -81,7 +85,7 @@ public class AddingPointPreceedingDeliveryState implements State {
 
 	@Override
 	public void describeState(HomeWindow hw) {
-        JOptionPane.showMessageDialog(hw, "Select a point on the map (colored point) that will preceed the delivery point"); 
+        JOptionPane.showMessageDialog(hw, "Add Request - step 4\nSelect a point on the map (colored point) that will preceed the delivery point"); 
         System.out.println("appd");
     }
 	

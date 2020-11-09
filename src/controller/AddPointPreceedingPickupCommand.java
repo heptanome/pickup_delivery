@@ -9,6 +9,8 @@ public class AddPointPreceedingPickupCommand implements Command{
 
     /**
 	 * Create the command which adds the point preceeding the pickup when adding a new request
+     * @param i the intersection preceeding the new pickup
+     * @param hw the HomeWindow
 	 */
 	public AddPointPreceedingPickupCommand (Intersection i, HomeWindow hw){
         this.interClicked = i;
