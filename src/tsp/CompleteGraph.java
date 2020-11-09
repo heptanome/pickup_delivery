@@ -53,8 +53,10 @@ public class CompleteGraph implements Graph {
 		for(int index = 0; index < requestNodesInt.length; index++) {
 			requestNodesInt[index] = cityMap.getNumberIdMap().get(requestNodes.get(index));
 		}
+		
 		this.createCompleteShortestGraph(requestNodesInt,cityMap.getNumberIdMap());
 	}
+	
 	/**
 	 * Constructor
 	 * @param CityMap cm
@@ -63,7 +65,6 @@ public class CompleteGraph implements Graph {
 	 * First, the constructor creates an array representing the city map. It is a rather big array, and not complete at all
 	 * Then, it creates the CostGraph array, wich represents a complete graph, where each vertex is a delivery or pickup point, or the depot
 	 */
-	
 	public CompleteGraph(CityMap cm, List<Intersection> points){
 		this.nbVertices = cm.getNbVertices();
 		this.cityMap = cm;

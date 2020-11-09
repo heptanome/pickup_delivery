@@ -18,6 +18,14 @@ public class RequestParser extends Parser {
 
 	private CityMap map;
 
+	/**
+	 * Constructor
+	 * @param fp
+	 * 			File to parse
+	 * @param cm
+	 * 			City Map where the requests are 
+	 * @throws Exception
+	 */
 	public RequestParser(String fp, CityMap cm) throws Exception {
 		super(fp);
 		this.map = cm;
@@ -57,8 +65,8 @@ public class RequestParser extends Parser {
 			Element request = (Element) n;
 			String puAddress = request.getAttribute("pickupAddress");
 			String delAddress = request.getAttribute("deliveryAddress");
-			int delDuration = Integer.parseInt(request.getAttribute("deliveryDuration"));
-			int puDuration = Integer.parseInt(request.getAttribute("pickupDuration"));
+			int delDuration = Integer.parseInt(request.getAttribute("deliveryDuration"))/60;
+			int puDuration = Integer.parseInt(request.getAttribute("pickupDuration"))/60;
 			Intersection pickup = findIntersection(puAddress);
 			Intersection delivery = findIntersection(delAddress);
 			requestsList.add(createRequest(delivery, pickup, delDuration, puDuration));

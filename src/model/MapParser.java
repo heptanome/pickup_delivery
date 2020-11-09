@@ -21,10 +21,16 @@ public class MapParser extends Parser {
 
 	private List<Intersection> intersectionsList;
 	private List<Segment> segmentsList;
-
 	private ReadWriteLock lock = new ReentrantReadWriteLock();
 	private HashMap<String, Intersection> interMap;
 
+
+	/**
+	 * Constructor 
+	 * @param fp
+	 * 			File to parse
+	 * @throws Exception
+	 */
 	public MapParser(String fp) throws Exception {
 		super(fp);
 		interMap = new HashMap<>();

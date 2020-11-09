@@ -21,6 +21,12 @@ import org.w3c.dom.NodeList;
 public abstract class Parser {
 	protected Document doc;
 
+	/**
+	 * Constructor
+	 * @param fp
+	 * 			File to parse
+	 * @throws Exception
+	 */
 	public Parser(String fp) throws Exception {
 		if (fp.isEmpty()) {
 			throw new IllegalArgumentException();

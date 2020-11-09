@@ -21,7 +21,7 @@ public class Tour {
 	private CityMap map;
 	private SetOfRequests setOfRequests;
 	private PropertyChangeSupport support;
-	private List<Segment> path;
+	private LinkedList<Segment> path;
 	private RoadMap roadMap;
 
 	public Tour() {
@@ -68,35 +68,34 @@ public class Tour {
 	 * Once a new Request has been specified by the user, this method
 	 * adds it to the setOfRequests, computes a new path, saves it in the Tour
 	 * and warns the View it has been updated
-	 * 
-	 * @param newRequest the request added to the tour
-	 * @type Request
-	 * @param beforeDelivery the point that must be visited before the delivery. It has to be either a delivery or a pickup point. It has to be visited after beforePikup
-	 * @type Intersection
-	 * @param beforePickup the point that must be visited before the pickup. It has to be either a delivery or a pickup point.
-	 * @type Intersection
+	 * @param newRequest
+	 * 			new request to add to the path
+	 * @param beforeDelivery
+	 * 			Address before the delivery address of the new request
+	 * @param beforePickup
+	 * 			Address before the pickup address of the new request
 	 */
 	public void addRequest(Request newRequest, Intersection beforeDelivery, Intersection beforePickup) {
-		
-		this.setOfRequests.getRequests().add(newRequest);
-		this.path = this.roadMap.addRequest(newRequest, beforePickup, beforeDelivery, this.map, this.path);
+		this.setOfRequests.addRequest(newRequest);
+		this.roadMap.addRequest(newRequest, beforePickup, beforeDelivery, this.map, this.path);
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this.path);
+		System.out.println("A request was added");
 	}
 	
 	/**
 	 * Once a Request has been specified by the user, this method
 	 * removes it from the setOfRequests, computes a new path, saves it in the Tour
 	 * and warns the View it has been updated
-	 * 
-	 * @param request the request removed from the tour
-	 * @type Request
+	 * @param request
+	 * 			request to delete
 	 */
 	public void deleteRequest(Request request) {
-		SetOfRequests oldReq = this.setOfRequests;
 		this.setOfRequests.deleteRequest(request);
-		support.firePropertyChange("updateRequests", oldReq, this.setOfRequests);
-		
+		this.roadMap.deleteRequest(request, this.map, this.path);
+		support.firePropertyChange("updateRequests", null, this.setOfRequests);
+		support.firePropertyChange("tourComputed", null, this.path);
+		System.out.println("A request was deleted");
 	}
 
 	/**
@@ -104,13 +103,12 @@ public class Tour {
 	 * in the Tour and warns the View it has been updated. The tour computed is the best tour that could be found in 20s,
 	 * not necessarily the best of all possible tours.
 	 * 
-	 * @return List<Segment> an ordered list of segment, where each destination is equals to the next segment's origin
-	 * 
+	 * @return list of segments containing the path the delivery man should follow 
 	 */
 	public List<Segment> computeTour() {
 		// TSP tsp = new TSP1();
 		//TSP tsp = new TSP2();
-		 TSP tsp = new TSP3();
+		TSP tsp = new TSP3();
 
 		CompleteGraph g = new CompleteGraph(map, setOfRequests);
 		long startTime = System.currentTimeMillis();
@@ -164,7 +162,7 @@ public class Tour {
 	public RoadMap getRoadMap() {
 		return roadMap;
 	}
-
+	
 	public void resetMap(){
 		CityMap oldMap = this.map;
 		this.map = null;
@@ -178,6 +176,7 @@ public class Tour {
 		// signal the observers the map has changed
 		support.firePropertyChange("updateRequests", oldSor, this.setOfRequests);
 	}
+	
 	
 	
 }
