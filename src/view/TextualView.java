@@ -8,8 +8,10 @@ import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -42,7 +44,6 @@ public class TextualView extends JPanel {
 	public void displayRequests(SetOfRequests sor) {
 
 		JPanel conteneurTabRequest = new JPanel();
-		// conteneurTabRequest.setBackground(Color.red);
 		conteneurTabRequest.setBounds(0, 50, 400, 200);
 		conteneurTabRequest.setLayout(null);
 		JPanel conteneurTabJTableRequest = new JPanel();
@@ -50,15 +51,21 @@ public class TextualView extends JPanel {
 		if (sor != null) {
 
 			// conteneurTabJTableRequest.setBackground(Color.orange);
-			conteneurTabJTableRequest.setBounds(0, 50, 400, 100);
+			conteneurTabJTableRequest.setBounds(0, 50, 400, 200);
 
 			// creation du titre
 			JLabel titreRequest = new JLabel("Request : ", JLabel.LEFT);
 			titreRequest.setBounds(0, 0, 400, 50);
 			titreRequest.setFont(fontTitle);
+			
+			//conteneur scrollable 
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(0, 50, 400, 150);
+			scrollPane.setBorder(null);
+			conteneurTabJTableRequest.setLayout(new BoxLayout(conteneurTabJTableRequest, BoxLayout.Y_AXIS));
 
 			String[][] donnees = new String[sor.getRequests().size()][5];
-			String[] entetes = { "Numero", "Pickup Adress", "Pickup duration", "Delivery Adress", "Delivery Duration" };
+			String[] entetes = { "N°", "Pickup Adress", "Pickup duration", "Delivery Adress", "Delivery Duration" };
 
 			int i = 0;
 			for (Request r : sor.getRequests()) {
@@ -87,10 +94,12 @@ public class TextualView extends JPanel {
 			conteneurTabJTableRequest.add(uiTable, BorderLayout.CENTER);
 			conteneurTabRequest.add(titreRequest);
 
-			conteneurTabRequest.add(conteneurTabJTableRequest);
+			
+			scrollPane.setViewportView(conteneurTabJTableRequest);
+			conteneurTabRequest.add(scrollPane);
 			add(conteneurTabRequest);
 
-			uiTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+			uiTable.getColumnModel().getColumn(0).setPreferredWidth(20);
 			uiTable.getColumnModel().getColumn(1).setPreferredWidth(85);
 			uiTable.getColumnModel().getColumn(2).setPreferredWidth(90);
 			uiTable.getColumnModel().getColumn(3).setPreferredWidth(90);
@@ -128,8 +137,13 @@ public class TextualView extends JPanel {
 		conteneurTabTour.setLayout(null);
 
 		JPanel conteneurTabJTableTour = new JPanel();
-		// conteneurTabJTableTour.setBackground(Color.red);
 		conteneurTabJTableTour.setBounds(0, 50, 400, 200);
+		conteneurTabJTableTour.setLayout(new BoxLayout(conteneurTabJTableTour, BoxLayout.Y_AXIS));
+		
+		//conteneur scrollable 
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 50, 400, 300);
+		scrollPane.setBorder(null);
 
 		// creation du titre
 		JLabel titreTour = new JLabel("Tour : ", JLabel.LEFT);
@@ -210,8 +224,9 @@ public class TextualView extends JPanel {
 		conteneurTabJTableTour.add(uiTableTour.getTableHeader(), BorderLayout.NORTH);
 		conteneurTabJTableTour.add(uiTableTour, BorderLayout.CENTER);
 		conteneurTabTour.add(titreTour);
-
-		conteneurTabTour.add(conteneurTabJTableTour);
+		
+		conteneurTabTour.add(scrollPane);
+		scrollPane.setViewportView(conteneurTabJTableTour);
 		add(conteneurTabTour);
 
 		conteneurTabJTableTour.updateUI();
