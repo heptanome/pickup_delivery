@@ -21,7 +21,7 @@ import tsp.TSP3;
  * the controller and will send the updated data to the View using its
  * propertyChange
  */
-public class Tour implements Cloneable{
+public class Tour{
 	private CityMap map;
 	private SetOfRequests setOfRequests;
 	private PropertyChangeSupport support;
