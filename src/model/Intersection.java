@@ -15,15 +15,12 @@ public class Intersection {
 	private List<Intersection> neighbours;
 
 	/**
-	 * Constructor
-	 * Create an intersection with an empty list of neighbours
-	 * A neighbour is an other intersection closed to this one
-	 * @param number
-	 * 			Number of an intersection (<String>)
-	 * @param latitude
-	 * 			Latitude of the intersection
-	 * @param longitude
-	 * 			Longitude of the intersection
+	 * Constructor Create an intersection with an empty list of neighbours. A
+	 * neighbour is an other intersection closed to this one
+	 * 
+	 * @param number    Number of an intersection, represented by a String
+	 * @param latitude  Latitude of the intersection
+	 * @param longitude Longitude of the intersection
 	 */
 	public Intersection(String number, float latitude, float longitude) {
 		this.number = number;
@@ -34,6 +31,7 @@ public class Intersection {
 
 	/**
 	 * Get the latitude of a request
+	 * 
 	 * @return latitude of a request
 	 */
 	public float getLatitude() {
@@ -42,6 +40,7 @@ public class Intersection {
 
 	/**
 	 * Get the longitude of a request
+	 * 
 	 * @return longitude of a request
 	 */
 	public float getLongitude() {
@@ -50,6 +49,7 @@ public class Intersection {
 
 	/**
 	 * Get the number of a request
+	 * 
 	 * @return number of a request
 	 */
 	public String getNumber() {
@@ -58,16 +58,17 @@ public class Intersection {
 
 	/**
 	 * Add a neighbour to the list of neighbours
-	 * @param intersection
-	 * 			Neighbour to add
+	 * 
+	 * @param intersection Neighbour to add
 	 */
 	public void addNeighbour(Intersection intersection) {
 		neighbours.add(intersection);
 	}
 
 	/**
-	 * Get the neighbours of a request
-	 * A neighbour is an other intersection closed to this intersection
+	 * Get the neighbours of a request A neighbour is an other intersection closed
+	 * to this intersection
+	 * 
 	 * @return a list of the neighbours of the request
 	 */
 	public List<Intersection> getNeighbours() {
@@ -78,6 +79,6 @@ public class Intersection {
 	 * Convert information of an Intersection to a String
 	 */
 	public String toString() {
-		return "id : " + number; //+ " {" + latitude + ", " + longitude + "}.";
+		return "id : " + number; // + " {" + latitude + ", " + longitude + "}.";
 	}
 }

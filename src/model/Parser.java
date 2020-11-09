@@ -23,9 +23,9 @@ public abstract class Parser {
 
 	/**
 	 * Constructor
-	 * @param fp
-	 * 			File to parse
-	 * @throws Exception
+	 * 
+	 * @param fp File to parse
+	 * @throws Exception Can fail if the file can not be parsed for whatever reason
 	 */
 	public Parser(String fp) throws Exception {
 		if (fp.isEmpty()) {
@@ -42,7 +42,7 @@ public abstract class Parser {
 	 * https://stackoverflow.com/a/19591302
 	 * 
 	 * @param n the NodeList to later iterate on
-	 * @returns a NodeListWrapper
+	 * @return a NodeListWrapper
 	 */
 	public static List<Node> asList(NodeList n) {
 		return n.getLength() == 0 ? Collections.<Node>emptyList() : new NodeListWrapper(n);
