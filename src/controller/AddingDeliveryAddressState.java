@@ -75,7 +75,7 @@ public class AddingDeliveryAddressState implements State {
 
 	@Override
 	public void describeState(HomeWindow hw) {
-		JOptionPane.showMessageDialog(hw, "Select a delivery point on the map  for the new request");
+		JOptionPane.showMessageDialog(hw, "Add Request - step 3\nSelect a delivery point on the map  for the new request");
 		System.out.println("ada");
 	}
 	
