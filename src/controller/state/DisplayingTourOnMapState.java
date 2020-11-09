@@ -1,25 +1,28 @@
-package controller;
+package controller.state;
 
 import javax.swing.JOptionPane;
 
+import controller.Application;
+import controller.command.ListOfCommands;
 import model.Tour;
 import view.HomeWindow;
 
 /**
- * State class used by the controller to handle the actions when it is displaying requests on the map before 
- * the tour calculation
+ * State class used by the controller to handle the actions when it is displaying a tour on the map
  */
-public class MapWithRequestsState implements State {
+public class DisplayingTourOnMapState implements State {
 	
 	@Override
 	public void initiateState(Application a, HomeWindow hw) {
 		setButtons(hw, a.getListOfCommands());
+		setMouseListener(hw);
 	}
 	
 	@Override
 	public void loadMap(Application a,HomeWindow homeWindow, String fp, Tour tour) {
 		try {
 			tour.setMap(fp);
+			a.getListOfCommands().reset();
 			a.setCurrentState(a.mapWoRequestsState);
 			a.getCurrentState().initiateState(a, homeWindow);
 		} catch (Exception e) {
@@ -33,6 +36,7 @@ public class MapWithRequestsState implements State {
 	public void loadRequests(Application a, HomeWindow hw,  String fp, Tour tour) {
 		try {
 			tour.setRequests(fp);
+			a.getListOfCommands().reset();
 			a.setCurrentState(a.mapWithRequestsState);
 			a.getCurrentState().initiateState(a, hw);
 		} catch (Exception e) {
@@ -41,28 +45,54 @@ public class MapWithRequestsState implements State {
 			a.getCurrentState().handleException(a,e,hw,this);
 		}
 	}
+	
+	@Override
+	public void addRequests(Application a, HomeWindow hw) {
+		System.out.println("Ajout d'une requête : ");
+		a.setCurrentState(a.apa);
+		a.getCurrentState().initiateState(a, hw);
+	}
+	
+	@Override
+	public void deleteRequests(Application a, HomeWindow hw)  {
+		System.out.println("Suppression d'une requête");
+		a.setCurrentState(a.deleteRequestState);
+		a.getCurrentState().initiateState(a,hw);
+	}
 
 	@Override
 	public void computeTour(Application a, HomeWindow hw, Tour tour) {
 		try {
 			tour.computeTour(); // returns a list of segments
-			a.setCurrentState(a.displayingTourState);
-			a.getListOfCommands().reset(); //To remove if we decide that we can undo/redo "compute tour"
-			a.getCurrentState().initiateState(a, hw);
 		}catch (Exception e) {
-			System.out.println(e);
+			
 		}
 	}
-
-
+	
 	@Override
 	public void undo(ListOfCommands l, Application a, HomeWindow hw){
-
 		l.undo();
-		a.setCurrentState(a.mapWoRequestsState);
-		a.getCurrentState().initiateState(a, hw);
-		//a.getCurrentState().setButtons(hw , l);
+		System.out.println(l.redoPossible());
+		this.initiateState(a, hw);
 	}
+
+	@Override
+	public void redo(ListOfCommands l, Application a, HomeWindow hw){
+		l.redo();
+		this.initiateState(a, hw);
+	}
+	
+	/**
+	 * Method called by the state to change the mouse listeners of a HomeWindow
+	 * according to the State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	private void setMouseListener(HomeWindow hw)  {	
+		hw.removeAllMouseListeners();
+		hw.addMouseOnMapListener();
+	}
+
 
 	/**
 	 * Method called by the state to update which buttons are enabled depending on the state
@@ -71,7 +101,7 @@ public class MapWithRequestsState implements State {
 	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(true, true, true, false, false, false, false,  l.undoPossible(),false, true, false);
+        hw.setButtonsEnabled(true, true, false, true, true, true, false , l.undoPossible() , l.redoPossible(), true, false);
 	}
     
     /**
@@ -81,8 +111,7 @@ public class MapWithRequestsState implements State {
 	 */
     @Override
 	public void describeState(HomeWindow hw){
-        JOptionPane.showMessageDialog(hw, "Map and requests were loaded successfully. Let's compute a tour!");
-		System.out.println("apa");
+        JOptionPane.showMessageDialog(hw, "A tour has been computed successfully. Feel free to add or delete a request.");
+		System.out.println("display tour");
     }
-
 }

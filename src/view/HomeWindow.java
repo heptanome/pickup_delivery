@@ -70,6 +70,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	private final JPanel textualContainer;
 	private final JPanel graphicalContainer;
 	private final JPanel buttonsContainer;
+	private final RoadMapPanelView roadMapContainer;
 	private final PropertyChangeSupport support;
 
 	public GraphicalView gv;
@@ -112,6 +113,9 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		buttonsContainer = new JPanel();
 		buttonsContainer.setBounds(1220, 0, 200, HEIGHT - 30);
 		buttonsContainer.setBackground(new Color(0x41533b));
+		
+		//RoadMapContainer
+		roadMapContainer = new RoadMapPanelView();
 
 		final BoxLayout boxLayout1 = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);
 		buttonsContainer.setLayout(boxLayout1);
@@ -311,6 +315,24 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		return loadedSOR.getRequestFromIntersection(i);
 	}
 
+	public void showHelpMessageString(String s){
+		this.helpText = s;
+
+		lblHelp.setText(helpText);
+			buttonsContainer.add(lblHelp);
+			buttonsContainer.updateUI();
+
+			TimerTask task = new TimerTask() {
+				public void run() {
+					buttonsContainer.remove(lblHelp);
+					buttonsContainer.updateUI();
+				}
+			};
+			Timer timer = new Timer("Timer");
+			long delay = 5000L;
+			timer.schedule(task, delay);
+	}
+
 	public class LoadRequestListener implements ActionListener {
 
 		@Override
@@ -397,16 +419,24 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 
 		public void displayRoadMap() {
+			remove(graphicalContainer);
+			add(roadMapContainer);
+			roadMapContainer.updateUI();
 			graphicalContainer.removeAll();
 			graphicalContainer.repaint();
-			final JPanel roadMapView = new RoadMapView();
-			graphicalContainer.add(roadMapView);
+			//final JPanel roadMapView = new RoadMapView();
+			//graphicalContainer.add(roadMapView);
 		}
 
 		public void removeRoadMap() {
 			graphicalContainer.removeAll();
 			graphicalContainer.repaint();
 			graphicalContainer.add(gv);
+			add(graphicalContainer);
+			remove(roadMapContainer);
+			graphicalContainer.updateUI();
+			roadMapContainer.updateUI();
+			
 		}
 
 		private void enableButtons(final boolean state) {

@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import controller.IrrelevantFileException;
+import controller.command.IrrelevantFileException;
 
 /**
  * The class responsible for parsing a map XML file passed in as a file path

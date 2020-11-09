@@ -18,7 +18,7 @@ import model.Segment;
 import model.SetOfRequests;
 import tsp.CompleteGraph;
 
-class CompleteGraphTest extends GraphTest {
+class CompleteGraphTest {
 	CompleteGraph completeGraph;
 	
 	private List<Intersection> intersections;
@@ -27,8 +27,6 @@ class CompleteGraphTest extends GraphTest {
 	private List<Request> requests;
 	private SetOfRequests sor;
 	
-	private int nbVertices;
-
 	private CityMap cityMap;
 
 	@BeforeEach
@@ -41,7 +39,7 @@ class CompleteGraphTest extends GraphTest {
 			segments.add(new Segment(intersections.get(i-1), intersections.get(i), Integer.toString(i), (float) 1.4)); 
 		}
 		this.cityMap = new CityMap(intersections, segments);
-		this.nbVertices = cityMap.getNbVertices();
+		cityMap.getNbVertices();
 		
 		requests = new ArrayList<Request>();
 		requests.add(new Request(intersections.get(2),intersections.get(6), 2, 3));
@@ -57,13 +55,11 @@ class CompleteGraphTest extends GraphTest {
 	}
 	
 	@Test
-	@Override
 	void testGetNbVertices() {
-		//assertEquals(intersections.size(), completeGraph.getNbVertices());
+		//assertEquals(intersections.size(), completeGraph.getNbVertices()); nb d'intersections des requêtes
 	}
 	
 	@Test
-	@Override
 	void testIsArc() {
 		for (int i = 1; i < completeGraph.getNbVertices(); i++) {
 			assertTrue(completeGraph.isArc(i-1, i));
@@ -72,13 +68,11 @@ class CompleteGraphTest extends GraphTest {
 	}
 	
 	@Test
-	@Override
 	void testIsDeliveryAddress() throws Exception {
 		assertTrue(completeGraph.isDeliveryAddress(1));
 	}
 	
 	@Test
-	@Override
 	void testGetCost() {
 		assertEquals(completeGraph.getCost(1, 1), 0);
 		assertEquals(completeGraph.getCost(1, 2), completeGraph.getCost(2, 3));
@@ -86,20 +80,13 @@ class CompleteGraphTest extends GraphTest {
 	}
 	
 	@Test
-	@Override
 	void testMinArcCost() {
 		assertEquals(completeGraph.minArcCost(), 0);
 	}
 	
 	@Test
-	@Override
-	void testGetPickUpFromDelivery() {
-		/*
-		for (int i=0; i< completeGraph.getNbVertices(); i++) {
-			if (completeGraph.isDeliveryAddress(i)) {
-				assertTrue(completeGraph.getPickUpFromDelivery(i) == 2 || completeGraph.getPickUpFromDelivery(i) == 4);
-			}
-		}*/
+	void testGetPickUpFromDelivery() throws Exception {
+		assertEquals(completeGraph.getPickUpFromDelivery(1).get(0), Integer.parseInt(sor.getRequestNodes().get(1).getNumber()));
 	}
 
 	@Test
@@ -112,26 +99,7 @@ class CompleteGraphTest extends GraphTest {
 
 	@Test
 	void testGetNodeNames() {
-		int j = 0;
-		String testString = "{0=0";
-		for (int i = 1; i <= requests.size(); i++) {
-			j += 1;
-			testString = testString + ", " + j + "=" + requests.get(i-1).getDeliveryAddress();
-			j = i+1;
-			testString = testString + ", " + j + "=" + requests.get(i-1).getPickupAddress();
-		}
-		testString += "}";
 		assertTrue(completeGraph.getNodeNames() instanceof Map<?,?>);
-		// TODO
-		//assertEquals(testString, completeGraph.getNodeNames());
-	}
-
-	@Test
-	void testGetPrecedenceOfANode() {
-		for (int i = 0; i < completeGraph.getNbVertices(); i++) {
-			System.out.println(completeGraph.getPrecedenceOfANode(i));
-		}
-		// TODO
 	}
 	
 }
