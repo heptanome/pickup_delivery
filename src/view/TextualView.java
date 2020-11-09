@@ -32,12 +32,13 @@ public class TextualView extends JPanel {
 	private JTable uiTable;
 	private JTable uiTableTour;
 	private PropertyChangeSupport support;
+	Color back = new Color(0x2f394e);
 
 	public TextualView(CityMap loadedMap) {
 		this.support = new PropertyChangeSupport(this);
 
 		setLayout(null);
-		setBackground(new Color(188, 188, 188));
+		setBackground(back);
 
 		fontTitle = new Font("Arial", Font.BOLD, 20);
 	}
@@ -49,9 +50,11 @@ public class TextualView extends JPanel {
 	public void displayRequests(SetOfRequests sor) {
 
 		JPanel conteneurTabRequest = new JPanel();
+		conteneurTabRequest.setBackground(back);
 		conteneurTabRequest.setBounds(0, 50, 400, 200);
 		conteneurTabRequest.setLayout(null);
 		JPanel conteneurTabJTableRequest = new JPanel();
+		conteneurTabJTableRequest.setBackground(back);
 
 		if (sor != null) {
 
@@ -60,6 +63,7 @@ public class TextualView extends JPanel {
 
 			// creation du titre
 			JLabel titreRequest = new JLabel("Request : ", JLabel.LEFT);
+			titreRequest.setForeground(Color.WHITE);
 			titreRequest.setBounds(0, 0, 400, 50);
 			titreRequest.setFont(fontTitle);
 			
@@ -143,14 +147,14 @@ public class TextualView extends JPanel {
 	 */
 	public void displayTour(RoadMap roadMap, SetOfRequests sor) {
 
-		System.out.println("DisplayTour avec RoadMap");
 		// creation du conteneur du tableau
 		JPanel conteneurTabTour = new JPanel();
-		// conteneurTabTour.setBackground(Color.orange);
+		conteneurTabTour.setBackground(back);
 		conteneurTabTour.setBounds(0, 250, 400, 350);
 		conteneurTabTour.setLayout(null);
 
 		JPanel conteneurTabJTableTour = new JPanel();
+		conteneurTabJTableTour.setBackground(back);
 		conteneurTabJTableTour.setBounds(0, 50, 400, 200);
 		conteneurTabJTableTour.setLayout(new BoxLayout(conteneurTabJTableTour, BoxLayout.Y_AXIS));
 		
@@ -161,6 +165,7 @@ public class TextualView extends JPanel {
 
 		// creation du titre
 		JLabel titreTour = new JLabel("Tour : ", JLabel.LEFT);
+		titreTour.setForeground(Color.white);
 		titreTour.setBounds(0, 0, 400, 50);
 		titreTour.setFont(fontTitle);
 		
@@ -271,8 +276,8 @@ public class TextualView extends JPanel {
 		JLabel caption1 = new JLabel("⏺ Yellow: departure", JLabel.LEFT);
 		JLabel caption2 = new JLabel("⏺ Blue: pickup", JLabel.LEFT);
 		JLabel caption3 = new JLabel("⏺ Magenta: delivery", JLabel.LEFT);
-		JLabel caption4 = new JLabel("-------- Beggining of the tour", JLabel.LEFT);
-		JLabel caption5 = new JLabel("-------- End of the tour", JLabel.LEFT);
+		JLabel caption4 = new JLabel("---- Beginning of the tour", JLabel.LEFT);
+		JLabel caption5 = new JLabel("---- End of the tour", JLabel.LEFT);
 
 		titleCaption.setFont(fontTitle);
 		caption1.setFont(fontCaption);

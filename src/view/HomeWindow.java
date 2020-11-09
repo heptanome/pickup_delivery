@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -11,6 +12,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Timer;
@@ -111,8 +113,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		buttonsContainer = new JPanel();
 		buttonsContainer.setBounds(1220, 0, 200, HEIGHT - 30);
 		buttonsContainer.setBackground(new Color(0x41533b));
-		
-		//RoadMapContainer
+
+		// RoadMapContainer
 		roadMapContainer = new RoadMapPanelView();
 
 		final BoxLayout boxLayout1 = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);
@@ -161,16 +163,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	/**
 	 * Updates which buttons are enabled
 	 * 
-	 * @param setMapB         : true if btnLoadMap needs to be enabled
-	 * @param setRequestsB    : true if btnLoadRequest needs to be enabled
-	 * @param computeB        : true if ComputeTour needs to be enabled
-	 * @param displayRoadMapB : true if btnRoadMap needs to be enabled
-	 * @param addB            : true if btnAddRequest needs to be enabled
-	 * @param deleteB         : true if btnDeleteRequest needs to be enabled
-	 * @param saveB           : true if btnSaveRoadMap needs to be enabled
-	 * @param undoB           : true if btnUndo needs to be enabled
-	 * @param redoB           : true if btnRedo needs to be enabled
-	 * @param sosB            : true if btnHelp needs to be enabled
+	 * @param setMapB         true if btnLoadMap needs to be enabled
+	 * @param setRequestsB    true if btnLoadRequest needs to be enabled
+	 * @param computeB        true if ComputeTour needs to be enabled
+	 * @param displayRoadMapB true if btnRoadMap needs to be enabled
+	 * @param addB            true if btnAddRequest needs to be enabled
+	 * @param deleteB         true if btnDeleteRequest needs to be enabled
+	 * @param saveB           true if btnSaveRoadMap needs to be enabled
+	 * @param undoB           true if btnUndo needs to be enabled
+	 * @param redoB           true if btnRedo needs to be enabled
+	 * @param sosB            true if btnHelp needs to be enabled
+	 * @param cancelB         true if cancelB needs to be enabled
 	 */
 	public void setButtonsEnabled(boolean setMapB, boolean setRequestsB, boolean computeB, boolean displayRoadMapB,
 			boolean addB, boolean deleteB, boolean saveB, boolean undoB, boolean redoB, boolean sosB, boolean cancelB) {
@@ -208,9 +211,10 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	}
 
 	/**
-	 * Resets the map with no requests and no tour displayed + reinitializes textual view
+	 * Resets the map with no requests and no tour displayed + reinitializes textual
+	 * view
 	 */
-	public void resetMap(){
+	public void resetMap() {
 		// Graphical view
 		graphicalContainer.removeAll();
 		if (graphicalContainer.getMouseListeners().length > 0) {
@@ -231,7 +235,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			this.helpText = "<html>The map has been loaded. <br> Please load a requests file now.</html>";
 		}
 
-		//Rest textual view if there was one
+		// Rest textual view if there was one
 		textualContainer.removeAll();
 		textualContainer.repaint();
 	}
@@ -278,11 +282,15 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * 
 	 * @param segments An ordered (linked) list of segments the cyclist will have to
 	 *                 follow
+	 * @param roadMap  the road map to broadcast
+	 * @param sor      the set of requests
+	 * @param tour     the tour holding all the information
 	 */
-	public void tourComputed(List<Segment> segments, RoadMap roadMap, SetOfRequests sor) {
+	public void tourComputed(List<Segment> segments, RoadMap roadMap, SetOfRequests sor, Tour tour) {
 		this.helpText = "<html>Your tour has been computed.<br> Feel free to add or delete a point.</html>";
 		gv.displayTour(segments);
 		tv.displayTour(roadMap, sor);
+		roadMapContainer.updateRoad(tour.toString());
 	}
 
 	public Request getNewRequest() {
@@ -332,18 +340,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		System.out.println(s);
 
 		lblHelp.setText(helpText);
-			buttonsContainer.add(lblHelp);
-			buttonsContainer.updateUI();
+		buttonsContainer.add(lblHelp);
+		buttonsContainer.updateUI();
 
-			TimerTask task = new TimerTask() {
-				public void run() {
-					buttonsContainer.remove(lblHelp);
-					buttonsContainer.updateUI();
-				}
-			};
-			Timer timer = new Timer("Timer");
-			long delay = 5000L;
-			timer.schedule(task, delay);
+		TimerTask task = new TimerTask() {
+			public void run() {
+				buttonsContainer.remove(lblHelp);
+				buttonsContainer.updateUI();
+			}
+		};
+		Timer timer = new Timer("Timer");
+		long delay = 5000L;
+		timer.schedule(task, delay);
 	}
 
 	public class LoadRequestListener implements ActionListener {
@@ -384,7 +392,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 				final String mapPath = dialogue.getSelectedFile().getAbsolutePath();
 				System.out.println("Selected File : " + mapPath);
 				support.firePropertyChange("loadMap", "", mapPath);
-			}	
+			}
 		}
 
 	}
@@ -437,8 +445,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			roadMapContainer.updateUI();
 			graphicalContainer.removeAll();
 			graphicalContainer.repaint();
-			//final JPanel roadMapView = new RoadMapView();
-			//graphicalContainer.add(roadMapView);
+			// final JPanel roadMapView = new RoadMapView();
+			// graphicalContainer.add(roadMapView);
 		}
 
 		public void removeRoadMap() {
@@ -449,7 +457,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			remove(roadMapContainer);
 			graphicalContainer.updateUI();
 			roadMapContainer.updateUI();
-			
+
 		}
 
 		private void enableButtons(final boolean state) {
@@ -468,6 +476,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		@Override
 		public void actionPerformed(final ActionEvent e) {
 			System.out.println("Saving the road map");
+			try {
+				roadMapContainer.writeRoad();
+			} catch (FileNotFoundException err) {
+				// TODO Auto-generated catch block
+				err.printStackTrace();
+			}
 		}
 
 	}
@@ -506,6 +520,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 
 	}
+	
 
 	/**
 	 * Listener for the "Redo" button
@@ -682,7 +697,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * 
 	 * @param evt the event the View is listening for, from the Model
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void propertyChange(final PropertyChangeEvent evt) {
 		final String propName = evt.getPropertyName();
@@ -694,12 +708,16 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		case "updateRequests":
 			this.setRequests((SetOfRequests) evt.getNewValue());
 			break;
+		case "startComputing":
+			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			break;
 		case "tourComputed":
 			Tour tour = (Tour) evt.getNewValue();
 			List<Segment> segments = tour.getPath();
 			RoadMap roadMap = tour.getRoadMap();
 			SetOfRequests sor = tour.getSOR();
-			this.tourComputed(segments, roadMap, sor);
+			this.tourComputed(segments, roadMap, sor, tour);
+			this.setCursor(Cursor.getDefaultCursor());
 			break;
 		case "selectCell":
 			this.selectCell((Intersection) evt.getNewValue());

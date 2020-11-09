@@ -22,5 +22,8 @@ run_test: build_test
 	java -jar .deps/junit-platform-console-standalone-1.7.0.jar --classpath \
 		bin:.deps/mockito-all-2.0.2-beta.jar --scan-classpath
 
+doc:
+	javadoc src/*/*.java src/*/*/*.java -cp .deps/junit-platform-console-standalone-1.7.0.jar:.deps/mockito-all-2.0.2-beta.jar:. -d doc
+
 clean:
-	rm -rf bin
+	rm -rf bin doc
