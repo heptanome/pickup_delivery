@@ -1,5 +1,7 @@
 package controller;
 
+import javax.swing.JOptionPane;
+
 import model.Tour;
 import view.HomeWindow;
 
@@ -69,7 +71,18 @@ public class MapWithRequestsState implements State {
 	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(true, true, true, false, false, false, false,  true, false, false, false);
+        hw.setButtonsEnabled(true, true, true, false, false, false, false,  true, false, true, false);
 	}
+    
+    /**
+	 * Method called by the state to display a message with specific information about the state
+	 * 
+	 * @param hw the HomeWindow
+	 */
+    @Override
+	public void describeState(HomeWindow hw){
+        JOptionPane.showMessageDialog(hw, "Map and requests were loaded successfully. Let's compute a tour!");
+		System.out.println("apa");
+    }
 
 }

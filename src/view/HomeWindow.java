@@ -305,16 +305,17 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		public void actionPerformed(final ActionEvent e) {
 			File currentDirectory = null;
 			try {
-				currentDirectory = new File(".").getCanonicalFile();
+				currentDirectory = new File("./XML_data").getCanonicalFile();
 				System.out.println("Current directory : " + currentDirectory);
 			} catch (final IOException err) {
 			}
 			final JFileChooser dialogue = new JFileChooser(currentDirectory);
-			dialogue.showOpenDialog(null);
-			final String requestPath = dialogue.getSelectedFile().getAbsolutePath();
-			System.out.println("Selected File : " + requestPath);
-
-			support.firePropertyChange("loadRequests", "", requestPath);
+			int result = dialogue.showOpenDialog(null);
+			if (result == JFileChooser.APPROVE_OPTION) {
+				final String requestPath = dialogue.getSelectedFile().getAbsolutePath();
+				support.firePropertyChange("loadRequests", "", requestPath);
+				System.out.println("Selected File : " + requestPath);
+			}
 		}
 
 	}
@@ -325,15 +326,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		public void actionPerformed(final ActionEvent arg0) {
 			File currentDirectory = null;
 			try {
-				currentDirectory = new File(".").getCanonicalFile();
+				currentDirectory = new File("./XML_data").getCanonicalFile();
 				System.out.println("Current directory : " + currentDirectory);
 			} catch (final IOException err) {
 
 			}
 			final JFileChooser dialogue = new JFileChooser(currentDirectory);
-			dialogue.showOpenDialog(null);
-			final String mapPath = dialogue.getSelectedFile().getAbsolutePath();
-			support.firePropertyChange("loadMap", "", mapPath);
+			int result = dialogue.showOpenDialog(null);
+			if (result == JFileChooser.APPROVE_OPTION) {
+				final String mapPath = dialogue.getSelectedFile().getAbsolutePath();
+				System.out.println("Selected File : " + mapPath);
+				support.firePropertyChange("loadMap", "", mapPath);
+			}	
 		}
 
 	}

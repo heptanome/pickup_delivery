@@ -40,5 +40,16 @@ public class RequestOpeningExceptionState implements State {
 		//Transition vers l'état précédent
 		a.setCurrentState(previousState);
 	}
+	
+	/**
+	 * Method called by the state to display a message with specific information about the state
+	 * 
+	 * @param hw the HomeWindow
+	 */
+    @Override
+	public void describeState(HomeWindow hw){
+        JOptionPane.showMessageDialog(hw, "Something went wrong while loading the request. Try again.");
+		System.out.println("apa");
+    }
 
 }
