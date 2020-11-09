@@ -115,7 +115,7 @@ class TourTest implements PropertyChangeListener {
 			break;
 		case "updateRequests":
 			SetOfRequests set = (SetOfRequests) evt.getNewValue();
-			assertEquals(NB_REQUEST, set.getRequests().size());
+			assertEquals(NB_REQUEST, set.getNbRequests());
 			break;
 		default:
 			break;

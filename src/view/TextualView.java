@@ -73,7 +73,7 @@ public class TextualView extends JPanel {
 			scrollPane.setBorder(null);
 			conteneurTabJTableRequest.setLayout(new BoxLayout(conteneurTabJTableRequest, BoxLayout.Y_AXIS));
 
-			String[][] donnees = new String[sor.getRequests().size()][5];
+			String[][] donnees = new String[sor.getNbRequests()][5];
 			String[] entetes = { "N°", "Pickup Adress", "Pickup duration", "Delivery Adress", "Delivery Duration" };
 
 			int i = 0;
@@ -178,7 +178,7 @@ public class TextualView extends JPanel {
 		
 		int i = 0;
 		boolean depart = false;
-		int duration = -1;
+		String duration = "-1";
 		for (Intersection inter : orderedAddresses) {
 
 			List<Request> listRequest = new LinkedList<Request>();
@@ -200,10 +200,10 @@ public class TextualView extends JPanel {
 					if (r != null) {
 						if (typeRequest) {
 							type = "Delivery";
-							duration = r.getDeliveryDuration();
+							duration = Integer.toString(r.getDeliveryDuration());
 						} else {
 							type = "Pickup";
-							duration = r.getPickupDuration();
+							duration = Integer.toString(r.getPickupDuration());
 						}
 						numeroReq = Integer.toString(r.getNumero());
 					}	
@@ -212,13 +212,15 @@ public class TextualView extends JPanel {
 				if (depart == false) {
 					type = "Start";
 					numeroReq = "NC";
+					duration = "NC";
 					depart = true;
 				} else {
 					type = "End";
 					numeroReq = "NC";
+					duration = "NC";
 				}
 			}
-			String [] obj = {numeroReq, type, inter.getNumber(), Integer.toString(duration)};
+			String [] obj = {numeroReq, type, inter.getNumber(), duration};
 			tabData[i] = obj;
 			i++;
 		}

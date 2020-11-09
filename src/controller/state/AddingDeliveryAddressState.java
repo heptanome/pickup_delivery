@@ -21,6 +21,7 @@ public class AddingDeliveryAddressState implements State {
 		setButtons(hw, a.getListOfCommands());
 		describeState(hw);
 		setMouseListener(hw);
+		setHelp(hw);
 	}
 
 	@Override
@@ -45,12 +46,6 @@ public class AddingDeliveryAddressState implements State {
 			}
 			
 			if (result != null) {
-				// Update de new request
-				/*
-				Request r = hw.getNewRequest();
-				r.setDeliveryAddress(i);
-				r.setDeliveryDuration(duration);
-				hw.setNewRequest(r);*/
 				a.getListOfCommands().add(new AddDeliveryCommand(i, hw, duration));
 	
 				// Go to the next state (AddingPointPreceedingDeliveryState)
@@ -80,6 +75,16 @@ public class AddingDeliveryAddressState implements State {
 	public void describeState(HomeWindow hw) {
 		JOptionPane.showMessageDialog(hw, "Add Request - step 3\nSelect a delivery point on the map  for the new request");
 		System.out.println("ada");
+	}
+
+	/**
+	 * Method called by the States to set the help message in the homeWindow, depending on the State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	private void setHelp(HomeWindow hw){
+		String message = "<html>Add Request - step 3\nSelect a delivery point<br> on the map  for<br> the new request</html>";
+		hw.setHelpText(message);
 	}
 	
 	@Override

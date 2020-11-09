@@ -40,7 +40,6 @@ public class AddCompleteRequestCommand implements Command {
 		try {
 			System.out.println("undo add complete command");
 			this.tour.deleteRequest(newRequest);
-			// TODO
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

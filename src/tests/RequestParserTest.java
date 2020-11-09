@@ -88,7 +88,7 @@ class RequestParserTest {
 	void testLoadRequests() {
 		SetOfRequests setOfRequest = requestParser.loadRequests();
 		assertEquals(depot,setOfRequest.getDepot());
-		assertEquals(NB_REQUEST,setOfRequest.getRequests().size());
+		assertEquals(NB_REQUEST,setOfRequest.getNbRequests());
 	}
 
 }

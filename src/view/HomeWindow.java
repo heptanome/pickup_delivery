@@ -189,12 +189,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnHelp.setEnabled(sosB);
 		btnCancel.setEnabled(cancelB);
 
-		/**
-		 * XXX the setButtonEnabled function is called on all (almost?) each state
-		 * change, so I'm car-jacking it to update the zoom image when needed
-		 * 
-		 * This is not the most proper way to do it, that's why I'll flag it with TODO
-		 */
 		if (zoom != null) {
 			zoom.updateImage();
 		}
@@ -321,8 +315,23 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		return loadedSOR.getRequestFromIntersection(i);
 	}
 
-	public void showHelpMessageString(String s) {
+	/**
+	 * Setter for the helpText attribute
+	 * @param s the new helpText
+	 */
+	public void setHelpText(String s){
 		this.helpText = s;
+		//Remove if there is something displayed
+		lblHelp.setText("");
+	}
+
+	/**
+	 * Displays help message in the lbnHelp
+	 * @param s the message to display
+	 */
+	public void showHelpMessageString(String s){
+		this.helpText = s;
+		System.out.println(s);
 
 		lblHelp.setText(helpText);
 		buttonsContainer.add(lblHelp);

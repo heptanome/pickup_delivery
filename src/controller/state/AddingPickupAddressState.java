@@ -20,6 +20,7 @@ public class AddingPickupAddressState implements State {
 		describeState(hw);
 		setButtons(hw, a.getListOfCommands());
 		setMouseListener(hw);
+		setHelp(hw);
 	}
 
 	@Override
@@ -44,13 +45,6 @@ public class AddingPickupAddressState implements State {
 			}
 			
 			if (result != null) {
-				System.out.println("Pickup address " + i.getNumber() + " Duration :" + duration);
-	
-				// Set the new request
-				/*Request newR = new Request(new Intersection("", 0, 0), new Intersection("", 0, 0), 0, 0);
-				newR.setPickupAddress(i);
-				newR.setPickupDuration(duration);
-				hw.setNewRequest(newR);*/
 				a.getListOfCommands().add(new AddPickupCommand(i, hw, duration));
 	
 				// Go to the next state (AddingPointPreceedingPickupState)
@@ -65,8 +59,18 @@ public class AddingPickupAddressState implements State {
 
 	@Override
 	public void describeState(HomeWindow hw) {
-		JOptionPane.showMessageDialog(hw, "Add Request - step 1\nSelect a pickup point on the map for the new request");
+		JOptionPane.showMessageDialog(hw,  "Add Request - step 1\nSelect a pickup point on the map for the new request");
 		System.out.println("apa");
+	}
+
+	/**
+	 * Method called by the States to set the help message in the homeWindow, depending on the State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	private void setHelp(HomeWindow hw){
+		String message = "<html>Add Request - step 1\nSelect a pickup point<br> on the map for <br>the new request</html>";
+		hw.setHelpText(message);
 	}
 	
 	@Override

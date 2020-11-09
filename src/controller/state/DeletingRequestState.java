@@ -21,6 +21,7 @@ public class DeletingRequestState implements State {
 		setButtons(hw, a.getListOfCommands());
 		describeState(hw);
 		setMouseListener(hw);
+		setHelp(hw);
 	}
 	
 	@Override
@@ -39,7 +40,7 @@ public class DeletingRequestState implements State {
 			Intersection preceedingDelivery = tour.getIntersectionBefore(requestToBeDeleted.getDelivery());
 
 			a.getListOfCommands().add(new DeleteRequestCommand(requestToBeDeleted, tour, preceedingPickup, preceedingDelivery));
-			nbRequets = tour.getSOR().getRequests().size();
+			nbRequets = tour.getSOR().getNbRequests();
 		} 
 		
 		if(nbRequets!=0) {
@@ -62,9 +63,23 @@ public class DeletingRequestState implements State {
 	
 	@Override
 	public void describeState(HomeWindow hw) {
-        JOptionPane.showMessageDialog(hw, "Select a colored point on the map so that the corresponding request will "
-        		+ "be deleted (pickup and delivery point)");
+		String message = "<html>Select a colored<br> point on the map so that <br>the corresponding request will<br></html> "
+						+ "be deleted (pickup <br>and delivery point)";
+		hw.setHelpText(message);
+		JOptionPane.showMessageDialog(hw, "Select a colored point on the map so that the correspondingrequest will "
+		+ "be deleted (pickup and delivery point)");
 	}
+
+
+	/**
+	 * Method called by the States to set the help message in the homeWindow, depending on the State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	private void setHelp(HomeWindow hw){
+		String message = "<html>Map and requests <br>were loaded successfully. <br>Let's compute a tour!</html>";
+		hw.setHelpText(message);
+    }
 	
 	/**
 	 * Method called by the state to change the mouse listeners of a HomeWindow

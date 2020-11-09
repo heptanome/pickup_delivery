@@ -41,7 +41,6 @@ public class TSP3 extends TemplateTSP {
 
 	@Override
 	protected Iterator<Integer> iterator(Integer currentVertex, Collection<Integer> unvisited, Graph g) throws Exception {
-		// TODO Auto-generated method stub
 		return new SeqIter(unvisited, currentVertex, g);
 	}
 
