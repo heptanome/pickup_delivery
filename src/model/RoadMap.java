@@ -115,17 +115,19 @@ public class RoadMap {
 	  
 		Intersection newPickup = newRequest.getPickup();
 		Intersection newDelivery = newRequest.getDelivery();
-
+		
+		
 		int indexBeforePickup = this.orderedAddresses.indexOf(beforePickup)+1;
 		Intersection afterPickup = this.orderedAddresses.get(indexBeforePickup);
 		int indexBeforeDelivery = this.orderedAddresses.indexOf(beforeDelivery)+1;
 		Intersection afterDelivery = this.orderedAddresses.get(indexBeforeDelivery);
+		System.out.println(orderedAddresses);
 
 		this.orderedAddresses.add(indexBeforePickup, newPickup);
 		this.orderedAddresses.add(indexBeforeDelivery, newDelivery);
 		this.addARequestToMap(this.mapPickupAddressToRequest, newPickup, newRequest);
 		this.addARequestToMap(this.mapDeliveryAddressToRequest, newDelivery, newRequest);
-		
+		System.out.println(orderedAddresses);
 		LinkedList<Segment> pickupPath = new LinkedList<Segment>();
 		LinkedList<Segment> deliveryPath = new LinkedList<Segment>();
 		List<Intersection> zone = new ArrayList<Intersection>(4);
@@ -258,7 +260,6 @@ public class RoadMap {
 		String message = "";
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
 		Map.Entry<LocalTime, Integer> entry = durations.pollFirstEntry();
-
 		ListIterator<Intersection> itIntersection = this.orderedAddresses.listIterator();
 		ListIterator<Segment> itSegment = path.listIterator();
 		Segment currentSegment = itSegment.next();
@@ -277,7 +278,6 @@ public class RoadMap {
 				break;
 			
 			String name = currentSegment.getName();
-			
 			
 			while(currentSegment.getDestination() != currentIntersection) {
 				
