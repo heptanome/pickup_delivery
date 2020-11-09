@@ -166,7 +166,7 @@ public class Tour {
 	public List<Segment> getPath() {
 		return path;
 	}
-	
+
 	public void resetMap(){
 		CityMap oldMap = this.map;
 		this.map = null;
