@@ -22,11 +22,10 @@ public class RequestParser extends Parser {
 
 	/**
 	 * Constructor
-	 * @param fp
-	 * 			File to parse
-	 * @param cm
-	 * 			City Map where the requests are 
-	 * @throws Exception
+	 * 
+	 * @param fp File to parse
+	 * @param cm City Map where the requests are
+	 * @throws Exception if the file fails to load/parse for whatever reason
 	 */
 	public RequestParser(String fp, CityMap cm) throws Exception {
 		super(fp);
@@ -56,7 +55,7 @@ public class RequestParser extends Parser {
 			idDepot = dep.getAttribute("address");
 			depot = findIntersection(idDepot);
 			try {
-				departure = LocalTime.parse(dep.getAttribute("departureTime"),format);
+				departure = LocalTime.parse(dep.getAttribute("departureTime"), format);
 			} catch (Exception e) {
 
 			}
@@ -67,15 +66,15 @@ public class RequestParser extends Parser {
 			Element request = (Element) n;
 			String puAddress = request.getAttribute("pickupAddress");
 			String delAddress = request.getAttribute("deliveryAddress");
-			int delDuration = Integer.parseInt(request.getAttribute("deliveryDuration"))/60;
-			int puDuration = Integer.parseInt(request.getAttribute("pickupDuration"))/60;
+			int delDuration = Integer.parseInt(request.getAttribute("deliveryDuration")) / 60;
+			int puDuration = Integer.parseInt(request.getAttribute("pickupDuration")) / 60;
 			Intersection pickup = findIntersection(puAddress);
 			Intersection delivery = findIntersection(delAddress);
 			requestsList.add(createRequest(delivery, pickup, delDuration, puDuration, numeroReq));
 			numeroReq++;
 		}
-		
-		if (depot == null || departure == null || requestsList.size() <1) {
+
+		if (depot == null || departure == null || requestsList.size() < 1) {
 			throw new IrrelevantFileException("Le fichier ne contient pas de requêtes correcte");
 		}
 
@@ -83,7 +82,8 @@ public class RequestParser extends Parser {
 		return sor;
 	}
 
-	private Request createRequest(Intersection delivAdd, Intersection pickupAdd, int delivDur, int pickupDur, int numeroReq) {
+	private Request createRequest(Intersection delivAdd, Intersection pickupAdd, int delivDur, int pickupDur,
+			int numeroReq) {
 		return new Request(delivAdd, pickupAdd, delivDur, pickupDur, numeroReq);
 	}
 

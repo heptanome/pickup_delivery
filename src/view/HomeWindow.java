@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -23,6 +24,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 import model.CityMap;
 import model.Intersection;
@@ -279,10 +281,11 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * @param segments An ordered (linked) list of segments the cyclist will have to
 	 *                 follow
 	 */
-	public void tourComputed(List<Segment> segments, RoadMap roadMap, SetOfRequests sor) {
+	public void tourComputed(List<Segment> segments, RoadMap roadMap, SetOfRequests sor, Tour tour) {
 		this.helpText = "<html>Your tour has been computed.<br> Feel free to add or delete a point.</html>";
 		gv.displayTour(segments);
 		tv.displayTour(roadMap, sor);
+		roadMapContainer.updateRoad(tour.toString());
 	}
 
 	public Request getNewRequest() {
@@ -679,12 +682,16 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		case "updateRequests":
 			this.setRequests((SetOfRequests) evt.getNewValue());
 			break;
+		case "startComputing":
+	        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+	        break;
 		case "tourComputed":
 			Tour tour = (Tour) evt.getNewValue();
 			List<Segment> segments = tour.getPath();
 			RoadMap roadMap = tour.getRoadMap();
 			SetOfRequests sor = tour.getSOR();
-			this.tourComputed(segments, roadMap, sor);
+			this.tourComputed(segments, roadMap, sor, tour);
+	        this.setCursor(Cursor.getDefaultCursor());
 			break;
 		case "selectCell":
 			this.selectCell((Intersection) evt.getNewValue());

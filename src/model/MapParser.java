@@ -26,12 +26,11 @@ public class MapParser extends Parser {
 	private ReadWriteLock lock = new ReentrantReadWriteLock();
 	private HashMap<String, Intersection> interMap;
 
-
 	/**
-	 * Constructor 
-	 * @param fp
-	 * 			File to parse
-	 * @throws Exception
+	 * Constructor
+	 * 
+	 * @param fp File to parse
+	 * @throws Exception The parser can fail on reading/parsing the file
 	 */
 	public MapParser(String fp) throws Exception {
 		super(fp);
@@ -42,7 +41,7 @@ public class MapParser extends Parser {
 	 * Builds a CityMap from the intersections and segments NodeLists
 	 * 
 	 * @return a functioning CityMap
-	 * @throws InterruptedException
+	 * @throws InterruptedException Thrown if a thread fails somehow
 	 */
 	public CityMap loadMap() throws Exception {
 		NodeList interList = doc.getElementsByTagName("intersection");
@@ -91,13 +90,13 @@ public class MapParser extends Parser {
 		for (int i = 0; i <= NB_THREADS; i++) {
 			parserThreads[i].join();
 		}
-		
-		if (this.segmentsList.size()<1 || intersectionsList.size()<2) {
+
+		if (this.segmentsList.size() < 1 || intersectionsList.size() < 2) {
 			throw new IrrelevantFileException("Le fichier ne contient pas de carte correcte");
 		}
-		
+
 		map = createMap(intersectionsList, segmentsList);
-		
+
 		return map;
 	}
 
