@@ -63,7 +63,7 @@ public class AddingPickupAddressState implements State {
 
 	@Override
 	public void describeState(HomeWindow hw) {
-		JOptionPane.showMessageDialog(hw, "Select a pickup point on the map for the new request");
+		JOptionPane.showMessageDialog(hw, "Add Request - step 1\nSelect a pickup point on the map for the new request");
 		System.out.println("apa");
 	}
 	

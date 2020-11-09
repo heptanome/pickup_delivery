@@ -49,7 +49,7 @@ public class AddingPointPreceedingPickupState implements State {
     
 	@Override
 	public void describeState(HomeWindow hw) {
-        JOptionPane.showMessageDialog(hw, "Select a point on the map (colored point) that will preceed the pickup point");
+        JOptionPane.showMessageDialog(hw, "Add Request - step 2\nSelect a point on the map (colored point) that will preceed the pickup point");
         System.out.println("appp");
     }
 	

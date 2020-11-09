@@ -85,7 +85,7 @@ public class AddingPointPreceedingDeliveryState implements State {
 
 	@Override
 	public void describeState(HomeWindow hw) {
-        JOptionPane.showMessageDialog(hw, "Select a point on the map (colored point) that will preceed the delivery point"); 
+        JOptionPane.showMessageDialog(hw, "Add Request - step 4\nSelect a point on the map (colored point) that will preceed the delivery point"); 
         System.out.println("appd");
     }
 	
