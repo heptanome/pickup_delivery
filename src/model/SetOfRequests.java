@@ -2,7 +2,7 @@ package model;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class SetOfRequests {
 	private Intersection depot;
-	private Date departureTime;
+	private LocalTime departureTime;
 	private List<Request> requests;
 
 	/**
@@ -23,7 +23,7 @@ public class SetOfRequests {
 	 * @param req
 	 * 			Unordered list of requests the delivery man has to visit
 	 */
-	public SetOfRequests(Intersection idDepot, Date departure, List<Request> req) {
+	public SetOfRequests(Intersection idDepot, LocalTime departure, List<Request> req) {
 		this.depot = idDepot;
 		this.departureTime = departure;
 		this.requests = req;
@@ -150,9 +150,7 @@ public class SetOfRequests {
 		return message;
 	}
 
-	public String getDepartureTime() {
-		SimpleDateFormat format = new SimpleDateFormat("HH:MM:ss");
-		String departureString = format.format(departureTime);
-		return departureString;
+	public LocalTime getDepartureTime() {
+		return departureTime;
 	}
 }

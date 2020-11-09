@@ -5,6 +5,7 @@ import tsp.CompleteGraph;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -34,6 +35,9 @@ public class RoadMap {
 	}
 	
 	public LinkedList<Float> calculateTime(List<Segment> path, Float departureTime) {
+		
+		//pour chacun des points de ordered addresses :
+		//calculer l'heure d'arrivée et le temps où il faut rester sur place
 		LinkedList<Float> roadsTime = new LinkedList<Float>();
 		roadsTime.add(departureTime);
 		Float actualTime = departureTime;
@@ -43,6 +47,46 @@ public class RoadMap {
 		
 		for (Segment road : path) {
 			actualTime = actualTime + road.getLength()/1500;
+			Intersection destinationIntersection = road.getDestination();
+			if (destinationIntersection == nextRequestPoint) {
+				//The delivery man delivers all items
+				if(this.mapDeliveryAddressToRequest.containsKey(destinationIntersection)) {
+					List<Request> listRequests = this.mapDeliveryAddressToRequest.get(destinationIntersection);
+					for(Request request : listRequests) {
+						actualTime = actualTime + request.getDeliveryDuration();
+					}
+				}
+				//The delivery man picks up all items
+				if(this.mapPickupAddressToRequest.containsKey(destinationIntersection)) {
+					List<Request> listRequests = this.mapPickupAddressToRequest.get(destinationIntersection);
+					for(Request request : listRequests) {
+						actualTime = actualTime + request.getPickupDuration();
+					}
+				}
+				if(iterator.hasNext()) {
+					nextRequestPoint = iterator.next();
+				}
+			}
+			roadsTime.add(actualTime);
+		}
+		return roadsTime;
+	}
+	
+public Map<Date> calculateTime(List<Segment> path, Date departureTime) {
+		
+		//pour chacun des points de ordered addresses :
+		//calculer l'heure d'arrivée et le temps où il faut rester sur place
+		//Date -> l'heure d'arrivée, Integer le temps qu'il reste sur place
+		Map<Date> roadsTime = new HashMap<Date,Integer>(this.orderedAddresses.size());
+		roadsTime.put(departureTime, 0);
+		
+		Date actualTime = departureTime;
+		
+		ListIterator<Intersection> iterator = orderedAddresses.listIterator();
+		Intersection nextRequestPoint = iterator.next();
+		
+		for (Segment road : path) {
+			actualTime = actualTime + road.getLength()/15000;
 			Intersection destinationIntersection = road.getDestination();
 			if (destinationIntersection == nextRequestPoint) {
 				//The delivery man delivers all items

@@ -3,6 +3,7 @@ package model;
 import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -160,7 +161,7 @@ public class Tour implements Cloneable{
 		}
 		this.roadMap = new RoadMap(this.path, this.setOfRequests);
 		this.toString();
-		System.out.println(this.path);
+		System.out.println(this);
 		support.firePropertyChange("tourComputed", null, this);
 		return this.path;
 	}
@@ -223,8 +224,10 @@ public class Tour implements Cloneable{
 	 * Describe the Tour
 	 */
 	public String toString() {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("H:m:s");
+		String departureTime = setOfRequests.getDepartureTime().format(format);
 		String message = "Road Map :\n"
-						 +"Departure at "+setOfRequests.getDepartureTime()+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"
+						 +"Departure at "+departureTime+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"
 						 +this.roadMap.printRoadMap(this.path)+"\n"
 						 +"Have a good Tour :)";
 		
