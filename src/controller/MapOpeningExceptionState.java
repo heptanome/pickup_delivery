@@ -25,9 +25,11 @@ public class MapOpeningExceptionState implements State {
 		if(e instanceof IllegalArgumentException) {
 			dialogMessage = "The map file path argument is null. Unable to load a map.\nIllegalArgumentException";
 		}else if(e instanceof IOException) {
-			dialogMessage = "An IO error occured. Unable to load the map.";
+			dialogMessage = "An IO error occured. Unable to load the map.\nIOException";
 		}else if(e instanceof SAXException) {
-			dialogMessage = "Unable to parse the document. Please check if you selected a proper Map file."; 
+			dialogMessage = "Unable to parse the document. Please check if you selected a proper Map file.\nSAXException"; 
+		}else if(e instanceof IrrelevantFileException ){
+			dialogMessage = "Unable to create a proper map. Please check if you selected a correct Map file\nIrrelevantFileException";
 		}else {
 			e.printStackTrace();
 			dialogMessage = "An exception has been raised. Unable to load the Map.";

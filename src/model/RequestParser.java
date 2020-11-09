@@ -9,6 +9,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import controller.IrrelevantFileException;
+
 /**
  * The class responsible for parsing a set of requests XML file passed in as a
  * file path (string) retrieving all requests, the time at which the tour starts
@@ -70,6 +72,10 @@ public class RequestParser extends Parser {
 			Intersection pickup = findIntersection(puAddress);
 			Intersection delivery = findIntersection(delAddress);
 			requestsList.add(createRequest(delivery, pickup, delDuration, puDuration));
+		}
+		
+		if (depot == null || departure == null || requestsList.size() <1) {
+			throw new IrrelevantFileException("Le fichier ne contient pas de requêtes correcte");
 		}
 
 		sor = createTour(depot, departure, requestsList);

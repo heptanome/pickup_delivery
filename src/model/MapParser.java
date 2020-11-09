@@ -10,6 +10,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import controller.IrrelevantFileException;
+
 /**
  * The class responsible for parsing a map XML file passed in as a file path
  * (string) retrieving all intersections and segments. If any error were to
@@ -42,7 +44,7 @@ public class MapParser extends Parser {
 	 * @return a functioning CityMap
 	 * @throws InterruptedException
 	 */
-	public CityMap loadMap() throws InterruptedException {
+	public CityMap loadMap() throws Exception {
 		NodeList interList = doc.getElementsByTagName("intersection");
 		NodeList segList = doc.getElementsByTagName("segment");
 
@@ -89,8 +91,13 @@ public class MapParser extends Parser {
 		for (int i = 0; i <= NB_THREADS; i++) {
 			parserThreads[i].join();
 		}
-
+		
+		if (this.segmentsList.size()<1 || intersectionsList.size()<2) {
+			throw new IrrelevantFileException("Le fichier ne contient pas de carte correcte");
+		}
+		
 		map = createMap(intersectionsList, segmentsList);
+		
 		return map;
 	}
 
