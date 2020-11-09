@@ -30,7 +30,7 @@ public class MapParser extends Parser {
 	 * Constructor
 	 * 
 	 * @param fp File to parse
-	 * @throws Exception
+	 * @throws Exception The parser can fail on reading/parsing the file
 	 */
 	public MapParser(String fp) throws Exception {
 		super(fp);
@@ -41,7 +41,7 @@ public class MapParser extends Parser {
 	 * Builds a CityMap from the intersections and segments NodeLists
 	 * 
 	 * @return a functioning CityMap
-	 * @throws InterruptedException
+	 * @throws InterruptedException Thrown if a thread fails somehow
 	 */
 	public CityMap loadMap() throws Exception {
 		NodeList interList = doc.getElementsByTagName("intersection");

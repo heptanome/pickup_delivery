@@ -21,7 +21,7 @@ import tsp.TSP3;
  * the controller and will send the updated data to the View using its
  * propertyChange
  */
-public class Tour{
+public class Tour {
 	private CityMap map;
 	private SetOfRequests setOfRequests;
 	private PropertyChangeSupport support;
@@ -43,7 +43,8 @@ public class Tour{
 	 * View it is ready to be used
 	 * 
 	 * @param mapPath the map's file path
-	 * @throws Exception
+	 * @throws Exception The map parser can throw an exception if the file doesn't
+	 *                   load properly
 	 */
 	public void setMap(String mapPath) throws Exception {
 		CityMap oldMap = this.map;
@@ -58,7 +59,7 @@ public class Tour{
 	 * and warns the View it has been updated.
 	 * 
 	 * @param reqPath The set of requests' file path
-	 * @throws Exception
+	 * @throws Exception if the requests file doesn't load properly
 	 */
 	public void setRequests(String reqPath) throws Exception {
 		SetOfRequests oldReq = this.setOfRequests;
@@ -69,15 +70,13 @@ public class Tour{
 	}
 
 	/**
-	 * Once a new Request has been specified by the user, this method
-	 * adds it to the setOfRequests, computes a new path, saves it in the Tour
-	 * and warns the View it has been updated
-	 * @param newRequest
-	 * 			new request to add to the path
-	 * @param beforeDelivery
-	 * 			Address before the delivery address of the new request
-	 * @param beforePickup
-	 * 			Address before the pickup address of the new request
+	 * Once a new Request has been specified by the user, this method adds it to the
+	 * setOfRequests, computes a new path, saves it in the Tour and warns the View
+	 * it has been updated
+	 * 
+	 * @param newRequest     new request to add to the path
+	 * @param beforeDelivery Address before the delivery address of the new request
+	 * @param beforePickup   Address before the pickup address of the new request
 	 */
 	public void addRequest(Request newRequest, Intersection beforeDelivery, Intersection beforePickup) {
 		support.firePropertyChange("startComputing", null, this);
@@ -86,16 +85,14 @@ public class Tour{
 		this.refreshColorsOfTour();
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this);
-		System.out.println("A request was added");
-		//System.out.println(this.toString());
 	}
-	
+
 	/**
-	 * Once a Request has been specified by the user, this method
-	 * removes it from the setOfRequests, computes a new path, saves it in the Tour
-	 * and warns the View it has been updated
-	 * @param request
-	 * 			request to delete
+	 * Once a Request has been specified by the user, this method removes it from
+	 * the setOfRequests, computes a new path, saves it in the Tour and warns the
+	 * View it has been updated
+	 * 
+	 * @param request request to delete
 	 */
 	public int deleteRequest(Request request) {
 		support.firePropertyChange("startComputing", null, this);
@@ -104,22 +101,21 @@ public class Tour{
 		this.refreshColorsOfTour();
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this);
-		System.out.println("A request was deleted");
-		//System.out.println(this.toString());
 		return nbRequests;
 	}
 
 	/**
-	 * Once a tour has been computed, this method adds it in the Tour, adds the corresponding RoadMap
-	 * in the Tour and warns the View it has been updated. The tour computed is the best tour that could be found in 20s,
-	 * not necessarily the best of all possible tours.
+	 * Once a tour has been computed, this method adds it in the Tour, adds the
+	 * corresponding RoadMap in the Tour and warns the View it has been updated. The
+	 * tour computed is the best tour that could be found in 20s, not necessarily
+	 * the best of all possible tours.
 	 * 
-	 * @return list of segments containing the path the delivery man should follow 
+	 * @return list of segments containing the path the delivery man should follow
 	 */
 	public List<Segment> computeTour() {
 		support.firePropertyChange("startComputing", null, this);
 		// TSP tsp = new TSP1();
-		//TSP tsp = new TSP2();
+		// TSP tsp = new TSP2();
 		TSP tsp = new TSP3();
 
 		CompleteGraph g = new CompleteGraph(map, setOfRequests);
@@ -161,7 +157,7 @@ public class Tour{
 				int previousNodeId = iterator.previous();
 				previousNodeInter = map.getIntersectionFromIdMap(previousNodeId);
 				newSegment = map.getSegmentFromInter(currentNodeInter, previousNodeInter);
-				newSegment.setColor(new Color((255/solutionIntersection.length*indexSol), 100, 100));
+				newSegment.setColor(new Color((255 / solutionIntersection.length * indexSol), 100, 100));
 				this.path.add(newSegment);
 				currentNodeInter = previousNodeInter;
 			}
@@ -169,12 +165,12 @@ public class Tour{
 		}
 		this.roadMap = new RoadMap(this.path, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this);
-		//System.out.println(this);
 		return this.path;
 	}
 
 	/**
 	 * Getter for the roadMap attribute
+	 * 
 	 * @return the Tour's roadMap
 	 */
 	public RoadMap getRoadMap() {
@@ -183,25 +179,26 @@ public class Tour{
 
 	/**
 	 * Getter fot the path attribute
+	 * 
 	 * @return the Tour's path
 	 */
-	public LinkedList<Segment> getPath(){
+	public LinkedList<Segment> getPath() {
 		return this.path;
 	}
 
 	/**
 	 * Getter for the setOfRequests attribute
+	 * 
 	 * @return the Tour's set of requests
 	 */
-	public SetOfRequests getSOR(){
+	public SetOfRequests getSOR() {
 		return this.setOfRequests;
 	}
-	
 
 	/**
 	 * Resets the map to null
 	 */
-	public void resetMap(){
+	public void resetMap() {
 		CityMap oldMap = this.map;
 		this.map = null;
 		// signal the observers the map has changed
@@ -211,34 +208,36 @@ public class Tour{
 	/**
 	 * Resets the set of request to null
 	 */
-	public void resetRequests(){
-		SetOfRequests oldSor= this.setOfRequests;
-		this.setOfRequests= null;
+	public void resetRequests() {
+		SetOfRequests oldSor = this.setOfRequests;
+		this.setOfRequests = null;
 		// signal the observers the map has changed
 		support.firePropertyChange("updateRequests", oldSor, this.setOfRequests);
 	}
 
 	/**
 	 * Method used to find the Intersection visited before another one
+	 * 
 	 * @param i the reference Intersection
 	 * @return the Intersection before i
 	 */
-	public Intersection getIntersectionBefore(Intersection i){
+	public Intersection getIntersectionBefore(Intersection i) {
 		return roadMap.getIntersectionBefore(i);
 	}
 
 	/**
 	 * Describe the Tour
+	 * 
+	 * @return a string for humans to understand what the hell is going on
 	 */
 	public String toString() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm:ss");
 		String departureTime = setOfRequests.getDepartureTime().format(format);
-		TreeMap<LocalTime,Integer> durations = roadMap.calculateTime(path, setOfRequests.getDepartureTime());
-		String message = "Road Map :\n"
-						 +"Departure at "+departureTime+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"
-						 +this.roadMap.printRoadMap(this.path, durations)+"\n\n"
-						 +"Have a good Tour :)";
-		
+		TreeMap<LocalTime, Integer> durations = roadMap.calculateTime(path, setOfRequests.getDepartureTime());
+		String message = "Road Map :\n" + "Departure at " + departureTime + " from Depot ("
+				+ setOfRequests.getDepot().getLatitude() + ", " + setOfRequests.getDepot().getLongitude() + ")\n\n"
+				+ this.roadMap.printRoadMap(this.path, durations) + "\n\n" + "Have a good Tour :)";
+
 		return message;
 	}
 
@@ -248,7 +247,7 @@ public class Tour{
 	public void refreshColorsOfTour() {
 		int number = path.size();
 		for (int index = 0; index < number; index++) {
-			path.get(index).setColor(new Color((255/number*index), 100, 100));
+			path.get(index).setColor(new Color((255 / number * index), 100, 100));
 		}
 	}
 }
