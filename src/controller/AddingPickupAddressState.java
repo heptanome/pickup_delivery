@@ -31,8 +31,12 @@ public class AddingPickupAddressState implements State {
 					+ "  <br> Choose another point !</html>");
 		} else {
 			// Get pickup duration
-			int duration = Integer
-					.parseInt(JOptionPane.showInputDialog(hw, "Enter a pickup duration (number of minutes)", 5));
+			int duration = -1;
+			while (duration < 0) {
+				String dialog = JOptionPane.showInputDialog(hw, "Enter a pickup duration (number of minutes)", 5);
+				duration = Integer.parseInt(dialog);
+			}
+
 			System.out.println("Pickup address " + i.getNumber() + " Duration :" + duration);
 
 			// Set the new request

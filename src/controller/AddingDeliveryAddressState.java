@@ -32,9 +32,11 @@ public class AddingDeliveryAddressState implements State {
 					+ "  <br> Choose another point !</html>");
 		} else {
 			// Get delivery duration
-			int duration = Integer
-					.parseInt(JOptionPane.showInputDialog(hw, "Enter a delivery duration (number of minutes)", 5));
-			System.out.println("delivery address " + i.getNumber() + "Duration : " + duration);
+			int duration = -1;
+			while (duration < 0) {
+				String dialog = JOptionPane.showInputDialog(hw, "Enter a delivery duration (number of minutes)", 5);
+				duration = Integer.parseInt(dialog);
+			}
 
 			// Update de new request
 			Request r = hw.getNewRequest();
