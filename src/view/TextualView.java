@@ -24,7 +24,7 @@ import model.SetOfRequests;
 public class TextualView extends JPanel {
 
 	/**
-	 * 
+	 * Panel that will contain the textual representations of the requests and the tour
 	 */
 	private static final long serialVersionUID = 2L;
 	private Font fontTitle;
@@ -41,6 +41,10 @@ public class TextualView extends JPanel {
 		fontTitle = new Font("Arial", Font.BOLD, 20);
 	}
 
+	/**
+	 * Displays the requests in a table
+	 * @param sor the SetOfRequests containing the requests to display
+	 */
 	public void displayRequests(SetOfRequests sor) {
 
 		JPanel conteneurTabRequest = new JPanel();
@@ -131,6 +135,11 @@ public class TextualView extends JPanel {
 
 	}
 
+	/**
+	 * Displays the path of the  computed Tour in a table
+	 * @param roadMap the RoadMap containing the path to display
+	 * @param sor the SetOfRequest use to compute the Tour
+	 */
 	public void displayTour(RoadMap roadMap, SetOfRequests sor) {
 
 		System.out.println("DisplayTour avec RoadMap");
@@ -250,6 +259,9 @@ public class TextualView extends JPanel {
 		updateUI();
 	}
 
+	/**
+	 * Displays a caption of the map (graphical view)
+	 */
 	public void displayCaption() {
 
 		Font fontCaption = new Font("Arial", Font.BOLD, 15);
@@ -292,6 +304,10 @@ public class TextualView extends JPanel {
 	}
 
 	// this is only a POC, not finished
+	/**
+	 * Selects the row containing a specific Intersection
+	 * @param inter an Intersection. 
+	 */
 	public void selectCell(Intersection inter) {
 		int rows = uiTable.getRowCount();
 		for (int i = 0; i < rows; i++) {

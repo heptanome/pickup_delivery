@@ -20,6 +20,9 @@ public class RoadMapView extends JPanel {
 	protected CityMap loadedMap;
 	protected SetOfRequests loadedSOR;
 
+	/**
+	 * RoadMapViewConstructor
+	 */
 	public RoadMapView() {
 		setLayout(null);
 		setBounds(0, 0, WIDTH, HEIGHT);

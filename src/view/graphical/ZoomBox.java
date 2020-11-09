@@ -22,6 +22,10 @@ public class ZoomBox extends JPanel {
 	private BufferedImage img;
 	private GraphicalView gv;
 
+	/**
+	 * Constructor
+	 * @param graphical the GraphicalView i.e. the map we want to zoom on
+	 */
 	public ZoomBox(GraphicalView graphical) {
 		this.gv = graphical;
 		img = createImage(gv);
@@ -49,12 +53,20 @@ public class ZoomBox extends JPanel {
 
 	}
 
+	/**
+	 * Updates the location of the lao
+	 * @param xMouse the new x coordinate of the mouse
+	 * @param yMouse the new y coordinate of the mouse
+	 */
 	public void updateLocation(int xMouse, int yMouse) {
 		x = xMouse + OFFSET;
 		y = yMouse + OFFSET;
 		repaint();
 	}
 
+	/**
+	 * Updates the image used for the zoom
+	 */
 	public void updateImage() {
 		img = createImage(gv);
 	}
