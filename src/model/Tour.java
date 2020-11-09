@@ -159,7 +159,6 @@ public class Tour {
 		
 		this.roadMap = new RoadMap(this.path, this.setOfRequests);
 		
-		support.firePropertyChange("tourComputed", null, this.path);
 		support.firePropertyChange("tourComputed", null, this);
 		return this.path;
 	}
