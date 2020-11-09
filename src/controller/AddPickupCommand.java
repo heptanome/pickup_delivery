@@ -10,7 +10,10 @@ public class AddPickupCommand implements Command{
     private HomeWindow hw;
 
     /**
-	 * Create the command which adds a set of requests
+	 * Create the command which adds the new pickup address (in the process of adding a request)
+     * @param i the new pickupaddress
+     * @param hw the home Window
+     * @param d the pickup duration
 	 */
 	public AddPickupCommand(Intersection i, HomeWindow hw, int d){
         this.interClicked = i;

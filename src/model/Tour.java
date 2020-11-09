@@ -163,19 +163,34 @@ public class Tour implements Cloneable{
 		return this.path;
 	}
 
+	/**
+	 * Getter for the roadMap attribute
+	 * @return the Tour's roadMap
+	 */
 	public RoadMap getRoadMap() {
 		return roadMap;
 	}
 
+	/**
+	 * Getter fot the path attribute
+	 * @return the Tour's path
+	 */
 	public LinkedList<Segment> getPath(){
 		return this.path;
 	}
 
+	/**
+	 * Getter for the setOfRequests attribute
+	 * @return the Tour's set of requests
+	 */
 	public SetOfRequests getSOR(){
 		return this.setOfRequests;
 	}
 	
 
+	/**
+	 * Resets the map to null
+	 */
 	public void resetMap(){
 		CityMap oldMap = this.map;
 		this.map = null;
@@ -183,6 +198,9 @@ public class Tour implements Cloneable{
 		support.firePropertyChange("updateMap", oldMap, this.map);
 	}
 
+	/**
+	 * Resets the set of request to null
+	 */
 	public void resetRequests(){
 		SetOfRequests oldSor= this.setOfRequests;
 		this.setOfRequests= null;
@@ -190,25 +208,18 @@ public class Tour implements Cloneable{
 		support.firePropertyChange("updateRequests", oldSor, this.setOfRequests);
 	}
 
+	/**
+	 * Method used to find the Intersection visited before another one
+	 * @param i the reference Intersection
+	 * @return the Intersection before i
+	 */
 	public Intersection getIntersectionBefore(Intersection i){
 		return roadMap.getIntersectionBefore(i);
 	}
-/*
-	public void rollback(LinkedList<Segment> p, SetOfRequests sor, RoadMap rm){
-		System.out.println(path.size());
-		System.out.println(p.size());
-		this.path = p;
-		this.setOfRequests = sor;
-		this.roadMap = rm;
-		support.firePropertyChange("updateRequests", null, this.setOfRequests);
-		support.firePropertyChange("tourComputed", null, this.path);
-		System.out.println("Rolled back");
-	}*/
 
-
-
-
-	
+	/**
+	 * Describe the Tour
+	 */
 	public String toString() {
 		String message = "Road Map :\n"
 						 +"Departure at "+setOfRequests.getDepartureTime()+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"

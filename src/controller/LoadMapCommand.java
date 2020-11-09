@@ -7,7 +7,7 @@ public class LoadMapCommand implements Command{
     private String filePath;
 
     /**
-	 * Create the command which adds a set of requests
+	 * Create the command which adds a map
 	 * @param tour in which to load the map
 	 * @param fp the filepath to the map
 	 */

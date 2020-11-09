@@ -1,12 +1,9 @@
 package controller;
 
 
-import javax.swing.text.StyledEditorKit;
 
 import model.Intersection;
 import model.Request;
-import model.RoadMap;
-import model.SetOfRequests;
 import model.Tour;
 
 public class AddCompleteRequestCommand implements Command{
@@ -14,28 +11,20 @@ public class AddCompleteRequestCommand implements Command{
     private Request newRequest;
     private Intersection preceedingPickup;
     private Intersection preceedingDelivery;
-    private int i;
-    private int j;
-/*
-    private SetOfRequests oldSOR;
-    private LinkedList<model.Segment> oldPath;
-    private RoadMap oldRoadMap;*/
 
     /**
-	 * Create the command which adds a set of requests
-	 * @param tour in which to load the map
+	 * Create the command which adds a complete request
+	 * @param tour in which to add the request
+     * @param newR the Request to add
+     * @param preceedingDelivery the intersecrtion preceeding the new delivery
+     * @param preceedingPickup the intersection preceeding the new pickup
 	 */
 	public AddCompleteRequestCommand(Tour t, Request newR, Intersection preceedingD, Intersection preceedingP){
         this.tour = t;
         this.newRequest = newR;
         this.preceedingPickup = preceedingP;
         this.preceedingDelivery = preceedingD;
-        i= t.getPath().size();
-        j = t.getPath().size();
-/*
-        this.oldSOR = tour.getSOR();
-        this.oldPath = tour.getPath();
-        this.oldRoadMap = tour.getRoadMap();*/
+
 	}
 
     @Override
@@ -51,9 +40,8 @@ public class AddCompleteRequestCommand implements Command{
     public void undoCommand() {
         try{
             System.out.println("undo add complete command");
-            //this.tour.rollback(this.oldPath, this.oldSOR, this.oldRoadMap);
-            //this.tour.deleteRequest(newRequest);
-            //TODO
+            this.tour.deleteRequest(newRequest);
+            //TODO 
         } catch (Exception e) {
 			e.printStackTrace();
 		}

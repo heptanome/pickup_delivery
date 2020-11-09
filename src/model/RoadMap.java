@@ -206,6 +206,10 @@ public class RoadMap {
 		return this.orderedAddresses.getLast() == i;
 	}
 
+	/**
+	 * Describe the road map
+	 * @return a String representation of the road map
+	 */
 	public String printRoadMap() {
 		int index = 1;
 		String message = "";

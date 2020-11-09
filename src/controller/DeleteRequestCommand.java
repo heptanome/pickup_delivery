@@ -11,7 +11,13 @@ public class DeleteRequestCommand implements Command{
     private Intersection preceedingDelivery;
 
     /**
-	 * Create the command which adds a set of requests
+	 * Create the command which deletes a request
+     * @param r the request to delete
+     * 
+     * @param tour the Tour in which to delete it
+     * @param pp the intersection preceeding the pickup of r
+     * @param pd the intersection preceeding the delivery of r
+     * 
 	 */
 	public DeleteRequestCommand(Request r, Tour tour, Intersection pp, Intersection pd ){
         this.r= r;
@@ -32,7 +38,7 @@ public class DeleteRequestCommand implements Command{
     @Override
     public void undoCommand() {
         try{
-            System.out.println("undo add complete command");
+            System.out.println("undo delete command");
             tour.addRequest(r, preceedingPickup, preceedingDelivery);
         } catch (Exception e) {
 			e.printStackTrace();

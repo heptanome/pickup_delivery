@@ -7,7 +7,7 @@ public class LoadRequestsCommand implements Command{
     private String filePath;
 
     /**
-	 * Create the command which adds a map
+	 * Create the command which adds a set of requests
 	 * @param tour in chich to load the set of requests
 	 * @param fp the filepath to the set of requests
 	 */
