@@ -2,9 +2,6 @@ package controller;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
-
-import org.xml.sax.SAXException;
 
 import controller.command.ListOfCommands;
 import controller.state.AddingDeliveryAddressState;
@@ -103,6 +100,7 @@ public class Application implements PropertyChangeListener {
 	/**
 	 * Return the current state of the controller
 	 * 
+	 * @return The current state the controller is in
 	 */
 	public State getCurrentState() {
 		return currentState;
@@ -112,10 +110,6 @@ public class Application implements PropertyChangeListener {
 	 * Loads a map from a file path
 	 * 
 	 * @param fp The map's file path
-	 * @throws IllegalArgumentException if the file path is null
-	 * @throws IOException              if there is a I/O error
-	 * @throws SAXException             if the xml file couldn't be parsed correctly
-	 * @throws Exception                for any other exception
 	 */
 	public void loadMap(final String fp) {
 		currentState.loadMap(this, this.homeWindow, fp, this.tour);
@@ -125,17 +119,13 @@ public class Application implements PropertyChangeListener {
 	 * Loads a request from a file path
 	 * 
 	 * @param fp The set of requests' file path
-	 * @throws IllegalArgumentException if the file path is null
-	 * @throws IOException              if there is a I/O error
-	 * @throws SAXException             if the xml file couldn't be parsed correctly
-	 * @throws Exception                for any other exception
 	 */
 	public void loadRequests(final String fp) {
 		currentState.loadRequests(this, homeWindow, fp, this.tour);
 	}
 
 	/**
-	 * Starts the creation of a new request to add to the tour Pre condition : a set
+	 * Starts the creation of a new request to add to the tour precondition : a set
 	 * of requests has to be loaded
 	 * 
 	 */
@@ -147,7 +137,7 @@ public class Application implements PropertyChangeListener {
 	 * Method called when a point (an intersection) is selected on the map in one of
 	 * the process of adding a request, or when deleting a request.
 	 * 
-	 * @param selectedPoint : the point that has been clicked
+	 * @param selectedPoint the point that has been clicked
 	 */
 	public void pointClicked(Object selectedPoint) {
 		currentState.pointClicked((Intersection) selectedPoint, homeWindow, tour, this);
@@ -156,8 +146,6 @@ public class Application implements PropertyChangeListener {
 	/**
 	 * Starts the process of deleting a request from the tour Pre condition : a set
 	 * of requests has to be loaded //TODO : exception
-	 * 
-	 * @throws Exception
 	 */
 	public void deleteRequest() {
 		currentState.deleteRequests(this, homeWindow);
@@ -166,7 +154,6 @@ public class Application implements PropertyChangeListener {
 	/**
 	 * Starts the process of computing a tour Pre condition : a set of requests has
 	 * to be loaded
-	 * 
 	 */
 	public void computeTour() {
 		currentState.computeTour(this, homeWindow, tour);
@@ -175,7 +162,7 @@ public class Application implements PropertyChangeListener {
 	/**
 	 * Getter for the listOfCommands attribute
 	 * 
-	 * @return listeOfCommands
+	 * @return listeOfCommands the list of commands in memory
 	 */
 	public ListOfCommands getListOfCommands() {
 		return this.listOfCommands;
