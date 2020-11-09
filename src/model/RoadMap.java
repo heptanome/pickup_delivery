@@ -15,6 +15,7 @@ public class RoadMap {
 	private HashMap<Intersection, List<Request>> mapPickupAddressToRequest;
 	private HashMap<Intersection, List<Request>> mapDeliveryAddressToRequest;
 	private LinkedList<Intersection> orderedAddresses;
+	private final float SPEED = 15000/60; //meters per minute
 
 	/**
 	 * Constructor
@@ -241,6 +242,7 @@ public class RoadMap {
 	public String printRoadMap(List<Segment> path) {
 		int index = 1;
 		String message = "";
+
 		ListIterator<Intersection> itIntersection = this.orderedAddresses.listIterator();
 		ListIterator<Segment> itSegment = path.listIterator();
 		Segment currentSegment = itSegment.next();
@@ -248,6 +250,7 @@ public class RoadMap {
 		Intersection currentIntersection = itIntersection.next();
 		String status = this.getStatus(currentIntersection);
 		float length = 0;
+		int minutes = Math.round(length/SPEED);
 		
 		while (itIntersection.hasNext()) {
 			currentIntersection = itIntersection.next();
@@ -267,7 +270,8 @@ public class RoadMap {
 					length += currentSegment.getLength();
 				} else {
 					if(length > 0) { //prevent from printing when you leave a street
-						message += "    Follow road \""+name+"\" for "+length+"\n";
+						minutes = Math.max(1,Math.round(length/SPEED));
+						message += "    Follow road \""+name+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
 					}
 					length = currentSegment.getLength();
 					name = currentSegment.getName();
@@ -281,8 +285,8 @@ public class RoadMap {
 			} else {
 				length =  currentSegment.getLength();
 			}
-			message += "    Follow road \""+currentSegment.getName()+"\" for "+length;
-			message += "\n";
+			minutes = Math.max(1,Math.round(length/SPEED));
+			message += "    Follow road \""+currentSegment.getName()+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
 			itSegment.next();
 			previousSegment = itSegment.next();
 			
@@ -302,11 +306,9 @@ public class RoadMap {
 			currentSegment = itSegment.next();
 			if(currentSegment.getName().equals(name)|| currentSegment.getName().equals("")) {
 				length += currentSegment.getLength();
-				if(!currentSegment.getName().equals("")) {
-					name = currentSegment.getName();
-				}
 			} else {
-				message += "    Follow road \""+name+"\" for "+length+"\n";
+				minutes = Math.max(1,Math.round(length/SPEED));
+				message += "    Follow road \""+name+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
 				length = currentSegment.getLength();
 				name = currentSegment.getName();
 				
@@ -320,7 +322,8 @@ public class RoadMap {
 		} else {
 			length = currentSegment.getLength();
 		}
-		message += "    Follow road \""+currentSegment.getName()+"\" for "+length;
+		minutes = Math.max(1,Math.round(length/SPEED));
+		message += "    Follow road \""+currentSegment.getName()+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
 		return message;
 	}
 
