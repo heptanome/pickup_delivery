@@ -119,9 +119,8 @@ public class RoadMap {
 		
 		int indexBeforePickup = this.orderedAddresses.indexOf(beforePickup)+1;
 		Intersection afterPickup = this.orderedAddresses.get(indexBeforePickup);
-		int indexBeforeDelivery = this.orderedAddresses.indexOf(beforeDelivery)+1;
+		int indexBeforeDelivery = this.orderedAddresses.indexOf(beforeDelivery)+2;
 		Intersection afterDelivery = this.orderedAddresses.get(indexBeforeDelivery);
-		System.out.println(orderedAddresses);
 
 		this.orderedAddresses.add(indexBeforePickup, newPickup);
 		this.orderedAddresses.add(indexBeforeDelivery, newDelivery);
@@ -566,12 +565,6 @@ public class RoadMap {
 				}
 			}
 		}
-		
-		System.out.println("BEGIN "+beginning);
-		System.out.println("PICKUP "+pickupPath);
-		System.out.println("MIDDLE "+middle);
-		System.out.println("DELIVERY "+deliveryPath);
-		System.out.println("END "+end);
 		
 		path.clear();
 		path.addAll(beginning);

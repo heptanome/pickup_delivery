@@ -145,7 +145,7 @@ public class Application implements PropertyChangeListener {
 
 	/**
 	 * Starts the process of deleting a request from the tour Pre condition : a set
-	 * of requests has to be loaded //TODO : exception
+	 * of requests has to be loaded
 	 */
 	public void deleteRequest() {
 		currentState.deleteRequests(this, homeWindow);
