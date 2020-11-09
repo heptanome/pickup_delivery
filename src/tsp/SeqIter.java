@@ -20,7 +20,7 @@ public class SeqIter implements Iterator<Integer> {
 	 * @param unvisited     the list of unvisited vertices
 	 * @param currentVertex self-explanatory
 	 * @param g             the graph the action takes place on
-	 * @throws Excpetion if any of the unvisited vertex isn't in the graph
+	 * @throws Exception if any of the unvisited vertex isn't in the graph
 	 */
 	public SeqIter(Collection<Integer> unvisited, int currentVertex, Graph g) throws Exception {
 		this.candidates = new Integer[unvisited.size()];
