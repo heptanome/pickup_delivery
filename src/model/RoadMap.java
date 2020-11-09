@@ -97,7 +97,6 @@ public class RoadMap {
 	 */
 	public void addRequest(Request newRequest, Intersection beforePickup,
 							Intersection beforeDelivery, CityMap cityMap, LinkedList<Segment> path) {
-
 		/* There are two main cases :
 	  * 	- newDelivery does not follow newPickup : 2 new paths have to be computed and added to the tour, 
 	  * 		from beforePickup to newPickup to afterPickup and from beforeDelivery to new Delivery to afterDelivery
@@ -269,6 +268,8 @@ public class RoadMap {
 		float length = 0;
 		int minutes = Math.round(length/SPEED);
 		
+		
+		
 		while (itIntersection.hasNext()) {
 			currentIntersection = itIntersection.next();
 			length = currentSegment.getLength();
@@ -276,17 +277,16 @@ public class RoadMap {
 				break;
 			
 			String name = currentSegment.getName();
-			length = 0;
+			
 			
 			while(currentSegment.getDestination() != currentIntersection) {
+				
 				currentSegment = itSegment.next();
 				if(currentSegment.getName().equals(name)|| currentSegment.getName().equals("")) {
 					length += currentSegment.getLength();
 				} else {
-					if(length > 0) { //prevent from printing when you leave a street
-						minutes = Math.max(1,Math.round(length/SPEED));
-						message += "-> Follow road \""+name+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
-					}
+					minutes = Math.max(1,Math.round(length/SPEED));
+					message += "-> Follow road \""+name+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
 					length = currentSegment.getLength();
 					name = currentSegment.getName();
 				}
@@ -312,6 +312,7 @@ public class RoadMap {
 			         + "** You have "+entry.getValue()+" minutes to deliver and/or pickup the items **\n"
 			         + "** You should have left by "+(entry.getKey().plusMinutes(entry.getValue())).format(format)+ " **\n\n";
 			index++;
+			length = 0;
 		}
 		
 		/////////////////////////////////////////////////////////////////////////////////////////
@@ -343,7 +344,7 @@ public class RoadMap {
 			length = currentSegment.getLength();
 		}
 		minutes = Math.max(1,Math.round(length/SPEED));
-		message += "->Follow road \""+currentSegment.getName()+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
+		message += "-> Follow road \""+currentSegment.getName()+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
 		entry = durations.pollFirstEntry();
 		message += "Go back to the Depot\n"
 				+  "** The estimated time of arrival is "+entry.getKey().format(format)+" **";
