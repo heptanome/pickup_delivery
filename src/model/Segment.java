@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Color;
+
 /**
  * An object represented by two intersections (an origin and a destination) as
  * well as a name and a length
@@ -9,6 +11,7 @@ public class Segment {
 	private Intersection destination;
 	private String name;
 	private float length;
+	private Color color = Color.white;
 
 	/**
 	 * Constructor
@@ -74,5 +77,13 @@ public class Segment {
 	public String toString() {
 		return "Name : " + name + ", origin : " + origin.getNumber() + ", destination : " + destination.getNumber()
 				+ " (length : " + length + ").";
+	}
+	
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
+	public Color getColor() {
+		return color;
 	}
 }

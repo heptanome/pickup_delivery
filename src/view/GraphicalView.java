@@ -160,7 +160,7 @@ public class GraphicalView extends JPanel {
 				if (s.getNumberOrigin().equals(seg.getOrigin())
 						&& s.getNumberDestination().equals(seg.getDestination())) {
 					seg.setOnPath(1);
-					seg.setColor(Color.red);
+					seg.setColor(s.getColor());
 					break;
 				}
 				j++;
