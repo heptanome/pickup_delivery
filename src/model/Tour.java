@@ -86,6 +86,7 @@ public class Tour{
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this);
 		System.out.println("A request was added");
+		//System.out.println(this.toString());
 	}
 	
 	/**
@@ -102,6 +103,7 @@ public class Tour{
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this);
 		System.out.println("A request was deleted");
+		//System.out.println(this.toString());
 		return nbRequests;
 	}
 
@@ -164,6 +166,7 @@ public class Tour{
 		}
 		this.roadMap = new RoadMap(this.path, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this);
+		//System.out.println(this);
 		return this.path;
 	}
 
