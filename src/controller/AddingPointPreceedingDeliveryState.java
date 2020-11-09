@@ -79,12 +79,8 @@ public class AddingPointPreceedingDeliveryState implements State {
 	}
 
 
-	/**
-	 * Method called by the States to display a message about specific information of the current State
-	 * 
-	 * @param hw the HomeWindow
-	 */
-	private void describeState(HomeWindow hw) {
+	@Override
+	public void describeState(HomeWindow hw) {
         JOptionPane.showMessageDialog(hw, "Select a point on the map (colored point) that will preceed the delivery point"); 
         System.out.println("appd");
     }

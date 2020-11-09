@@ -412,6 +412,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(final ActionEvent arg0) {
+			support.firePropertyChange("askHelp", null, null);
+			
 			lblHelp.setText(helpText);
 			buttonsContainer.add(lblHelp);
 			buttonsContainer.updateUI();

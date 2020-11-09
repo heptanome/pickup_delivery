@@ -2,6 +2,9 @@ package controller;
 
 import model.Tour;
 import view.HomeWindow;
+
+import javax.swing.JOptionPane;
+
 import model.Intersection;
 
 /**
@@ -96,7 +99,16 @@ public interface State {
 	 */
 	public default void cancel() {
 	}
-
+	
+	/**
+	 * Method called by the States to display a message about specific information of the current State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	public default void describeState(HomeWindow hw){
+        JOptionPane.showMessageDialog(hw, "Select a pickup point on the map for the new request");
+		System.out.println("apa");
+    }
 
 	/**
 	 * Method called by the controller after a click on the button "Undo"
