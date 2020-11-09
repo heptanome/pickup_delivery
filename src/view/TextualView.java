@@ -193,7 +193,18 @@ public class TextualView extends JPanel {
 		uiTableTour = new JTable(tabData, tadHeader);
 		uiTableTour.setModel(tableModel);
 
-		// uiTableTour.setBounds(100, 50, 0, 0);
+		// https://stackoverflow.com/a/7351053
+		uiTableTour.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				int row = uiTable.rowAtPoint(evt.getPoint());
+				int col = uiTable.columnAtPoint(evt.getPoint());
+				if (row >= 0 && col >= 0) {
+					// selected a row
+					support.firePropertyChange("selectCell", null, null);
+				}
+			}
+		});
 
 		conteneurTabJTableTour.add(uiTableTour.getTableHeader(), BorderLayout.NORTH);
 		conteneurTabJTableTour.add(uiTableTour, BorderLayout.CENTER);
@@ -263,7 +274,6 @@ public class TextualView extends JPanel {
 		int rowsTour = uiTableTour.getRowCount();
 		for (int i = 0; i < rowsTour; i++) {
 			String id1 = (String) uiTableTour.getValueAt(i, 2);
-			System.out.println(inter.getNumber());
 
 			if (id1.equals(inter.getNumber())) {
 				uiTableTour.setRowSelectionInterval(i, i);
