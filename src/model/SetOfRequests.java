@@ -122,11 +122,13 @@ public class SetOfRequests {
 	}
 	
 	/**
-	 * Delete a request from its list
+	 * Delete a request from its list.
 	 * @param request
+	 * @return int the number of request in the List<Request> requests
 	 */
-	public void deleteRequest(Request request) {
+	public int deleteRequest(Request request) {
 		requests.remove(request);
+		return requests.size();
 	}
 	
 	/**
