@@ -1,12 +1,17 @@
-package controller;
+package controller.state;
 
 import view.HomeWindow;
 
 import javax.swing.JOptionPane;
 
+import controller.Application;
+import controller.command.AddCompleteRequestCommand;
+import controller.command.ListOfCommands;
 import model.Intersection;
 import model.Tour;
 import model.Request;
+
+
 
 /**
  * State class used by the controller to handle the selection of the intersection that will preceed the new pickup address

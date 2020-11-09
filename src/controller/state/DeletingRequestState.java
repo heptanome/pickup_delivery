@@ -1,7 +1,10 @@
-package controller;
+package controller.state;
 
 import javax.swing.JOptionPane;
 
+import controller.Application;
+import controller.command.DeleteRequestCommand;
+import controller.command.ListOfCommands;
 import model.Intersection;
 import model.Request;
 import model.Tour;
@@ -34,9 +37,9 @@ public class DeletingRequestState implements State {
 			
 			Intersection preceedingPickup = tour.getIntersectionBefore(requestToBeDeleted.getPickup());
 			Intersection preceedingDelivery = tour.getIntersectionBefore(requestToBeDeleted.getDelivery());
-			//nbRequets = tour.deleteRequest(hw.getRequestFromIntersection(i));
 
 			a.getListOfCommands().add(new DeleteRequestCommand(requestToBeDeleted, tour, preceedingPickup, preceedingDelivery));
+			nbRequets = tour.getSOR().getRequests().size();
 		} 
 		
 		if(nbRequets!=0) {
@@ -46,7 +49,7 @@ public class DeletingRequestState implements State {
 		} else {
 			//Go to the next state : DisplayingMapWithoutRequetsState
 			a.setCurrentState(a.mapWoRequestsState);
-			a.getCurrentState().initiateState(a, hw);
+			a.getCurrentState().initiateState(a, hw); 
 		}
 		
 	}

@@ -2,10 +2,20 @@ package controller;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 
-import org.xml.sax.SAXException;
-
+import controller.command.ListOfCommands;
+import controller.state.AddingDeliveryAddressState;
+import controller.state.AddingPickupAddressState;
+import controller.state.AddingPointPreceedingDeliveryState;
+import controller.state.AddingPointPreceedingPickupState;
+import controller.state.DeletingRequestState;
+import controller.state.DisplayingTourOnMapState;
+import controller.state.HomeState;
+import controller.state.MapOpeningExceptionState;
+import controller.state.MapWithRequestsState;
+import controller.state.MapWithoutRequestsState;
+import controller.state.RequestOpeningExceptionState;
+import controller.state.State;
 import model.Intersection;
 import model.Tour;
 import view.HomeWindow;
@@ -20,17 +30,17 @@ public class Application implements PropertyChangeListener {
 	private final Tour tour;
 	private final ListOfCommands listOfCommands;
 	private State currentState;
-	protected final HomeState homeState = new HomeState();
-	protected final MapWithoutRequestsState mapWoRequestsState = new MapWithoutRequestsState();
-	protected final MapWithRequestsState mapWithRequestsState = new MapWithRequestsState();
-	protected final DisplayingTourOnMapState displayingTourState = new DisplayingTourOnMapState();
-	protected final AddingPickupAddressState apa = new AddingPickupAddressState();
-	protected final AddingPointPreceedingPickupState appp = new AddingPointPreceedingPickupState();
-	protected final AddingDeliveryAddressState ada = new AddingDeliveryAddressState();
-	protected final AddingPointPreceedingDeliveryState appd = new AddingPointPreceedingDeliveryState();
-	protected final DeletingRequestState deleteRequestState = new DeletingRequestState();
-	protected final MapOpeningExceptionState mapExceptionState = new MapOpeningExceptionState();
-	protected final RequestOpeningExceptionState requestExceptionState = new RequestOpeningExceptionState();
+	public final HomeState homeState = new HomeState();
+	public final MapWithoutRequestsState mapWoRequestsState = new MapWithoutRequestsState();
+	public final MapWithRequestsState mapWithRequestsState = new MapWithRequestsState();
+	public final DisplayingTourOnMapState displayingTourState = new DisplayingTourOnMapState();
+	public final AddingPickupAddressState apa = new AddingPickupAddressState();
+	public final AddingPointPreceedingPickupState appp = new AddingPointPreceedingPickupState();
+	public final AddingDeliveryAddressState ada = new AddingDeliveryAddressState();
+	public final AddingPointPreceedingDeliveryState appd = new AddingPointPreceedingDeliveryState();
+	public final DeletingRequestState deleteRequestState = new DeletingRequestState();
+	public final MapOpeningExceptionState mapExceptionState = new MapOpeningExceptionState();
+	public final RequestOpeningExceptionState requestExceptionState = new RequestOpeningExceptionState();
 
 	public static void main(final String[] args) {
 		final Tour tour = new Tour();
@@ -43,8 +53,8 @@ public class Application implements PropertyChangeListener {
 	 * "Connects" the Model with the View and the View with the Controller by
 	 * setting up the property listeners
 	 * 
-	 * @param hw    the View to work with
-	 * @param t     the Model to work with
+	 * @param hw the View to work with
+	 * @param t  the Model to work with
 	 */
 	public Application(final HomeWindow hw, final Tour t) {
 		this.tour = t;
@@ -57,14 +67,14 @@ public class Application implements PropertyChangeListener {
 		// Application listens to Window events
 		this.homeWindow.addPropertyChangeListener(this);
 	}
-	
+
 	/**
 	 * "Connects" the Model with the View and the View with the Controller by
 	 * setting up the property listeners
 	 * 
-	 * @param hw    the View to work with
-	 * @param t     the Model to work with
-	 * @param initialState  the State to start by
+	 * @param hw           the View to work with
+	 * @param t            the Model to work with
+	 * @param initialState the State to start by
 	 */
 	public Application(final HomeWindow hw, final Tour t, State initialState) {
 		this.tour = t;
@@ -83,15 +93,16 @@ public class Application implements PropertyChangeListener {
 	 * 
 	 * @param state the new current state
 	 */
-	protected void setCurrentState(final State state) {
+	public void setCurrentState(final State state) {
 		currentState = state;
 	}
-	
+
 	/**
 	 * Return the current state of the controller
 	 * 
+	 * @return The current state the controller is in
 	 */
-	protected State getCurrentState() {
+	public State getCurrentState() {
 		return currentState;
 	}
 
@@ -99,10 +110,6 @@ public class Application implements PropertyChangeListener {
 	 * Loads a map from a file path
 	 * 
 	 * @param fp The map's file path
-	 * @throws IllegalArgumentException if the file path is null
-	 * @throws IOException              if there is a I/O error
-	 * @throws SAXException             if the xml file couldn't be parsed correctly
-	 * @throws Exception                for any other exception
 	 */
 	public void loadMap(final String fp) {
 		currentState.loadMap(this, this.homeWindow, fp, this.tour);
@@ -112,39 +119,33 @@ public class Application implements PropertyChangeListener {
 	 * Loads a request from a file path
 	 * 
 	 * @param fp The set of requests' file path
-	 * @throws IllegalArgumentException if the file path is null
-	 * @throws IOException              if there is a I/O error
-	 * @throws SAXException             if the xml file couldn't be parsed correctly
-	 * @throws Exception                for any other exception
 	 */
 	public void loadRequests(final String fp) {
 		currentState.loadRequests(this, homeWindow, fp, this.tour);
 	}
 
 	/**
-	 * Starts the creation of a new request to add to the tour Pre condition : a set
+	 * Starts the creation of a new request to add to the tour precondition : a set
 	 * of requests has to be loaded
 	 * 
 	 */
 	public void addRequest() {
-		currentState.addRequests(this,homeWindow);
+		currentState.addRequests(this, homeWindow);
 	}
 
 	/**
 	 * Method called when a point (an intersection) is selected on the map in one of
 	 * the process of adding a request, or when deleting a request.
 	 * 
-	 * @param selectedPoint : the point that has been clicked
+	 * @param selectedPoint the point that has been clicked
 	 */
 	public void pointClicked(Object selectedPoint) {
-			currentState.pointClicked((Intersection)selectedPoint, homeWindow, tour, this);
+		currentState.pointClicked((Intersection) selectedPoint, homeWindow, tour, this);
 	}
 
 	/**
 	 * Starts the process of deleting a request from the tour Pre condition : a set
 	 * of requests has to be loaded //TODO : exception
-	 * 
-	 * @throws Exception
 	 */
 	public void deleteRequest() {
 		currentState.deleteRequests(this, homeWindow);
@@ -153,7 +154,6 @@ public class Application implements PropertyChangeListener {
 	/**
 	 * Starts the process of computing a tour Pre condition : a set of requests has
 	 * to be loaded
-	 * 
 	 */
 	public void computeTour() {
 		currentState.computeTour(this, homeWindow, tour);
@@ -161,7 +161,8 @@ public class Application implements PropertyChangeListener {
 
 	/**
 	 * Getter for the listOfCommands attribute
-	 * @return listeOfCommands
+	 * 
+	 * @return listeOfCommands the list of commands in memory
 	 */
 	public ListOfCommands getListOfCommands() {
 		return this.listOfCommands;
@@ -180,14 +181,14 @@ public class Application implements PropertyChangeListener {
 	public void redo() {
 		currentState.redo(listOfCommands, this, homeWindow);
 	}
-	
+
 	/**
 	 * Method called by window after a click on the button "SOS"
 	 */
 	public void displayHelp() {
 		currentState.describeState(homeWindow);
 	}
-	
+
 	/**
 	 * Method called by window after a click on the button "cancel"
 	 */
@@ -221,79 +222,79 @@ public class Application implements PropertyChangeListener {
 		final String propName = evt.getPropertyName();
 
 		switch (propName) {
-			case "loadMap":
-				try {
-					this.loadMap((String) evt.getNewValue());
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
-				break;
-			case "loadRequests":
-				try {
-					this.loadRequests((String) evt.getNewValue());
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
-				break;
-			case "addRequest":
-				try {
-					this.addRequest();
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
-				break;
-			case "pointClicked":
-				try {
-					this.pointClicked(evt.getNewValue());
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
-				break;
-			case "deleteRequest":
-				try {
-					this.deleteRequest();
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
-				break;
-			case "computeTour":
-				try {
-					this.computeTour();
-				} catch (final Exception e) {
+		case "loadMap":
+			try {
+				this.loadMap((String) evt.getNewValue());
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
 			break;
-			case "undo":
-				try {
-					this.undo();
-				} catch (final Exception e) {
+		case "loadRequests":
+			try {
+				this.loadRequests((String) evt.getNewValue());
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
 			break;
-			case "redo":
-				try {
-					this.redo();
-				} catch (final Exception e) {
+		case "addRequest":
+			try {
+				this.addRequest();
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
 			break;
-			case "askHelp":
-				try {
-					this.displayHelp();
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
+		case "pointClicked":
+			try {
+				this.pointClicked(evt.getNewValue());
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
 			break;
-			case "cancel":
-				try {
-					this.cancel();
-				} catch (final Exception e) {
+		case "deleteRequest":
+			try {
+				this.deleteRequest();
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		case "computeTour":
+			try {
+				this.computeTour();
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		case "undo":
+			try {
+				this.undo();
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		case "redo":
+			try {
+				this.redo();
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		case "askHelp":
+			try {
+				this.displayHelp();
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		case "cancel":
+			try {
+				this.cancel();
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
 			break;
 		default:
 			break;
 		}
-		
+
 	}
 }

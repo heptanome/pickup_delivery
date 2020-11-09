@@ -1,14 +1,14 @@
-package controller;
+package controller.command;
 
 public interface Command {
-	
+
 	/**
 	 * Execute the command this
 	 */
 	void doCommand();
-	
+
 	/**
-	 * Execute the reverse command of this
+	 * Self-explanatory, will undo the command
 	 */
 	void undoCommand();
 }

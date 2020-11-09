@@ -1,8 +1,8 @@
 package model;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,12 +16,10 @@ public class SetOfRequests {
 
 	/**
 	 * Constructor
-	 * @param idDepot
-	 * 			Intersection where the delivery man starts its tour
-	 * @param departure
-	 * 			Time of departure (when the delivery man starts its tour)
-	 * @param req
-	 * 			Unordered list of requests the delivery man has to visit
+	 * 
+	 * @param idDepot   Intersection where the delivery man starts its tour
+	 * @param departure Time of departure (when the delivery man starts its tour)
+	 * @param req       Unordered list of requests the delivery man has to visit
 	 */
 	public SetOfRequests(Intersection idDepot, LocalTime departure, List<Request> req) {
 		this.depot = idDepot;
@@ -31,6 +29,7 @@ public class SetOfRequests {
 
 	/**
 	 * Get the depot address where the delivery man starts its tour
+	 * 
 	 * @return address of the first intersection of a tour
 	 */
 	public String getDepotAddress() {
@@ -39,6 +38,7 @@ public class SetOfRequests {
 
 	/**
 	 * Get the depot where the delivery man starts its tour
+	 * 
 	 * @return first intersection of a tour
 	 */
 	public Intersection getDepot() {
@@ -47,6 +47,7 @@ public class SetOfRequests {
 
 	/**
 	 * Get the requests of a set of requests
+	 * 
 	 * @return the list of requests of a set of requests
 	 */
 	public List<Request> getRequests() {
@@ -57,24 +58,25 @@ public class SetOfRequests {
 	 * From the set of requests, return the list of intersections used for the depot
 	 * and for each request
 	 * 
-	 * @return List<Intersection>
+	 * @return a list of intersections
 	 */
 	public List<Intersection> getRequestNodes() {
-	  List<Intersection> requestNodes = new ArrayList<Intersection>(requests.size()*2 + 1);
-	  requestNodes.add(0, depot);
-	  int index = 1;
-	  for(Request r : requests) {
-		  requestNodes.add(index,r.getDelivery());
-		  requestNodes.add(index+1,r.getPickup());
-		  index +=2;
-	  }
-	  return requestNodes;
-    }
+		List<Intersection> requestNodes = new ArrayList<Intersection>(requests.size() * 2 + 1);
+		requestNodes.add(0, depot);
+		int index = 1;
+		for (Request r : requests) {
+			requestNodes.add(index, r.getDelivery());
+			requestNodes.add(index + 1, r.getPickup());
+			index += 2;
+		}
+		return requestNodes;
+	}
 
 	/**
 	 * Find if a specific intersection is a delivery or a pickup address
-	 * @param intersection
-	 * 			intersection of a request with an unknown type (delivery or pickup)
+	 * 
+	 * @param intersection intersection of a request with an unknown type (delivery
+	 *                     or pickup)
 	 * @return true is the intersection is a delivery address, false if not
 	 */
 	public boolean isDeliveryPoint(Intersection intersection) {
@@ -85,60 +87,60 @@ public class SetOfRequests {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * From the set of requests, return the list of requests whose delivery point is
 	 * the intersection delivery.
 	 * 
 	 * @param delivery the delivery point to be tested
-	 * @type Intersection
-	 * @return List<Request>
+	 * @return a list of requests from a delivery intersections
 	 */
 	public List<Request> getRequestsFromDelivery(Intersection delivery) {
 		List<Request> requestsList = new LinkedList<Request>();
-		for(Request r : requests) {
-			if(delivery ==  r.getDelivery()) {
+		for (Request r : requests) {
+			if (delivery == r.getDelivery()) {
 				requestsList.add(r);
 			}
 		}
 		return requestsList;
 	}
-	
+
 	/**
-	 * From the set of requests, return the list of requests whose delivery or pickup point is
-	 * the intersection given as a parameter.
+	 * From the set of requests, return the list of requests whose delivery or
+	 * pickup point is the intersection given as a parameter.
 	 * 
 	 * @param intersection the intersection to be tested
-	 * @type Intersection
-	 * @return List<Request>
+	 * @return a request that should start or end at the intersection point
 	 */
 	public Request getRequestFromIntersection(Intersection intersection) {
-		for(Request r : requests) {
-			if(intersection ==  r.getPickup() || intersection == r.getDelivery()) {
+		for (Request r : requests) {
+			if (intersection == r.getPickup() || intersection == r.getDelivery()) {
 				return r;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Delete a request from its list.
-	 * @param request
-	 * @return int the number of request in the List<Request> requests
+	 * 
+	 * @param request The request to delete
+	 * @return the number of requests still sitting in the list
 	 */
 	public int deleteRequest(Request request) {
 		requests.remove(request);
 		return requests.size();
 	}
-	
+
 	/**
 	 * Add a request from its list
-	 * @param request
+	 * 
+	 * @param request the request to add to the list of requests
 	 */
 	public void addRequest(Request request) {
 		requests.add(request);
 	}
-	
+
 	/**
 	 * Convert information of a SetOfRequests to a String
 	 */

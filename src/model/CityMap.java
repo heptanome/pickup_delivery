@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The class is representing a map by keeping in memory a loaded map XML file. It
- * mostly uses a list of intersections and a list of segments.
+ * The class is representing a map by keeping in memory a loaded map XML file.
+ * It mostly uses a list of intersections and a list of segments.
  *
  */
 public class CityMap {
@@ -34,8 +34,8 @@ public class CityMap {
 	/**
 	 * From two intersections this method finds the segment it represents on the map
 	 * 
-	 * @param origin
-	 * @param destination
+	 * @param origin      the intersection representing the origin
+	 * @param destination the intersection representing the destination
 	 * @return a segment if found, null otherwise
 	 */
 	public Segment getSegmentFromInter(Intersection origin, Intersection destination) {
@@ -48,9 +48,8 @@ public class CityMap {
 
 	/**
 	 * From the intersections, populate two java <Map> objects to easily retrieve
-	 * them afterwards
-	 * Number is a unique <String>
-	 * Id is a unique <int>, used to compute the shortest path
+	 * them afterwards Number is a unique <String> Id is a unique <int>, used to
+	 * compute the shortest path
 	 */
 	private void convertNumberToId() {
 		int index = 0;
@@ -63,6 +62,7 @@ public class CityMap {
 
 	/**
 	 * Get the amount of vertices
+	 * 
 	 * @return the number of vertices
 	 */
 	public int getNbVertices() {
@@ -70,7 +70,9 @@ public class CityMap {
 	}
 
 	/**
-	 * Get the map to easily find an id of an intersection by giving this intersection 
+	 * Get the map to easily find an id of an intersection by giving this
+	 * intersection
+	 * 
 	 * @return a map with as key an intersection and as value an id
 	 */
 	public Map<Intersection, Integer> getNumberIdMap() {
@@ -79,8 +81,8 @@ public class CityMap {
 
 	/**
 	 * Find the id of an intersection
-	 * @param intersection
-	 * 			Intersection which we need to find its id
+	 * 
+	 * @param intersection Intersection which we need to find its id
 	 * @return the id corresponding of the intersection given in the parameters
 	 */
 	public int getIntFromIntersectionMap(Intersection intersection) {
@@ -89,8 +91,8 @@ public class CityMap {
 
 	/**
 	 * Find a intersection with its id
-	 * @param id
-	 * 			Id of an intersection to find
+	 * 
+	 * @param id Id of an intersection to find
 	 * @return the intersection corresponding of the id given in the parameters
 	 */
 	public Intersection getIntersectionFromIdMap(int id) {
@@ -99,6 +101,7 @@ public class CityMap {
 
 	/**
 	 * Get the intersections corresponding of roads in the city map
+	 * 
 	 * @return a list of intersection of the city map
 	 */
 	public List<Intersection> getInstersections() {
@@ -107,6 +110,7 @@ public class CityMap {
 
 	/**
 	 * Get the roads of a map
+	 * 
 	 * @return a list of segments of the city map
 	 */
 	public List<Segment> getSegments() {
