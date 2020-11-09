@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -23,6 +24,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 import model.CityMap;
 import model.Intersection;
@@ -649,12 +651,16 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		case "updateRequests":
 			this.setRequests((SetOfRequests) evt.getNewValue());
 			break;
+		case "startComputeTour":
+	        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+	        break;
 		case "tourComputed":
 			Tour tour = (Tour) evt.getNewValue();
 			List<Segment> segments = tour.getPath();
 			RoadMap roadMap = tour.getRoadMap();
 			SetOfRequests sor = tour.getSOR();
 			this.tourComputed(segments, roadMap, sor);
+	        this.setCursor(Cursor.getDefaultCursor());
 			break;
 		case "selectCell":
 			this.selectCell((Intersection) evt.getNewValue());

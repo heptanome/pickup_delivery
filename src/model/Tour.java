@@ -113,6 +113,7 @@ public class Tour{
 	 * @return list of segments containing the path the delivery man should follow 
 	 */
 	public List<Segment> computeTour() {
+		support.firePropertyChange("startComputeTour", null, this);
 		// TSP tsp = new TSP1();
 		//TSP tsp = new TSP2();
 		TSP tsp = new TSP3();
