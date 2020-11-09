@@ -228,6 +228,14 @@ public class Tour implements Cloneable{
 		
 		return message;
 	}
+
+	/**
+	 * Getter for the setOfRequestsAttribute
+	 * @return the Tour's set of requests
+	 */
+	public SetOfRequests getSetOfRequests() {
+		return null;
+	}
 	
 	
 	
