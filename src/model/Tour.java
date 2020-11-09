@@ -155,7 +155,7 @@ public class Tour {
 		
 		this.roadMap = new RoadMap(this.path, this.setOfRequests);
 		
-		support.firePropertyChange("tourComputed", null, this.path);
+		support.firePropertyChange("tourComputed", null, this);
 		return this.path;
 	}
 
@@ -163,6 +163,10 @@ public class Tour {
 		return roadMap;
 	}
 	
+	public List<Segment> getPath() {
+		return path;
+	}
+
 	public void resetMap(){
 		CityMap oldMap = this.map;
 		this.map = null;
