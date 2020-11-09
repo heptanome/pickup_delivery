@@ -191,7 +191,7 @@ public class Tour {
 	public String toString() {
 		String message = "Road Map :\n"
 						 +"Departure at "+setOfRequests.getDepartureTime()+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"
-						 +this.roadMap.printRoadMap()+"\n"
+						 +this.roadMap.printRoadMap(this.path)+"\n"
 						 +"Have a good Tour :)";
 		
 		return message;
