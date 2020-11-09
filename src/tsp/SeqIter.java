@@ -9,30 +9,32 @@ public class SeqIter implements Iterator<Integer> {
 	private int nbCandidates;
 
 	/**
-	 * Create an iterator to traverse the set of vertices in <code>unvisited</code> 
-	 * which are successors of <code>currentVertex</code> in <code>g</code>
-	 * Vertices are traversed in the same order as in <code>unvisited</code>
+	 * Create an iterator to traverse the set of vertices in <code>unvisited</code>
+	 * which are successors of <code>currentVertex</code> in <code>g</code> Vertices
+	 * are traversed in the same order as in <code>unvisited</code>
 	 * 
-	 * Vertex B can not be a successor of vertex A if B is a point where one or more deliveries have to
-	 * be made and all of the corresponding pickup points have not already been visited.
+	 * Vertex B can not be a successor of vertex A if B is a point where one or more
+	 * deliveries have to be made and all of the corresponding pickup points have
+	 * not already been visited.
 	 * 
-	 * @param unvisited
-	 * @param currentVertex
-	 * @param g
+	 * @param unvisited     the list of unvisited vertices
+	 * @param currentVertex self-explanatory
+	 * @param g             the graph the action takes place on
+	 * @throws Excpetion if any of the unvisited vertex isn't in the graph
 	 */
-	public SeqIter(Collection<Integer> unvisited, int currentVertex, Graph g) throws Exception{
+	public SeqIter(Collection<Integer> unvisited, int currentVertex, Graph g) throws Exception {
 		this.candidates = new Integer[unvisited.size()];
-		for (Integer s : unvisited){
-			if(g.isDeliveryAddress(s)) {
+		for (Integer s : unvisited) {
+			if (g.isDeliveryAddress(s)) {
 				List<Integer> pickupList = g.getPickUpFromDelivery(s);
 				int index = 0;
-				while(index < pickupList.size() && unvisited.contains(pickupList.get(index))) {
+				while (index < pickupList.size() && unvisited.contains(pickupList.get(index))) {
 					index++;
 				}
-				if(index < pickupList.size()) {
+				if (index < pickupList.size()) {
 					if (g.isArc(currentVertex, s)) {
 						candidates[nbCandidates++] = s;
-					}	
+					}
 				}
 			} else {
 				if (g.isArc(currentVertex, s)) {
@@ -41,7 +43,7 @@ public class SeqIter implements Iterator<Integer> {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean hasNext() {
 		return nbCandidates > 0;
@@ -54,6 +56,7 @@ public class SeqIter implements Iterator<Integer> {
 	}
 
 	@Override
-	public void remove() {}
+	public void remove() {
+	}
 
 }
