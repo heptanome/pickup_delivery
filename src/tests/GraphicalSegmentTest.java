@@ -38,11 +38,6 @@ class GraphicalSegmentTest {
 	}
 	
 	@Test
-	void testOrigin() {
-		assertEquals(graphicalSegment.getOrigin(),"25319255");
-	}
-	
-	@Test
 	void testGetters() {
 		assertEquals(graphicalSegment.getXOriginPixel(),originGP.getXPixel() +4);
 		assertEquals(graphicalSegment.getYOriginPixel(),originGP.getYPixel() +4);
@@ -51,7 +46,12 @@ class GraphicalSegmentTest {
 	}
 	
 	@Test
-	void testDestination() {
+	void testGetOrigin() {
+		assertEquals(graphicalSegment.getOrigin(),"25319255");
+	}
+	
+	@Test
+	void testGetDestination() {
 		assertEquals(graphicalSegment.getDestination(),"1370403192");
 	}
 
