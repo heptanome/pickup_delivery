@@ -26,11 +26,10 @@ public class MapParser extends Parser {
 	private ReadWriteLock lock = new ReentrantReadWriteLock();
 	private HashMap<String, Intersection> interMap;
 
-
 	/**
-	 * Constructor 
-	 * @param fp
-	 * 			File to parse
+	 * Constructor
+	 * 
+	 * @param fp File to parse
 	 * @throws Exception
 	 */
 	public MapParser(String fp) throws Exception {
@@ -91,13 +90,13 @@ public class MapParser extends Parser {
 		for (int i = 0; i <= NB_THREADS; i++) {
 			parserThreads[i].join();
 		}
-		
-		if (this.segmentsList.size()<1 || intersectionsList.size()<2) {
+
+		if (this.segmentsList.size() < 1 || intersectionsList.size() < 2) {
 			throw new IrrelevantFileException("Le fichier ne contient pas de carte correcte");
 		}
-		
+
 		map = createMap(intersectionsList, segmentsList);
-		
+
 		return map;
 	}
 
