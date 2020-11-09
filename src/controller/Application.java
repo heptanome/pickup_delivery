@@ -160,6 +160,10 @@ public class Application implements PropertyChangeListener {
 	public void redo(){
 		currentState.redo(listOfCommands, this, homeWindow);
 	}
+	
+	public void displayHelp(){
+		currentState.describeState(homeWindow);
+	}
 
 	/**
 	 * We define different scenarios in this method, according to the events that
@@ -242,6 +246,13 @@ public class Application implements PropertyChangeListener {
 				} catch (final Exception e) {
 				e.printStackTrace();
 			}
+			break;
+			case "askHelp":
+				try {
+					this.displayHelp();
+				} catch (final Exception e) {
+					e.printStackTrace();
+				}
 			break;
 		default:
 			break;

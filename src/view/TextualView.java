@@ -170,9 +170,9 @@ public class TextualView extends JPanel {
 		Font fontCaption = new Font("Arial", Font.BOLD, 15);
 
 		JLabel titleCaption = new JLabel("Caption", JLabel.LEFT);
-		JLabel caption1 = new JLabel("Yellow point: departure", JLabel.LEFT);
-		JLabel caption2 = new JLabel("Blue point: pickup address", JLabel.LEFT);
-		JLabel caption3 = new JLabel("Magenta point: delivery address", JLabel.LEFT);
+		JLabel caption1 = new JLabel("⏺ Yellow: departure", JLabel.LEFT);
+		JLabel caption2 = new JLabel("⏺ Blue: pickup", JLabel.LEFT);
+		JLabel caption3 = new JLabel("⏺ Magenta: delivery", JLabel.LEFT);
 
 		titleCaption.setFont(fontTitle);
 		caption1.setFont(fontCaption);
@@ -189,10 +189,10 @@ public class TextualView extends JPanel {
 		caption2.setBackground(Color.gray);
 		caption3.setBackground(Color.gray);
 
-		titleCaption.setBounds(50, 670, 300, 30);
-		caption1.setBounds(50, 700, 300, 30);
-		caption2.setBounds(50, 730, 300, 30);
-		caption3.setBounds(50, 760, 300, 30);
+		titleCaption.setBounds(200, 670, 300, 30);
+		caption1.setBounds(200, 700, 300, 30);
+		caption2.setBounds(200, 730, 300, 30);
+		caption3.setBounds(200, 760, 300, 30);
 
 		add(titleCaption);
 		add(caption1);
