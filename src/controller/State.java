@@ -97,7 +97,7 @@ public interface State {
 	 * Method called by the controller to cancel a running process
 	 * 
 	 */
-	public default void cancel() {
+	public default void cancel(Application a, HomeWindow hw) {
 	}
 	
 	/**
@@ -106,7 +106,7 @@ public interface State {
 	 * @param hw the HomeWindow
 	 */
 	public default void describeState(HomeWindow hw){
-        JOptionPane.showMessageDialog(hw, "Select a pickup point on the map for the new request");
+        JOptionPane.showMessageDialog(hw, "Feel free to add or delete a request or go ahead and compute a tour.");
 		System.out.println("apa");
     }
 

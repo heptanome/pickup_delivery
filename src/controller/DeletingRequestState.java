@@ -66,7 +66,7 @@ public class DeletingRequestState implements State {
 	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(false, false, false, false, false, false, false,  false, false, true);
+        hw.setButtonsEnabled(false, false, false, false, false, false, false,  false, false, true, false);
 	}
 
 	//TODO :override setMouseListener here instead of setting it in Application.java

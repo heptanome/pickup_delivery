@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.LinkedList;
@@ -133,6 +134,7 @@ public class Tour {
 		}
 
 		List<Integer> intermediateNodes = new LinkedList<Integer>();
+		Segment newSegment;
 		for (int indexSol = 0; indexSol < solutionIntersection.length - 1; indexSol++) {
 			int idOrigine = map.getIntFromIntersectionMap(solutionIntersection[indexSol]);
 			int idDepart = map.getIntFromIntersectionMap(solutionIntersection[indexSol + 1]);
@@ -147,7 +149,9 @@ public class Tour {
 			while (iterator.hasPrevious()) {
 				int previousNodeId = iterator.previous();
 				previousNodeInter = map.getIntersectionFromIdMap(previousNodeId);
-				this.path.add(map.getSegmentFromInter(currentNodeInter, previousNodeInter));
+				newSegment = map.getSegmentFromInter(currentNodeInter, previousNodeInter);
+				newSegment.setColor(new Color((255/solutionIntersection.length*indexSol), 100, 100));
+				this.path.add(newSegment);
 				currentNodeInter = previousNodeInter;
 			}
 			intermediateNodes.clear();
@@ -156,8 +160,7 @@ public class Tour {
 		this.roadMap = new RoadMap(this.path, this.setOfRequests);
 		
 		support.firePropertyChange("tourComputed", null, this.path);
-		System.out.println(this+"\n");
-		System.out.println(this.path);
+		support.firePropertyChange("tourComputed", null, this);
 		return this.path;
 	}
 
@@ -165,6 +168,10 @@ public class Tour {
 		return roadMap;
 	}
 	
+	public List<Segment> getPath() {
+		return path;
+	}
+
 	public void resetMap(){
 		CityMap oldMap = this.map;
 		this.map = null;

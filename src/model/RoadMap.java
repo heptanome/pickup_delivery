@@ -1,15 +1,16 @@
 package model;
 
-import tsp.CompleteGraph;
-
-import java.util.List;
-import java.util.ListIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
+import tsp.CompleteGraph;
 
 /**
  * Road map that the delivery man should follow
+ * test
  */
 public class RoadMap {
 	private HashMap<Intersection, Request> mapAddressToRequest;
@@ -470,4 +471,14 @@ public class RoadMap {
 		path.addAll(end);
 		return path;
 	}
+	
+	public LinkedList<Intersection> getOrderedAddresses() {
+		return orderedAddresses;
+	}
+	
+	public HashMap<Intersection, Request> getMapAddressToRequest() {
+		return mapAddressToRequest;
+	}
+
+
 }
