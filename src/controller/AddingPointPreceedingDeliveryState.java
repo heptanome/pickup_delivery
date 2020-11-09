@@ -52,10 +52,14 @@ public class AddingPointPreceedingDeliveryState implements State {
                 int reply = JOptionPane.showConfirmDialog(hw, message, title, JOptionPane.OK_CANCEL_OPTION);
                 if (reply == JOptionPane.YES_OPTION)
                 {
+
                     //Update the tour
                     tour.addRequest(hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup());
 
                     //Add to the list of commands
+                    a.getListOfCommands().cancel();
+                    a.getListOfCommands().cancel();
+                    a.getListOfCommands().cancel();
                     a.getListOfCommands().add(new AddCompleteRequestCommand(tour, hw.getNewRequest(), hw.getPreceedingDelivery(), hw.getPreceedingPickup()) );
 
                     //Go to the next state (DisplayingTourOnMapState)
