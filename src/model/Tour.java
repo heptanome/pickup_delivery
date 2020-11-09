@@ -18,7 +18,7 @@ import tsp.TSP3;
  * the controller and will send the updated data to the View using its
  * propertyChange
  */
-public class Tour {
+public class Tour implements Cloneable{
 	private CityMap map;
 	private SetOfRequests setOfRequests;
 	private PropertyChangeSupport support;
@@ -163,18 +163,34 @@ public class Tour {
 		return this.path;
 	}
 
+	/**
+	 * Getter for the roadMap attribute
+	 * @return the Tour's roadMap
+	 */
 	public RoadMap getRoadMap() {
 		return roadMap;
 	}
-	
-	public SetOfRequests getSetOfRequests () {
-		return setOfRequests;
-	}
-	
-	public List<Segment> getPath() {
-		return path;
+
+	/**
+	 * Getter fot the path attribute
+	 * @return the Tour's path
+	 */
+	public LinkedList<Segment> getPath(){
+		return this.path;
 	}
 
+	/**
+	 * Getter for the setOfRequests attribute
+	 * @return the Tour's set of requests
+	 */
+	public SetOfRequests getSOR(){
+		return this.setOfRequests;
+	}
+	
+
+	/**
+	 * Resets the map to null
+	 */
 	public void resetMap(){
 		CityMap oldMap = this.map;
 		this.map = null;
@@ -182,13 +198,28 @@ public class Tour {
 		support.firePropertyChange("updateMap", oldMap, this.map);
 	}
 
+	/**
+	 * Resets the set of request to null
+	 */
 	public void resetRequests(){
 		SetOfRequests oldSor= this.setOfRequests;
 		this.setOfRequests= null;
 		// signal the observers the map has changed
 		support.firePropertyChange("updateRequests", oldSor, this.setOfRequests);
 	}
-	
+
+	/**
+	 * Method used to find the Intersection visited before another one
+	 * @param i the reference Intersection
+	 * @return the Intersection before i
+	 */
+	public Intersection getIntersectionBefore(Intersection i){
+		return roadMap.getIntersectionBefore(i);
+	}
+
+	/**
+	 * Describe the Tour
+	 */
 	public String toString() {
 		String message = "Road Map :\n"
 						 +"Departure at "+setOfRequests.getDepartureTime()+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"
@@ -196,6 +227,14 @@ public class Tour {
 						 +"Have a good Tour :)";
 		
 		return message;
+	}
+
+	/**
+	 * Getter for the setOfRequestsAttribute
+	 * @return the Tour's set of requests
+	 */
+	public SetOfRequests getSetOfRequests() {
+		return null;
 	}
 	
 	

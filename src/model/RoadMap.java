@@ -206,6 +206,10 @@ public class RoadMap {
 		return this.orderedAddresses.getLast() == i;
 	}
 
+	/**
+	 * Describe the road map
+	 * @return a String representation of the road map
+	 */
 	public String printRoadMap() {
 		int index = 1;
 		String message = "";
@@ -470,6 +474,20 @@ public class RoadMap {
 		path.addAll(deliveryPath);
 		path.addAll(end);
 		return path;
+	}
+
+		/**
+	 * Gets the intersection before another one in the orderedAdrdresses list
+	 * @param i
+	 * 			the Intersection 
+	 * @return the Intersection visited before i
+	 * 
+	 */
+	public Intersection getIntersectionBefore(Intersection i) {
+		int indexOfI = orderedAddresses.indexOf(i);
+		System.out.println(indexOfI);
+		Intersection iBefore = orderedAddresses.get(indexOfI -1);
+		return iBefore;
 	}
 	
 	public LinkedList<Intersection> getOrderedAddresses() {
