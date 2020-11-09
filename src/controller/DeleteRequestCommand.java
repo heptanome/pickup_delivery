@@ -29,7 +29,11 @@ public class DeleteRequestCommand implements Command{
     @Override
     public void doCommand() {
         try{
+            System.out.println("Redo delete command");
+
+            //TODO : make this work
             tour.deleteRequest(r);
+            tour.refreshColorsOfTour();
         } catch (Exception e) {
 			e.printStackTrace();
 		}

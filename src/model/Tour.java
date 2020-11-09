@@ -232,6 +232,9 @@ public class Tour implements Cloneable{
 		return message;
 	}
 
+	/**
+	 * Refresh the colors of the tour (degrading from red to green) after update
+	 */
 	public void refreshColorsOfTour() {
 		int number = path.size();
 		for (int index = 0; index < number; index++) {
