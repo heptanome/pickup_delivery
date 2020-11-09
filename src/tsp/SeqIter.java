@@ -20,7 +20,7 @@ public class SeqIter implements Iterator<Integer> {
 	 * @param currentVertex
 	 * @param g
 	 */
-	public SeqIter(Collection<Integer> unvisited, int currentVertex, Graph g){
+	public SeqIter(Collection<Integer> unvisited, int currentVertex, Graph g) throws Exception{
 		this.candidates = new Integer[unvisited.size()];
 		for (Integer s : unvisited){
 			if(g.isDeliveryAddress(s)) {

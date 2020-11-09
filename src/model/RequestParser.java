@@ -1,7 +1,7 @@
 package model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,14 +39,13 @@ public class RequestParser extends Parser {
 	 * @return a populated set of requests the tour can then use
 	 */
 	public SetOfRequests loadRequests() {
-		SimpleDateFormat format = new SimpleDateFormat("H:M:s");
-
 		NodeList depotList = doc.getElementsByTagName("depot");
 		NodeList reqList = doc.getElementsByTagName("request");
 
 		LinkedList<Request> requestsList = new LinkedList<Request>();
 
-		Date departure = new Date();
+		LocalTime departure = LocalTime.MIN;
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("H:m:s");
 		String idDepot = "non initializated";
 		Intersection depot = null;
 
@@ -57,7 +56,7 @@ public class RequestParser extends Parser {
 			idDepot = dep.getAttribute("address");
 			depot = findIntersection(idDepot);
 			try {
-				departure = format.parse(dep.getAttribute("departureTime"));
+				departure = LocalTime.parse(dep.getAttribute("departureTime"),format);
 			} catch (Exception e) {
 
 			}
@@ -86,7 +85,7 @@ public class RequestParser extends Parser {
 		return new Request(delivAdd, pickupAdd, delivDur, pickupDur);
 	}
 
-	private SetOfRequests createTour(Intersection idDepot, Date departure, List<Request> req) {
+	private SetOfRequests createTour(Intersection idDepot, LocalTime departure, List<Request> req) {
 		return new SetOfRequests(idDepot, departure, req);
 	}
 

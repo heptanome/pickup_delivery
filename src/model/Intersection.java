@@ -78,6 +78,6 @@ public class Intersection {
 	 * Convert information of an Intersection to a String
 	 */
 	public String toString() {
-		return "id : " + number + " {" + latitude + ", " + longitude + "}.";
+		return "id : " + number; //+ " {" + latitude + ", " + longitude + "}.";
 	}
 }

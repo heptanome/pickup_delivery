@@ -1,25 +1,16 @@
 package tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.xml.sax.SAXException;
-
 import controller.Application;
 import controller.HomeState;
-import controller.ListOfCommands;
 import controller.State;
 import model.Intersection;
-import model.Request;
 import model.Tour;
 import view.HomeWindow;
 
@@ -122,15 +113,15 @@ class ApplicationTest {
 	}
 	
 	@Test
-	void testGetListOfCommandsUndoRedo() {
-		ListOfCommands l = app.getListOfCommands();
-		assertEquals(new ListOfCommands(), l);
-		
-		app.undo();
-		verify(stateMock).undo(app.getListOfCommands(), app, homeWindowMock);
-		
-		app.redo();
-		verify(stateMock).undo(app.getListOfCommands(), app, homeWindowMock);
+	void testDisplayHelp() {
+		app.displayHelp();
+		verify(stateMock).describeState(homeWindowMock);
+	}
+	
+	@Test
+	void testCancel() {
+		app.cancel();
+		verify(stateMock).cancel(app, homeWindowMock);
 	}
 
 }

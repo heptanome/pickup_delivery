@@ -112,8 +112,8 @@ public class CompleteGraph implements Graph {
 	}
 	
 	@Override
-	public boolean isDeliveryAddress(int i) {
-		Intersection deliveryAddress = sor.getRequestNodes().get(i);
+	public boolean isDeliveryAddress(int i) throws Exception{
+		Intersection deliveryAddress = this.sor.getRequestNodes().get(i);
 		return sor.isDeliveryPoint(deliveryAddress);
 	}
 	

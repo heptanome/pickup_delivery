@@ -32,12 +32,6 @@ class GraphicalPointTest {
 	}
 	
 	@Test
-	void testIsClicked() {
-		//TODO
-		//assertTrue(graphicalPoint.isClicked());
-	}
-	
-	@Test
 	void testGetXPixel() {
 		assertEquals(graphicalPoint.getXPixel(), 90);
 	}
@@ -75,5 +69,12 @@ class GraphicalPointTest {
 		graphicalPoint.setSize(12);
 		assertEquals(graphicalPoint.getSize(), 12);
 	}
-
+	
+	@Test
+	void testSetGetSpecial() {
+		graphicalPoint.setIsSpecial(true);
+		assertEquals(true,graphicalPoint.getIsSpecial());
+		graphicalPoint.setIsSpecial(false);
+		assertEquals(false,graphicalPoint.getIsSpecial());
+	}
 }

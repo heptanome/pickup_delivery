@@ -42,7 +42,7 @@ abstract class GraphTest {
 	}
 
 	@Test
-	void testIsDeliveryAddress() {
+	void testIsDeliveryAddress() throws Exception{
 		fail("Not yet implemented");
 	}
 

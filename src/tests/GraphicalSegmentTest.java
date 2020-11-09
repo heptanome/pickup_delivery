@@ -16,14 +16,16 @@ import view.graphical.GraphicalSegment;
 class GraphicalSegmentTest {
 	
 	public static GraphicalSegment graphicalSegment;
+	public static GraphicalPoint originGP;
+	public static GraphicalPoint destinationGP;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 
 		Intersection originI = new Intersection("25319255", 3, 11);
 		Intersection destinationI  = new Intersection( "1370403192", 10 , 4);
-		GraphicalPoint originGP = new GraphicalPoint(originI, 1 , 20 , 3 , 18);
-		GraphicalPoint destinationGP = new GraphicalPoint(destinationI, 1 , 20 , 3 , 18);
+		originGP = new GraphicalPoint(originI, 1 , 20 , 3 , 18);
+		destinationGP = new GraphicalPoint(destinationI, 1 , 20 , 3 , 18);
 		graphicalSegment = new GraphicalSegment(originGP, destinationGP);
 	}
 
@@ -41,28 +43,16 @@ class GraphicalSegmentTest {
 	}
 	
 	@Test
-	void testDestination() {
-		assertEquals(graphicalSegment.getDestination(),"1370403192");
+	void testGetters() {
+		assertEquals(graphicalSegment.getXOriginPixel(),originGP.getXPixel() +4);
+		assertEquals(graphicalSegment.getYOriginPixel(),originGP.getYPixel() +4);
+		assertEquals(graphicalSegment.getXDestPixel(),destinationGP.getXPixel() +4);
+		assertEquals(graphicalSegment.geYDestPixel(),destinationGP.getYPixel() +4);
 	}
 	
 	@Test
-	void testGetXOriginPixel() {
-		assertEquals(graphicalSegment.getXOriginPixel(),94);
-	}
-
-	@Test
-	void testGetYOriginPixel() {
-		assertEquals(graphicalSegment.getYOriginPixel(),437);
-	}
-
-	@Test
-	void testGetXDestPixel() {
-		assertEquals(graphicalSegment.getXDestPixel(),389);
-	}
-
-	@Test
-	void testGeYDestPixel() {
-		assertEquals(graphicalSegment.geYDestPixel(),63);
+	void testDestination() {
+		assertEquals(graphicalSegment.getDestination(),"1370403192");
 	}
 
 	@Test
