@@ -197,11 +197,12 @@ public class TextualView extends JPanel {
 		uiTableTour.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				int row = uiTable.rowAtPoint(evt.getPoint());
-				int col = uiTable.columnAtPoint(evt.getPoint());
+				int row = uiTableTour.rowAtPoint(evt.getPoint());
+				int col = uiTableTour.columnAtPoint(evt.getPoint());
 				if (row >= 0 && col >= 0) {
 					// selected a row
-					support.firePropertyChange("selectCell", null, null);
+					System.out.println(row);
+					support.firePropertyChange("selectCell", null, orderedAddresses.get(row));
 				}
 			}
 		});
