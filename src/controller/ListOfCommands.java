@@ -49,6 +49,17 @@ public class ListOfCommands {
 	}
 
 	/**
+	 * Permanently remove the last added command from the list whithout calling undoCommand() 
+	 * (this command cannot be reinserted again with redo) 
+	 */
+	public void removeWithOutUndoing(){
+		if (currentIndex >= 0){
+			list.remove(currentIndex);
+			currentIndex--;
+		}
+	}
+
+	/**
 	 * Reinsert the last command removed by undo 
 	 */
 	public void redo(){
