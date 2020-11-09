@@ -97,7 +97,7 @@ public class DisplayingTourOnMapState implements State {
 	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(true, true, false, true, true, true, false , l.undoPossible() , l.redoPossible(), true);
+        hw.setButtonsEnabled(true, true, false, true, true, true, false , l.undoPossible() , l.redoPossible(), true, false);
 	}
     
     /**

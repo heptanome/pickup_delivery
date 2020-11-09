@@ -47,7 +47,7 @@ public class HomeState implements State {
 	 * @param l the current listOfCommands
 	 */
 	private void setButtons(HomeWindow hw, ListOfCommands l) {
-		hw.setButtonsEnabled(true, false, false, false, false, false, false, false, l.redoPossible(), true);
+		hw.setButtonsEnabled(true, false, false, false, false, false, false, false, l.redoPossible(), true, false);
 	}
 	
     /**

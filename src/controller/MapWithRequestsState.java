@@ -71,7 +71,7 @@ public class MapWithRequestsState implements State {
 	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(true, true, true, false, false, false, false,  true, false, true);
+        hw.setButtonsEnabled(true, true, true, false, false, false, false,  true, false, true, false);
 	}
     
     /**
