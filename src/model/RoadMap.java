@@ -110,12 +110,8 @@ public class RoadMap {
 
 		this.orderedAddresses.add(indexBeforePickup, newDelivery);
 		this.orderedAddresses.add(indexBeforeDelivery, newPickup);
-		/**this.mapIntersectionToType.put(newDelivery, false);
-		if (this.mapIntersectionToType.containsKey(newPickup)) {
-			if (this.mapIntersectionToType.get(newPickup)) {
-				this.mapIntersectionToType.put(newPickup, true);
-			}
-		}**/
+		this.addARequestToMap(this.mapPickupAddressToRequest, newPickup, newRequest);
+		this.addARequestToMap(this.mapDeliveryAddressToRequest, newDelivery, newRequest);
 		
 		LinkedList<Segment> pickupPath = new LinkedList<Segment>();
 		LinkedList<Segment> deliveryPath = new LinkedList<Segment>();
@@ -177,6 +173,8 @@ public class RoadMap {
 		//Remove the request to delete
 		this.orderedAddresses.remove(indexPickUpToDelete);
 		this.orderedAddresses.remove(indexDeliveryToDelete-1);
+		this.removeARequestToMap(this.mapPickupAddressToRequest, requestToDelete.getPickup(), requestToDelete);
+		this.removeARequestToMap(this.mapDeliveryAddressToRequest, requestToDelete.getDelivery(), requestToDelete);
 		
 		LinkedList<Segment> pickupPath = new LinkedList<Segment>();
 		LinkedList<Segment> deliveryPath = new LinkedList<Segment>();
@@ -260,12 +258,24 @@ public class RoadMap {
 	
 	private void addARequestToMap(HashMap<Intersection, List<Request>> map, Intersection currentIntersection, Request currentRequest) {
 		if (map.containsKey(currentIntersection)) {
-			List<Request> requestList = this.mapPickupAddressToRequest.get(currentIntersection);
+			List<Request> requestList = map.get(currentIntersection);
 			requestList.add(currentRequest);
 		} else {
 			List<Request> newRequestList = new LinkedList<Request>();
 			newRequestList.add(currentRequest);
 			map.put(currentIntersection, newRequestList);
+		}
+	}
+	
+	private void removeARequestToMap(HashMap<Intersection, List<Request>> map, Intersection currentIntersection, Request currentRequest) {
+		if (map.containsKey(currentIntersection)) {
+			List<Request> requestsList = map.get(currentIntersection);
+			if(requestsList.contains(currentRequest)) {
+				requestsList.remove(currentRequest);
+			}
+			if(requestsList.isEmpty()) {
+				map.remove(currentIntersection);
+			}
 		}
 	}
 
