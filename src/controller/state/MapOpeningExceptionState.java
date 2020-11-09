@@ -52,7 +52,6 @@ public class MapOpeningExceptionState implements State {
 	@Override
 	public void describeState(HomeWindow hw) {
 		JOptionPane.showMessageDialog(hw, "Something went wrong while loading the map. Try again.");
-		System.out.println("apa");
 	}
 
 }

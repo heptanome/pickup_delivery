@@ -38,15 +38,15 @@ public class AddingPickupAddressState implements State {
 			String result = null;
 			while (duration < 0) {
 				result = JOptionPane.showInputDialog(hw, "Enter a pickup duration (number of minutes)", 5);
-				if(result == null) {
+				if (result == null) {
 					break;
 				}
 				duration = Integer.parseInt(result);
 			}
-			
+
 			if (result != null) {
 				a.getListOfCommands().add(new AddPickupCommand(i, hw, duration));
-	
+
 				// Go to the next state (AddingPointPreceedingPickupState)
 				a.setCurrentState(a.appp);
 				a.getCurrentState().initiateState(a, hw);
@@ -59,20 +59,20 @@ public class AddingPickupAddressState implements State {
 
 	@Override
 	public void describeState(HomeWindow hw) {
-		JOptionPane.showMessageDialog(hw,  "Add Request - step 1\nSelect a pickup point on the map for the new request");
-		System.out.println("apa");
+		JOptionPane.showMessageDialog(hw, "Add Request - step 1\nSelect a pickup point on the map for the new request");
 	}
 
 	/**
-	 * Method called by the States to set the help message in the homeWindow, depending on the State
+	 * Method called by the States to set the help message in the homeWindow,
+	 * depending on the State
 	 * 
 	 * @param hw the HomeWindow
 	 */
-	private void setHelp(HomeWindow hw){
+	private void setHelp(HomeWindow hw) {
 		String message = "<html>Add Request - step 1\nSelect a pickup point<br> on the map for <br>the new request</html>";
 		hw.setHelpText(message);
 	}
-	
+
 	@Override
 	public void cancel(Application a, HomeWindow hw) {
 		a.setCurrentState(a.displayingTourState);

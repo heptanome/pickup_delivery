@@ -116,7 +116,6 @@ public interface State {
 	 */
 	public default void describeState(HomeWindow hw) {
 		JOptionPane.showMessageDialog(hw, "Feel free to add or delete a request or go ahead and compute a tour.");
-		System.out.println("apa");
 	}
 
 	/**

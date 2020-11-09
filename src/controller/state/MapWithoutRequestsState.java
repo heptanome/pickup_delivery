@@ -68,27 +68,27 @@ public class MapWithoutRequestsState implements State {
 	 * the state
 	 * 
 	 * @param hw the HomeWindow
-	 * @param l the current listOfCommands
+	 * @param l  the current listOfCommands
 	 */
 	private void setButtons(HomeWindow hw, ListOfCommands l) {
-		hw.setButtonsEnabled(true, true, false, false, false, false, false, l.undoPossible(), l.redoPossible(), true, false);
+		hw.setButtonsEnabled(true, true, false, false, false, false, false, l.undoPossible(), l.redoPossible(), true,
+				false);
 	}
-	
-    
-    @Override
-	public void describeState(HomeWindow hw){
-        JOptionPane.showMessageDialog(hw, "A map was loaded successfully. Go on and load some requests.");
-		System.out.println("apa");
+
+	@Override
+	public void describeState(HomeWindow hw) {
+		JOptionPane.showMessageDialog(hw, "A map was loaded successfully. Go on and load some requests.");
 	}
-	
+
 	/**
-	 * Method called by the States to set the help message in the homeWindow, depending on the State
+	 * Method called by the States to set the help message in the homeWindow,
+	 * depending on the State
 	 * 
 	 * @param hw the HomeWindow
 	 */
-	private void setHelp(HomeWindow hw){
+	private void setHelp(HomeWindow hw) {
 		String message = "<html>A map was loaded <br>successfully. Go on and load some requests.</html>";
 		hw.setHelpText(message);
-    }
+	}
 
 }
