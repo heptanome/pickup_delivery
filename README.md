@@ -1,8 +1,8 @@
 # pickup_delivery
 PLD Agile: Pickup and delivery
 
-XML part build with javac
-=======
+# Authors
+BATEL Arthur, BODELOT Paul, BUONOMO Fanny, GUERRAOUI Camélia, KESSIBI Guillaume, PELTIER Camille, ZIEGER Luise
 
 ## Tests
 * All the tests classes are in the source folder **tests**
