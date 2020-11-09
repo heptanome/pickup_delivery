@@ -481,7 +481,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			// Only works if there is a map loaded
 			if (loadedMap != null) {
 				Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
-
 				/**
 				 * for a better UX (otherwise the zoom disappears), the update is used in case
 				 * the map changes

@@ -27,6 +27,7 @@ public class TextualView extends JPanel {
 	private static final long serialVersionUID = 2L;
 	private Font fontTitle;
 	private JTable uiTable;
+	private JTable uiTableTour;
 	private PropertyChangeSupport support;
 
 	public TextualView(CityMap loadedMap) {
@@ -189,7 +190,7 @@ public class TextualView extends JPanel {
 				return false;
 			}
 		};
-		JTable uiTableTour = new JTable(tabData, tadHeader);
+		uiTableTour = new JTable(tabData, tadHeader);
 		uiTableTour.setModel(tableModel);
 
 		// uiTableTour.setBounds(100, 50, 0, 0);
@@ -256,6 +257,16 @@ public class TextualView extends JPanel {
 
 			if (id1.equals(inter.getNumber()) || id2.equals(inter.getNumber())) {
 				uiTable.setRowSelectionInterval(i, i);
+			} 
+		}
+		
+		int rowsTour = uiTableTour.getRowCount();
+		for (int i = 0; i < rowsTour; i++) {
+			String id1 = (String) uiTableTour.getValueAt(i, 2);
+			System.out.println(inter.getNumber());
+
+			if (id1.equals(inter.getNumber())) {
+				uiTableTour.setRowSelectionInterval(i, i);
 			}
 		}
 	}
