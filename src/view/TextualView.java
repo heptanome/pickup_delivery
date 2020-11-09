@@ -301,7 +301,7 @@ public class TextualView extends JPanel {
 				uiTable.setRowSelectionInterval(i, i);
 			} 
 		}
-		
+		/**
 		int rowsTour = uiTableTour.getRowCount();
 		for (int i = 0; i < rowsTour; i++) {
 			String id1 = (String) uiTableTour.getValueAt(i, 2);
@@ -310,6 +310,7 @@ public class TextualView extends JPanel {
 				uiTableTour.setRowSelectionInterval(i, i);
 			}
 		}
+		**/
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {

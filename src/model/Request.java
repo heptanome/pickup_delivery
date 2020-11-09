@@ -30,6 +30,24 @@ public class Request {
       pickupDuration = pickupDur;
       numero = numeroReq;
     }
+    /**
+     * Constructor
+     * @param delivAdd
+     * 			Intersection representing the delivery address 
+     * @param pickupAddr
+     * 			Intersection representing the pickup address 
+     * @param delivDur
+     * 			time in minutes needed by the delivery man to deliver the item
+     * @param pickupDur
+     * 			time in minutes needed by the delivery man to pick the item
+     */
+    public Request(Intersection delivAdd, Intersection pickupAddr, int delivDur, int pickupDur) {
+      delivery = delivAdd;
+      pickup = pickupAddr;
+      deliveryDuration = delivDur;
+      pickupDuration = pickupDur;
+      numero = 0;
+    }
 
     /**
 	 * Get the pickup intersection of a request
