@@ -22,6 +22,7 @@ public class RoadMap {
 	private HashMap<Intersection, List<Request>> mapDeliveryAddressToRequest;
 	private LinkedList<Intersection> orderedAddresses;
 	private final float SPEED = 15000/60; //meters per minute
+	private Intersection depot;
 
 	/**
 	 * Constructor
@@ -34,6 +35,7 @@ public class RoadMap {
 		this.mapDeliveryAddressToRequest = new HashMap<Intersection,List<Request>>();
 		this.orderedAddresses = new LinkedList<Intersection>();
 		this.calculateMapAddressToRequest(initialSetOfRequests);
+		this.depot = initialSetOfRequests.getDepot();
 		this.reorderAddresses(roadsAfterComputedTour);
 		Intersection depot = initialSetOfRequests.getDepot();
 		this.orderedAddresses.addFirst(depot);
@@ -179,6 +181,7 @@ public class RoadMap {
 		Intersection beforeDelivery = this.orderedAddresses.get(indexDeliveryToDelete-1);
 		Intersection afterDelivery = this.orderedAddresses.get(indexDeliveryToDelete+1);
 		
+		System.out.println("BP "+beforePickup+" AP "+afterPickup+" BD "+beforeDelivery+" AD "+afterDelivery);
 		//Remove the request to delete
 		this.orderedAddresses.remove(indexPickUpToDelete);
 		this.orderedAddresses.remove(indexDeliveryToDelete-1);
@@ -193,6 +196,8 @@ public class RoadMap {
 		if (beforeDelivery == requestToDelete.getPickup()) {
 			Intersection[] addressesPickup = {beforePickup, afterDelivery};
 			pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
+			afterPickup = afterDelivery;
+			beforeDelivery = afterDelivery;
 		} else {
 			Intersection[] addressesPickup = {beforePickup, afterPickup};
 			pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
@@ -237,8 +242,7 @@ public class RoadMap {
 		}
 		return false;
 	}
-		
-	
+			
 	/**
 	 * Check if an intersection is the last of the LinkedList orderedAddresses
 	 * @param i
@@ -441,7 +445,6 @@ public class RoadMap {
 		}
 	}
 
-
 	private LinkedList<Segment> findNewRoads(List<Intersection> zone, CityMap cityMap, Intersection[] addresses) {
 		zone.clear();
 		for (Intersection address : addresses) {
@@ -544,24 +547,30 @@ public class RoadMap {
 			next = iterator.next();
 		}
 		Segment lastSegment = this.addIntersectionToPath(iterator, next, end, null);
-		
+
 		if (lastSegment != null) {
 			if (!end.isEmpty()) {
 				end.add(lastSegment);
 			} else if (!deliveryPath.isEmpty()) {
-				if (deliveryPath.getLast().getDestination() != lastSegment.getDestination()) {
+				if (deliveryPath.getLast().getDestination() != this.depot) {
 					end.add(lastSegment);
 				}
 			} else if (!middle.isEmpty()) {
-				if (middle.getLast().getDestination() != lastSegment.getDestination()) {
+				if (middle.getLast().getDestination() != this.depot) {
 					end.add(lastSegment);
 				}
 			} else if (!pickupPath.isEmpty()) {
-				if (pickupPath.getLast().getDestination() != lastSegment.getDestination()) {
+				if (pickupPath.getLast().getDestination() != this.depot) {
 					end.add(lastSegment);
 				}
 			}
 		}
+		
+		System.out.println("BEGIN "+beginning);
+		System.out.println("PICKUP "+pickupPath);
+		System.out.println("MIDDLE "+middle);
+		System.out.println("DELIVERY "+deliveryPath);
+		System.out.println("END "+end);
 		
 		path.clear();
 		path.addAll(beginning);

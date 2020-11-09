@@ -241,6 +241,4 @@ public class Tour implements Cloneable{
 			path.get(index).setColor(new Color((255/number*index), 100, 100));
 		}
 	}
-
-	
 }
