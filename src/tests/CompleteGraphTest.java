@@ -59,7 +59,7 @@ class CompleteGraphTest extends GraphTest {
 	@Test
 	@Override
 	void testGetNbVertices() {
-		//assertEquals(intersections.size(), completeGraph.getNbVertices());
+		//assertEquals(intersections.size(), completeGraph.getNbVertices()); nb d'intersections des requêtes
 	}
 	
 	@Test
@@ -93,13 +93,8 @@ class CompleteGraphTest extends GraphTest {
 	
 	@Test
 	@Override
-	void testGetPickUpFromDelivery() {
-		/*
-		for (int i=0; i< completeGraph.getNbVertices(); i++) {
-			if (completeGraph.isDeliveryAddress(i)) {
-				assertTrue(completeGraph.getPickUpFromDelivery(i) == 2 || completeGraph.getPickUpFromDelivery(i) == 4);
-			}
-		}*/
+	void testGetPickUpFromDelivery() throws Exception {
+		assertEquals(completeGraph.getPickUpFromDelivery(1).get(0), Integer.parseInt(sor.getRequestNodes().get(1).getNumber()));
 	}
 
 	@Test
@@ -112,26 +107,7 @@ class CompleteGraphTest extends GraphTest {
 
 	@Test
 	void testGetNodeNames() {
-		int j = 0;
-		String testString = "{0=0";
-		for (int i = 1; i <= requests.size(); i++) {
-			j += 1;
-			testString = testString + ", " + j + "=" + requests.get(i-1).getDeliveryAddress();
-			j = i+1;
-			testString = testString + ", " + j + "=" + requests.get(i-1).getPickupAddress();
-		}
-		testString += "}";
 		assertTrue(completeGraph.getNodeNames() instanceof Map<?,?>);
-		// TODO
-		//assertEquals(testString, completeGraph.getNodeNames());
-	}
-
-	@Test
-	void testGetPrecedenceOfANode() {
-		for (int i = 0; i < completeGraph.getNbVertices(); i++) {
-			System.out.println(completeGraph.getPrecedenceOfANode(i));
-		}
-		// TODO
 	}
 	
 }
