@@ -258,8 +258,8 @@ public class RoadMap {
 		String message = "";
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
 		Map.Entry<LocalTime, Integer> entry = durations.pollFirstEntry();
-
 		ListIterator<Intersection> itIntersection = this.orderedAddresses.listIterator();
+		System.out.println(path);
 		ListIterator<Segment> itSegment = path.listIterator();
 		Segment currentSegment = itSegment.next();
 		Segment previousSegment = currentSegment;
@@ -278,7 +278,7 @@ public class RoadMap {
 			
 			String name = currentSegment.getName();
 			
-			
+			System.out.println(currentSegment);
 			while(currentSegment.getDestination() != currentIntersection) {
 				
 				currentSegment = itSegment.next();
@@ -290,6 +290,7 @@ public class RoadMap {
 					length = currentSegment.getLength();
 					name = currentSegment.getName();
 				}
+				System.out.println(currentSegment);
 				previousSegment = currentSegment;
 			}
 			itSegment.previous();
