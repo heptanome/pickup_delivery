@@ -1,5 +1,6 @@
 package tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -15,7 +16,10 @@ import org.xml.sax.SAXException;
 
 import controller.Application;
 import controller.HomeState;
+import controller.ListOfCommands;
 import controller.State;
+import model.Intersection;
+import model.Request;
 import model.Tour;
 import view.HomeWindow;
 
@@ -46,75 +50,87 @@ class ApplicationTest {
 		stateMock = mock(HomeState.class);
 		homeWindowMock = mock(HomeWindow.class);
 
-		app = new Application(homeWindowMock, tourMock);
-
 		// Behavior simulation
-		doThrow(new IllegalArgumentException()).when(stateMock).loadMap(app, homeWindowMock, new String(), tourMock);
-		doThrow(new IOException()).when(stateMock).loadMap(app, homeWindowMock, INCORRECT_PATH, tourMock);
-		doThrow(new SAXException()).when(stateMock).loadMap(app, homeWindowMock, CORRUPTED_MAP_FILE_PATH, tourMock);
-		doThrow(new IllegalArgumentException()).when(stateMock).loadRequests(app, homeWindowMock, new String(),
-				tourMock);
-		doThrow(new IOException()).when(stateMock).loadRequests(app, homeWindowMock, INCORRECT_PATH, tourMock);
-		doThrow(new SAXException()).when(stateMock).loadRequests(app, homeWindowMock, CORRUPTED_REQUEST_FILE_PATH,
-				tourMock);
+		app = new Application(homeWindowMock, tourMock, stateMock);
 
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-
-	// TODO : Il faut tester stateMock et non pas tourMock
+	
 	@Test
-	void testLoadMap() throws Exception {
+	void testApplication() {		
+		verify(stateMock).initiateState(app, homeWindowMock);
+		verify(tourMock).addPropertyChangeListener(homeWindowMock);
+		verify(homeWindowMock).addPropertyChangeListener(app);
+	}
+	
+	@Test
+	void testLoadMap() {
 		app.loadMap(new String());
 		app.loadMap(INCORRECT_PATH);
 		app.loadMap(CORRUPTED_MAP_FILE_PATH);
 		app.loadMap(MAP_FILE_PATH);
+		app.loadMap(REQUEST_FILE_PATH);
 
-		try {
-			verify(stateMock).loadMap(app, homeWindowMock, MAP_FILE_PATH, tourMock);
-			verify(stateMock).loadMap(app, homeWindowMock, new String(), tourMock);
-			verify(stateMock).loadMap(app, homeWindowMock, INCORRECT_PATH, tourMock);
-			verify(stateMock).loadMap(app, homeWindowMock, CORRUPTED_MAP_FILE_PATH, tourMock);
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail("Should not throw exception");
-		}
-
+		verify(stateMock).loadMap(app, homeWindowMock, MAP_FILE_PATH, tourMock);
+		verify(stateMock).loadMap(app, homeWindowMock, new String(), tourMock);
+		verify(stateMock).loadMap(app, homeWindowMock, INCORRECT_PATH, tourMock);
+		verify(stateMock).loadMap(app, homeWindowMock, CORRUPTED_MAP_FILE_PATH, tourMock);
+		verify(stateMock).loadMap(app, homeWindowMock, REQUEST_FILE_PATH, tourMock);
 	}
 
 	@Test
-	void testLoadRequests() throws Exception {
+	void testLoadRequests() {
 		app.loadRequests(new String());
 		app.loadRequests(INCORRECT_PATH);
 		app.loadRequests(CORRUPTED_REQUEST_FILE_PATH);
 		app.loadRequests(REQUEST_FILE_PATH);
+		app.loadRequests(MAP_FILE_PATH);
 
-		try {
-			verify(stateMock).loadRequests(app, homeWindowMock, REQUEST_FILE_PATH, tourMock);
-			verify(stateMock).loadRequests(app, homeWindowMock, new String(), tourMock);
-			verify(stateMock).loadRequests(app, homeWindowMock, INCORRECT_PATH, tourMock);
-			verify(stateMock).loadRequests(app, homeWindowMock, CORRUPTED_REQUEST_FILE_PATH, tourMock);
-		} catch (Exception e) {
-			fail("Should not throw exception");
-		}
+		verify(stateMock).loadRequests(app, homeWindowMock, REQUEST_FILE_PATH, tourMock);
+		verify(stateMock).loadRequests(app, homeWindowMock, new String(), tourMock);
+		verify(stateMock).loadRequests(app, homeWindowMock, INCORRECT_PATH, tourMock);
+		verify(stateMock).loadRequests(app, homeWindowMock, CORRUPTED_REQUEST_FILE_PATH, tourMock);
+		verify(stateMock).loadRequests(app, homeWindowMock, MAP_FILE_PATH, tourMock);
 	}
 
 	@Test
 	void testAddRequest() {
-		// TODO
+		app.addRequest();
+		verify(stateMock).addRequests(app,homeWindowMock);
+	}
+	
+	@Test
+	void testPointClicked() {
+		Intersection i = mock(Intersection.class);
+		app.pointClicked(i);
+		verify(stateMock).pointClicked(i,homeWindowMock,tourMock, app);
 	}
 
 	@Test
 	void testDeleteRequest() {
-		// TODO
+		app.deleteRequest();
+		verify(stateMock).deleteRequests(app,homeWindowMock);
 	}
 
 	@Test
-	void testComputeTour() throws Exception {
+	void testComputeTour() {
 		app.computeTour();
-		verify(stateMock).computeTour(app, homeWindowMock, this.tourMock);
+		verify(stateMock).computeTour(app, homeWindowMock, tourMock);
+	}
+	
+	@Test
+	void testGetListOfCommandsUndoRedo() {
+		ListOfCommands l = app.getListOfCommands();
+		assertEquals(new ListOfCommands(), l);
+		
+		app.undo();
+		verify(stateMock).undo(app.getListOfCommands(), app, homeWindowMock);
+		
+		app.redo();
+		verify(stateMock).undo(app.getListOfCommands(), app, homeWindowMock);
 	}
 
 }

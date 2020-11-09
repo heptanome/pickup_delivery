@@ -66,7 +66,7 @@ class MapParserTest {
 	}
 
 	@Test
-	void testLoadMap() throws InterruptedException {
+	void testLoadMap() throws Exception {
 		// the loaded map (smallMap) has exactly 308 intersections and 616 segments
 		map = mp.loadMap();
 		assertEquals(NB_SEGMENTS, map.getSegments().size());
