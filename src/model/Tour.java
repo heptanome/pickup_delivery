@@ -17,7 +17,7 @@ import tsp.TSP3;
  * the controller and will send the updated data to the View using its
  * propertyChange
  */
-public class Tour {
+public class Tour implements Cloneable{
 	private CityMap map;
 	private SetOfRequests setOfRequests;
 	private PropertyChangeSupport support;
@@ -162,6 +162,14 @@ public class Tour {
 	public RoadMap getRoadMap() {
 		return roadMap;
 	}
+
+	public LinkedList<Segment> getPath(){
+		return this.path;
+	}
+
+	public SetOfRequests getSOR(){
+		return this.setOfRequests;
+	}
 	
 	public void resetMap(){
 		CityMap oldMap = this.map;
@@ -176,6 +184,25 @@ public class Tour {
 		// signal the observers the map has changed
 		support.firePropertyChange("updateRequests", oldSor, this.setOfRequests);
 	}
+
+	public Intersection getIntersectionBefore(Intersection i){
+		return roadMap.getIntersectionBefore(i);
+	}
+/*
+	public void rollback(LinkedList<Segment> p, SetOfRequests sor, RoadMap rm){
+		System.out.println(path.size());
+		System.out.println(p.size());
+		this.path = p;
+		this.setOfRequests = sor;
+		this.roadMap = rm;
+		support.firePropertyChange("updateRequests", null, this.setOfRequests);
+		support.firePropertyChange("tourComputed", null, this.path);
+		System.out.println("Rolled back");
+	}*/
+
+
+
+
 	
 	
 	

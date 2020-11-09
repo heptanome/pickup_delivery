@@ -30,15 +30,23 @@ public class DeletingRequestState implements State {
 		if (reply == JOptionPane.YES_OPTION)
 		{
 			// if the user confirmed the delete the request will be deleted from the set of requests of the tour
+			Intersection preceedingPickup = tour.getIntersectionBefore(requestToBeDeleted.getPickup());
+			Intersection preceedingDelivery = tour.getIntersectionBefore(requestToBeDeleted.getDelivery());
 			tour.deleteRequest(hw.getRequestFromIntersection(i));
-			// TODO: update tour
+			a.getListOfCommands().add(new DeleteRequestCommand(requestToBeDeleted, tour, preceedingPickup, preceedingDelivery));
 
 		} 
 		//Go to the next state : DisplayingTourOnMapState
 		a.setCurrentState(a.displayingTourState);
 		a.getCurrentState().initiateState(a, hw);
 		
-    }
+	}
+	
+	@Override
+	public void undo(ListOfCommands l, Application a, HomeWindow hw){
+		a.setCurrentState(a.displayingTourState);
+		a.getCurrentState().initiateState(a, hw);
+	}
 	
 	/**
 	 * Method called by the States to display a message about specific information of the current State
@@ -70,9 +78,8 @@ public class DeletingRequestState implements State {
 	 * @param l the current listOfCommands
 	 */
     private void setButtons(HomeWindow hw, ListOfCommands l) {
-        hw.setButtonsEnabled(false, false, false, false, false, false, false,  false, false, true);
+        hw.setButtonsEnabled(false, false, false, false, false, false, false,  true, false, true);
 	}
 
-	//TODO :override setMouseListener here instead of setting it in Application.java
 
 }

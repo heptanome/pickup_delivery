@@ -1,7 +1,13 @@
 package controller;
 
+import java.util.LinkedList;
+
+import javax.swing.text.Segment;
+
 import model.Intersection;
 import model.Request;
+import model.RoadMap;
+import model.SetOfRequests;
 import model.Tour;
 
 public class AddCompleteRequestCommand implements Command{
@@ -9,6 +15,10 @@ public class AddCompleteRequestCommand implements Command{
     private Request newRequest;
     private Intersection preceedingPickup;
     private Intersection preceedingDelivery;
+/*
+    private SetOfRequests oldSOR;
+    private LinkedList<model.Segment> oldPath;
+    private RoadMap oldRoadMap;*/
 
     /**
 	 * Create the command which adds a set of requests
@@ -19,12 +29,16 @@ public class AddCompleteRequestCommand implements Command{
         this.newRequest = newR;
         this.preceedingPickup = preceedingP;
         this.preceedingDelivery = preceedingD;
+/*
+        this.oldSOR = tour.getSOR();
+        this.oldPath = tour.getPath();
+        this.oldRoadMap = tour.getRoadMap();*/
 	}
 
     @Override
     public void doCommand() {
         try{
-            tour.addRequest(this.newRequest, this.preceedingDelivery, this.preceedingPickup);
+            this.tour.addRequest(this.newRequest, this.preceedingDelivery, this.preceedingPickup);
         } catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -33,8 +47,9 @@ public class AddCompleteRequestCommand implements Command{
     @Override
     public void undoCommand() {
         try{
-            //TODO : check that it works when deleteRequest is implemented correctly
-            tour.deleteRequest(this.newRequest);
+            //this.tour.rollback(this.oldPath, this.oldSOR, this.oldRoadMap);
+            //this.tour.deleteRequest(newRequest);
+            //TODO
         } catch (Exception e) {
 			e.printStackTrace();
 		}
