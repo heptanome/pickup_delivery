@@ -50,11 +50,9 @@ public class RoadMap {
 		LocalTime actualTime = departureTime;
 		
 		ListIterator<Intersection> iterator = orderedAddresses.listIterator();
-		System.out.println(orderedAddresses);
 		iterator.next(); //we don't need the depot
 		Intersection nextRequestPoint = iterator.next();
 		for (Segment road : path) {
-			System.out.println(nextRequestPoint);
 			actualTime = actualTime.plusSeconds(Math.round(road.getLength()/(SPEED)*60));
 			Intersection destinationIntersection = road.getDestination();
 			if (destinationIntersection == nextRequestPoint) {
@@ -74,7 +72,6 @@ public class RoadMap {
 						stopTime += request.getPickupDuration();
 					}
 				}
-				System.out.println(stopTime);
 				roadsTime.put(actualTime, stopTime);
 				actualTime = actualTime.plusMinutes(stopTime);
 				if(iterator.hasNext()) {
@@ -267,6 +264,7 @@ public class RoadMap {
 		Map.Entry<LocalTime, Integer> entry = durations.pollFirstEntry();
 		ListIterator<Intersection> itIntersection = this.orderedAddresses.listIterator();
 		ListIterator<Segment> itSegment = path.listIterator();
+		
 		Segment currentSegment = itSegment.next();
 		Segment previousSegment = currentSegment;
 		Intersection currentIntersection = itIntersection.next();
@@ -274,7 +272,7 @@ public class RoadMap {
 		float length = 0;
 		int minutes = Math.round(length/SPEED);
 		
-		System.out.println(durations);
+		
 		
 		while (itIntersection.hasNext()) {
 			Intersection tmp = itIntersection.next();
@@ -282,19 +280,19 @@ public class RoadMap {
 				tmp = itIntersection.next();
 			}
 			currentIntersection = tmp;
-			length = currentSegment.getLength();
 			if (!itIntersection.hasNext())
 				break;
 			
 			String name = currentSegment.getName();
 			
-			while(currentSegment.getDestination() != currentIntersection) {
+			while(currentSegment.getOrigin() != currentIntersection) {
 				
 				currentSegment = itSegment.next();
 				if((currentSegment.getName().equals(name)|| currentSegment.getName().equals(""))
-						&& currentSegment.getDestination() != currentIntersection) {
-					length += currentSegment.getLength();
+						&& currentSegment.getOrigin() != currentIntersection) {
+					length += previousSegment.getLength();
 				} else {
+					length += previousSegment.getLength();
 					minutes = Math.max(1,Math.round(length/SPEED));
 					message += "-> Follow road \""+name+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
 					length = 0;
@@ -302,19 +300,6 @@ public class RoadMap {
 				}
 				previousSegment = currentSegment;
 			}
-			itSegment.previous();
-			previousSegment = itSegment.previous();
-			if((currentSegment.getName().equals(previousSegment.getName())|| currentSegment.getName().equals(""))
-					&& currentSegment.getDestination() != currentIntersection){
-				length += currentSegment.getLength();
-			} else {
-				length =  0;
-			}
-			minutes = Math.max(1,Math.round(length/SPEED));
-			message += "-> Follow road \""+currentSegment.getName()+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
-			itSegment.next();
-			previousSegment = itSegment.next();
-			
 			
 			status = this.getStatus(currentIntersection);
 			entry = durations.pollFirstEntry();
@@ -331,22 +316,23 @@ public class RoadMap {
 		currentSegment = itSegment.next();
 		previousSegment = currentSegment;
 		String name = currentSegment.getName();
-		length = currentSegment.getLength();
+		length = 0;
 		
 		while(itSegment.hasNext()) {
 			
 			currentSegment = itSegment.next();
-			if(currentSegment.getName().equals(name)|| currentSegment.getName().equals("")) {
-				length += currentSegment.getLength();
+			if((currentSegment.getName().equals(name)|| currentSegment.getName().equals(""))) {
+				length += previousSegment.getLength();
 			} else {
+				length += previousSegment.getLength();
 				minutes = Math.max(1,Math.round(length/SPEED));
 				message += "-> Follow road \""+name+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
-				length = currentSegment.getLength();
+				length = 0;
 				name = currentSegment.getName();
-				
 			}
 			previousSegment = currentSegment;
 		}
+		
 		itSegment.previous();
 		previousSegment = itSegment.previous();
 		if(currentSegment.getName().equals(previousSegment.getName())|| currentSegment.getName().equals("")) {
@@ -356,104 +342,7 @@ public class RoadMap {
 		}
 		minutes = Math.max(1,Math.round(length/SPEED));
 		message += "-> Follow road \""+currentSegment.getName()+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
-		entry = durations.pollFirstEntry();
-		message += "Go back to the Depot\n"
-				+  "** The estimated time of arrival is "+entry.getKey().format(format)+" **";
-		return message;
-	}
-	
-	public String printRoadMapTmp(List<Segment> path, TreeMap<LocalTime,Integer> durations) {
-		int index = 1;
-		String message = "";
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
-		Map.Entry<LocalTime, Integer> entry = durations.pollFirstEntry();
-		ListIterator<Intersection> itIntersection = this.orderedAddresses.listIterator();
-		ListIterator<Segment> itSegment = path.listIterator();
-		Segment currentSegment = itSegment.next();
-		Segment previousSegment = currentSegment;
-		Intersection currentIntersection = itIntersection.next();
-		String status = this.getStatus(currentIntersection);
-		float length = 0;
-		int minutes = Math.round(length/SPEED);
 		
-		
-		
-		while (itIntersection.hasNext()) {
-			currentIntersection = itIntersection.next();
-			length = currentSegment.getLength();
-			if (!itIntersection.hasNext())
-				break;
-			
-			String name = currentSegment.getName();
-			
-			while(currentSegment.getDestination() != currentIntersection) {
-				
-				currentSegment = itSegment.next();
-				if((currentSegment.getName().equals(name)|| currentSegment.getName().equals(""))
-						&& currentSegment.getDestination() != currentIntersection) {
-					length += currentSegment.getLength();
-				} else {
-					minutes = Math.max(1,Math.round(length/SPEED));
-					message += "-> Follow road \""+name+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
-					length = 0;
-					name = currentSegment.getName();
-				}
-				previousSegment = currentSegment;
-			}
-			itSegment.previous();
-			previousSegment = itSegment.previous();
-			if((currentSegment.getName().equals(previousSegment.getName())|| currentSegment.getName().equals(""))
-					&& currentSegment.getDestination() != currentIntersection){
-				length += currentSegment.getLength();
-			} else {
-				length =  0;
-			}
-			minutes = Math.max(1,Math.round(length/SPEED));
-			message += "-> Follow road \""+currentSegment.getName()+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
-			itSegment.next();
-			previousSegment = itSegment.next();
-			
-			
-			status = this.getStatus(currentIntersection);
-			entry = durations.pollFirstEntry();
-			message += "Point " + index + " : " + status + "\n"
-			         + "** The estimated time of arrival is "+entry.getKey().format(format) +" **\n"
-			         + "** You have "+entry.getValue()+" minutes to deliver and/or pickup the items **\n"
-			         + "** You should have left by "+(entry.getKey().plusMinutes(entry.getValue())).format(format)+ " **\n\n";
-			index++;
-			length = 0;
-		}
-		
-		/////////////////////////////////////////////////////////////////////////////////////////
-		
-		currentSegment = itSegment.next();
-		previousSegment = currentSegment;
-		String name = currentSegment.getName();
-		length = currentSegment.getLength();
-		
-		while(itSegment.hasNext()) {
-			
-			currentSegment = itSegment.next();
-			if(currentSegment.getName().equals(name)|| currentSegment.getName().equals("")) {
-				length += currentSegment.getLength();
-			} else {
-				minutes = Math.max(1,Math.round(length/SPEED));
-				message += "-> Follow road \""+name+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
-				length = currentSegment.getLength();
-				name = currentSegment.getName();
-				
-			}
-			previousSegment = currentSegment;
-		}
-		itSegment.previous();
-		previousSegment = itSegment.previous();
-		if(currentSegment.getName().equals(previousSegment.getName())|| currentSegment.getName().equals("")) {
-			length += currentSegment.getLength();
-		} else {
-			length = currentSegment.getLength();
-		}
-		minutes = Math.max(1,Math.round(length/SPEED));
-		message += "-> Follow road \""+currentSegment.getName()+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
 		entry = durations.pollFirstEntry();
 		message += "Go back to the Depot\n"
 				+  "** The estimated time of arrival is "+entry.getKey().format(format)+" **";
@@ -694,7 +583,6 @@ public class RoadMap {
 	 */
 	public Intersection getIntersectionBefore(Intersection i) {
 		int indexOfI = orderedAddresses.indexOf(i);
-		System.out.println(indexOfI);
 		Intersection iBefore = orderedAddresses.get(indexOfI -1);
 		return iBefore;
 	}
