@@ -79,6 +79,7 @@ public class Tour implements Cloneable{
 	public void addRequest(Request newRequest, Intersection beforeDelivery, Intersection beforePickup) {
 		this.setOfRequests.addRequest(newRequest);
 		this.roadMap.addRequest(newRequest, beforePickup, beforeDelivery, this.map, this.path);
+		this.refreshColorsOfTour();
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this);
 		System.out.println("A request was added");
@@ -94,6 +95,7 @@ public class Tour implements Cloneable{
 	public void deleteRequest(Request request) {
 		this.setOfRequests.deleteRequest(request);
 		this.roadMap.deleteRequest(request, this.map, this.path);
+		this.refreshColorsOfTour();
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
 		support.firePropertyChange("tourComputed", null, this);
 		System.out.println("A request was deleted");
@@ -229,14 +231,12 @@ public class Tour implements Cloneable{
 		return message;
 	}
 
-	/**
-	 * Getter for the setOfRequestsAttribute
-	 * @return the Tour's set of requests
-	 */
-	public SetOfRequests getSetOfRequests() {
-		return null;
+	public void refreshColorsOfTour() {
+		int number = path.size();
+		for (int index = 0; index < number; index++) {
+			path.get(index).setColor(new Color((255/number*index), 100, 100));
+		}
 	}
-	
-	
+
 	
 }

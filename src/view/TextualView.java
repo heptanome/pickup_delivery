@@ -113,7 +113,11 @@ public class TextualView extends JPanel {
 					int col = uiTable.columnAtPoint(evt.getPoint());
 					if (row >= 0 && col >= 0) {
 						// selected a row
-						support.firePropertyChange("selectCell", null, sor.getRequests().get(row).getDelivery());
+						if (col == 1) {
+							support.firePropertyChange("selectCell", null, sor.getRequests().get(row).getPickup());
+						} else if (col == 3) {
+							support.firePropertyChange("selectCell", null, sor.getRequests().get(row).getDelivery());
+						}
 					}
 				}
 			});
@@ -164,9 +168,12 @@ public class TextualView extends JPanel {
 			numero = -1;
 			Request r = mapAddressToRequest.get(inter);
 			
-			for (int j = 0; j<sor.getRequests().size(); j++) {
-				if (r == sor.getRequests().get(j)) {
-					numero = j;
+			//pour depanner de maniere provisoire
+			if (sor != null) {
+				for (int j = 0; j<sor.getRequests().size(); j++) {
+					if (r == sor.getRequests().get(j)) {
+						numero = j;
+					}
 				}
 			}
 			
@@ -202,7 +209,7 @@ public class TextualView extends JPanel {
 		}
 		
 		// creation tab de donnees
-		String[] tadHeader = { "N°", "Type", "Adress", "Duration" };
+		String[] tadHeader = { "Request N°", "Type", "Adress", "Duration" };
 
 		DefaultTableModel tableModel = new DefaultTableModel(tabData, tadHeader) {
 			private static final long serialVersionUID = 2L;
