@@ -60,6 +60,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	private final JButton btnHelp = new JButton("SOS");
 	private final JButton btnUndo = new JButton("Undo");
 	private final JButton btnRedo = new JButton("Redo");
+	private final JButton btnCancel = new JButton("Cancel");
 
 	private final JLabel lblHelp = new JLabel();
 	private ZoomBox zoom;
@@ -125,6 +126,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		this.setButton(btnSaveRoadMap, new SaveRoadMapListener());
 		this.setButton(btnUndo, new UndoListener());
 		this.setButton(btnRedo, new RedoListener());
+		this.setButton(btnCancel, new CancelListener());
 		this.setButton(btnHelp, new HelpListener());
 
 		// JLabel
@@ -166,7 +168,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 	 * @param sosB            : true if btnHelp needs to be enabled
 	 */
 	public void setButtonsEnabled(boolean setMapB, boolean setRequestsB, boolean computeB, boolean displayRoadMapB,
-			boolean addB, boolean deleteB, boolean saveB, boolean undoB, boolean redoB, boolean sosB) {
+			boolean addB, boolean deleteB, boolean saveB, boolean undoB, boolean redoB, boolean sosB, boolean cancelB) {
 		btnLoadMap.setEnabled(setMapB);
 		btnLoadRequest.setEnabled(setRequestsB);
 		btnComputeTour.setEnabled(computeB);
@@ -177,6 +179,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnUndo.setEnabled(undoB);
 		btnRedo.setEnabled(redoB);
 		btnHelp.setEnabled(sosB);
+		btnCancel.setEnabled(cancelB);
 
 		/**
 		 * XXX the setButtonEnabled function is called on all (almost?) each state
@@ -452,6 +455,18 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		@Override
 		public void actionPerformed(final ActionEvent arg0) {
 			support.firePropertyChange("redo", null, null);
+		}
+
+	}
+	
+	/**
+	 * Listener for the "Cancel" button
+	 */
+	public class CancelListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(final ActionEvent arg0) {
+			support.firePropertyChange("cancel", null, null);
 		}
 
 	}

@@ -97,7 +97,7 @@ public interface State {
 	 * Method called by the controller to cancel a running process
 	 * 
 	 */
-	public default void cancel() {
+	public default void cancel(Application a, HomeWindow hw) {
 	}
 	
 	/**

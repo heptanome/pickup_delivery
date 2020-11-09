@@ -64,7 +64,7 @@ public class MapWithoutRequestsState implements State {
 	 * @param l the current listOfCommands
 	 */
 	private void setButtons(HomeWindow hw, ListOfCommands l) {
-		hw.setButtonsEnabled(true, true, false, false, false, false, false, true, l.redoPossible(), false);
+		hw.setButtonsEnabled(true, true, false, false, false, false, false, true, l.redoPossible(), false, false);
 	}
 
 }

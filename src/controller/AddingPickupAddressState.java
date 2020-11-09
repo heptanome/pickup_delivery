@@ -54,6 +54,12 @@ public class AddingPickupAddressState implements State {
 		JOptionPane.showMessageDialog(hw, "Select a pickup point on the map for the new request");
 		System.out.println("apa");
 	}
+	
+	@Override
+	public void cancel(Application a, HomeWindow hw) {
+		a.setCurrentState(a.displayingTourState);
+		a.getCurrentState().initiateState(a, hw);
+	}
 
 	/**
 	 * Method called by the state to change the mouse listeners of a HomeWindow
@@ -76,7 +82,7 @@ public class AddingPickupAddressState implements State {
 	 * @param l  the current listOfCommands
 	 */
 	private void setButtons(HomeWindow hw, ListOfCommands l) {
-		hw.setButtonsEnabled(false, false, false, false, false, false, false, true, l.redoPossible(), true);
+		hw.setButtonsEnabled(false, false, false, false, false, false, false, true, l.redoPossible(), true, true);
 	}
 
 	@Override
