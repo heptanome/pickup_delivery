@@ -42,7 +42,7 @@ public class AddingPointPreceedingDeliveryState implements State {
                 //i is not after the point preceeding pickup, the user has to choose again
                 JOptionPane.showMessageDialog(hw, "<html>The point you chose is visited before the one preceeding the new pickup, in the current tour. "
                 + "  <br> It is not possible, choose another one !</html>");
-            } else  {
+            } else  { 
                 //Normal case
                 //Set the point preceeding the delivery
                 System.out.println("preceeding delivery address " + i.getNumber() );

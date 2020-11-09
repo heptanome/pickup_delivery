@@ -73,7 +73,7 @@ public class TextualView extends JPanel {
 			scrollPane.setBorder(null);
 			conteneurTabJTableRequest.setLayout(new BoxLayout(conteneurTabJTableRequest, BoxLayout.Y_AXIS));
 
-			String[][] donnees = new String[sor.getRequests().size()][5];
+			String[][] donnees = new String[sor.getNbRequests()][5];
 			String[] entetes = { "N°", "Pickup Adress", "Pickup duration", "Delivery Adress", "Delivery Duration" };
 
 			int i = 0;

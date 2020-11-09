@@ -53,6 +53,15 @@ public class SetOfRequests {
 	public List<Request> getRequests() {
 		return requests;
 	}
+	
+	/**
+	 * Get the number of requests of a set of requests
+	 * 
+	 * @return the number of requests of a set of requests
+	 */
+	public int getNbRequests() {
+		return requests.size();
+	}
 
 	/**
 	 * From the set of requests, return the list of intersections used for the depot

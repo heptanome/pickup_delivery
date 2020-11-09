@@ -22,7 +22,7 @@ public class AddPointPreceedingPickupCommand implements Command {
 	@Override
 	public void doCommand() {
 		try {
-			hw.setPreceedingPickup(interClicked);
+			hw.setPreceedingPickup(interClicked); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

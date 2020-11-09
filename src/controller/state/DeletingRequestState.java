@@ -40,7 +40,7 @@ public class DeletingRequestState implements State {
 			Intersection preceedingDelivery = tour.getIntersectionBefore(requestToBeDeleted.getDelivery());
 
 			a.getListOfCommands().add(new DeleteRequestCommand(requestToBeDeleted, tour, preceedingPickup, preceedingDelivery));
-			nbRequets = tour.getSOR().getRequests().size();
+			nbRequets = tour.getSOR().getNbRequests();
 		} 
 		
 		if(nbRequets!=0) {
