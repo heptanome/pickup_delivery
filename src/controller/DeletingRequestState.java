@@ -22,6 +22,7 @@ public class DeletingRequestState implements State {
 	
 	@Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a){
+		int nbRequets = 1;
 		Request requestToBeDeleted = hw.getRequestFromIntersection(i);
 		// display the JOptionPane showConfirmDialog
 		String message = "The request " + requestToBeDeleted.toString() + " will be deleted.";
@@ -30,15 +31,22 @@ public class DeletingRequestState implements State {
 		if (reply == JOptionPane.YES_OPTION)
 		{
 			// if the user confirmed the delete the request will be deleted from the set of requests of the tour
+			
 			Intersection preceedingPickup = tour.getIntersectionBefore(requestToBeDeleted.getPickup());
 			Intersection preceedingDelivery = tour.getIntersectionBefore(requestToBeDeleted.getDelivery());
-			tour.deleteRequest(hw.getRequestFromIntersection(i));
+			nbRequets = tour.deleteRequest(hw.getRequestFromIntersection(i));
 			a.getListOfCommands().add(new DeleteRequestCommand(requestToBeDeleted, tour, preceedingPickup, preceedingDelivery));
-
 		} 
-		//Go to the next state : DisplayingTourOnMapState
-		a.setCurrentState(a.displayingTourState);
-		a.getCurrentState().initiateState(a, hw);
+		
+		if(nbRequets!=0) {
+			//Go to the next state : DisplayingTourOnMapState
+			a.setCurrentState(a.displayingTourState);
+			a.getCurrentState().initiateState(a, hw);
+		} else {
+			//Go to the next state : DisplayingMapWithoutRequetsState
+			a.setCurrentState(a.mapWoRequestsState);
+			a.getCurrentState().initiateState(a, hw);
+		}
 		
 	}
 	

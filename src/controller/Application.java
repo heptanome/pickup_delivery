@@ -56,10 +56,26 @@ public class Application implements PropertyChangeListener {
 		this.tour.addPropertyChangeListener(this.homeWindow);
 		// Application listens to Window events
 		this.homeWindow.addPropertyChangeListener(this);
-		
-		this.currentState = homeState;
-		this.currentState.initiateState(this, homeWindow);
-
+	}
+	
+	/**
+	 * "Connects" the Model with the View and the View with the Controller by
+	 * setting up the property listeners
+	 * 
+	 * @param hw    the View to work with
+	 * @param t     the Model to work with
+	 * @param initialState  the State to start by
+	 */
+	public Application(final HomeWindow hw, final Tour t, State initialState) {
+		this.tour = t;
+		this.homeWindow = hw;
+		this.listOfCommands = new ListOfCommands();
+		this.currentState = initialState;
+		this.currentState.initiateState(this, this.homeWindow);
+		// Window listens to Tour events
+		this.tour.addPropertyChangeListener(this.homeWindow);
+		// Application listens to Window events
+		this.homeWindow.addPropertyChangeListener(this);
 	}
 
 	/**
@@ -70,7 +86,11 @@ public class Application implements PropertyChangeListener {
 	protected void setCurrentState(final State state) {
 		currentState = state;
 	}
-
+	
+	/**
+	 * Return the current state of the controller
+	 * 
+	 */
 	protected State getCurrentState() {
 		return currentState;
 	}
@@ -135,7 +155,7 @@ public class Application implements PropertyChangeListener {
 	 * to be loaded
 	 * 
 	 */
-	public void computeTour() throws Exception {
+	public void computeTour() {
 		currentState.computeTour(this, homeWindow, tour);
 	}
 
@@ -161,10 +181,16 @@ public class Application implements PropertyChangeListener {
 		currentState.redo(listOfCommands, this, homeWindow);
 	}
 	
+	/**
+	 * Method called by window after a click on the button "SOS"
+	 */
 	public void displayHelp() {
 		currentState.describeState(homeWindow);
 	}
 	
+	/**
+	 * Method called by window after a click on the button "cancel"
+	 */
 	public void cancel() {
 		currentState.cancel(this, homeWindow);
 	}
