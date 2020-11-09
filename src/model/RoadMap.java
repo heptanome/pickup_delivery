@@ -121,13 +121,12 @@ public class RoadMap {
 		Intersection afterPickup = this.orderedAddresses.get(indexBeforePickup);
 		int indexBeforeDelivery = this.orderedAddresses.indexOf(beforeDelivery)+1;
 		Intersection afterDelivery = this.orderedAddresses.get(indexBeforeDelivery);
-		System.out.println(orderedAddresses);
+
 
 		this.orderedAddresses.add(indexBeforePickup, newPickup);
-		this.orderedAddresses.add(indexBeforeDelivery, newDelivery);
+		this.orderedAddresses.add(indexBeforeDelivery+1, newDelivery);
 		this.addARequestToMap(this.mapPickupAddressToRequest, newPickup, newRequest);
 		this.addARequestToMap(this.mapDeliveryAddressToRequest, newDelivery, newRequest);
-		System.out.println(orderedAddresses);
 		LinkedList<Segment> pickupPath = new LinkedList<Segment>();
 		LinkedList<Segment> deliveryPath = new LinkedList<Segment>();
 		List<Intersection> zone = new ArrayList<Intersection>(4);
@@ -182,7 +181,6 @@ public class RoadMap {
 		Intersection beforeDelivery = this.orderedAddresses.get(indexDeliveryToDelete-1);
 		Intersection afterDelivery = this.orderedAddresses.get(indexDeliveryToDelete+1);
 		
-		System.out.println("BP "+beforePickup+" AP "+afterPickup+" BD "+beforeDelivery+" AD "+afterDelivery);
 		//Remove the request to delete
 		this.orderedAddresses.remove(indexPickUpToDelete);
 		this.orderedAddresses.remove(indexDeliveryToDelete-1);
@@ -236,7 +234,6 @@ public class RoadMap {
 	public boolean checkPrecedence(Intersection i1, Intersection i2) {
 		int i1index = orderedAddresses.indexOf(i1);
 		int i2index = orderedAddresses.indexOf(i2);
-		System.out.println(i1index + "  " + i2index);
 		if((i1index != -1) && (i2index != -1) && (i1index <= i2index)){
 			//Both intersections were found and i1 is before, or equal to, i2
 			return true;
@@ -566,13 +563,6 @@ public class RoadMap {
 				}
 			}
 		}
-		
-		System.out.println("BEGIN "+beginning);
-		System.out.println("PICKUP "+pickupPath);
-		System.out.println("MIDDLE "+middle);
-		System.out.println("DELIVERY "+deliveryPath);
-		System.out.println("END "+end);
-		
 		path.clear();
 		path.addAll(beginning);
 		path.addAll(pickupPath);
@@ -591,7 +581,6 @@ public class RoadMap {
 	 */
 	public Intersection getIntersectionBefore(Intersection i) {
 		int indexOfI = orderedAddresses.indexOf(i);
-		System.out.println(indexOfI);
 		Intersection iBefore = orderedAddresses.get(indexOfI -1);
 		return iBefore;
 	}
