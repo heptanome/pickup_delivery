@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -151,7 +152,8 @@ public class TextualView extends JPanel {
 		titreTour.setFont(fontTitle);
 		
 		//recuperation donnees
-		HashMap<Intersection, Request> mapAddressToRequest = roadMap.getMapAddressToRequest();
+		HashMap<Intersection, List<Request>> mapPickupAddressToRequest = roadMap.getMapPickupAddressToRequest();
+		HashMap<Intersection, List<Request>> mapDeliveryAddressToRequest = roadMap.getMapDeliveryAddressToRequest();
 		
 		LinkedList<Intersection> orderedAddresses = roadMap.getOrderedAddresses();
 		String [][] tabData = new String [orderedAddresses.size()][4];
@@ -159,46 +161,45 @@ public class TextualView extends JPanel {
 		int i = 0;
 		boolean depart = false;
 		int duration = -1;
-		int numero;
+		int numero = 0;
 		for (Intersection inter : orderedAddresses) {
-			numero = -1;
-			Request r = mapAddressToRequest.get(inter);
-			
-			for (int j = 0; j<sor.getRequests().size(); j++) {
-				if (r == sor.getRequests().get(j)) {
-					numero = j;
-				}
+			List<Request> listRequest = new LinkedList<Request>();
+			String type ="";
+			boolean typeRequest = false;
+
+			if (mapPickupAddressToRequest.containsKey(inter)) {
+				listRequest = mapPickupAddressToRequest.get(inter);
+				
+			} else if (mapDeliveryAddressToRequest.containsKey(inter)) {
+				listRequest = mapDeliveryAddressToRequest.get(inter);
+				typeRequest = true;
 			}
-			
-			String type = "not init";
-			if (r != null) {
-				if (inter.getNumber()==r.getPickupAddress()) {
-					//c'est une recherche de colis
-					type = "Pickup";
-					duration = r.getPickupDuration();
-				} else if (inter.getNumber()==r.getDeliveryAddress()) {
-					//c'est une livraison
-					type = "Delivery";
-					duration = r.getDeliveryDuration();
+				
+			for(Request r: listRequest) {
+				type = "not init";
+				if (r != null) {
+					if (typeRequest) {
+						type = "Delivery";
+						duration = r.getDeliveryDuration();
+					} else {
+						type = "Pickup";
+						duration = r.getPickupDuration();
+					}
 				} else {
-					//c'est autre chose
-					type = "Other";
-					duration = -2;
+					if (depart == false) {
+						type = "Start";
+						duration = 0;
+						depart = true;
+					} else {
+						type = "End";
+						duration = 0;
+					}
 				}
-			} else {
-				if (depart == false) {
-					type = "Start";
-					duration = 0;
-					depart = true;
-				} else {
-					type = "End";
-					duration = 0;
-				}
-			}
-			
-			String [] obj = {Integer.toString(numero +1), type, inter.getNumber(), Integer.toString(duration)};
-			tabData[i] = obj;
-			i++;
+				String [] obj = {Integer.toString(numero), type, inter.getNumber(), Integer.toString(duration)};
+				tabData[i] = obj;
+				i++;
+				numero++;
+			}	
 		}
 		
 		// creation tab de donnees
@@ -242,7 +243,7 @@ public class TextualView extends JPanel {
 		conteneurTabTour.updateUI();
 		updateUI();
 	}
-
+	
 	public void displayCaption() {
 
 		Font fontCaption = new Font("Arial", Font.BOLD, 15);

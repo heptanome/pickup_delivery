@@ -15,6 +15,7 @@ public class RoadMap {
 	private HashMap<Intersection, List<Request>> mapPickupAddressToRequest;
 	private HashMap<Intersection, List<Request>> mapDeliveryAddressToRequest;
 	private LinkedList<Intersection> orderedAddresses;
+	private Intersection depot;
 
 	/**
 	 * Constructor
@@ -27,6 +28,7 @@ public class RoadMap {
 		this.mapDeliveryAddressToRequest = new HashMap<Intersection,List<Request>>();
 		this.orderedAddresses = new LinkedList<Intersection>();
 		this.calculateMapAddressToRequest(initialSetOfRequests);
+		this.depot = initialSetOfRequests.getDepot();
 		this.reorderAddresses(roadsAfterComputedTour);
 		Intersection depot = initialSetOfRequests.getDepot();
 		this.orderedAddresses.addFirst(depot);
@@ -499,24 +501,30 @@ public class RoadMap {
 			next = iterator.next();
 		}
 		Segment lastSegment = this.addIntersectionToPath(iterator, next, end, null);
-		
+
 		if (lastSegment != null) {
 			if (!end.isEmpty()) {
 				end.add(lastSegment);
 			} else if (!deliveryPath.isEmpty()) {
-				if (deliveryPath.getLast().getDestination() != lastSegment.getDestination()) {
+				if (deliveryPath.getLast().getDestination() != this.depot) {
 					end.add(lastSegment);
 				}
 			} else if (!middle.isEmpty()) {
-				if (middle.getLast().getDestination() != lastSegment.getDestination()) {
+				if (middle.getLast().getDestination() != this.depot) {
 					end.add(lastSegment);
 				}
 			} else if (!pickupPath.isEmpty()) {
-				if (pickupPath.getLast().getDestination() != lastSegment.getDestination()) {
+				if (pickupPath.getLast().getDestination() != this.depot) {
 					end.add(lastSegment);
 				}
 			}
 		}
+		
+		System.out.println("BEGIN "+beginning);
+		System.out.println("PICKUP "+pickupPath);
+		System.out.println("MIDDLE "+middle);
+		System.out.println("DELIVERY "+deliveryPath);
+		System.out.println("END "+end);
 		
 		path.clear();
 		path.addAll(beginning);
