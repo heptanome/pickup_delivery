@@ -53,7 +53,7 @@ public abstract class TemplateTSP implements TSP {
 	 * @param g
 	 * @return an iterator for visiting all vertices in <code>unvisited</code> which are successors of <code>currentVertex</code>
 	 */
-	protected abstract Iterator<Integer> iterator(Integer currentVertex, Collection<Integer> unvisited, Graph g);
+	protected abstract Iterator<Integer> iterator(Integer currentVertex, Collection<Integer> unvisited, Graph g) throws Exception;
 	
 	/**
 	 * Template method of a branch and bound algorithm for solving the TSP in <code>g</code>.
@@ -73,16 +73,21 @@ public abstract class TemplateTSP implements TSP {
 	    		}
 	    	}
 	    } else if (currentCost+bound(currentVertex,unvisited) < bestSolCost){
-	        Iterator<Integer> it = iterator(currentVertex, unvisited, g);
-	        while (it.hasNext()){
-	        	Integer nextVertex = it.next();
-	        	visited.add(nextVertex);
-	            unvisited.remove(nextVertex);
-	            branchAndBound(nextVertex, unvisited, visited, 
-	            		currentCost+g.getCost(currentVertex, nextVertex));
-	            visited.remove(nextVertex);
-	            unvisited.add(nextVertex);
-	        }	    
+	        Iterator<Integer> it;
+			try {
+				it = iterator(currentVertex, unvisited, g);
+				while (it.hasNext()){
+		        	Integer nextVertex = it.next();
+		        	visited.add(nextVertex);
+		            unvisited.remove(nextVertex);
+		            branchAndBound(nextVertex, unvisited, visited, 
+		            		currentCost+g.getCost(currentVertex, nextVertex));
+		            visited.remove(nextVertex);
+		            unvisited.add(nextVertex);
+		        }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}    
 	    }
 	}
 
