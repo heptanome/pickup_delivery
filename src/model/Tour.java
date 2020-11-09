@@ -95,7 +95,7 @@ public class Tour implements Cloneable{
 		this.setOfRequests.deleteRequest(request);
 		this.roadMap.deleteRequest(request, this.map, this.path);
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
-		support.firePropertyChange("tourComputed", null, this.path);
+		support.firePropertyChange("tourComputed", null, this);
 		System.out.println("A request was deleted");
 	}
 
