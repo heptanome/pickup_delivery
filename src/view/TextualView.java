@@ -179,32 +179,34 @@ public class TextualView extends JPanel {
 				typeRequest = true;
 			}
 			
-			int numeroReq = -1;
-			for(Request r: listRequest) {
-				type = "not init";
-				if (r != null) {
-					if (typeRequest) {
-						type = "Delivery";
-						duration = r.getDeliveryDuration();
-					} else {
-						type = "Pickup";
-						duration = r.getPickupDuration();
-					}
-					numeroReq = r.getNumero();
-				} else {
-					if (depart == false) {
-						type = "Start";
-						duration = 0;
-						depart = true;
-					} else {
-						type = "End";
-						duration = 0;
-					}
+			String numeroReq = "";
+			if (listRequest.isEmpty()==false) {
+				for(Request r: listRequest) {
+					type = "not init";
+					if (r != null) {
+						if (typeRequest) {
+							type = "Delivery";
+							duration = r.getDeliveryDuration();
+						} else {
+							type = "Pickup";
+							duration = r.getPickupDuration();
+						}
+						numeroReq = Integer.toString(r.getNumero());
+					}	
 				}
-				String [] obj = {Integer.toString(numeroReq), type, inter.getNumber(), Integer.toString(duration)};
-				tabData[i] = obj;
-				i++;
-			}	
+			} else {
+				if (depart == false) {
+					type = "Start";
+					numeroReq = "NC";
+					depart = true;
+				} else {
+					type = "End";
+					numeroReq = "NC";
+				}
+			}
+			String [] obj = {numeroReq, type, inter.getNumber(), Integer.toString(duration)};
+			tabData[i] = obj;
+			i++;
 		}
 		
 		// creation tab de donnees
@@ -301,7 +303,7 @@ public class TextualView extends JPanel {
 				uiTable.setRowSelectionInterval(i, i);
 			} 
 		}
-		/**
+		
 		int rowsTour = uiTableTour.getRowCount();
 		for (int i = 0; i < rowsTour; i++) {
 			String id1 = (String) uiTableTour.getValueAt(i, 2);
@@ -310,7 +312,7 @@ public class TextualView extends JPanel {
 				uiTableTour.setRowSelectionInterval(i, i);
 			}
 		}
-		**/
+		
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
