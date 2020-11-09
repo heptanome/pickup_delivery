@@ -30,7 +30,7 @@ public class ZoomBox extends JPanel {
 
 		setLayout(null);
 		setBounds(0, 0, BOX_WIDTH, BOX_HEIGHT);
-		setBorder(BorderFactory.createLineBorder(Color.black, 2));
+		setBorder(BorderFactory.createLineBorder(Color.white, 2));
 		setVisible(true);
 
 	}
@@ -43,7 +43,7 @@ public class ZoomBox extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(new BasicStroke(1f));
 
-		g2d.setColor(Color.black);
+		g2d.setColor(Color.white);
 		g2d.drawLine(75, 100, 125, 100);
 		g2d.drawLine(100, 75, 100, 125);
 

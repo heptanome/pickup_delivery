@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.LinkedList;
@@ -133,6 +134,7 @@ public class Tour implements Cloneable{
 		}
 
 		List<Integer> intermediateNodes = new LinkedList<Integer>();
+		Segment newSegment;
 		for (int indexSol = 0; indexSol < solutionIntersection.length - 1; indexSol++) {
 			int idOrigine = map.getIntFromIntersectionMap(solutionIntersection[indexSol]);
 			int idDepart = map.getIntFromIntersectionMap(solutionIntersection[indexSol + 1]);
@@ -147,7 +149,9 @@ public class Tour implements Cloneable{
 			while (iterator.hasPrevious()) {
 				int previousNodeId = iterator.previous();
 				previousNodeInter = map.getIntersectionFromIdMap(previousNodeId);
-				this.path.add(map.getSegmentFromInter(currentNodeInter, previousNodeInter));
+				newSegment = map.getSegmentFromInter(currentNodeInter, previousNodeInter);
+				newSegment.setColor(new Color((255/solutionIntersection.length*indexSol), 100, 100));
+				this.path.add(newSegment);
 				currentNodeInter = previousNodeInter;
 			}
 			intermediateNodes.clear();
@@ -155,6 +159,7 @@ public class Tour implements Cloneable{
 		
 		this.roadMap = new RoadMap(this.path, this.setOfRequests);
 		
+		support.firePropertyChange("tourComputed", null, this.path);
 		support.firePropertyChange("tourComputed", null, this);
 		return this.path;
 	}
@@ -204,6 +209,15 @@ public class Tour implements Cloneable{
 
 
 
+	
+	public String toString() {
+		String message = "Road Map :\n"
+						 +"Departure at "+setOfRequests.getDepartureTime()+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"
+						 +this.roadMap.printRoadMap()+"\n"
+						 +"Have a good Tour :)";
+		
+		return message;
+	}
 	
 	
 	

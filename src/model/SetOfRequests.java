@@ -149,4 +149,10 @@ public class SetOfRequests {
 		}
 		return message;
 	}
+
+	public String getDepartureTime() {
+		SimpleDateFormat format = new SimpleDateFormat("HH:MM:ss");
+		String departureString = format.format(departureTime);
+		return departureString;
+	}
 }
