@@ -90,7 +90,7 @@ public class TextualView extends JPanel {
 			conteneurTabRequest.add(conteneurTabJTableRequest);
 			add(conteneurTabRequest);
 
-			uiTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+			uiTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 			uiTable.getColumnModel().getColumn(1).setPreferredWidth(85);
 			uiTable.getColumnModel().getColumn(2).setPreferredWidth(90);
 			uiTable.getColumnModel().getColumn(3).setPreferredWidth(90);
@@ -124,7 +124,7 @@ public class TextualView extends JPanel {
 		// creation du conteneur du tableau
 		JPanel conteneurTabTour = new JPanel();
 		// conteneurTabTour.setBackground(Color.orange);
-		conteneurTabTour.setBounds(0, 300, 400, 350);
+		conteneurTabTour.setBounds(0, 250, 400, 350);
 		conteneurTabTour.setLayout(null);
 
 		JPanel conteneurTabJTableTour = new JPanel();
