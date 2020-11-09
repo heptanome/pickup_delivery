@@ -12,6 +12,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Timer;
@@ -460,6 +461,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		@Override
 		public void actionPerformed(final ActionEvent e) {
 			System.out.println("Saving the road map");
+			try {
+				roadMapContainer.writeRoad();
+			} catch (FileNotFoundException err) {
+				// TODO Auto-generated catch block
+				err.printStackTrace();
+			}
 		}
 
 	}
@@ -498,6 +505,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 
 	}
+	
 
 	/**
 	 * Listener for the "Redo" button
