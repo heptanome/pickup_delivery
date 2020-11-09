@@ -313,6 +313,24 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		return loadedSOR.getRequestFromIntersection(i);
 	}
 
+	public void showHelpMessageString(String s){
+		this.helpText = s;
+
+		lblHelp.setText(helpText);
+			buttonsContainer.add(lblHelp);
+			buttonsContainer.updateUI();
+
+			TimerTask task = new TimerTask() {
+				public void run() {
+					buttonsContainer.remove(lblHelp);
+					buttonsContainer.updateUI();
+				}
+			};
+			Timer timer = new Timer("Timer");
+			long delay = 5000L;
+			timer.schedule(task, delay);
+	}
+
 	public class LoadRequestListener implements ActionListener {
 
 		@Override
