@@ -54,8 +54,10 @@ public class MapWithRequestsState implements State {
 			a.setCurrentState(a.displayingTourState);
 			a.getListOfCommands().reset(); // To remove if we decide that we can undo/redo "compute tour"
 			a.getCurrentState().initiateState(a, hw);
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch (Exception e) {
+			a.setCurrentState(a.deleteRequestState);
+			a.getCurrentState().initiateState(a, hw);
+			a.getCurrentState().handleException(a,e,hw,this);
 		}
 	}
 
