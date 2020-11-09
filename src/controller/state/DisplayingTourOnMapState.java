@@ -1,7 +1,9 @@
-package controller;
+package controller.state;
 
 import javax.swing.JOptionPane;
 
+import controller.Application;
+import controller.ListOfCommands;
 import model.Tour;
 import view.HomeWindow;
 

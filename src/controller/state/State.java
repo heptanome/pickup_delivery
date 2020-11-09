@@ -1,10 +1,12 @@
-package controller;
+package controller.state;
 
 import model.Tour;
 import view.HomeWindow;
 
 import javax.swing.JOptionPane;
 
+import controller.Application;
+import controller.ListOfCommands;
 import model.Intersection;
 
 /**

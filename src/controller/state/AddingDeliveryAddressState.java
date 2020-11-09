@@ -1,22 +1,26 @@
-package controller;
+package controller.state;
 
 import javax.swing.JOptionPane;
 
+import controller.AddDeliveryCommand;
+import controller.Application;
+import controller.ListOfCommands;
 import model.Intersection;
 import model.Request;
 import model.Tour;
 import view.HomeWindow;
 
 /**
- * State class used by the controller to handle the selection of the new pickup
- * address (and its pickup duration) when adding a request to the tour.
+ * State class used by the controller to handle the selection of the new
+ * delivery address (and its delivery duration) when adding a requets to the
+ * tour.
  */
-public class AddingPickupAddressState implements State {
+public class AddingDeliveryAddressState implements State {
 
 	@Override
 	public void initiateState(Application a, HomeWindow hw) {
-		describeState(hw);
 		setButtons(hw, a.getListOfCommands());
+		describeState(hw);
 		setMouseListener(hw);
 	}
 
@@ -27,14 +31,14 @@ public class AddingPickupAddressState implements State {
 
 		if (isLast) {
 			// i can't be the last intersection of the tour (the depot)
-			JOptionPane.showMessageDialog(hw, "<html>The point you chose is the depot. It cannot be a pickup point. "
+			JOptionPane.showMessageDialog(hw, "<html>The point you chose is the depot. It cannot be a delivery point. "
 					+ "  <br> Choose another point !</html>");
 		} else {
-			// Get pickup duration
+			// Get delivery duration
 			int duration = -1;
 			String result = null;
 			while (duration < 0) {
-				result = JOptionPane.showInputDialog(hw, "Enter a pickup duration (number of minutes)", 5);
+				result = JOptionPane.showInputDialog(hw, "Enter a delivery duration (number of minutes)", 5);
 				if(result == null) {
 					break;
 				}
@@ -42,29 +46,41 @@ public class AddingPickupAddressState implements State {
 			}
 			
 			if (result != null) {
-				System.out.println("Pickup address " + i.getNumber() + " Duration :" + duration);
+				// Update de new request
+				/*
+				Request r = hw.getNewRequest();
+				r.setDeliveryAddress(i);
+				r.setDeliveryDuration(duration);
+				hw.setNewRequest(r);*/
+				a.getListOfCommands().add(new AddDeliveryCommand(i, hw, duration));
 	
-				// Set the new request
-				/*Request newR = new Request(new Intersection("", 0, 0), new Intersection("", 0, 0), 0, 0);
-				newR.setPickupAddress(i);
-				newR.setPickupDuration(duration);
-				hw.setNewRequest(newR);*/
-				a.getListOfCommands().add(new AddPickupCommand(i, hw, duration));
-	
-				// Go to the next state (AddingPointPreceedingPickupState)
-				a.setCurrentState(a.appp);
+				// Go to the next state (AddingPointPreceedingDeliveryState)
+				a.setCurrentState(a.appd);
 				a.getCurrentState().initiateState(a, hw);
 			} else {
 				a.getCurrentState().initiateState(a, hw);
 			}
 		}
+	}
 
+	@Override
+	public void undo(ListOfCommands l, Application a, HomeWindow hw) {
+		l.undo();
+		a.setCurrentState(a.appp);
+		a.getCurrentState().initiateState(a, hw);
+	}
+
+	@Override
+	public void redo(ListOfCommands l, Application a, HomeWindow hw) {
+		l.redo();
+		a.setCurrentState(a.appd);
+		a.getCurrentState().initiateState(a, hw);
 	}
 
 	@Override
 	public void describeState(HomeWindow hw) {
-		JOptionPane.showMessageDialog(hw, "Add Request - step 1\nSelect a pickup point on the map for the new request");
-		System.out.println("apa");
+		JOptionPane.showMessageDialog(hw, "Add Request - step 3\nSelect a delivery point on the map  for the new request");
+		System.out.println("ada");
 	}
 	
 	@Override
@@ -81,7 +97,7 @@ public class AddingPickupAddressState implements State {
 	 */
 	private void setMouseListener(HomeWindow hw) {
 		hw.removeAllMouseListeners();
-		// The new pickup intersection can be any type of intersection : A special one
+		// The new delivery intersection can be any type of intersection : A special one
 		// (depot, pickup or delivery) or not.
 		hw.addSingleMouseClickOnAnyPointListener();
 	}
@@ -97,16 +113,4 @@ public class AddingPickupAddressState implements State {
 		hw.setButtonsEnabled(false, false, false, false, false, false, false, true, l.redoPossible(), true, true);
 	}
 
-	@Override
-	public void undo(ListOfCommands l, Application a, HomeWindow hw) {
-		a.setCurrentState(a.displayingTourState);
-		a.getCurrentState().initiateState(a, hw);
-	}
-
-	@Override
-	public void redo(ListOfCommands l, Application a, HomeWindow hw) {
-		l.redo();
-		a.setCurrentState(a.appp);
-		a.getCurrentState().initiateState(a, hw);
-	}
 }
