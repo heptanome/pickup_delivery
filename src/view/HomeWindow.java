@@ -189,12 +189,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		btnHelp.setEnabled(sosB);
 		btnCancel.setEnabled(cancelB);
 
-		/**
-		 * XXX the setButtonEnabled function is called on all (almost?) each state
-		 * change, so I'm car-jacking it to update the zoom image when needed
-		 * 
-		 * This is not the most proper way to do it, that's why I'll flag it with TODO
-		 */
 		if (zoom != null) {
 			zoom.updateImage();
 		}
