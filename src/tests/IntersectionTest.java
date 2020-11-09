@@ -30,7 +30,7 @@ class IntersectionTest {
 
 	@Test
 	void testToString() {
-		assertEquals(intersection.toString(), "id : abc {14.0, 20.0}.");
+		assertEquals(intersection.toString(), "id : abc");
 	}
 
 	@Test

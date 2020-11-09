@@ -2,8 +2,8 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +46,7 @@ class CompleteGraphTest extends GraphTest {
 		requests = new ArrayList<Request>();
 		requests.add(new Request(intersections.get(2),intersections.get(6), 2, 3));
 		requests.add(new Request(intersections.get(5),intersections.get(4), 6, 3));
-		this.sor = new SetOfRequests(intersections.get(0), new Date(1,2,3), requests);
+		this.sor = new SetOfRequests(intersections.get(0), LocalTime.of(1,2,3), requests);
 		
 		completeGraph = new CompleteGraph(cityMap, intersections);
 		completeGraph = new CompleteGraph(cityMap, sor);
