@@ -3,10 +3,16 @@ package model;
 import tsp.CompleteGraph;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ListIterator;
 import java.util.ArrayList;
+
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.LinkedList;
+
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Road map that the delivery man should follow
@@ -16,6 +22,7 @@ public class RoadMap {
 	private HashMap<Intersection, List<Request>> mapDeliveryAddressToRequest;
 	private LinkedList<Intersection> orderedAddresses;
 	private final float SPEED = 15000/60; //meters per minute
+	private Intersection depot;
 
 	/**
 	 * Constructor
@@ -28,44 +35,50 @@ public class RoadMap {
 		this.mapDeliveryAddressToRequest = new HashMap<Intersection,List<Request>>();
 		this.orderedAddresses = new LinkedList<Intersection>();
 		this.calculateMapAddressToRequest(initialSetOfRequests);
+		this.depot = initialSetOfRequests.getDepot();
 		this.reorderAddresses(roadsAfterComputedTour);
 		Intersection depot = initialSetOfRequests.getDepot();
 		this.orderedAddresses.addFirst(depot);
 		this.orderedAddresses.addLast(depot);
 	}
-	
-	public LinkedList<Float> calculateTime(List<Segment> path, Float departureTime) {
-		LinkedList<Float> roadsTime = new LinkedList<Float>();
-		roadsTime.add(departureTime);
-		Float actualTime = departureTime;
+		
+	public TreeMap<LocalTime,Integer> calculateTime(LinkedList<Segment> path, LocalTime departureTime) {
+		
+		TreeMap<LocalTime,Integer> roadsTime = new TreeMap<LocalTime,Integer>();
+		roadsTime.put(departureTime, 0);
+		
+		LocalTime actualTime = departureTime;
 		
 		ListIterator<Intersection> iterator = orderedAddresses.listIterator();
+		iterator.next(); //we don't need the depot
 		Intersection nextRequestPoint = iterator.next();
-		
 		for (Segment road : path) {
-			actualTime = actualTime + road.getLength()/1500;
+			actualTime = actualTime.plusSeconds(Math.round(road.getLength()/(SPEED)*60));
 			Intersection destinationIntersection = road.getDestination();
 			if (destinationIntersection == nextRequestPoint) {
 				//The delivery man delivers all items
+				int stopTime = 0;
 				if(this.mapDeliveryAddressToRequest.containsKey(destinationIntersection)) {
 					List<Request> listRequests = this.mapDeliveryAddressToRequest.get(destinationIntersection);
 					for(Request request : listRequests) {
-						actualTime = actualTime + request.getDeliveryDuration();
+						stopTime += request.getDeliveryDuration();
 					}
 				}
 				//The delivery man picks up all items
 				if(this.mapPickupAddressToRequest.containsKey(destinationIntersection)) {
 					List<Request> listRequests = this.mapPickupAddressToRequest.get(destinationIntersection);
 					for(Request request : listRequests) {
-						actualTime = actualTime + request.getPickupDuration();
+						stopTime += request.getPickupDuration();
 					}
 				}
+				roadsTime.put(actualTime, stopTime);
+				actualTime = actualTime.plusMinutes(stopTime);
 				if(iterator.hasNext()) {
 					nextRequestPoint = iterator.next();
 				}
 			}
-			roadsTime.add(actualTime);
 		}
+		roadsTime.put(actualTime, 0);
 		return roadsTime;
 	}
 	
@@ -168,6 +181,7 @@ public class RoadMap {
 		Intersection beforeDelivery = this.orderedAddresses.get(indexDeliveryToDelete-1);
 		Intersection afterDelivery = this.orderedAddresses.get(indexDeliveryToDelete+1);
 		
+		System.out.println("BP "+beforePickup+" AP "+afterPickup+" BD "+beforeDelivery+" AD "+afterDelivery);
 		//Remove the request to delete
 		this.orderedAddresses.remove(indexPickUpToDelete);
 		this.orderedAddresses.remove(indexDeliveryToDelete-1);
@@ -182,6 +196,8 @@ public class RoadMap {
 		if (beforeDelivery == requestToDelete.getPickup()) {
 			Intersection[] addressesPickup = {beforePickup, afterDelivery};
 			pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
+			afterPickup = afterDelivery;
+			beforeDelivery = afterDelivery;
 		} else {
 			Intersection[] addressesPickup = {beforePickup, afterPickup};
 			pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
@@ -226,8 +242,7 @@ public class RoadMap {
 		}
 		return false;
 	}
-		
-	
+			
 	/**
 	 * Check if an intersection is the last of the LinkedList orderedAddresses
 	 * @param i
@@ -239,9 +254,11 @@ public class RoadMap {
 		return this.orderedAddresses.getLast() == i;
 	}
 
-	public String printRoadMap(List<Segment> path) {
+	public String printRoadMap(List<Segment> path, TreeMap<LocalTime,Integer> durations) {
 		int index = 1;
 		String message = "";
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
+		Map.Entry<LocalTime, Integer> entry = durations.pollFirstEntry();
 
 		ListIterator<Intersection> itIntersection = this.orderedAddresses.listIterator();
 		ListIterator<Segment> itSegment = path.listIterator();
@@ -258,9 +275,6 @@ public class RoadMap {
 			if (!itIntersection.hasNext())
 				break;
 			
-			status = this.getStatus(currentIntersection);
-			message += "Point " + index + " : " + status + "\n";
-			
 			String name = currentSegment.getName();
 			length = 0;
 			
@@ -271,7 +285,7 @@ public class RoadMap {
 				} else {
 					if(length > 0) { //prevent from printing when you leave a street
 						minutes = Math.max(1,Math.round(length/SPEED));
-						message += "    Follow road \""+name+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
+						message += "-> Follow road \""+name+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
 					}
 					length = currentSegment.getLength();
 					name = currentSegment.getName();
@@ -286,10 +300,17 @@ public class RoadMap {
 				length =  currentSegment.getLength();
 			}
 			minutes = Math.max(1,Math.round(length/SPEED));
-			message += "    Follow road \""+currentSegment.getName()+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
+			message += "-> Follow road \""+currentSegment.getName()+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
 			itSegment.next();
 			previousSegment = itSegment.next();
 			
+			
+			status = this.getStatus(currentIntersection);
+			entry = durations.pollFirstEntry();
+			message += "Point " + index + " : " + status + "\n"
+			         + "** The estimated time of arrival is "+entry.getKey().format(format) +" **\n"
+			         + "** You have "+entry.getValue()+" minutes to deliver and/or pickup the items **\n"
+			         + "** You should have left by "+(entry.getKey().plusMinutes(entry.getValue())).format(format)+ " **\n\n";
 			index++;
 		}
 		
@@ -297,7 +318,6 @@ public class RoadMap {
 		
 		currentSegment = itSegment.next();
 		previousSegment = currentSegment;
-		message += "Go back to the Depot : \n";
 		String name = currentSegment.getName();
 		length = currentSegment.getLength();
 		
@@ -308,7 +328,7 @@ public class RoadMap {
 				length += currentSegment.getLength();
 			} else {
 				minutes = Math.max(1,Math.round(length/SPEED));
-				message += "    Follow road \""+name+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
+				message += "-> Follow road \""+name+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
 				length = currentSegment.getLength();
 				name = currentSegment.getName();
 				
@@ -323,7 +343,10 @@ public class RoadMap {
 			length = currentSegment.getLength();
 		}
 		minutes = Math.max(1,Math.round(length/SPEED));
-		message += "    Follow road \""+currentSegment.getName()+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
+		message += "->Follow road \""+currentSegment.getName()+"\" for "+minutes+" minutes ("+Math.round(length/10)*10+"m)\n";
+		entry = durations.pollFirstEntry();
+		message += "Go back to the Depot\n"
+				+  "** The estimated time of arrival is "+entry.getKey().format(format)+" **";
 		return message;
 	}
 
@@ -421,7 +444,6 @@ public class RoadMap {
 			}
 		}
 	}
-
 
 	private LinkedList<Segment> findNewRoads(List<Intersection> zone, CityMap cityMap, Intersection[] addresses) {
 		zone.clear();
@@ -525,24 +547,30 @@ public class RoadMap {
 			next = iterator.next();
 		}
 		Segment lastSegment = this.addIntersectionToPath(iterator, next, end, null);
-		
+
 		if (lastSegment != null) {
 			if (!end.isEmpty()) {
 				end.add(lastSegment);
 			} else if (!deliveryPath.isEmpty()) {
-				if (deliveryPath.getLast().getDestination() != lastSegment.getDestination()) {
+				if (deliveryPath.getLast().getDestination() != this.depot) {
 					end.add(lastSegment);
 				}
 			} else if (!middle.isEmpty()) {
-				if (middle.getLast().getDestination() != lastSegment.getDestination()) {
+				if (middle.getLast().getDestination() != this.depot) {
 					end.add(lastSegment);
 				}
 			} else if (!pickupPath.isEmpty()) {
-				if (pickupPath.getLast().getDestination() != lastSegment.getDestination()) {
+				if (pickupPath.getLast().getDestination() != this.depot) {
 					end.add(lastSegment);
 				}
 			}
 		}
+		
+		System.out.println("BEGIN "+beginning);
+		System.out.println("PICKUP "+pickupPath);
+		System.out.println("MIDDLE "+middle);
+		System.out.println("DELIVERY "+deliveryPath);
+		System.out.println("END "+end);
 		
 		path.clear();
 		path.addAll(beginning);

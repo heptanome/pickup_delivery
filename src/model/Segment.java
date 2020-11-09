@@ -75,8 +75,9 @@ public class Segment {
 	 * Convert information of a Segment to a String
 	 */
 	public String toString() {
-		return "Name : " + name + ", origin : " + origin.getNumber() + ", destination : " + destination.getNumber()
-				+ " (length : " + length + ").";
+		//return "Name : " + name + ", origin : " + origin.getNumber() + ", destination : " + destination.getNumber()
+				//+ " (length : " + length + ").";
+		return "{ "+origin.getNumber()+" ; "+destination.getNumber()+"}\n";
 	}
 
 	public String getName() {

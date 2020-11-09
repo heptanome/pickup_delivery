@@ -3,10 +3,13 @@ package model;
 import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 import tsp.CompleteGraph;
 import tsp.TSP;
@@ -160,7 +163,6 @@ public class Tour implements Cloneable{
 			intermediateNodes.clear();
 		}
 		this.roadMap = new RoadMap(this.path, this.setOfRequests);
-		System.out.println(this);
 		support.firePropertyChange("tourComputed", null, this);
 		return this.path;
 	}
@@ -223,10 +225,12 @@ public class Tour implements Cloneable{
 	 * Describe the Tour
 	 */
 	public String toString() {
-		//List<Float> durations = this.roadMap.calculateTime(this.path, 0);
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm:ss");
+		String departureTime = setOfRequests.getDepartureTime().format(format);
+		TreeMap<LocalTime,Integer> durations = roadMap.calculateTime(path, setOfRequests.getDepartureTime());
 		String message = "Road Map :\n"
-						 +"Departure at "+setOfRequests.getDepartureTime()+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"
-						 +this.roadMap.printRoadMap(this.path)+"\n"
+						 +"Departure at "+departureTime+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"
+						 +this.roadMap.printRoadMap(this.path, durations)+"\n\n"
 						 +"Have a good Tour :)";
 		
 		return message;
@@ -241,6 +245,4 @@ public class Tour implements Cloneable{
 			path.get(index).setColor(new Color((255/number*index), 100, 100));
 		}
 	}
-
-	
 }
