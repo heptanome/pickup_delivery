@@ -127,7 +127,7 @@ public class TextualView extends JPanel {
 
 	}
 
-	public void displayTour(RoadMap roadMap) {
+	public void displayTour(RoadMap roadMap, SetOfRequests sor) {
 
 		System.out.println("DisplayTour avec RoadMap");
 		// creation du conteneur du tableau
@@ -159,8 +159,17 @@ public class TextualView extends JPanel {
 		int i = 0;
 		boolean depart = false;
 		int duration = -1;
+		int numero;
 		for (Intersection inter : orderedAddresses) {
+			numero = -1;
 			Request r = mapAddressToRequest.get(inter);
+			
+			for (int j = 0; j<sor.getRequests().size(); j++) {
+				if (r == sor.getRequests().get(j)) {
+					numero = j;
+				}
+			}
+			
 			String type = "not init";
 			if (r != null) {
 				if (inter.getNumber()==r.getPickupAddress()) {
@@ -187,13 +196,13 @@ public class TextualView extends JPanel {
 				}
 			}
 			
-			String [] obj = {Integer.toString(i + 1), type, inter.getNumber(), Integer.toString(duration)};
+			String [] obj = {Integer.toString(numero +1), type, inter.getNumber(), Integer.toString(duration)};
 			tabData[i] = obj;
 			i++;
 		}
 		
 		// creation tab de donnees
-		String[] tadHeader = { "Order", "Type", "Adress", "Duration" };
+		String[] tadHeader = { "N°", "Type", "Adress", "Duration" };
 
 		DefaultTableModel tableModel = new DefaultTableModel(tabData, tadHeader) {
 			private static final long serialVersionUID = 2L;

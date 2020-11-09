@@ -167,6 +167,10 @@ public class Tour {
 		return roadMap;
 	}
 	
+	public SetOfRequests getSetOfRequests () {
+		return setOfRequests;
+	}
+	
 	public List<Segment> getPath() {
 		return path;
 	}
