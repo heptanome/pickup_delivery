@@ -62,6 +62,7 @@ public class RequestParser extends Parser {
 			}
 		}
 
+		int numeroReq = 1;
 		for (Node n : asList(reqList)) {
 			Element request = (Element) n;
 			String puAddress = request.getAttribute("pickupAddress");
@@ -70,7 +71,8 @@ public class RequestParser extends Parser {
 			int puDuration = Integer.parseInt(request.getAttribute("pickupDuration"))/60;
 			Intersection pickup = findIntersection(puAddress);
 			Intersection delivery = findIntersection(delAddress);
-			requestsList.add(createRequest(delivery, pickup, delDuration, puDuration));
+			requestsList.add(createRequest(delivery, pickup, delDuration, puDuration, numeroReq));
+			numeroReq++;
 		}
 		
 		if (depot == null || departure == null || requestsList.size() <1) {
@@ -81,8 +83,8 @@ public class RequestParser extends Parser {
 		return sor;
 	}
 
-	private Request createRequest(Intersection delivAdd, Intersection pickupAdd, int delivDur, int pickupDur) {
-		return new Request(delivAdd, pickupAdd, delivDur, pickupDur);
+	private Request createRequest(Intersection delivAdd, Intersection pickupAdd, int delivDur, int pickupDur, int numeroReq) {
+		return new Request(delivAdd, pickupAdd, delivDur, pickupDur, numeroReq);
 	}
 
 	private SetOfRequests createTour(Intersection idDepot, LocalTime departure, List<Request> req) {

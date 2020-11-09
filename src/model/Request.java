@@ -10,6 +10,7 @@ public class Request {
     private Intersection pickup;
     private int deliveryDuration;
     private int pickupDuration;
+    private int numero;
 
     /**
      * Constructor
@@ -22,11 +23,12 @@ public class Request {
      * @param pickupDur
      * 			time in minutes needed by the delivery man to pick the item
      */
-    public Request(Intersection delivAdd, Intersection pickupAddr, int delivDur, int pickupDur) {
+    public Request(Intersection delivAdd, Intersection pickupAddr, int delivDur, int pickupDur, int numeroReq) {
       delivery = delivAdd;
       pickup = pickupAddr;
       deliveryDuration = delivDur;
       pickupDuration = pickupDur;
+      numero = numeroReq;
     }
 
     /**
@@ -119,5 +121,13 @@ public class Request {
      */
     public void setDeliveryDuration(int duration){
       deliveryDuration = duration;
+    }
+    
+    public void setNumero(int val) {
+    	this.numero=val;
+    }
+    
+    public int getNumero() {
+    	return numero;
     }
 }
