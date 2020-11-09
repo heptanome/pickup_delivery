@@ -37,6 +37,6 @@ public interface Graph {
 	 * @param i 
 	 * @return a List<Integer> where each integer of the list is a point whose delivery point is <code>i</code>
 	 */
-	public abstract List<Integer> getPickUpFromDelivery(int i);
+	public abstract List<Integer> getPickUpFromDelivery(int i) throws Exception;
 
 }

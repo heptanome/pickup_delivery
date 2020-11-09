@@ -1,18 +1,23 @@
-package controller;
+package controller.state;
 
 import javax.swing.JOptionPane;
 
+import controller.Application;
+import controller.command.ListOfCommands;
+import controller.command.LoadMapCommand;
+import controller.command.LoadRequestsCommand;
 import model.Tour;
 import view.HomeWindow;
 
 /**
  * State class used by the controller to handle the actions when it is
- * displaying a tour on home page (when opening the application)
+ * displaying a map without requests.
  */
-public class HomeState implements State {
+public class MapWithoutRequestsState implements State {
 
 	@Override
 	public void initiateState(Application a, HomeWindow hw) {
+		hw.resetMap();
 		setButtons(hw, a.getListOfCommands());
 	}
 
@@ -20,9 +25,6 @@ public class HomeState implements State {
 	public void loadMap(Application a, HomeWindow homeWindow, String fp, Tour tour) {
 		try {
 			a.getListOfCommands().add(new LoadMapCommand(tour, fp));
-			a.setCurrentState(a.mapWoRequestsState);
-			a.getCurrentState().initiateState(a, homeWindow);
-			homeWindow.addMouseMotionOnMapListener();
 		} catch (Exception e) {
 			a.setCurrentState(a.mapExceptionState);
 			a.getCurrentState().initiateState(a, homeWindow);
@@ -31,11 +33,33 @@ public class HomeState implements State {
 	}
 
 	@Override
+	public void loadRequests(Application a, HomeWindow hw, String fp, Tour tour) {
+		try {
+			a.getListOfCommands().add(new LoadRequestsCommand(tour, fp));
+			a.setCurrentState(a.mapWithRequestsState);
+			a.getCurrentState().initiateState(a, hw);
+		} catch (Exception e) {
+			a.setCurrentState(a.requestExceptionState);
+			a.getCurrentState().initiateState(a, hw);
+			a.getCurrentState().handleException(a, e, hw, this);
+		}
+	}
+
+	@Override
+	public void undo(ListOfCommands l, Application a, HomeWindow hw) {
+
+		l.undo();
+		a.setCurrentState(a.homeState);
+		a.getCurrentState().initiateState(a, hw);
+		// a.getCurrentState().setButtons(hw , l);
+
+	}
+
+	@Override
 	public void redo(ListOfCommands l, Application a, HomeWindow hw) {
 		l.redo();
-		a.setCurrentState(a.mapWoRequestsState);
+		a.setCurrentState(a.mapWithRequestsState);
 		a.getCurrentState().initiateState(a, hw);
-		// a.getCurrentState().setButtons(hw, l);
 	}
 
 	/**
@@ -46,7 +70,7 @@ public class HomeState implements State {
 	 * @param l the current listOfCommands
 	 */
 	private void setButtons(HomeWindow hw, ListOfCommands l) {
-		hw.setButtonsEnabled(true, false, false, false, false, false, false, false, l.redoPossible(), true, false);
+		hw.setButtonsEnabled(true, true, false, false, false, false, false, l.undoPossible(), l.redoPossible(), true, false);
 	}
 	
     /**
@@ -56,7 +80,7 @@ public class HomeState implements State {
 	 */
     @Override
 	public void describeState(HomeWindow hw){
-        JOptionPane.showMessageDialog(hw, "No map has been loaded so far. Let's load a map first.");
+        JOptionPane.showMessageDialog(hw, "A map was loaded successfully. Go on and load some requests.");
 		System.out.println("apa");
     }
 

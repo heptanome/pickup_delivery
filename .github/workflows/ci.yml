@@ -16,3 +16,5 @@ jobs:
         run: make
       - name: Build and run tests
         run: make run_test
+      - name: Build the jar
+        run: make jar

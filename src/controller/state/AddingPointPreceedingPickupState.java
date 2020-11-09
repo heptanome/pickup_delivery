@@ -1,9 +1,12 @@
-package controller;
+package controller.state;
 
 import view.HomeWindow;
 
 import javax.swing.JOptionPane;
 
+import controller.Application;
+import controller.command.AddPointPreceedingPickupCommand;
+import controller.command.ListOfCommands;
 import model.Intersection;
 import model.Tour;
 
