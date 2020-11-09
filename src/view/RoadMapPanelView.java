@@ -5,6 +5,8 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class RoadMapPanelView extends JPanel{
 
@@ -13,24 +15,27 @@ public class RoadMapPanelView extends JPanel{
 	private final int RM_HEIGHT = 820;
 	
 	private final JPanel titleArea;
-	private final JPanel roadArea;
+	private final JScrollPane roadArea;
+	private JTextArea texte;
 	Font fontTitle = new Font("Arial", Font.BOLD, 40);
+	Color back = new Color(0xc1c3c6);
 
 	public RoadMapPanelView () {
 		
 		this.setVisible(true);
 		this.setLayout(null);
 		this.setBounds(0, 0, RM_WIDTH, RM_HEIGHT);
-		this.setBackground(new Color(0xc1c3c6));
+		this.setBackground(back);
 		
 		//Title Area
 		titleArea = new JPanel ();
 		titleArea.setBounds(0, 0, 820, 100);
+		titleArea.setBackground(back);
 		add(titleArea);
 		
 		//RoadMap Area
-		roadArea = new JPanel ();
-		roadArea.setBounds(0, 100, 820, 720);
+		roadArea = new JScrollPane ();
+		roadArea.setBounds(160, 100, 500, 700);
 		add(roadArea);
 		
 		addTitle();
@@ -51,12 +56,18 @@ public class RoadMapPanelView extends JPanel{
 	
 	public void addRoad () {
 		
-		JLabel texte = new JLabel("blabla", JLabel.CENTER);
+		texte = new JTextArea("no tour initialised");
 		texte.setForeground(Color.BLACK);
+		texte.setEditable(false);
 		//title.setFont(fontTitle);
-		roadArea.add(texte);
+		roadArea.setViewportView(texte);
 		roadArea.updateUI();
 		
+		
+	}
+	
+	public void updateRoad (String tourTxt) {
+		texte.setText(tourTxt);
 		
 	}
 }
