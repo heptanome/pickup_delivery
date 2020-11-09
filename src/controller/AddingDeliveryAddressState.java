@@ -24,6 +24,13 @@ public class AddingDeliveryAddressState implements State {
 	@Override 
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
 
+		boolean isLast = tour.getRoadMap().isLastIntersection(i); // must be false to be valid
+        
+        if (isLast) {
+        //i can't be the last intersection of the tour (the depot) 
+        	JOptionPane.showMessageDialog(hw, "<html>The point you chose is the depot. It cannot be a delivery point. "
+        			+ "  <br> Choose another point !</html>");
+        } else  {
 			//Get delivery duration
 			int duration = Integer.parseInt(JOptionPane.showInputDialog (hw, "Enter a delivery duration (number of minutes)"));
 			System.out.println("delivery address " + i.getNumber() + "Duration : " + duration);
@@ -38,6 +45,7 @@ public class AddingDeliveryAddressState implements State {
 			a.getListOfCommands().add(new AddDeliveryCommand(i, hw, duration));
 			a.setCurrentState(a.appd);
 			a.getCurrentState().initiateState(a, hw);
+        }
 	}
 
 	@Override
@@ -55,12 +63,8 @@ public class AddingDeliveryAddressState implements State {
 	}
 
 
-	/**
-	 * Method called by the States to display a message about specific information of the current State
-	 * 
-	 * @param hw the HomeWindow
-	 */
-	private void describeState(HomeWindow hw) {
+	@Override
+	public void describeState(HomeWindow hw) {
 		JOptionPane.showMessageDialog(hw, "Select a delivery point on the map  for the new request");  
 		System.out.println("ada");
 	}

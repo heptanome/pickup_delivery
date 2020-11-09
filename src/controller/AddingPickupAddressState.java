@@ -23,7 +23,14 @@ public class AddingPickupAddressState implements State {
 	
     @Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
-  
+    	
+    	boolean isLast = tour.getRoadMap().isLastIntersection(i); // must be false to be valid
+        
+        if (isLast) {
+        //i can't be the last intersection of the tour (the depot) 
+        	JOptionPane.showMessageDialog(hw, "<html>The point you chose is the depot. It cannot be a pickup point. "
+        			+ "  <br> Choose another point !</html>");
+        } else  {
             //Get pickup duration
 	        int duration = Integer.parseInt(JOptionPane.showInputDialog (hw, "Enter a pickup duration (number of minutes)"));
             System.out.println("Pickup address " + i.getNumber() + " Duration :" + duration );
@@ -38,15 +45,12 @@ public class AddingPickupAddressState implements State {
 			a.getListOfCommands().add(new AddPickupCommand(i, hw, duration));
 			a.setCurrentState(a.appp);
 			a.getCurrentState().initiateState(a, hw);
+        }
 
     }
     
-	/**
-	 * Method called by the States to display a message about specific information of the current State
-	 * 
-	 * @param hw the HomeWindow
-	 */
-	private void describeState(HomeWindow hw){
+	@Override
+	public void describeState(HomeWindow hw){
         JOptionPane.showMessageDialog(hw, "Select a pickup point on the map for the new request");
 		System.out.println("apa");
     }

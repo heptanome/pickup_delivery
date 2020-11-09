@@ -211,7 +211,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 			// and reset its zoom
 			zoom = new ZoomBox(gv);
-			graphicalContainer.add(zoom);
+			add(zoom);
+			zoom.setLocation(HEIGHT - 30, HEIGHT - 230);
 
 			this.helpText = "<html>The map has been loaded. <br> Please load a requests file now.</html>";
 		}
@@ -412,6 +413,8 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(final ActionEvent arg0) {
+			support.firePropertyChange("askHelp", null, null);
+			
 			lblHelp.setText(helpText);
 			buttonsContainer.add(lblHelp);
 			buttonsContainer.updateUI();
