@@ -271,37 +271,50 @@ public class TextualView extends JPanel {
 		JLabel caption1 = new JLabel("⏺ Yellow: departure", JLabel.LEFT);
 		JLabel caption2 = new JLabel("⏺ Blue: pickup", JLabel.LEFT);
 		JLabel caption3 = new JLabel("⏺ Magenta: delivery", JLabel.LEFT);
+		JLabel caption4 = new JLabel("-------- Beggining of the tour", JLabel.LEFT);
+		JLabel caption5 = new JLabel("-------- End of the tour", JLabel.LEFT);
 
 		titleCaption.setFont(fontTitle);
 		caption1.setFont(fontCaption);
 		caption2.setFont(fontCaption);
 		caption3.setFont(fontCaption);
+		caption4.setFont(fontCaption);
+		caption5.setFont(fontCaption);
 
 		titleCaption.setForeground(Color.white);
 		caption1.setForeground(Color.yellow);
 		caption2.setForeground(Color.blue);
 		caption3.setForeground(Color.magenta);
+		caption4.setForeground(new Color(0,100,100));
+		caption5.setForeground(new Color(255,100,100));
 
 		titleCaption.setBackground(Color.gray);
 		caption1.setBackground(Color.gray);
 		caption2.setBackground(Color.gray);
 		caption3.setBackground(Color.gray);
+		caption4.setBackground(Color.gray);
+		caption5.setBackground(Color.gray);
 
-		titleCaption.setBounds(200, 670, 300, 30);
-		caption1.setBounds(200, 700, 300, 30);
-		caption2.setBounds(200, 730, 300, 30);
-		caption3.setBounds(200, 760, 300, 30);
+		titleCaption.setBounds(200, 620, 300, 30);
+		caption1.setBounds(200, 650, 300, 30);
+		caption2.setBounds(200, 680, 300, 30);
+		caption3.setBounds(200, 710, 300, 30);
+		caption4.setBounds(200, 740, 300, 30);
+		caption5.setBounds(200, 770, 300, 30);
 
 		add(titleCaption);
 		add(caption1);
 		add(caption2);
 		add(caption3);
+		add(caption4);
+		add(caption5);
 
 		titleCaption.setOpaque(true);
 		caption1.setOpaque(true);
 		caption2.setOpaque(true);
 		caption3.setOpaque(true);
-
+		caption4.setOpaque(true);
+		caption5.setOpaque(true);
 	}
 
 	// this is only a POC, not finished
