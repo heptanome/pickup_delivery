@@ -160,7 +160,6 @@ public class Tour implements Cloneable{
 			intermediateNodes.clear();
 		}
 		this.roadMap = new RoadMap(this.path, this.setOfRequests);
-		this.toString();
 		System.out.println(this);
 		support.firePropertyChange("tourComputed", null, this);
 		return this.path;
@@ -224,8 +223,12 @@ public class Tour implements Cloneable{
 	 * Describe the Tour
 	 */
 	public String toString() {
+<<<<<<< HEAD
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("H:m:s");
 		String departureTime = setOfRequests.getDepartureTime().format(format);
+=======
+		//List<Float> durations = this.roadMap.calculateTime(this.path, 0);
+>>>>>>> develop
 		String message = "Road Map :\n"
 						 +"Departure at "+departureTime+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"
 						 +this.roadMap.printRoadMap(this.path)+"\n"
