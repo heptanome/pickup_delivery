@@ -50,7 +50,7 @@ public class Application implements PropertyChangeListener {
 	}
 
 	/**
-	 * "Connects" the Model with the View and the View with the Controller by
+	 * "Connects" the Model with the View and the View with the Controller by 
 	 * setting up the property listeners
 	 * 
 	 * @param hw the View to work with

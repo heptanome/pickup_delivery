@@ -80,6 +80,7 @@ public class Tour {
 	 */
 	public void addRequest(Request newRequest, Intersection beforeDelivery, Intersection beforePickup) {
 		support.firePropertyChange("startComputing", null, this);
+		newRequest.setNumero(this.setOfRequests.getNbRequests()+1);
 		this.setOfRequests.addRequest(newRequest);
 		this.roadMap.addRequest(newRequest, beforePickup, beforeDelivery, this.map, this.path);
 		this.refreshColorsOfTour();

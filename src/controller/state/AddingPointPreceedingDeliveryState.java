@@ -27,7 +27,6 @@ public class AddingPointPreceedingDeliveryState implements State {
 
 	@Override
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
-
 		// Check the validity of the point selected
 		boolean isAfterPPP = tour.getRoadMap().checkPrecedence(hw.getPreceedingPickup(), i); // must be true to be valid
 		boolean isLast = tour.getRoadMap().isLastIntersection(i); // must be false to be valid
