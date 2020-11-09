@@ -682,7 +682,7 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		case "updateRequests":
 			this.setRequests((SetOfRequests) evt.getNewValue());
 			break;
-		case "startComputeTour":
+		case "startComputing":
 	        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 	        break;
 		case "tourComputed":

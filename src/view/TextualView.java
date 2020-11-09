@@ -276,8 +276,8 @@ public class TextualView extends JPanel {
 		JLabel caption1 = new JLabel("⏺ Yellow: departure", JLabel.LEFT);
 		JLabel caption2 = new JLabel("⏺ Blue: pickup", JLabel.LEFT);
 		JLabel caption3 = new JLabel("⏺ Magenta: delivery", JLabel.LEFT);
-		JLabel caption4 = new JLabel("-------- Beggining of the tour", JLabel.LEFT);
-		JLabel caption5 = new JLabel("-------- End of the tour", JLabel.LEFT);
+		JLabel caption4 = new JLabel("---- Beginning of the tour", JLabel.LEFT);
+		JLabel caption5 = new JLabel("---- End of the tour", JLabel.LEFT);
 
 		titleCaption.setFont(fontTitle);
 		caption1.setFont(fontCaption);
