@@ -5,17 +5,20 @@ import java.awt.Color;
 import java.awt.Font;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.List;
+import java.util.HashMap;
+import java.util.LinkedList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import model.CityMap;
 import model.Intersection;
 import model.Request;
-import model.Segment;
+import model.RoadMap;
 import model.SetOfRequests;
 
 public class TextualView extends JPanel {
@@ -26,6 +29,7 @@ public class TextualView extends JPanel {
 	private static final long serialVersionUID = 2L;
 	private Font fontTitle;
 	private JTable uiTable;
+	private JTable uiTableTour;
 	private PropertyChangeSupport support;
 
 	public TextualView(CityMap loadedMap) {
@@ -40,7 +44,6 @@ public class TextualView extends JPanel {
 	public void displayRequests(SetOfRequests sor) {
 
 		JPanel conteneurTabRequest = new JPanel();
-		// conteneurTabRequest.setBackground(Color.red);
 		conteneurTabRequest.setBounds(0, 50, 400, 200);
 		conteneurTabRequest.setLayout(null);
 		JPanel conteneurTabJTableRequest = new JPanel();
@@ -48,15 +51,21 @@ public class TextualView extends JPanel {
 		if (sor != null) {
 
 			// conteneurTabJTableRequest.setBackground(Color.orange);
-			conteneurTabJTableRequest.setBounds(0, 50, 400, 100);
+			conteneurTabJTableRequest.setBounds(0, 50, 400, 200);
 
 			// creation du titre
 			JLabel titreRequest = new JLabel("Request : ", JLabel.LEFT);
 			titreRequest.setBounds(0, 0, 400, 50);
 			titreRequest.setFont(fontTitle);
+			
+			//conteneur scrollable 
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(0, 50, 400, 150);
+			scrollPane.setBorder(null);
+			conteneurTabJTableRequest.setLayout(new BoxLayout(conteneurTabJTableRequest, BoxLayout.Y_AXIS));
 
 			String[][] donnees = new String[sor.getRequests().size()][5];
-			String[] entetes = { "Numero", "Pickup Adress", "Pickup duration", "Delivery Adress", "Delivery Duration" };
+			String[] entetes = { "N°", "Pickup Adress", "Pickup duration", "Delivery Adress", "Delivery Duration" };
 
 			int i = 0;
 			for (Request r : sor.getRequests()) {
@@ -85,7 +94,9 @@ public class TextualView extends JPanel {
 			conteneurTabJTableRequest.add(uiTable, BorderLayout.CENTER);
 			conteneurTabRequest.add(titreRequest);
 
-			conteneurTabRequest.add(conteneurTabJTableRequest);
+			
+			scrollPane.setViewportView(conteneurTabJTableRequest);
+			conteneurTabRequest.add(scrollPane);
 			add(conteneurTabRequest);
 
 			uiTable.getColumnModel().getColumn(0).setPreferredWidth(20);
@@ -116,28 +127,82 @@ public class TextualView extends JPanel {
 
 	}
 
-	public void displayTour(SetOfRequests sor, List<Segment> segments) {
+	public void displayTour(RoadMap roadMap, SetOfRequests sor) {
 
+		System.out.println("DisplayTour avec RoadMap");
 		// creation du conteneur du tableau
 		JPanel conteneurTabTour = new JPanel();
 		// conteneurTabTour.setBackground(Color.orange);
-		conteneurTabTour.setBounds(0, 300, 400, 350);
+		conteneurTabTour.setBounds(0, 250, 400, 350);
 		conteneurTabTour.setLayout(null);
 
 		JPanel conteneurTabJTableTour = new JPanel();
-		// conteneurTabJTableTour.setBackground(Color.red);
 		conteneurTabJTableTour.setBounds(0, 50, 400, 200);
+		conteneurTabJTableTour.setLayout(new BoxLayout(conteneurTabJTableTour, BoxLayout.Y_AXIS));
+		
+		//conteneur scrollable 
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 50, 400, 300);
+		scrollPane.setBorder(null);
 
 		// creation du titre
 		JLabel titreTour = new JLabel("Tour : ", JLabel.LEFT);
 		titreTour.setBounds(0, 0, 400, 50);
 		titreTour.setFont(fontTitle);
-
+		
+		//recuperation donnees
+		HashMap<Intersection, Request> mapAddressToRequest = roadMap.getMapAddressToRequest();
+		
+		LinkedList<Intersection> orderedAddresses = roadMap.getOrderedAddresses();
+		String [][] tabData = new String [orderedAddresses.size()][4];
+		
+		int i = 0;
+		boolean depart = false;
+		int duration = -1;
+		int numero;
+		for (Intersection inter : orderedAddresses) {
+			numero = -1;
+			Request r = mapAddressToRequest.get(inter);
+			
+			for (int j = 0; j<sor.getRequests().size(); j++) {
+				if (r == sor.getRequests().get(j)) {
+					numero = j;
+				}
+			}
+			
+			String type = "not init";
+			if (r != null) {
+				if (inter.getNumber()==r.getPickupAddress()) {
+					//c'est une recherche de colis
+					type = "Pickup";
+					duration = r.getPickupDuration();
+				} else if (inter.getNumber()==r.getDeliveryAddress()) {
+					//c'est une livraison
+					type = "Delivery";
+					duration = r.getDeliveryDuration();
+				} else {
+					//c'est autre chose
+					type = "Other";
+					duration = -2;
+				}
+			} else {
+				if (depart == false) {
+					type = "Start";
+					duration = 0;
+					depart = true;
+				} else {
+					type = "End";
+					duration = 0;
+				}
+			}
+			
+			String [] obj = {Integer.toString(numero +1), type, inter.getNumber(), Integer.toString(duration)};
+			tabData[i] = obj;
+			i++;
+		}
+		
 		// creation tab de donnees
-		// String [][] tabData = new String [4][5];
-		String[][] tabData = { { "1", "Delivery", "A", "2s" }, { "1", "Delivery", "A", "2s" },
-				{ "1", "Delivery", "A", "2s" }, { "1", "Delivery", "A", "2s" } };
-		String[] tadHeader = { "Order", "Type", "Adress", "Duration" };
+		String[] tadHeader = { "N°", "Type", "Adress", "Duration" };
 
 		DefaultTableModel tableModel = new DefaultTableModel(tabData, tadHeader) {
 			private static final long serialVersionUID = 2L;
@@ -148,16 +213,29 @@ public class TextualView extends JPanel {
 				return false;
 			}
 		};
-		JTable uiTableTour = new JTable(tabData, tadHeader);
+		uiTableTour = new JTable(tabData, tadHeader);
 		uiTableTour.setModel(tableModel);
 
-		// uiTableTour.setBounds(100, 50, 0, 0);
+		// https://stackoverflow.com/a/7351053
+		uiTableTour.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				int row = uiTableTour.rowAtPoint(evt.getPoint());
+				int col = uiTableTour.columnAtPoint(evt.getPoint());
+				if (row >= 0 && col >= 0) {
+					// selected a row
+					System.out.println(row);
+					support.firePropertyChange("selectCell", null, orderedAddresses.get(row));
+				}
+			}
+		});
 
 		conteneurTabJTableTour.add(uiTableTour.getTableHeader(), BorderLayout.NORTH);
 		conteneurTabJTableTour.add(uiTableTour, BorderLayout.CENTER);
 		conteneurTabTour.add(titreTour);
-
-		conteneurTabTour.add(conteneurTabJTableTour);
+		
+		conteneurTabTour.add(scrollPane);
+		scrollPane.setViewportView(conteneurTabJTableTour);
 		add(conteneurTabTour);
 
 		conteneurTabJTableTour.updateUI();
@@ -170,9 +248,9 @@ public class TextualView extends JPanel {
 		Font fontCaption = new Font("Arial", Font.BOLD, 15);
 
 		JLabel titleCaption = new JLabel("Caption", JLabel.LEFT);
-		JLabel caption1 = new JLabel("Yellow point: departure", JLabel.LEFT);
-		JLabel caption2 = new JLabel("Blue point: pickup address", JLabel.LEFT);
-		JLabel caption3 = new JLabel("Magenta point: delivery address", JLabel.LEFT);
+		JLabel caption1 = new JLabel("⏺ Yellow: departure", JLabel.LEFT);
+		JLabel caption2 = new JLabel("⏺ Blue: pickup", JLabel.LEFT);
+		JLabel caption3 = new JLabel("⏺ Magenta: delivery", JLabel.LEFT);
 
 		titleCaption.setFont(fontTitle);
 		caption1.setFont(fontCaption);
@@ -189,10 +267,10 @@ public class TextualView extends JPanel {
 		caption2.setBackground(Color.gray);
 		caption3.setBackground(Color.gray);
 
-		titleCaption.setBounds(50, 670, 300, 30);
-		caption1.setBounds(50, 700, 300, 30);
-		caption2.setBounds(50, 730, 300, 30);
-		caption3.setBounds(50, 760, 300, 30);
+		titleCaption.setBounds(200, 670, 300, 30);
+		caption1.setBounds(200, 700, 300, 30);
+		caption2.setBounds(200, 730, 300, 30);
+		caption3.setBounds(200, 760, 300, 30);
 
 		add(titleCaption);
 		add(caption1);
@@ -215,6 +293,15 @@ public class TextualView extends JPanel {
 
 			if (id1.equals(inter.getNumber()) || id2.equals(inter.getNumber())) {
 				uiTable.setRowSelectionInterval(i, i);
+			} 
+		}
+		
+		int rowsTour = uiTableTour.getRowCount();
+		for (int i = 0; i < rowsTour; i++) {
+			String id1 = (String) uiTableTour.getValueAt(i, 2);
+
+			if (id1.equals(inter.getNumber())) {
+				uiTableTour.setRowSelectionInterval(i, i);
 			}
 		}
 	}

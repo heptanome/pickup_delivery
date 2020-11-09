@@ -27,6 +27,11 @@ import view.graphical.GraphicalSegment;
 public class GraphicalView extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private static final Color depotColor = Color.yellow;
+	private static final Color pickupColor = Color.blue;
+	private static final Color deliveryColor = Color.magenta;
+	private static final Color bgColor = new Color(0xc1c3c6);
+
 	private final int GV_WIDTH = 820;
 	private final int GV_HEIGHT = 840; // Larger than 800x800 to have margins
 
@@ -74,7 +79,7 @@ public class GraphicalView extends JPanel {
 	 */
 	public void paint(Graphics g) {
 		// Background
-		g.setColor(Color.gray);
+		g.setColor(bgColor);
 		g.fillRect(0, 0, 820, 820);
 
 		// Draw segments
@@ -160,7 +165,7 @@ public class GraphicalView extends JPanel {
 				if (s.getNumberOrigin().equals(seg.getOrigin())
 						&& s.getNumberDestination().equals(seg.getDestination())) {
 					seg.setOnPath(1);
-					seg.setColor(Color.red);
+					seg.setColor(s.getColor());
 					break;
 				}
 				j++;
@@ -189,7 +194,7 @@ public class GraphicalView extends JPanel {
 			boolean found = false;
 			while (i < graphicalPoints.size() && !found) {
 				if (sr.getDepotAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
-					graphicalPoints.get(i).setColor(Color.yellow);
+					graphicalPoints.get(i).setColor(depotColor);
 					graphicalPoints.get(i).setSize(12);
 					found = true;
 				}
@@ -203,12 +208,12 @@ public class GraphicalView extends JPanel {
 				boolean pFound = false;
 				while (i < graphicalPoints.size() && (!pFound || !dFound)) {
 					if (r.getPickupAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
-						graphicalPoints.get(i).setColor(Color.BLUE);
+						graphicalPoints.get(i).setColor(pickupColor);
 						graphicalPoints.get(i).setSize(12);
 						pFound = true;
 					} else if (r.getDeliveryAddress().equals(graphicalPoints.get(i).getPoint().getNumber())) {
-						graphicalPoints.get(i).setColor(Color.MAGENTA);
-						graphicalPoints.get(i).setSize(12);
+						graphicalPoints.get(i).setColor(deliveryColor);
+						graphicalPoints.get(i).setSize(16);
 						dFound = true;
 					}
 					i++;

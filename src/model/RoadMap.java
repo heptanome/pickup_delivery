@@ -134,12 +134,9 @@ public class RoadMap {
 
 	/**
 	 * Delete a request and calculate the new path without this request
-	 * @param requestToDelete
-	 * 			Request to delete
-	 * @param cityMap
-	 * 			Loaded map containing all segments and intersections to calculate the new path
-	 * @param path
-	 * 			Actual path after the tour's been computed
+	 * @param requestToDelete Request to delete
+	 * @param cityMap Loaded map containing all segments and intersections to calculate the new path
+	 * @param path Actual path after the tour's been computed
 	 */
 	public void deleteRequest(Request requestToDelete, CityMap cityMap, LinkedList<Segment> path){
 		
@@ -180,7 +177,7 @@ public class RoadMap {
 		LinkedList<Segment> deliveryPath = new LinkedList<Segment>();
 		List<Intersection> zone = new ArrayList<Intersection>(2);
 		
-		//Compute the new shortest intermediates paths
+		// Compute the new shortest intermediates paths
 		if (beforeDelivery == requestToDelete.getPickup()) {
 			Intersection[] addressesPickup = {beforePickup, afterDelivery};
 			pickupPath = this.findNewRoads(zone, cityMap, addressesPickup);
@@ -208,13 +205,14 @@ public class RoadMap {
 
 	
 	/**
-	 * Check if an intersection is before another one in the orderedAddresses liked list
-	 * @param i1
-	 * 			the first Intersection
-	 * @param i2
-	 * 			the second Intersection
-	 * @return true if i1 is indeed before i2 in the LinkedList orderedAdresses or if i1 == i2, false is it is after or if one of the two
-	 * intersections were not found in the list
+	 * Check if an intersection is before another one in the orderedAddresses liked
+	 * list
+	 * 
+	 * @param i1 the first Intersection
+	 * @param i2 the second Intersection
+	 * @return true if i1 is indeed before i2 in the LinkedList orderedAdresses or
+	 *         if i1 == i2, false is it is after or if one of the two intersections
+	 *         were not found in the list
 	 * 
 	 */
 	public boolean checkPrecedence(Intersection i1, Intersection i2) {
@@ -240,7 +238,82 @@ public class RoadMap {
 		return this.orderedAddresses.getLast() == i;
 	}
 
-	
+	public String printRoadMap(List<Segment> path) {
+		int index = 1;
+		String message = "";
+		ListIterator<Intersection> itIntersection = this.orderedAddresses.listIterator();
+		ListIterator<Segment> itSegment = path.listIterator();
+		Segment currentSegment = itSegment.next();
+		Segment previousSegment = currentSegment;
+		Intersection currentIntersection = itIntersection.next();
+		String status = this.getStatus(currentIntersection);
+		float length = 0;
+		
+		while (itIntersection.hasNext()) {
+			currentIntersection = itIntersection.next();
+			length = currentSegment.getLength();
+			if (!itIntersection.hasNext())
+				break;
+			status = this.getStatus(currentIntersection);
+			message += "Point " + index + " : " + status + "\n";
+			String name = previousSegment.getName();
+			while(currentSegment.getOrigin() != currentIntersection) {
+				currentSegment = itSegment.next();
+				if(currentSegment.getName().equals(name)|| currentSegment.getName().equals("")) {
+					length += currentSegment.getLength();
+					if(!currentSegment.getName().equals("")) {
+						name = currentSegment.getName();
+					}
+				} else {
+					message += "    Follow road \""+name+"\" for "+length+"\n";
+					length = currentSegment.getLength();
+					name = currentSegment.getName();
+					
+				}
+				previousSegment = currentSegment;
+			}
+			message += "\n";
+			index++;
+		}
+		
+		message += "Go back to the Depot : \n";
+		String name = previousSegment.getName();
+		length = currentSegment.getLength();
+		while(itSegment.hasNext()) {
+			currentSegment = itSegment.next();
+			if(currentSegment.getName().equals(name)|| currentSegment.getName().equals("")) {
+				length += currentSegment.getLength();
+				if(!currentSegment.getName().equals("")) {
+					name = currentSegment.getName();
+				}
+				message += "    Follow road \""+previousSegment.getName()+"\" for "+length;
+			} else {
+				message += "    Follow road \""+name+"\" for "+length+"\n";
+				length = currentSegment.getLength();
+				name = currentSegment.getName();
+				
+			}
+			previousSegment = currentSegment;
+		}
+		if(currentSegment.getName().equals(previousSegment.getName())|| currentSegment.getName().equals("")) {
+			length += currentSegment.getLength();
+			message += "    Follow road \""+previousSegment.getName()+"\" for "+length;
+		} else {
+			message += "    Follow road \""+currentSegment.getName()+"\" for "+currentSegment.getLength();
+		}
+		return message;
+	}
+
+	private String getStatus(Intersection intersection) {
+		String type = "";
+		if (this.mapPickupAddressToRequest.containsKey(intersection)) {
+			type = "pickup ";
+		} else if (this.mapDeliveryAddressToRequest.containsKey(intersection)){
+			type = "delivery ";
+		}
+		return type+"point";
+	}
+
 	/**
 	 * Fill a map to link the addresses of a request represented by intersections to the reference of this request
 	 * @param initialSetOfRequests
@@ -322,44 +395,44 @@ public class RoadMap {
 			}
 		}
 	}
-	
-	
+
+
 	private LinkedList<Segment> findNewRoads(List<Intersection> zone, CityMap cityMap, Intersection[] addresses) {
 		zone.clear();
-		for(Intersection address : addresses) {
+		for (Intersection address : addresses) {
 			zone.add(address);
 		}
 		return adjustRoadMap(zone, cityMap);
 	}
 	
-	private LinkedList<Segment> adjustRoadMap(List<Intersection> zone, CityMap cm){
+	private LinkedList<Segment> adjustRoadMap(List<Intersection> zone, CityMap cm) {
 		LinkedList<Segment> path = new LinkedList<Segment>();
 		
 		CompleteGraph pickupGraph = new CompleteGraph(cm, zone);
-		
-		for(int i = 0; i < zone.size()-1; i++) {
-			path.addAll(this.constructPath(zone.get(i), zone.get(i+1), cm, pickupGraph));
+
+		for (int i = 0; i < zone.size() - 1; i++) {
+			path.addAll(this.constructPath(zone.get(i), zone.get(i + 1), cm, pickupGraph));
 		}
 		return path;
 	}
 	
 	private List<Segment> constructPath(Intersection first, Intersection second, CityMap cm, CompleteGraph g){
-		
+
 		List<Segment> path = new LinkedList<Segment>();
-		
+
 		List<Integer> intermediateNodes = new LinkedList<Integer>();
 		int firstInt = cm.getIntFromIntersectionMap(first);
 		int secondInt = cm.getIntFromIntersectionMap(second);
 		int[] precedence = g.getPrecedenceOfANode(firstInt);
-		for (int i=secondInt; i!= firstInt; i=precedence[i]) {
+		for (int i = secondInt; i != firstInt; i = precedence[i]) {
 			intermediateNodes.add(i);
 		}
 		intermediateNodes.add(firstInt);
 
-		ListIterator<Integer> iterator = intermediateNodes.listIterator(intermediateNodes.size()); 
+		ListIterator<Integer> iterator = intermediateNodes.listIterator(intermediateNodes.size());
 		Intersection currentNodeInter = cm.getIntersectionFromIdMap(iterator.previous());
 		Intersection previousNodeInter = currentNodeInter;
-		while(iterator.hasPrevious()){
+		while (iterator.hasPrevious()){
 			int previousNodeId = iterator.previous();
 			previousNodeInter = cm.getIntersectionFromIdMap(previousNodeId);
 			path.add(cm.getSegmentFromInter(currentNodeInter, previousNodeInter));
@@ -369,8 +442,8 @@ public class RoadMap {
 	}
 	
 	private Segment addIntersectionToPath(ListIterator<Segment> iterator, Segment next, 
-										List<Segment> listSegments, Intersection intersectionLimit ) {
-		while(next.getOrigin() != intersectionLimit && iterator.hasNext()) {
+			List<Segment> listSegments, Intersection intersectionLimit ) {
+		while (next.getOrigin() != intersectionLimit && iterator.hasNext()) {
 			listSegments.add(next);
 			next = iterator.next();
 		}
@@ -378,10 +451,10 @@ public class RoadMap {
 	}
 	
 	private Segment addIntersectionToPathBegin(ListIterator<Segment> iterator, Segment next,
-											List<Segment> listSegments, Intersection intersectionLimit ) {
+			List<Segment> listSegments, Intersection intersectionLimit ) {
 		
-		if(this.mapPickupAddressToRequest.containsKey(intersectionLimit)) {
-			while(next.getOrigin() != intersectionLimit && iterator.hasNext()) {
+		if (this.mapPickupAddressToRequest.containsKey(intersectionLimit)) {
+			while (next.getOrigin() != intersectionLimit && iterator.hasNext()) {
 				listSegments.add(next);
 				next = iterator.next();
 			}
@@ -395,11 +468,11 @@ public class RoadMap {
 				}
 			}
 			Intersection lastPickup = this.orderedAddresses.get(indexLastPickup);
-			while(next.getOrigin() != lastPickup && iterator.hasNext()) {
+			while (next.getOrigin() != lastPickup && iterator.hasNext()) {
 				listSegments.add(next);
 				next = iterator.next();
 			}
-			while(next.getOrigin() != intersectionLimit && iterator.hasNext()) {
+			while (next.getOrigin() != intersectionLimit && iterator.hasNext()) {
 				listSegments.add(next);
 				next = iterator.next();
 			}
@@ -407,8 +480,9 @@ public class RoadMap {
 		return next;
 	}
 	
-	private LinkedList<Segment> calculateNewTotalPath(LinkedList<Segment> path, LinkedList<Segment> pickupPath, LinkedList<Segment> deliveryPath,
-		Intersection beforePickup, Intersection afterPickup, Intersection beforeDelivery, Intersection afterDelivery){
+	private LinkedList<Segment> calculateNewTotalPath(LinkedList<Segment> path, LinkedList<Segment> pickupPath,
+			LinkedList<Segment> deliveryPath, Intersection beforePickup, Intersection afterPickup,
+			Intersection beforeDelivery, Intersection afterDelivery){
 
 		LinkedList<Segment> beginning = new LinkedList<Segment>();
 		LinkedList<Segment> middle = new LinkedList<Segment>();
@@ -417,16 +491,16 @@ public class RoadMap {
 		Segment next = iterator.next();
 		
 		this.addIntersectionToPathBegin(iterator, next, beginning, beforePickup);
-		while(next.getOrigin() != afterPickup && iterator.hasNext()) {
+		while (next.getOrigin() != afterPickup && iterator.hasNext()) {
 			next = iterator.next();
 		}
 		this.addIntersectionToPath(iterator, next, middle, beforeDelivery);
-		while(next.getOrigin() != afterDelivery && iterator.hasNext()) {
+		while (next.getOrigin() != afterDelivery && iterator.hasNext()) {
 			next = iterator.next();
 		}
 		Segment lastSegment = this.addIntersectionToPath(iterator, next, end, null);
 		
-		if(lastSegment != null) {
+		if (lastSegment != null) {
 			if (!end.isEmpty()) {
 				end.add(lastSegment);
 			} else if (!deliveryPath.isEmpty()) {
@@ -451,5 +525,17 @@ public class RoadMap {
 		path.addAll(deliveryPath);
 		path.addAll(end);
 		return path;
+	}
+	
+	public LinkedList<Intersection> getOrderedAddresses() {
+		return orderedAddresses;
+	}
+	
+	public HashMap<Intersection, List<Request>> getMapPickupAddressToRequest() {
+		return mapPickupAddressToRequest;
+	}
+	
+	public HashMap<Intersection, List<Request>> getMapDeliveryAddressToRequest() {
+		return mapDeliveryAddressToRequest;
 	}
 }

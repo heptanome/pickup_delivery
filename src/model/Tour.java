@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.LinkedList;
@@ -79,7 +80,7 @@ public class Tour {
 		this.setOfRequests.addRequest(newRequest);
 		this.roadMap.addRequest(newRequest, beforePickup, beforeDelivery, this.map, this.path);
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
-		support.firePropertyChange("tourComputed", null, this.path);
+		support.firePropertyChange("tourComputed", null, this);
 		System.out.println("A request was added");
 	}
 	
@@ -94,7 +95,7 @@ public class Tour {
 		this.setOfRequests.deleteRequest(request);
 		this.roadMap.deleteRequest(request, this.map, this.path);
 		support.firePropertyChange("updateRequests", null, this.setOfRequests);
-		support.firePropertyChange("tourComputed", null, this.path);
+		support.firePropertyChange("tourComputed", null, this);
 		System.out.println("A request was deleted");
 	}
 
@@ -133,6 +134,7 @@ public class Tour {
 		}
 
 		List<Integer> intermediateNodes = new LinkedList<Integer>();
+		Segment newSegment;
 		for (int indexSol = 0; indexSol < solutionIntersection.length - 1; indexSol++) {
 			int idOrigine = map.getIntFromIntersectionMap(solutionIntersection[indexSol]);
 			int idDepart = map.getIntFromIntersectionMap(solutionIntersection[indexSol + 1]);
@@ -147,14 +149,16 @@ public class Tour {
 			while (iterator.hasPrevious()) {
 				int previousNodeId = iterator.previous();
 				previousNodeInter = map.getIntersectionFromIdMap(previousNodeId);
-				this.path.add(map.getSegmentFromInter(currentNodeInter, previousNodeInter));
+				newSegment = map.getSegmentFromInter(currentNodeInter, previousNodeInter);
+				newSegment.setColor(new Color((255/solutionIntersection.length*indexSol), 100, 100));
+				this.path.add(newSegment);
 				currentNodeInter = previousNodeInter;
 			}
 			intermediateNodes.clear();
 		}
 		this.roadMap = new RoadMap(this.path, this.setOfRequests);
 		
-		support.firePropertyChange("tourComputed", null, this.path);
+		support.firePropertyChange("tourComputed", null, this);
 		return this.path;
 	}
 
@@ -162,6 +166,14 @@ public class Tour {
 		return roadMap;
 	}
 	
+	public SetOfRequests getSetOfRequests () {
+		return setOfRequests;
+	}
+	
+	public List<Segment> getPath() {
+		return path;
+	}
+
 	public void resetMap(){
 		CityMap oldMap = this.map;
 		this.map = null;
@@ -174,6 +186,15 @@ public class Tour {
 		this.setOfRequests= null;
 		// signal the observers the map has changed
 		support.firePropertyChange("updateRequests", oldSor, this.setOfRequests);
+	}
+	
+	public String toString() {
+		String message = "Road Map :\n"
+						 +"Departure at "+setOfRequests.getDepartureTime()+" from Depot ("+setOfRequests.getDepot().getLatitude()+", "+setOfRequests.getDepot().getLongitude()+")\n\n"
+						 +this.roadMap.printRoadMap()+"\n"
+						 +"Have a good Tour :)";
+		
+		return message;
 	}
 	
 	
