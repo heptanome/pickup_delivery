@@ -1,5 +1,7 @@
 package controller;
 
+import javax.swing.JOptionPane;
+
 import model.Tour;
 import view.HomeWindow;
 
@@ -97,5 +99,15 @@ public class DisplayingTourOnMapState implements State {
     private void setButtons(HomeWindow hw, ListOfCommands l) {
         hw.setButtonsEnabled(true, true, false, true, true, true, false , l.undoPossible() , l.redoPossible(), true);
 	}
-
+    
+    /**
+	 * Method called by the state to display a message with specific information about the state
+	 * 
+	 * @param hw the HomeWindow
+	 */
+    @Override
+	public void describeState(HomeWindow hw){
+        JOptionPane.showMessageDialog(hw, "A tour has been computed successfully. Feel free to add or delete a request.");
+		System.out.println("apa");
+    }
 }

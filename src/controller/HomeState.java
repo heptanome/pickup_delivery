@@ -1,5 +1,7 @@
 package controller;
 
+import javax.swing.JOptionPane;
+
 import model.Tour;
 import view.HomeWindow;
 
@@ -47,5 +49,16 @@ public class HomeState implements State {
 	private void setButtons(HomeWindow hw, ListOfCommands l) {
 		hw.setButtonsEnabled(true, false, false, false, false, false, false, false, l.redoPossible(), false);
 	}
+	
+    /**
+	 * Method called by the state to display a message with specific information about the state
+	 * 
+	 * @param hw the HomeWindow
+	 */
+    @Override
+	public void describeState(HomeWindow hw){
+        JOptionPane.showMessageDialog(hw, "No map has been loaded so far. Let's load a map first.");
+		System.out.println("apa");
+    }
 
 }
