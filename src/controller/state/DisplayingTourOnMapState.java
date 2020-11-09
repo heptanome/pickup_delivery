@@ -16,6 +16,7 @@ public class DisplayingTourOnMapState implements State {
 	public void initiateState(Application a, HomeWindow hw) {
 		setButtons(hw, a.getListOfCommands());
 		setMouseListener(hw);
+		setHelp(hw);
 	}
 	
 	@Override
@@ -104,14 +105,22 @@ public class DisplayingTourOnMapState implements State {
         hw.setButtonsEnabled(true, true, false, true, true, true, false , l.undoPossible() , l.redoPossible(), true, false);
 	}
     
-    /**
-	 * Method called by the state to display a message with specific information about the state
+ 
+    @Override
+	public void describeState(HomeWindow hw){
+		String message = "<html>A tour has been computed<br> successfully. Feel<br> free to add or<br> delete a request.</html>";
+		hw.setHelpText(message);
+		JOptionPane.showMessageDialog(hw, "A tour has been computed successfully. Feel free to add or delete a request.");
+		System.out.println("display tour");
+	}
+	
+	/**
+	 * Method called by the States to set the help message in the homeWindow, depending on the State
 	 * 
 	 * @param hw the HomeWindow
 	 */
-    @Override
-	public void describeState(HomeWindow hw){
-        JOptionPane.showMessageDialog(hw, "A tour has been computed successfully. Feel free to add or delete a request.");
-		System.out.println("display tour");
+	private void setHelp(HomeWindow hw){
+		String message = "<html>Map and requests <br>were loaded successfully. <br>Let's compute a tour!</html>";
+		hw.setHelpText(message);
     }
 }

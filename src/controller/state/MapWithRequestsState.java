@@ -16,6 +16,7 @@ public class MapWithRequestsState implements State {
 	@Override
 	public void initiateState(Application a, HomeWindow hw) {
 		setButtons(hw, a.getListOfCommands());
+		setHelp(hw);
 	}
 	
 	@Override
@@ -47,20 +48,6 @@ public class MapWithRequestsState implements State {
 	@Override
 	public void computeTour(Application a, HomeWindow hw, Tour tour) {
 		try {
-
-			/*
-			//Compute in another thread (computeThread), display message in current thread 
-			ComputeThread computeThread = new ComputeThread(tour);
-			computeThread.start();
-			synchronized(computeThread){
-				try{
-					JOptionPane.showMessageDialog(hw, "<html>Computing the tour... "
-            		+ "  <br> It may take up to 20 seconds, don't worry ;) </html>");
-					computeThread.wait();
-				}catch(InterruptedException e){
-					e.printStackTrace();
-				}
-			}*/
 			hw.showHelpMessageString("<html>Computing the tour... "
 						+ "  <br> It may take up to 20 seconds, don't worry ;) </html>");
 			tour.computeTour(); // returns a list of segments
@@ -92,30 +79,22 @@ public class MapWithRequestsState implements State {
         hw.setButtonsEnabled(true, true, true, false, false, false, false,  l.undoPossible(),false, true, false);
 	}
     
-    /**
-	 * Method called by the state to display a message with specific information about the state
+
+    @Override
+	public void describeState(HomeWindow hw){
+		JOptionPane.showMessageDialog(hw, "Map and requests were loaded successfully. Let's compute a tour!");
+		System.out.println("apa");
+	}
+	
+	/**
+	 * Method called by the States to set the help message in the homeWindow, depending on the State
 	 * 
 	 * @param hw the HomeWindow
 	 */
-    @Override
-	public void describeState(HomeWindow hw){
-        JOptionPane.showMessageDialog(hw, "Map and requests were loaded successfully. Let's compute a tour!");
-		System.out.println("apa");
+	private void setHelp(HomeWindow hw){
+		String message = "<html>Map and requests <br>were loaded successfully. <br>Let's compute a tour!</html>";
+		hw.setHelpText(message);
     }
 
 }
 
-class ComputeThread extends Thread{
-	Tour tour;
-	public ComputeThread (Tour t){
-		tour = t;
-	}
-    
-    @Override
-    public void run(){
-        synchronized(this){
-            tour.computeTour(); // returns a list of segments
-            notify();
-        }
-    }
-}

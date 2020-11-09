@@ -19,6 +19,7 @@ public class MapWithoutRequestsState implements State {
 	public void initiateState(Application a, HomeWindow hw) {
 		hw.resetMap();
 		setButtons(hw, a.getListOfCommands());
+		setHelp(hw);
 	}
 
 	@Override
@@ -73,15 +74,21 @@ public class MapWithoutRequestsState implements State {
 		hw.setButtonsEnabled(true, true, false, false, false, false, false, l.undoPossible(), l.redoPossible(), true, false);
 	}
 	
-    /**
-	 * Method called by the state to display a message with specific information about the state
-	 * 
-	 * @param hw the HomeWindow
-	 */
+    
     @Override
 	public void describeState(HomeWindow hw){
         JOptionPane.showMessageDialog(hw, "A map was loaded successfully. Go on and load some requests.");
 		System.out.println("apa");
+	}
+	
+	/**
+	 * Method called by the States to set the help message in the homeWindow, depending on the State
+	 * 
+	 * @param hw the HomeWindow
+	 */
+	private void setHelp(HomeWindow hw){
+		String message = "<html>A map was loaded <br>successfully. Go on and load some requests.</html>";
+		hw.setHelpText(message);
     }
 
 }

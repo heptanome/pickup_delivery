@@ -313,8 +313,23 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		return loadedSOR.getRequestFromIntersection(i);
 	}
 
+	/**
+	 * Setter for the helpText attribute
+	 * @param s the new helpText
+	 */
+	public void setHelpText(String s){
+		this.helpText = s;
+		//Remove if there is something displayed
+		lblHelp.setText("");
+	}
+
+	/**
+	 * Displays help message in the lbnHelp
+	 * @param s the message to display
+	 */
 	public void showHelpMessageString(String s){
 		this.helpText = s;
+		System.out.println(s);
 
 		lblHelp.setText(helpText);
 			buttonsContainer.add(lblHelp);
