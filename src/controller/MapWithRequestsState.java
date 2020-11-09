@@ -50,7 +50,7 @@ public class MapWithRequestsState implements State {
 			a.getListOfCommands().reset(); //To remove if we decide that we can undo/redo "compute tour"
 			a.getCurrentState().initiateState(a, hw);
 		}catch (Exception e) {
-			
+			System.out.println(e);
 		}
 	}
 

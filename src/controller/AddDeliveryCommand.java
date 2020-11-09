@@ -10,7 +10,10 @@ public class AddDeliveryCommand implements Command{
     private HomeWindow hw;
 
     /**
-	 * Create the command which adds a set of requests
+	 * Create the command which adds the new delivery address (in the process of adding a request)
+     * @param i the new delivery address
+     * @param hw the home Window
+     * @param d the delivery duration
 	 */
 	public AddDeliveryCommand(Intersection i, HomeWindow hw, int d){
         this.interClicked = i;
