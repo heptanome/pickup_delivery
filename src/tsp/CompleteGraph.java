@@ -235,41 +235,10 @@ public class CompleteGraph implements Graph {
 	 * precedence array of the node and stores it in the precedence attribute of
 	 * <code>this</code>
 	 * 
-	 * @return float[] : an array containing the shortest distance from firstNode to
-	 *         any other node in cost graph
+	 * @param firstNode the node to begin with
+	 * @return an array containing the shortest distance from firstNode to any other
+	 *         node in cost graph
 	 */
-	/*
-	 * private float[] DijkstraFromANodeWithoutList(int firstNode) { if (firstNode
-	 * >= this.nbVertices) { throw new
-	 * IllegalArgumentException("This node doesn't exist!"); } float[] d = new
-	 * float[this.nbVertices]; int[] pi = new int[this.nbVertices]; int colorNodes[]
-	 * = new int[this.nbVertices]; //{white :0, grey:1 , black:-1}
-	 * 
-	 * //Initialisation for (int i= 0; i< nbVertices; i++) { d[i] = INFINITE; pi[i]
-	 * = -1; }
-	 * 
-	 * //Visiting first node d[firstNode] = 0; int indexBegin = 0; int indexEnd = 1;
-	 * colorNodes[firstNode] = 1;
-	 * 
-	 * //While all nodes arre not visited while
-	 * (!this.isDijkstraFinished(indexBegin, indexEnd)) {
-	 * System.out.println("bonjou"); //choosing the closest node int currentNode =
-	 * findIndexOfMinCostOfVisitedNodes(colorNodes, d); Intersection
-	 * currentNodeIntersection = cityMap.getIntersectionFromIdMap(currentNode);
-	 * 
-	 * List<Intersection> neighbours = currentNodeIntersection.getNeighbours(); for
-	 * (Intersection n : neighbours) { // finding neighbours int neighbour =
-	 * cityMap.getIntFromIntersectionMap(n); //Relachement
-	 * if(!(colorNodes[neighbour] == -1)) { float newCost =
-	 * map[currentNode][neighbour] + d[currentNode]; if ( newCost < d[neighbour]) {
-	 * d[neighbour] = newCost; pi[neighbour] = currentNode; } //node becomes grey if
-	 * (!(colorNodes[neighbour] == 1)){ colorNodes[neighbour] = 1; indexEnd++; } } }
-	 * //Node becomes black colorNodes[currentNode]=-1; indexBegin++; }
-	 * this.precedence.put(Integer.valueOf(firstNode), pi);
-	 * 
-	 * return d; }
-	 */
-
 	private float[] DijkstraFromANode(int firstNode) {
 		if (firstNode >= this.nbVertices) {
 			throw new IllegalArgumentException("This node doesn't exist!");

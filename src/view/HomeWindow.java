@@ -317,21 +317,22 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	/**
 	 * Setter for the helpText attribute
+	 * 
 	 * @param s the new helpText
 	 */
-	public void setHelpText(String s){
+	public void setHelpText(String s) {
 		this.helpText = s;
-		//Remove if there is something displayed
+		// Remove if there is something displayed
 		lblHelp.setText("");
 	}
 
 	/**
 	 * Displays help message in the lbnHelp
+	 * 
 	 * @param s the message to display
 	 */
-	public void showHelpMessageString(String s){
+	public void showHelpMessageString(String s) {
 		this.helpText = s;
-		System.out.println(s);
 
 		lblHelp.setText(helpText);
 		buttonsContainer.add(lblHelp);
@@ -355,7 +356,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			File currentDirectory = null;
 			try {
 				currentDirectory = new File("./XML_data").getCanonicalFile();
-				System.out.println("Current directory : " + currentDirectory);
 			} catch (final IOException err) {
 			}
 			final JFileChooser dialogue = new JFileChooser(currentDirectory);
@@ -376,7 +376,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			File currentDirectory = null;
 			try {
 				currentDirectory = new File("./XML_data").getCanonicalFile();
-				System.out.println("Current directory : " + currentDirectory);
 			} catch (final IOException err) {
 
 			}
@@ -469,11 +468,9 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
-			System.out.println("Saving the road map");
 			try {
 				roadMapContainer.writeRoad();
 			} catch (FileNotFoundException err) {
-				// TODO Auto-generated catch block
 				err.printStackTrace();
 			}
 		}
@@ -514,7 +511,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		}
 
 	}
-	
 
 	/**
 	 * Listener for the "Redo" button
@@ -630,7 +626,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY(), true);
 
 			if (selectedPoint != null) {
-				System.out.println("special : " + selectedPoint.getNumber());
 				support.firePropertyChange("pointClicked", null, selectedPoint);
 			}
 		}
@@ -667,7 +662,6 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 		public void mouseClicked(final MouseEvent e) {
 			Intersection selectedPoint = gv.mapClickedResponse(e.getX(), e.getY());
 			if (selectedPoint != null) {
-				System.out.println("special or random : " + selectedPoint.getNumber());
 				support.firePropertyChange("pointClicked", null, selectedPoint);
 			}
 		}
@@ -676,14 +670,12 @@ public class HomeWindow extends JFrame implements PropertyChangeListener {
 
 	public void addSingleMouseClickOnAnyPointListener() {
 		graphicalContainer.addMouseListener(new SingleMouseClickOnAnyPointListener());
-		System.out.println(graphicalContainer.getMouseListeners().length);
 	}
 
 	public void removeAllMouseListeners() {
 		for (int i = 0; i < graphicalContainer.getMouseListeners().length; i++) {
 			graphicalContainer.removeMouseListener(graphicalContainer.getMouseListeners()[i]);
 		}
-		System.out.println(graphicalContainer.getMouseListeners().length);
 	}
 
 	/**

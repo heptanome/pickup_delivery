@@ -47,27 +47,26 @@ public class HomeState implements State {
 	 * the state
 	 * 
 	 * @param hw the HomeWindow
-	 * @param l the current listOfCommands
+	 * @param l  the current listOfCommands
 	 */
 	private void setButtons(HomeWindow hw, ListOfCommands l) {
 		hw.setButtonsEnabled(true, false, false, false, false, false, false, false, l.redoPossible(), true, false);
 	}
-	
-  
-    @Override
-	public void describeState(HomeWindow hw){
-		JOptionPane.showMessageDialog(hw,"No map has been loaded so far. Let's load a map first.");
-		System.out.println("apa");
+
+	@Override
+	public void describeState(HomeWindow hw) {
+		JOptionPane.showMessageDialog(hw, "No map has been loaded so far. Let's load a map first.");
 	}
-	
+
 	/**
-	 * Method called by the States to set the help message in the homeWindow, depending on the State
+	 * Method called by the States to set the help message in the homeWindow,
+	 * depending on the State
 	 * 
 	 * @param hw the HomeWindow
 	 */
-	private void setHelp(HomeWindow hw){
+	private void setHelp(HomeWindow hw) {
 		String message = "<html>No map has been loaded <br>so far. Let's load<br> a map first.</html>";
 		hw.setHelpText(message);
-    }
+	}
 
 }

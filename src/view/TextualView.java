@@ -25,7 +25,8 @@ import model.SetOfRequests;
 public class TextualView extends JPanel {
 
 	/**
-	 * Panel that will contain the textual representations of the requests and the tour
+	 * Panel that will contain the textual representations of the requests and the
+	 * tour
 	 */
 	private static final long serialVersionUID = 2L;
 	private Font fontTitle;
@@ -45,6 +46,7 @@ public class TextualView extends JPanel {
 
 	/**
 	 * Displays the requests in a table
+	 * 
 	 * @param sor the SetOfRequests containing the requests to display
 	 */
 	public void displayRequests(SetOfRequests sor) {
@@ -66,8 +68,8 @@ public class TextualView extends JPanel {
 			titreRequest.setForeground(Color.WHITE);
 			titreRequest.setBounds(0, 0, 400, 50);
 			titreRequest.setFont(fontTitle);
-			
-			//conteneur scrollable 
+
+			// conteneur scrollable
 			JScrollPane scrollPane = new JScrollPane();
 			scrollPane.setBounds(0, 50, 400, 150);
 			scrollPane.setBorder(null);
@@ -78,8 +80,9 @@ public class TextualView extends JPanel {
 
 			int i = 0;
 			for (Request r : sor.getRequests()) {
-				String[] obj = { Integer.toString(r.getNumero()), r.getPickupAddress(), Integer.toString(r.getPickupDuration()),
-						r.getDeliveryAddress(), Integer.toString(r.getDeliveryDuration()) };
+				String[] obj = { Integer.toString(r.getNumero()), r.getPickupAddress(),
+						Integer.toString(r.getPickupDuration()), r.getDeliveryAddress(),
+						Integer.toString(r.getDeliveryDuration()) };
 				donnees[i] = obj;
 				i++;
 			}
@@ -103,7 +106,6 @@ public class TextualView extends JPanel {
 			conteneurTabJTableRequest.add(uiTable, BorderLayout.CENTER);
 			conteneurTabRequest.add(titreRequest);
 
-			
 			scrollPane.setViewportView(conteneurTabJTableRequest);
 			conteneurTabRequest.add(scrollPane);
 			add(conteneurTabRequest);
@@ -141,9 +143,10 @@ public class TextualView extends JPanel {
 	}
 
 	/**
-	 * Displays the path of the  computed Tour in a table
+	 * Displays the path of the computed Tour in a table
+	 * 
 	 * @param roadMap the RoadMap containing the path to display
-	 * @param sor the SetOfRequest use to compute the Tour
+	 * @param sor     the SetOfRequest use to compute the Tour
 	 */
 	public void displayTour(RoadMap roadMap, SetOfRequests sor) {
 
@@ -157,8 +160,8 @@ public class TextualView extends JPanel {
 		conteneurTabJTableTour.setBackground(back);
 		conteneurTabJTableTour.setBounds(0, 50, 400, 200);
 		conteneurTabJTableTour.setLayout(new BoxLayout(conteneurTabJTableTour, BoxLayout.Y_AXIS));
-		
-		//conteneur scrollable 
+
+		// conteneur scrollable
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 50, 400, 300);
 		scrollPane.setBorder(null);
@@ -168,34 +171,34 @@ public class TextualView extends JPanel {
 		titreTour.setForeground(Color.white);
 		titreTour.setBounds(0, 0, 400, 50);
 		titreTour.setFont(fontTitle);
-		
-		//recuperation donnees
+
+		// recuperation donnees
 		HashMap<Intersection, List<Request>> mapPickupAddressToRequest = roadMap.getMapPickupAddressToRequest();
 		HashMap<Intersection, List<Request>> mapDeliveryAddressToRequest = roadMap.getMapDeliveryAddressToRequest();
-		
+
 		LinkedList<Intersection> orderedAddresses = roadMap.getOrderedAddresses();
-		String [][] tabData = new String [orderedAddresses.size()][4];
-		
+		String[][] tabData = new String[orderedAddresses.size()][4];
+
 		int i = 0;
 		boolean depart = false;
 		String duration = "-1";
 		for (Intersection inter : orderedAddresses) {
 
 			List<Request> listRequest = new LinkedList<Request>();
-			String type ="";
+			String type = "";
 			boolean typeRequest = false;
 
 			if (mapPickupAddressToRequest.containsKey(inter)) {
 				listRequest = mapPickupAddressToRequest.get(inter);
-				
+
 			} else if (mapDeliveryAddressToRequest.containsKey(inter)) {
 				listRequest = mapDeliveryAddressToRequest.get(inter);
 				typeRequest = true;
 			}
-			
+
 			String numeroReq = "";
-			if (listRequest.isEmpty()==false) {
-				for(Request r: listRequest) {
+			if (listRequest.isEmpty() == false) {
+				for (Request r : listRequest) {
 					type = "not init";
 					if (r != null) {
 						if (typeRequest) {
@@ -206,7 +209,7 @@ public class TextualView extends JPanel {
 							duration = Integer.toString(r.getPickupDuration());
 						}
 						numeroReq = Integer.toString(r.getNumero());
-					}	
+					}
 				}
 			} else {
 				if (depart == false) {
@@ -220,11 +223,11 @@ public class TextualView extends JPanel {
 					duration = "NC";
 				}
 			}
-			String [] obj = {numeroReq, type, inter.getNumber(), duration};
+			String[] obj = { numeroReq, type, inter.getNumber(), duration };
 			tabData[i] = obj;
 			i++;
 		}
-		
+
 		// creation tab de donnees
 		String[] tadHeader = { "Request N°", "Type", "Adress", "Duration" };
 
@@ -248,7 +251,6 @@ public class TextualView extends JPanel {
 				int col = uiTableTour.columnAtPoint(evt.getPoint());
 				if (row >= 0 && col >= 0) {
 					// selected a row
-					System.out.println(row);
 					support.firePropertyChange("selectCell", null, orderedAddresses.get(row));
 				}
 			}
@@ -257,7 +259,7 @@ public class TextualView extends JPanel {
 		conteneurTabJTableTour.add(uiTableTour.getTableHeader(), BorderLayout.NORTH);
 		conteneurTabJTableTour.add(uiTableTour, BorderLayout.CENTER);
 		conteneurTabTour.add(titreTour);
-		
+
 		conteneurTabTour.add(scrollPane);
 		scrollPane.setViewportView(conteneurTabJTableTour);
 		add(conteneurTabTour);
@@ -292,8 +294,8 @@ public class TextualView extends JPanel {
 		caption1.setForeground(Color.yellow);
 		caption2.setForeground(Color.blue);
 		caption3.setForeground(Color.magenta);
-		caption4.setForeground(new Color(0,100,100));
-		caption5.setForeground(new Color(255,100,100));
+		caption4.setForeground(new Color(0, 100, 100));
+		caption5.setForeground(new Color(255, 100, 100));
 
 		titleCaption.setBackground(Color.gray);
 		caption1.setBackground(Color.gray);
@@ -327,7 +329,8 @@ public class TextualView extends JPanel {
 	// this is only a POC, not finished
 	/**
 	 * Selects the row containing a specific Intersection
-	 * @param inter an Intersection. 
+	 * 
+	 * @param inter an Intersection.
 	 */
 	public void selectCell(Intersection inter) {
 		int rows = uiTable.getRowCount();
@@ -337,9 +340,9 @@ public class TextualView extends JPanel {
 
 			if (id1.equals(inter.getNumber()) || id2.equals(inter.getNumber())) {
 				uiTable.setRowSelectionInterval(i, i);
-			} 
+			}
 		}
-		
+
 		int rowsTour = uiTableTour.getRowCount();
 		for (int i = 0; i < rowsTour; i++) {
 			String id1 = (String) uiTableTour.getValueAt(i, 2);
@@ -348,7 +351,7 @@ public class TextualView extends JPanel {
 				uiTableTour.setRowSelectionInterval(i, i);
 			}
 		}
-		
+
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {

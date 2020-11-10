@@ -66,7 +66,9 @@ public class DisplayingTourOnMapState implements State {
 		try {
 			tour.computeTour(); // returns a list of segments
 		}catch (Exception e) {
-			
+			a.setCurrentState(a.deleteRequestState);
+			a.getCurrentState().initiateState(a, hw);
+			a.getCurrentState().handleException(a,e,hw,this);
 		}
 	}
 	
