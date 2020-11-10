@@ -3,12 +3,12 @@
 ## Authors
 
   - BATEL Arthur
-	- BODELOT Paul
-	- BUONOMO Fanny
-	- GUERRAOUI Camélia
-	- KESSIBI Guillaume
-	- PELTIER Camille
-	- ZIEGER Luise
+  - BODELOT Paul
+  - BUONOMO Fanny
+  - GUERRAOUI Camélia
+  - KESSIBI Guillaume
+  - PELTIER Camille
+  - ZIEGER Luise
 
 ## The project
 
