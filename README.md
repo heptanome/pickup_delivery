@@ -2,7 +2,7 @@
 
 ## Authors
 
-	-	BATEL Arthur
+  - BATEL Arthur
 	- BODELOT Paul
 	- BUONOMO Fanny
 	- GUERRAOUI Camélia
