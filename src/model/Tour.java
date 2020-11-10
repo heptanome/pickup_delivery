@@ -80,7 +80,7 @@ public class Tour {
 	 */
 	public void addRequest(Request newRequest, Intersection beforeDelivery, Intersection beforePickup) {
 		support.firePropertyChange("startComputing", null, this);
-		newRequest.setNumero(this.setOfRequests.getNbRequests()+1);
+		newRequest.setNumero(this.setOfRequests.getNbRequests() + 1);
 		this.setOfRequests.addRequest(newRequest);
 		this.roadMap.addRequest(newRequest, beforePickup, beforeDelivery, this.map, this.path);
 		this.refreshColorsOfTour();
@@ -114,7 +114,7 @@ public class Tour {
 	 * 
 	 * @return list of segments containing the path the delivery man should follow
 	 */
-	public List<Segment> computeTour() throws Exception {
+	public List<Segment> computeTour() {
 		support.firePropertyChange("startComputing", null, this);
 		// TSP tsp = new TSP1();
 		// TSP tsp = new TSP2();
