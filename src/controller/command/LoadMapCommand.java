@@ -18,12 +18,8 @@ public class LoadMapCommand implements Command {
 	}
 
 	@Override
-	public void doCommand() {
-		try {
+	public void doCommand() throws Exception {
 			tour.setMap(filePath);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override

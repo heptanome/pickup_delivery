@@ -36,7 +36,12 @@ public class HomeState implements State {
 
 	@Override
 	public void redo(ListOfCommands l, Application a, HomeWindow hw) {
-		l.redo();
+		try {
+			l.redo();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		a.setCurrentState(a.mapWoRequestsState);
 		a.getCurrentState().initiateState(a, hw);
 		// a.getCurrentState().setButtons(hw, l);

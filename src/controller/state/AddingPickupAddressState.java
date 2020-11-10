@@ -45,7 +45,12 @@ public class AddingPickupAddressState implements State {
 			}
 
 			if (result != null) {
-				a.getListOfCommands().add(new AddPickupCommand(i, hw, duration));
+				try {
+					a.getListOfCommands().add(new AddPickupCommand(i, hw, duration));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				// Go to the next state (AddingPointPreceedingPickupState)
 				a.setCurrentState(a.appp);
@@ -111,7 +116,12 @@ public class AddingPickupAddressState implements State {
 
 	@Override
 	public void redo(ListOfCommands l, Application a, HomeWindow hw) {
-		l.redo();
+		try {
+			l.redo();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		a.setCurrentState(a.appp);
 		a.getCurrentState().initiateState(a, hw);
 	}

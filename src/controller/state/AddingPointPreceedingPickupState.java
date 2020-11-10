@@ -28,7 +28,12 @@ public class AddingPointPreceedingPickupState implements State {
 	public void pointClicked(Intersection i, HomeWindow hw, Tour tour, Application a) {
 
 		// Set the point prexeeding the pickup point
-		a.getListOfCommands().add(new AddPointPreceedingPickupCommand(i, hw));
+		try {
+			a.getListOfCommands().add(new AddPointPreceedingPickupCommand(i, hw));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// Go to the next state (AddingDeliveryAdress)
 		a.setCurrentState(a.ada);
@@ -44,7 +49,12 @@ public class AddingPointPreceedingPickupState implements State {
 
 	@Override
 	public void redo(ListOfCommands l, Application a, HomeWindow hw) {
-		l.redo();
+		try {
+			l.redo();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		a.setCurrentState(a.ada);
 		a.getCurrentState().initiateState(a, hw);
 	}

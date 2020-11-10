@@ -15,8 +15,9 @@ public class ListOfCommands {
 	 * Add command c to this
 	 * 
 	 * @param c the command to add
+	 * @throws Exception 
 	 */
-	public void add(Command c) {
+	public void add(Command c) throws Exception {
 		int i = currentIndex + 1;
 		while (i < list.size()) {
 			list.remove(i);
@@ -64,8 +65,9 @@ public class ListOfCommands {
 
 	/**
 	 * Reinsert the last command removed by undo
+	 * @throws Exception 
 	 */
-	public void redo() {
+	public void redo() throws Exception {
 		if (currentIndex < list.size() - 1) {
 			currentIndex++;
 			Command cde = list.get(currentIndex);

@@ -63,8 +63,13 @@ public class AddingPointPreceedingDeliveryState implements State {
 				a.getListOfCommands().removeWithOutUndoing();
 				a.getListOfCommands().removeWithOutUndoing();
 				a.getListOfCommands().removeWithOutUndoing();
-				a.getListOfCommands().add(new AddCompleteRequestCommand(tour, hw.getNewRequest(),
-						hw.getPreceedingDelivery(), hw.getPreceedingPickup()));
+				try {
+					a.getListOfCommands().add(new AddCompleteRequestCommand(tour, hw.getNewRequest(),
+							hw.getPreceedingDelivery(), hw.getPreceedingPickup()));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				// Go to the next state (DisplayingTourOnMapState)
 				a.setCurrentState(a.displayingTourState);

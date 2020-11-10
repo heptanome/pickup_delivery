@@ -46,7 +46,12 @@ public class AddingDeliveryAddressState implements State {
 			}
 
 			if (result != null) {
-				a.getListOfCommands().add(new AddDeliveryCommand(i, hw, duration));
+				try {
+					a.getListOfCommands().add(new AddDeliveryCommand(i, hw, duration));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				// Go to the next state (AddingPointPreceedingDeliveryState)
 				a.setCurrentState(a.appd);
@@ -66,7 +71,12 @@ public class AddingDeliveryAddressState implements State {
 
 	@Override
 	public void redo(ListOfCommands l, Application a, HomeWindow hw) {
-		l.redo();
+		try {
+			l.redo();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		a.setCurrentState(a.appd);
 		a.getCurrentState().initiateState(a, hw);
 	}

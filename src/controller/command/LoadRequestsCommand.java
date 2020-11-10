@@ -18,12 +18,8 @@ public class LoadRequestsCommand implements Command {
 	}
 
 	@Override
-	public void doCommand() {
-		try {
-			tour.setRequests(this.filePath);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void doCommand() throws Exception {
+		tour.setRequests(this.filePath);
 	}
 
 	@Override

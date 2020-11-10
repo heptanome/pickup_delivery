@@ -4,8 +4,9 @@ public interface Command {
 
 	/**
 	 * Execute the command this
+	 * @throws Exception 
 	 */
-	void doCommand();
+	void doCommand() throws Exception;
 
 	/**
 	 * Self-explanatory, will undo the command
