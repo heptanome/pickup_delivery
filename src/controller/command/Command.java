@@ -4,7 +4,8 @@ public interface Command {
 
 	/**
 	 * Execute the command this
-	 * @throws Exception 
+	 * 
+	 * @throws Exception some commands do throw exceptions
 	 */
 	void doCommand() throws Exception;
 

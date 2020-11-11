@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 
 import view.GraphicalView;
 
+/**
+ * Our implementation of the zoom. for the graphical view
+ */
 public class ZoomBox extends JPanel {
 	private static final long serialVersionUID = 11L;
 	private final int BOX_WIDTH = 200;
@@ -24,6 +27,7 @@ public class ZoomBox extends JPanel {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param graphical the GraphicalView i.e. the map we want to zoom on
 	 */
 	public ZoomBox(GraphicalView graphical) {
@@ -55,6 +59,7 @@ public class ZoomBox extends JPanel {
 
 	/**
 	 * Updates the location of the lao
+	 * 
 	 * @param xMouse the new x coordinate of the mouse
 	 * @param yMouse the new y coordinate of the mouse
 	 */

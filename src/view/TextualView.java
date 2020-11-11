@@ -22,6 +22,9 @@ import model.Request;
 import model.RoadMap;
 import model.SetOfRequests;
 
+/**
+ * Used to display textual information about the requests and the tour.
+ */
 public class TextualView extends JPanel {
 
 	/**

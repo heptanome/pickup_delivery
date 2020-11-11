@@ -15,7 +15,7 @@ public class ListOfCommands {
 	 * Add command c to this
 	 * 
 	 * @param c the command to add
-	 * @throws Exception 
+	 * @throws Exception because of doCommand, as some commands can throw exceptions
 	 */
 	public void add(Command c) throws Exception {
 		int i = currentIndex + 1;
@@ -65,7 +65,8 @@ public class ListOfCommands {
 
 	/**
 	 * Reinsert the last command removed by undo
-	 * @throws Exception 
+	 * 
+	 * @throws Exception once again because of doCommand, it might throw exceptions
 	 */
 	public void redo() throws Exception {
 		if (currentIndex < list.size() - 1) {
